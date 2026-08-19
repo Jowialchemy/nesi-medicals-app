@@ -1,1 +1,33 @@
+/* Nesi Medicals Table Styles */
 
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+}
+
+.data-table th,
+.data-table td {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+    background: var(--background);
+    color: var(--primary);
+    font-size: 13px;
+}
+
+.data-table td {
+    font-size: 14px;
+}
+
+.data-table tr:hover {
+    background: #FAFAFA;
+}
