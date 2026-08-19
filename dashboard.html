@@ -9,41 +9,613 @@
     <title>Nesi Medicals | Dashboard</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
 </head>
 
 <body>
 
-    <main style="padding: 30px;">
+    <!-- =========================
+         APP HEADER
+    ========================== -->
 
-        <h1 style="color:#123b5d;">
-            Nesi Medicals
-        </h1>
+    <header class="app-header">
 
-        <p style="color:#667085;">
-            Business Management Dashboard
-        </p>
+        <div class="brand">
 
-        <br>
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals"
+                class="header-logo"
+            >
 
-        <div style="
-            background:white;
-            padding:25px;
-            border-radius:15px;
-            box-shadow:0 5px 20px rgba(0,0,0,.06);
-        ">
-
-            <h2>Good morning 👋</h2>
-
-            <br>
-
-            <p>
-                Your business management system is ready.
-            </p>
+            <div>
+                <h2>NESI MEDICALS</h2>
+                <span>Business Management</span>
+            </div>
 
         </div>
 
-    </main>
+
+        <div class="header-user">
+
+            <div class="user-avatar">
+                A
+            </div>
+
+            <div class="user-info">
+                <strong>Alice</strong>
+                <small>Administrator</small>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN LAYOUT
+    ========================== -->
+
+    <div class="app-layout">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <nav>
+
+                <a href="dashboard.html" class="nav-item active">
+                    🏠
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="new-sale.html" class="nav-item">
+                    🛒
+                    <span>New Sale</span>
+                </a>
+
+                <a href="sales.html" class="nav-item">
+                    💰
+                    <span>Sales</span>
+                </a>
+
+                <a href="inventory.html" class="nav-item">
+                    📦
+                    <span>Inventory</span>
+                </a>
+
+                <a href="products.html" class="nav-item">
+                    💊
+                    <span>Products</span>
+                </a>
+
+                <a href="customers.html" class="nav-item">
+                    👥
+                    <span>Customers</span>
+                </a>
+
+                <a href="suppliers.html" class="nav-item">
+                    🚚
+                    <span>Suppliers</span>
+                </a>
+
+                <a href="expenses.html" class="nav-item">
+                    💸
+                    <span>Expenses</span>
+                </a>
+
+                <a href="reports.html" class="nav-item">
+                    📊
+                    <span>Reports</span>
+                </a>
+
+                <a href="staff.html" class="nav-item">
+                    👨‍💼
+                    <span>Staff</span>
+                </a>
+
+                <a href="settings.html" class="nav-item">
+                    ⚙️
+                    <span>Settings</span>
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <a href="profile.html" class="nav-item">
+                    👤
+                    <span>My Profile</span>
+                </a>
+
+                <a href="login.html" class="nav-item logout">
+                    🚪
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             DASHBOARD CONTENT
+        ========================== -->
+
+        <main class="dashboard-container">
+
+
+            <!-- Welcome -->
+
+            <section class="dashboard-header">
+
+                <div>
+
+                    <h1>
+                        Good afternoon, Alice 👋
+                    </h1>
+
+                    <p>
+                        Here's what's happening with your business today.
+                    </p>
+
+                </div>
+
+                <a href="new-sale.html" class="btn btn-success">
+                    + New Sale
+                </a>
+
+            </section>
+
+
+            <!-- =========================
+                 SUMMARY CARDS
+            ========================== -->
+
+            <section class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon sales-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <p>Today's Sales</p>
+
+                        <h2>
+                            ₦185,500
+                        </h2>
+
+                        <small class="positive">
+                            ↑ 12.5% from yesterday
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon profit-icon">
+                        📈
+                    </div>
+
+                    <div>
+
+                        <p>Today's Profit</p>
+
+                        <h2>
+                            ₦72,300
+                        </h2>
+
+                        <small class="positive">
+                            ↑ 8.2% from yesterday
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon expense-icon">
+                        💸
+                    </div>
+
+                    <div>
+
+                        <p>Today's Expenses</p>
+
+                        <h2>
+                            ₦43,000
+                        </h2>
+
+                        <small>
+                            6 transactions
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon stock-icon">
+                        📦
+                    </div>
+
+                    <div>
+
+                        <p>Products in Stock</p>
+
+                        <h2>
+                            1,248
+                        </h2>
+
+                        <small class="warning">
+                            8 items need attention
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 ALERTS
+            ========================== -->
+
+            <section class="dashboard-grid">
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <h3>
+                                Stock Alerts
+                            </h3>
+
+                            <p>
+                                Products that need attention
+                            </p>
+
+                        </div>
+
+                        <a href="inventory.html">
+                            View all
+                        </a>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-product">
+
+                            <strong>
+                                Amoxicillin 500mg
+                            </strong>
+
+                            <span>
+                                4 units remaining
+                            </span>
+
+                        </div>
+
+                        <span class="status status-low">
+                            Low Stock
+                        </span>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-product">
+
+                            <strong>
+                                Cough Syrup
+                            </strong>
+
+                            <span>
+                                2 units remaining
+                            </span>
+
+                        </div>
+
+                        <span class="status status-critical">
+                            Critical
+                        </span>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-product">
+
+                            <strong>
+                                Vitamin C
+                            </strong>
+
+                            <span>
+                                7 units remaining
+                            </span>
+
+                        </div>
+
+                        <span class="status status-low">
+                            Low Stock
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <h3>
+                                Quick Actions
+                            </h3>
+
+                            <p>
+                                Frequently used functions
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+                        <a href="new-sale.html">
+                            🛒
+                            <span>New Sale</span>
+                        </a>
+
+                        <a href="products.html">
+                            💊
+                            <span>Add Product</span>
+                        </a>
+
+                        <a href="expenses.html">
+                            💸
+                            <span>Add Expense</span>
+                        </a>
+
+                        <a href="customers.html">
+                            👥
+                            <span>Add Customer</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 RECENT SALES
+            ========================== -->
+
+            <section class="dashboard-card recent-sales">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h3>
+                            Recent Sales
+                        </h3>
+
+                        <p>
+                            Latest transactions
+                        </p>
+
+                    </div>
+
+                    <a href="sales.html">
+                        View all sales
+                    </a>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Receipt
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Items
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    Payment
+                                </th>
+
+                                <th>
+                                    Time
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    #NM-00045
+                                </td>
+
+                                <td>
+                                    Walk-in Customer
+                                </td>
+
+                                <td>
+                                    3
+                                </td>
+
+                                <td>
+                                    ₦12,500
+                                </td>
+
+                                <td>
+                                    Transfer
+                                </td>
+
+                                <td>
+                                    2:45 PM
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    #NM-00044
+                                </td>
+
+                                <td>
+                                    John
+                                </td>
+
+                                <td>
+                                    5
+                                </td>
+
+                                <td>
+                                    ₦8,700
+                                </td>
+
+                                <td>
+                                    Cash
+                                </td>
+
+                                <td>
+                                    2:20 PM
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    #NM-00043
+                                </td>
+
+                                <td>
+                                    Mary
+                                </td>
+
+                                <td>
+                                    2
+                                </td>
+
+                                <td>
+                                    ₦5,300
+                                </td>
+
+                                <td>
+                                    POS
+                                </td>
+
+                                <td>
+                                    1:58 PM
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================
+         MOBILE NAVIGATION
+    ========================== -->
+
+    <nav class="mobile-nav">
+
+        <a href="dashboard.html">
+            🏠
+            <span>Home</span>
+        </a>
+
+        <a href="sales.html">
+            🛒
+            <span>Sales</span>
+        </a>
+
+        <a href="inventory.html">
+            📦
+            <span>Stock</span>
+        </a>
+
+        <a href="customers.html">
+            👥
+            <span>Customers</span>
+        </a>
+
+        <a href="settings.html">
+            ⚙️
+            <span>More</span>
+        </a>
+
+    </nav>
+
 
 </body>
 
