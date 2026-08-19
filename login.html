@@ -5,23 +5,16 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login | Nesi Medicals</title>
 
     <meta
         name="description"
-        content="Login to the Nesi Medicals & Minimart Enterprises Business Management System."
+        content="Login to Nesi Medicals & Minimart Enterprises Business Management System."
     >
 
     <style>
-
-        /* =========================================
-           NESI MEDICALS LOGIN PAGE
-           ========================================= */
 
         * {
             margin: 0;
@@ -29,84 +22,57 @@
             box-sizing: border-box;
         }
 
-
         body {
-
             min-height: 100vh;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
 
             background:
-                linear-gradient(
-                    135deg,
-                    #071c18,
-                    #102522,
-                    #111827
+                radial-gradient(
+                    circle at top,
+                    #123b5d 0%,
+                    #071c18 45%,
+                    #08141d 100%
                 );
 
             color: #ffffff;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
-            padding: 25px;
-
+            padding: 20px;
         }
-
-
-        /* =========================================
-           LOGIN CONTAINER
-           ========================================= */
 
         .login-wrapper {
-
             width: 100%;
-
-            max-width: 440px;
-
+            max-width: 450px;
         }
 
-
         .login-card {
+            background: rgba(25, 25, 25, 0.96);
 
-            background: rgba(28, 28, 28, 0.97);
+            border: 1px solid rgba(255,255,255,0.08);
 
             border-radius: 24px;
 
             padding: 38px 35px;
 
-            border: 1px solid rgba(255,255,255,0.06);
-
             box-shadow:
-                0 25px 70px rgba(0,0,0,0.40);
-
+                0 25px 70px rgba(0,0,0,0.45);
         }
 
-
-        /* =========================================
+        /* =========================
            LOGO
-           ========================================= */
+        ========================= */
 
         .logo-area {
-
             text-align: center;
-
-            margin-bottom: 25px;
-
+            margin-bottom: 30px;
         }
 
-
         .logo {
-
-            width: 105px;
-
-            height: 105px;
+            width: 120px;
+            height: 120px;
 
             object-fit: contain;
 
@@ -114,118 +80,131 @@
 
             margin: 0 auto 18px;
 
-            border-radius: 12px;
+            border-radius: 18px;
 
+            background: #ffffff;
+
+            padding: 5px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.25);
         }
 
-
         .brand-name {
-
-            font-size: 27px;
-
+            font-size: 30px;
             font-weight: 800;
 
             color: #4ade80;
 
             margin-bottom: 5px;
-
         }
 
-
         .brand-subtitle {
-
-            font-size: 15px;
-
+            font-size: 16px;
             font-weight: 700;
 
             color: #b9ddff;
-
         }
 
-
         .tagline {
+            margin-top: 13px;
 
-            margin-top: 12px;
-
-            font-size: 12px;
+            font-size: 13px;
 
             line-height: 1.6;
 
             color: #70e0d5;
-
         }
 
-
-        /* =========================================
-           TITLE
-           ========================================= */
+        /* =========================
+           LOGIN TITLE
+        ========================= */
 
         .login-title {
-
             text-align: center;
 
-            margin-top: 30px;
-
             margin-bottom: 25px;
-
         }
 
-
         .login-title h1 {
-
-            font-size: 24px;
-
-            color: #ffffff;
+            font-size: 27px;
 
             margin-bottom: 7px;
 
+            color: #ffffff;
         }
-
 
         .login-title p {
-
             color: #98a2b3;
 
-            font-size: 13px;
-
+            font-size: 14px;
         }
 
+        /* =========================
+           MESSAGE
+        ========================= */
 
-        /* =========================================
-           FORM
-           ========================================= */
+        .message {
+            display: none;
 
-        .form-group {
+            padding: 12px;
 
             margin-bottom: 18px;
 
-        }
-
-
-        .form-group label {
-
-            display: block;
+            border-radius: 10px;
 
             font-size: 13px;
+
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+        .message.error {
+            display: block;
+
+            background: rgba(239,68,68,0.10);
+
+            border: 1px solid rgba(239,68,68,0.30);
+
+            color: #fca5a5;
+        }
+
+        .message.success {
+            display: block;
+
+            background: rgba(34,197,94,0.10);
+
+            border: 1px solid rgba(34,197,94,0.30);
+
+            color: #86efac;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
 
             font-weight: 700;
 
             color: #e5e7eb;
-
-            margin-bottom: 8px;
-
         }
-
 
         .input-wrapper {
-
             position: relative;
-
         }
 
-
         .input-icon {
-
             position: absolute;
 
             left: 15px;
@@ -235,60 +214,47 @@
             transform: translateY(-50%);
 
             font-size: 17px;
-
-            opacity: 0.8;
-
         }
 
-
         .form-input {
-
             width: 100%;
 
-            height: 52px;
+            height: 54px;
 
-            padding: 0 48px;
+            padding:
+                0 48px;
 
             background: #242424;
 
             border: 1px solid #3f3f46;
 
-            border-radius: 11px;
+            border-radius: 12px;
 
             color: #ffffff;
 
-            font-size: 14px;
+            font-size: 15px;
 
             outline: none;
 
-            transition: 0.2s ease;
-
+            transition: 0.2s;
         }
-
 
         .form-input::placeholder {
-
             color: #71717a;
-
         }
 
-
         .form-input:focus {
-
             border-color: #16a34a;
 
             box-shadow:
                 0 0 0 3px rgba(22,163,74,0.12);
-
         }
 
-
-        /* =========================================
-           PASSWORD BUTTON
-           ========================================= */
+        /* =========================
+           PASSWORD
+        ========================= */
 
         .password-toggle {
-
             position: absolute;
 
             right: 14px;
@@ -301,28 +267,18 @@
 
             background: transparent;
 
-            color: #a1a1aa;
+            color: #ffffff;
 
             cursor: pointer;
 
-            font-size: 17px;
-
+            font-size: 18px;
         }
 
-
-        .password-toggle:hover {
-
-            color: #ffffff;
-
-        }
-
-
-        /* =========================================
+        /* =========================
            OPTIONS
-           ========================================= */
+        ========================= */
 
         .form-options {
-
             display: flex;
 
             justify-content: space-between;
@@ -330,14 +286,9 @@
             align-items: center;
 
             margin: 5px 0 22px;
-
-            gap: 10px;
-
         }
 
-
         .remember {
-
             display: flex;
 
             align-items: center;
@@ -346,53 +297,44 @@
 
             color: #a1a1aa;
 
-            font-size: 12px;
-
-            cursor: pointer;
-
+            font-size: 13px;
         }
-
 
         .remember input {
+            width: 16px;
+            height: 16px;
 
             accent-color: #16a34a;
-
         }
 
-
         .forgot-password {
-
             color: #4ade80;
 
-            font-size: 12px;
+            font-size: 13px;
 
             font-weight: 700;
 
             text-decoration: none;
 
+            cursor: pointer;
         }
-
 
         .forgot-password:hover {
-
             text-decoration: underline;
-
         }
 
-
-        /* =========================================
+        /* =========================
            LOGIN BUTTON
-           ========================================= */
+        ========================= */
 
         .login-button {
-
             width: 100%;
 
-            height: 53px;
+            height: 55px;
 
             border: none;
 
-            border-radius: 11px;
+            border-radius: 12px;
 
             background:
                 linear-gradient(
@@ -403,79 +345,36 @@
 
             color: #ffffff;
 
-            font-size: 15px;
+            font-size: 16px;
 
             font-weight: 800;
 
             cursor: pointer;
 
-            transition: 0.2s ease;
+            transition: 0.2s;
 
             box-shadow:
-                0 8px 20px rgba(22,163,74,0.20);
-
+                0 8px 22px rgba(22,163,74,0.22);
         }
 
-
         .login-button:hover {
-
             transform: translateY(-1px);
 
             box-shadow:
-                0 12px 25px rgba(22,163,74,0.28);
-
+                0 12px 28px rgba(22,163,74,0.30);
         }
 
+        .login-button:disabled {
+            opacity: 0.65;
 
-        .login-button:active {
-
-            transform: translateY(0);
-
+            cursor: not-allowed;
         }
 
-
-        /* =========================================
-           ERROR / MESSAGE
-           ========================================= */
-
-        .message {
-
-            display: none;
-
-            margin-bottom: 18px;
-
-            padding: 12px;
-
-            border-radius: 9px;
-
-            font-size: 12px;
-
-            line-height: 1.5;
-
-            text-align: center;
-
-        }
-
-
-        .message.error {
-
-            display: block;
-
-            background: rgba(239,68,68,0.10);
-
-            border: 1px solid rgba(239,68,68,0.25);
-
-            color: #fca5a5;
-
-        }
-
-
-        /* =========================================
+        /* =========================
            DIVIDER
-           ========================================= */
+        ========================= */
 
         .divider {
-
             display: flex;
 
             align-items: center;
@@ -486,14 +385,11 @@
 
             color: #71717a;
 
-            font-size: 11px;
-
+            font-size: 12px;
         }
-
 
         .divider::before,
         .divider::after {
-
             content: "";
 
             flex: 1;
@@ -501,109 +397,78 @@
             height: 1px;
 
             background: #3f3f46;
-
         }
 
-
-        /* =========================================
-           CREATE ACCOUNT
-           ========================================= */
+        /* =========================
+           SIGN UP
+        ========================= */
 
         .signup-text {
-
             text-align: center;
 
             color: #a1a1aa;
 
-            font-size: 13px;
-
+            font-size: 14px;
         }
 
-
         .signup-link {
-
             color: #4ade80;
 
             font-weight: 800;
 
             text-decoration: none;
-
         }
-
 
         .signup-link:hover {
-
             text-decoration: underline;
-
         }
 
-
-        /* =========================================
+        /* =========================
            FOOTER
-           ========================================= */
+        ========================= */
 
         .footer {
-
             text-align: center;
 
-            margin-top: 24px;
-
+            margin-top: 20px;
         }
 
-
         .footer p {
-
             color: #71717a;
 
             font-size: 10px;
 
             line-height: 1.7;
-
         }
-
 
         .footer strong {
-
             color: #9ca3af;
-
         }
 
-
-        /* =========================================
-           LOADING STATE
-           ========================================= */
-
-        .loading {
-
-            opacity: 0.7;
-
-            pointer-events: none;
-
-        }
-
+        /* =========================
+           LOADING SPINNER
+        ========================= */
 
         .spinner {
-
             display: inline-block;
 
-            width: 16px;
+            width: 17px;
+            height: 17px;
 
-            height: 16px;
-
-            border: 2px solid rgba(255,255,255,0.4);
+            border:
+                2px solid rgba(255,255,255,0.4);
 
             border-top-color: #ffffff;
 
             border-radius: 50%;
 
-            animation: spin 0.8s linear infinite;
+            animation:
+                spin 0.8s linear infinite;
 
             vertical-align: middle;
 
-            margin-right: 7px;
-
+            margin-right: 8px;
         }
-
 
         @keyframes spin {
 
@@ -613,76 +478,57 @@
 
         }
 
-
-        /* =========================================
+        /* =========================
            MOBILE
-           ========================================= */
+        ========================= */
 
         @media (max-width: 500px) {
 
             body {
-
-                padding: 15px;
-
+                padding: 12px;
             }
-
 
             .login-card {
-
-                padding: 30px 22px;
+                padding: 30px 20px;
 
                 border-radius: 20px;
-
             }
-
 
             .logo {
-
-                width: 90px;
-
-                height: 90px;
-
+                width: 105px;
+                height: 105px;
             }
-
 
             .brand-name {
-
-                font-size: 24px;
-
+                font-size: 25px;
             }
-
 
             .brand-subtitle {
-
                 font-size: 14px;
-
             }
 
+            .tagline {
+                font-size: 12px;
+            }
 
             .login-title h1 {
-
-                font-size: 22px;
-
+                font-size: 24px;
             }
 
         }
 
-
         @media (max-width: 360px) {
 
             .login-card {
-
-                padding: 25px 18px;
-
+                padding: 25px 17px;
             }
 
-
             .form-options {
-
                 flex-direction: column;
 
                 align-items: flex-start;
 
+                gap: 12px;
             }
 
         }
@@ -695,231 +541,202 @@
 <body>
 
 
-    <div class="login-wrapper">
+<div class="login-wrapper">
 
 
-        <div class="login-card">
+    <div class="login-card">
 
 
-            <!-- =====================================
-                 BRANDING
-            ====================================== -->
+        <!-- =========================
+             BRANDING
+        ========================= -->
 
-            <div class="logo-area">
+        <div class="logo-area">
 
-                <img
-                    src="assets/logo.png"
-                    alt="Nesi Medicals Logo"
-                    class="logo"
-                >
-
-                <div class="brand-name">
-                    Nesi Medicals
-                </div>
-
-                <div class="brand-subtitle">
-                    & Minimart Enterprises
-                </div>
-
-                <div class="tagline">
-                    Quality Care. Essential Products.<br>
-                    Trusted Service.
-                </div>
-
-            </div>
-
-
-            <!-- =====================================
-                 LOGIN TITLE
-            ====================================== -->
-
-            <div class="login-title">
-
-                <h1>
-                    Welcome Back
-                </h1>
-
-                <p>
-                    Sign in to manage your business
-                </p>
-
-            </div>
-
-
-            <!-- MESSAGE -->
-
-            <div
-                id="loginMessage"
-                class="message"
-            ></div>
-
-
-            <!-- =====================================
-                 LOGIN FORM
-            ====================================== -->
-
-            <form
-                id="loginForm"
-                autocomplete="on"
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+                class="logo"
             >
 
+            <div class="brand-name">
+                Nesi Medicals
+            </div>
 
-                <!-- EMAIL -->
+            <div class="brand-subtitle">
+                & Minimart Enterprises
+            </div>
 
-                <div class="form-group">
+            <div class="tagline">
+                Quality Care. Essential Products.<br>
+                Trusted Service.
+            </div>
 
-                    <label for="email">
-                        Email Address
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <span class="input-icon">
-                            📧
-                        </span>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            class="form-input"
-                            placeholder="Enter your email address"
-                            autocomplete="email"
-                            required
-                        >
-
-                    </div>
-
-                </div>
+        </div>
 
 
-                <!-- PASSWORD -->
+        <!-- =========================
+             LOGIN TITLE
+        ========================= -->
 
-                <div class="form-group">
+        <div class="login-title">
 
-                    <label for="password">
-                        Password
-                    </label>
+            <h1>
+                Welcome Back
+            </h1>
 
-                    <div class="input-wrapper">
+            <p>
+                Sign in to manage your business
+            </p>
 
-                        <span class="input-icon">
-                            🔒
-                        </span>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="form-input"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <button
-                            type="button"
-                            class="password-toggle"
-                            id="togglePassword"
-                            aria-label="Show password"
-                        >
-                            👁️
-                        </button>
-
-                    </div>
-
-                </div>
+        </div>
 
 
-                <!-- OPTIONS -->
+        <!-- MESSAGE -->
 
-                <div class="form-options">
-
-                    <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="rememberMe"
-                        >
-
-                        Remember me
-
-                    </label>
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
 
 
-                    <a
-                        href="#"
-                        class="forgot-password"
-                        id="forgotPassword"
+        <!-- =========================
+             LOGIN FORM
+        ========================= -->
+
+        <form
+            id="loginForm"
+            autocomplete="on"
+        >
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        📧
+                    </span>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-input"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        required
                     >
-                        Forgot password?
-                    </a>
 
                 </div>
 
-
-                <!-- LOGIN -->
-
-                <button
-                    type="submit"
-                    class="login-button"
-                    id="loginButton"
-                >
-                    Login to Dashboard
-                </button>
-
-
-            </form>
-
-
-            <!-- DIVIDER -->
-
-            <div class="divider">
-                OR
             </div>
 
 
-            <!-- SIGN UP -->
+            <!-- PASSWORD -->
 
-            <div class="signup-text">
+            <div class="form-group">
 
-                Don't have an account?
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="togglePassword"
+                        aria-label="Show password"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPTIONS -->
+
+            <div class="form-options">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                    >
+
+                    Remember me
+
+                </label>
+
 
                 <a
-                    href="signup.html"
-                    class="signup-link"
+                    href="#"
+                    class="forgot-password"
+                    id="forgotPassword"
                 >
-                    Create Account
+                    Forgot password?
                 </a>
 
             </div>
 
 
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-button"
+                id="loginButton"
+            >
+                Login to Dashboard
+            </button>
+
+
+        </form>
+
+
+        <!-- DIVIDER -->
+
+        <div class="divider">
+            OR
         </div>
 
 
-        <!-- =====================================
-             FOOTER
-        ====================================== -->
+        <!-- SIGNUP -->
 
-        <div class="footer">
+        <div class="signup-text">
 
-            <p>
+            Don't have an account?
 
-                <strong>
-                    Nesi Medicals & Minimart Enterprises
-                </strong>
-
-                <br>
-
-                RC No. 9479689
-
-                <br>
-
-                13, Angwan Dadi, beside Emzy Garden,
-                Abuja, FCT, Nigeria
-
-            </p>
+            <a
+                href="signup.html"
+                class="signup-link"
+            >
+                Create Account
+            </a>
 
         </div>
 
@@ -927,184 +744,337 @@
     </div>
 
 
+    <!-- =========================
+         FOOTER
+    ========================= -->
 
-    <!-- =========================================
-         LOGIN JAVASCRIPT
-    ========================================= -->
+    <div class="footer">
 
-    <script>
+        <p>
 
-        const loginForm =
-            document.getElementById("loginForm");
+            <strong>
+                Nesi Medicals & Minimart Enterprises
+            </strong>
 
-        const passwordInput =
-            document.getElementById("password");
+            <br>
 
-        const togglePassword =
-            document.getElementById("togglePassword");
+            RC No. 9479689
 
-        const loginButton =
-            document.getElementById("loginButton");
+            <br>
 
-        const loginMessage =
-            document.getElementById("loginMessage");
+            13, Angwan Dadi, beside Emzy Garden,
+            Abuja, FCT, Nigeria
 
-        const forgotPassword =
-            document.getElementById("forgotPassword");
+        </p>
 
-
-        /* =====================================
-           SHOW / HIDE PASSWORD
-        ====================================== */
-
-        togglePassword.addEventListener(
-            "click",
-            function () {
-
-                if (
-                    passwordInput.type === "password"
-                ) {
-
-                    passwordInput.type = "text";
-
-                    togglePassword.textContent = "🙈";
-
-                    togglePassword.setAttribute(
-                        "aria-label",
-                        "Hide password"
-                    );
-
-                } else {
-
-                    passwordInput.type = "password";
-
-                    togglePassword.textContent = "👁️";
-
-                    togglePassword.setAttribute(
-                        "aria-label",
-                        "Show password"
-                    );
-
-                }
-
-            }
-        );
+    </div>
 
 
-        /* =====================================
-           LOGIN FORM
-        ====================================== */
-
-        loginForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
+</div>
 
 
-                const email =
-                    document.getElementById("email")
-                    .value
-                    .trim();
+<!-- =========================================
+     FIREBASE LOGIN
+========================================= -->
 
-                const password =
-                    passwordInput.value;
+<script type="module">
 
-
-                loginMessage.style.display = "none";
-
-                loginMessage.className = "message";
+import {
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-                /* BASIC VALIDATION */
-
-                if (!email || !password) {
-
-                    showError(
-                        "Please enter your email and password."
-                    );
-
-                    return;
-
-                }
+import {
+    auth
+} from "./js/firebase.js";
 
 
-                if (!email.includes("@")) {
+const loginForm =
+    document.getElementById("loginForm");
 
-                    showError(
-                        "Please enter a valid email address."
-                    );
+const passwordInput =
+    document.getElementById("password");
 
-                    return;
+const togglePassword =
+    document.getElementById("togglePassword");
 
-                }
+const loginButton =
+    document.getElementById("loginButton");
 
+const loginMessage =
+    document.getElementById("loginMessage");
 
-                /* LOADING */
-
-                loginButton.classList.add("loading");
-
-                loginButton.innerHTML =
-                    '<span class="spinner"></span>Signing in...';
-
-
-                /*
-                 * Firebase Authentication will be
-                 * connected here in the next stage.
-                 */
-
-                setTimeout(function () {
-
-                    loginButton.classList.remove(
-                        "loading"
-                    );
-
-                    loginButton.innerHTML =
-                        "Login to Dashboard";
+const forgotPassword =
+    document.getElementById("forgotPassword");
 
 
-                    showError(
-                        "Authentication is not connected yet. We will connect your Firebase login system next."
-                    );
+// =========================================
+// PASSWORD SHOW / HIDE
+// =========================================
 
-                }, 800);
+togglePassword.addEventListener(
+    "click",
+    function () {
 
-            }
-        );
+        if (
+            passwordInput.type === "password"
+        ) {
+
+            passwordInput.type = "text";
+
+            togglePassword.textContent = "🙈";
+
+        } else {
+
+            passwordInput.type = "password";
+
+            togglePassword.textContent = "👁️";
+
+        }
+
+    }
+);
 
 
-        /* =====================================
-           ERROR MESSAGE
-        ====================================== */
+// =========================================
+// LOGIN
+// =========================================
 
-        function showError(message) {
+loginForm.addEventListener(
+    "submit",
+    async function (event) {
 
-            loginMessage.textContent = message;
+        event.preventDefault();
 
-            loginMessage.className =
-                "message error";
+
+        const email =
+            document.getElementById("email")
+            .value
+            .trim();
+
+        const password =
+            passwordInput.value;
+
+
+        hideMessage();
+
+
+        if (!email || !password) {
+
+            showError(
+                "Please enter your email and password."
+            );
+
+            return;
 
         }
 
 
-        /* =====================================
-           FORGOT PASSWORD
-        ====================================== */
+        loginButton.disabled = true;
 
-        forgotPassword.addEventListener(
-            "click",
-            function (event) {
+        loginButton.innerHTML =
+            '<span class="spinner"></span>Signing in...';
 
-                event.preventDefault();
 
-                showError(
-                    "Password recovery will be connected when Firebase Authentication is enabled."
-                );
+        try {
+
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+            loginButton.innerHTML =
+                "Login Successful ✓";
+
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                },
+                500
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            loginButton.disabled = false;
+
+            loginButton.innerHTML =
+                "Login to Dashboard";
+
+
+            let message =
+                "Unable to sign in. Please check your details.";
+
+
+            if (
+                error.code ===
+                "auth/invalid-credential"
+            ) {
+
+                message =
+                    "Incorrect email or password.";
 
             }
-        );
 
-    </script>
+            else if (
+                error.code ===
+                "auth/user-not-found"
+            ) {
+
+                message =
+                    "No account was found with this email.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/wrong-password"
+            ) {
+
+                message =
+                    "Incorrect password.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                message =
+                    "Please enter a valid email address.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/too-many-requests"
+            ) {
+
+                message =
+                    "Too many attempts. Please try again later.";
+
+            }
+
+
+            showError(message);
+
+        }
+
+    }
+);
+
+
+// =========================================
+// FORGOT PASSWORD
+// =========================================
+
+forgotPassword.addEventListener(
+    "click",
+    async function (event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document.getElementById("email")
+            .value
+            .trim();
+
+
+        if (!email) {
+
+            showError(
+                "Enter your email address first."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            await sendPasswordResetEmail(
+                auth,
+                email
+            );
+
+
+            showSuccess(
+                "Password reset email sent. Check your inbox."
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            showError(
+                "Unable to send password reset email."
+            );
+
+        }
+
+    }
+);
+
+
+// =========================================
+// ERROR
+// =========================================
+
+function showError(message) {
+
+    loginMessage.textContent =
+        message;
+
+    loginMessage.className =
+        "message error";
+
+}
+
+
+// =========================================
+// SUCCESS
+// =========================================
+
+function showSuccess(message) {
+
+    loginMessage.textContent =
+        message;
+
+    loginMessage.className =
+        "message success";
+
+}
+
+
+// =========================================
+// HIDE MESSAGE
+// =========================================
+
+function hideMessage() {
+
+    loginMessage.textContent = "";
+
+    loginMessage.className =
+        "message";
+
+}
+
+</script>
 
 
 </body>
