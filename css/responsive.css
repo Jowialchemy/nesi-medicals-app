@@ -1,1 +1,43 @@
+/* Nesi Medicals Responsive Styles */
 
+@media (max-width: 768px) {
+
+    .dashboard-container {
+        padding: 15px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-card {
+        padding: 35px 22px;
+    }
+
+    .welcome-card h1 {
+        font-size: 30px;
+    }
+
+    .welcome-buttons {
+        flex-direction: column;
+    }
+
+    .welcome-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .dashboard-container {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
