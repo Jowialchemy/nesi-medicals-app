@@ -1,1 +1,282 @@
+/* =========================================
+   NESI MEDICALS & MINIMART ENTERPRISES
+   Main Stylesheet
+   ========================================= */
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #123B5D;
+    --secondary: #0F766E;
+    --accent: #16A34A;
+
+    --background: #F4F8F7;
+    --white: #FFFFFF;
+
+    --dark: #17212B;
+    --text: #344054;
+    --muted: #667085;
+
+    --border: #E2E8F0;
+
+    --danger: #DC2626;
+    --warning: #F59E0B;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--dark);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ===============================
+   GENERAL BUTTONS
+   =============================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 12px 20px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: var(--white);
+}
+
+.btn-success {
+    background: var(--accent);
+    color: var(--white);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: var(--white);
+}
+
+/* ===============================
+   WELCOME PAGE
+   =============================== */
+
+.welcome-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #EAF7F1,
+            #EEF5FF
+        );
+}
+
+.welcome-card {
+    width: 100%;
+    max-width: 500px;
+
+    background: var(--white);
+
+    padding: 45px 35px;
+
+    border-radius: 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.10);
+}
+
+.welcome-logo {
+    width: 120px;
+    height: 120px;
+
+    object-fit: contain;
+
+    margin-bottom: 15px;
+}
+
+.welcome-card h1 {
+    color: var(--accent);
+    font-size: 36px;
+    margin-bottom: 5px;
+}
+
+.welcome-card h2 {
+    color: var(--primary);
+    font-size: 19px;
+    margin-bottom: 15px;
+}
+
+.tagline {
+    color: var(--secondary);
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.welcome-text {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.welcome-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.copyright {
+    margin-top: 30px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* ===============================
+   CARDS
+   =============================== */
+
+.card {
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* ===============================
+   FORM ELEMENTS
+   =============================== */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--text);
+}
+
+.form-control {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: var(--white);
+
+    transition: 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--secondary);
+
+    box-shadow:
+        0 0 0 3px rgba(15, 118, 110, 0.10);
+}
+
+/* ===============================
+   STATUS
+   =============================== */
+
+.status {
+    display: inline-flex;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-good {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.status-low {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.status-critical {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* ===============================
+   UTILITY
+   =============================== */
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: var(--muted);
+}
+
+.hidden {
+    display: none !important;
+}
