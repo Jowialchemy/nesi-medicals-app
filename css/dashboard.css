@@ -1,1 +1,19 @@
+/* Nesi Medicals Dashboard Styles */
 
+.dashboard-container {
+    min-height: 100vh;
+    padding: 25px;
+}
+
+.dashboard-header {
+    margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.dashboard-header p {
+    color: var(--muted);
+}
