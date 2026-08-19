@@ -1,14 +1,9 @@
-// =========================================
-// NESI MEDICALS - FIREBASE CONFIGURATION
-// =========================================
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-    getAuth
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// Firebase configuration
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 const firebaseConfig = {
 
@@ -27,19 +22,15 @@ const firebaseConfig = {
 };
 
 
-// Initialize Firebase
-
 const app = initializeApp(firebaseConfig);
-
-
-// Initialize Authentication
 
 const auth = getAuth(app);
 
+const db = getFirestore(app);
 
-// Export Firebase
 
 export {
     app,
-    auth
+    auth,
+    db
 };
