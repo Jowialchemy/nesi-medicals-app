@@ -1,6 +1,22 @@
 /* =========================================
-   NESI MEDICALS DASHBOARD
+   NESI MEDICALS & MINIMART ENTERPRISES
+   DASHBOARD CSS
    ========================================= */
+
+/* ===============================
+   BODY
+   =============================== */
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: #f5f7fa;
+}
+
+
+/* ===============================
+   APP HEADER
+   =============================== */
 
 .app-header {
     height: 72px;
@@ -33,6 +49,7 @@
 .brand h2 {
     color: #123b5d;
     font-size: 18px;
+    margin: 0;
 }
 
 .brand span {
@@ -53,7 +70,7 @@
     border-radius: 50%;
 
     background: #16a34a;
-    color: white;
+    color: #ffffff;
 
     display: flex;
     align-items: center;
@@ -65,14 +82,17 @@
 .user-info {
     display: flex;
     flex-direction: column;
+    gap: 2px;
 }
 
 .user-info strong {
     font-size: 14px;
+    color: #17212b;
 }
 
 .user-info small {
     color: #667085;
+    font-size: 11px;
 }
 
 
@@ -85,8 +105,14 @@
     min-height: calc(100vh - 72px);
 }
 
+
+/* ===============================
+   SIDEBAR
+   =============================== */
+
 .sidebar {
     width: 240px;
+    min-width: 240px;
 
     background: #123b5d;
 
@@ -95,6 +121,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    box-sizing: border-box;
 }
 
 .sidebar nav {
@@ -116,12 +144,14 @@
 
     font-size: 14px;
 
-    transition: 0.2s;
+    text-decoration: none;
+
+    transition: 0.2s ease;
 }
 
 .nav-item:hover,
 .nav-item.active {
-    background: rgba(255,255,255,0.12);
+    background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
 }
 
@@ -135,21 +165,35 @@
     color: #fecaca;
 }
 
+.logout:hover {
+    background: rgba(239, 68, 68, 0.15);
+}
+
 
 /* ===============================
-   DASHBOARD
+   DASHBOARD CONTAINER
    =============================== */
 
 .dashboard-container {
     flex: 1;
+
     padding: 28px;
 
     overflow-x: hidden;
+
+    box-sizing: border-box;
 }
+
+
+/* ===============================
+   DASHBOARD HEADER
+   =============================== */
 
 .dashboard-header {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     margin-bottom: 25px;
@@ -157,29 +201,76 @@
 
 .dashboard-header h1 {
     color: #123b5d;
+
     font-size: 25px;
-    margin-bottom: 5px;
+
+    margin: 0 0 5px 0;
 }
 
 .dashboard-header p {
     color: #667085;
+
+    margin: 0;
+
+    font-size: 14px;
 }
 
 
 /* ===============================
-   STATS
+   BUTTONS
+   =============================== */
+
+.btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 11px 18px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.btn-success {
+    background: #16a34a;
+
+    color: #ffffff;
+}
+
+.btn-success:hover {
+    background: #15803d;
+}
+
+
+/* ===============================
+   STATISTICS GRID
    =============================== */
 
 .stats-grid {
     display: grid;
 
-    grid-template-columns:
-        repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 
     gap: 18px;
 
     margin-bottom: 22px;
 }
+
+
+/* ===============================
+   STAT CARD
+   =============================== */
 
 .stat-card {
     background: #ffffff;
@@ -191,22 +282,30 @@
     padding: 20px;
 
     display: flex;
+
     gap: 15px;
 
     align-items: center;
 
     box-shadow:
-        0 4px 15px rgba(0,0,0,0.04);
+        0 4px 15px rgba(0, 0, 0, 0.04);
+
+    box-sizing: border-box;
 }
 
 .stat-icon {
     width: 48px;
+
+    min-width: 48px;
+
     height: 48px;
 
     border-radius: 12px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     font-size: 22px;
@@ -230,18 +329,23 @@
 
 .stat-card p {
     color: #667085;
+
     font-size: 13px;
-    margin-bottom: 5px;
+
+    margin: 0 0 5px 0;
 }
 
 .stat-card h2 {
     color: #17212b;
+
     font-size: 21px;
-    margin-bottom: 4px;
+
+    margin: 0 0 4px 0;
 }
 
 .stat-card small {
     color: #667085;
+
     font-size: 11px;
 }
 
@@ -261,13 +365,17 @@
 .dashboard-grid {
     display: grid;
 
-    grid-template-columns:
-        1.5fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
 
     gap: 20px;
 
     margin-bottom: 22px;
 }
+
+
+/* ===============================
+   DASHBOARD CARD
+   =============================== */
 
 .dashboard-card {
     background: #ffffff;
@@ -279,7 +387,9 @@
     padding: 20px;
 
     box-shadow:
-        0 4px 15px rgba(0,0,0,0.04);
+        0 4px 15px rgba(0, 0, 0, 0.04);
+
+    box-sizing: border-box;
 }
 
 .card-heading {
@@ -294,19 +404,32 @@
 
 .card-heading h3 {
     color: #123b5d;
+
     font-size: 16px;
-    margin-bottom: 4px;
+
+    margin: 0 0 4px 0;
 }
 
 .card-heading p {
     color: #667085;
+
     font-size: 12px;
+
+    margin: 0;
 }
 
 .card-heading a {
     color: #0f766e;
+
     font-size: 12px;
+
     font-weight: 700;
+
+    text-decoration: none;
+}
+
+.card-heading a:hover {
+    text-decoration: underline;
 }
 
 
@@ -332,17 +455,55 @@
 
 .alert-product {
     display: flex;
+
     flex-direction: column;
+
     gap: 4px;
 }
 
 .alert-product strong {
     font-size: 13px;
+
+    color: #17212b;
 }
 
 .alert-product span {
     color: #667085;
+
     font-size: 11px;
+}
+
+
+/* ===============================
+   STATUS LABELS
+   =============================== */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.status-low {
+    background: #fef3c7;
+
+    color: #92400e;
+}
+
+.status-critical {
+    background: #fee2e2;
+
+    color: #991b1b;
 }
 
 
@@ -353,8 +514,7 @@
 .quick-actions {
     display: grid;
 
-    grid-template-columns:
-        repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
 
     gap: 12px;
 }
@@ -382,36 +542,107 @@
 
     font-size: 22px;
 
-    transition: 0.2s;
+    text-decoration: none;
+
+    transition: 0.2s ease;
 }
 
 .quick-actions a:hover {
     border-color: #0f766e;
 
     transform: translateY(-2px);
+
+    background: #f0fdfa;
 }
 
 .quick-actions span {
     font-size: 12px;
+
     font-weight: 700;
 }
 
 
 /* ===============================
-   MOBILE NAV
+   RECENT SALES
+   =============================== */
+
+.recent-sales {
+    margin-bottom: 30px;
+}
+
+
+/* ===============================
+   TABLE
+   =============================== */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+}
+
+.data-table th {
+    text-align: left;
+
+    padding: 12px;
+
+    background: #f8fafc;
+
+    color: #667085;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table td {
+    padding: 14px 12px;
+
+    color: #344054;
+
+    font-size: 12px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.data-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+
+/* ===============================
+   MOBILE NAVIGATION
    =============================== */
 
 .mobile-nav {
     display: none;
 }
-@media (max-width: 900px) {
+
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 1100px) {
 
     .sidebar {
-        width: 75px;
+        width: 210px;
+
+        min-width: 210px;
     }
 
-    .nav-item span {
-        display: none;
+    .dashboard-container {
+        padding: 22px;
     }
 
     .stats-grid {
@@ -421,17 +652,79 @@
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
+
 }
 
 
+/* =====================================================
+   SMALL TABLET
+   ===================================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 75px;
+
+        min-width: 75px;
+
+        padding: 20px 8px;
+    }
+
+    .nav-item {
+        justify-content: center;
+
+        padding: 13px 8px;
+    }
+
+    .nav-item span {
+        display: none;
+    }
+
+    .sidebar-bottom .nav-item {
+        justify-content: center;
+    }
+
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE — 600PX AND BELOW
+   ===================================================== */
+
 @media (max-width: 600px) {
 
+    /* HEADER */
+
     .app-header {
+        height: 64px;
+
         padding: 0 15px;
     }
 
+    .header-logo {
+        width: 38px;
+
+        height: 38px;
+    }
+
+    .brand {
+        gap: 8px;
+    }
+
     .brand h2 {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .brand span {
@@ -442,15 +735,43 @@
         display: none;
     }
 
+    .user-avatar {
+        width: 36px;
+
+        height: 36px;
+
+        font-size: 13px;
+    }
+
+
+    /* HIDE SIDEBAR */
+
     .sidebar {
         display: none;
     }
 
+
+    /* APP LAYOUT */
+
+    .app-layout {
+        display: block;
+
+        min-height: calc(100vh - 64px);
+    }
+
+
+    /* DASHBOARD */
+
     .dashboard-container {
-        padding: 15px;
+        padding: 16px;
 
         padding-bottom: 90px;
+
+        width: 100%;
     }
+
+
+    /* DASHBOARD HEADER */
 
     .dashboard-header {
         flex-direction: column;
@@ -458,24 +779,125 @@
         align-items: flex-start;
 
         gap: 15px;
+
+        margin-bottom: 20px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 21px;
+
+        line-height: 1.3;
+    }
+
+    .dashboard-header p {
+        font-size: 12px;
     }
 
     .dashboard-header .btn {
         width: 100%;
     }
 
+
+    /* STATISTICS */
+
     .stats-grid {
         grid-template-columns: 1fr;
+
+        gap: 12px;
     }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .stat-card h2 {
+        font-size: 19px;
+    }
+
+
+    /* DASHBOARD CARDS */
+
+    .dashboard-grid {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .dashboard-card {
+        padding: 16px;
+
+        border-radius: 12px;
+    }
+
+
+    /* CARD HEADINGS */
+
+    .card-heading {
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .card-heading h3 {
+        font-size: 15px;
+    }
+
+
+    /* QUICK ACTIONS */
+
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+    .quick-actions a {
+        padding: 15px 8px;
+
+        font-size: 20px;
+    }
+
+    .quick-actions span {
+        font-size: 11px;
+    }
+
+
+    /* STOCK ALERTS */
+
+    .alert-item {
+        gap: 10px;
+    }
+
+    .alert-product strong {
+        font-size: 12px;
+    }
+
+    .alert-product span {
+        font-size: 10px;
+    }
+
+
+    /* RECENT SALES */
+
+    .recent-sales {
+        margin-bottom: 20px;
+    }
+
+
+    /* MOBILE BOTTOM NAV */
 
     .mobile-nav {
         position: fixed;
 
         display: flex;
 
-        bottom: 0;
         left: 0;
+
         right: 0;
+
+        bottom: 0;
 
         height: 68px;
 
@@ -488,7 +910,7 @@
         justify-content: space-around;
 
         box-shadow:
-            0 -5px 20px rgba(0,0,0,0.08);
+            0 -5px 20px rgba(0, 0, 0, 0.08);
     }
 
     .mobile-nav a {
@@ -507,10 +929,67 @@
         color: #667085;
 
         font-size: 18px;
+
+        text-decoration: none;
+    }
+
+    .mobile-nav a:hover {
+        color: #123b5d;
     }
 
     .mobile-nav span {
         font-size: 10px;
+
+        font-weight: 600;
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL PHONES
+   ===================================================== */
+
+@media (max-width: 380px) {
+
+    .dashboard-container {
+        padding: 12px;
+
+        padding-bottom: 90px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 19px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-icon {
+        width: 42px;
+
+        min-width: 42px;
+
+        height: 42px;
+
+        font-size: 19px;
+    }
+
+    .quick-actions a {
+        padding: 13px 5px;
+    }
+
+    .mobile-nav {
+        height: 64px;
+    }
+
+    .mobile-nav a {
+        font-size: 16px;
+    }
+
+    .mobile-nav span {
+        font-size: 9px;
     }
 
 }
