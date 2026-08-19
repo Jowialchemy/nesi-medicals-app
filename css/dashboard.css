@@ -404,3 +404,113 @@
 .mobile-nav {
     display: none;
 }
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 75px;
+    }
+
+    .nav-item span {
+        display: none;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .app-header {
+        padding: 0 15px;
+    }
+
+    .brand h2 {
+        font-size: 15px;
+    }
+
+    .brand span {
+        display: none;
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .dashboard-container {
+        padding: 15px;
+
+        padding-bottom: 90px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .dashboard-header .btn {
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mobile-nav {
+        position: fixed;
+
+        display: flex;
+
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        height: 68px;
+
+        background: #ffffff;
+
+        border-top: 1px solid #e2e8f0;
+
+        z-index: 200;
+
+        justify-content: space-around;
+
+        box-shadow:
+            0 -5px 20px rgba(0,0,0,0.08);
+    }
+
+    .mobile-nav a {
+        flex: 1;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 4px;
+
+        color: #667085;
+
+        font-size: 18px;
+    }
+
+    .mobile-nav span {
+        font-size: 10px;
+    }
+
+}
