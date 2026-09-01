@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Nesi Medicals | Business Management</title>
 
@@ -12,15 +18,22 @@
     >
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+
         body {
+
             min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
             background:
                 linear-gradient(
@@ -33,21 +46,32 @@
             color: #ffffff;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             padding: 20px;
+
         }
+
 
         .container {
+
             width: 100%;
-            max-width: 500px;
+
+            max-width: 520px;
+
         }
 
+
         .card {
+
             background: #1c1c1c;
 
-            border: 1px solid rgba(255,255,255,0.08);
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
 
             border-radius: 24px;
 
@@ -56,60 +80,104 @@
             text-align: center;
 
             box-shadow:
-                0 25px 70px rgba(0,0,0,0.45);
+                0 25px 70px
+                rgba(0,0,0,0.45);
+
         }
 
+
+        /* =========================
+           LOGO
+        ========================= */
+
         .logo {
-            width: 110px;
-            height: 110px;
+
+            width: 120px;
+
+            height: 120px;
 
             object-fit: contain;
 
-            margin-bottom: 20px;
+            display: block;
+
+            margin: 0 auto 22px;
 
             border-radius: 15px;
+
         }
+
+
+        /* =========================
+           BRAND
+        ========================= */
 
         h1 {
+
             font-size: 30px;
+
             color: #4ade80;
 
-            margin-bottom: 6px;
+            margin-bottom: 7px;
+
         }
 
+
         h2 {
+
             font-size: 17px;
+
+            font-weight: 600;
+
             color: #b9ddff;
 
             margin-bottom: 15px;
+
         }
 
+
         .tagline {
+
             color: #70e0d5;
 
             font-size: 13px;
 
-            line-height: 1.6;
+            line-height: 1.7;
 
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+
         }
 
+
         .description {
+
             color: #a1a1aa;
 
             font-size: 14px;
 
-            line-height: 1.6;
+            line-height: 1.7;
 
             margin-bottom: 30px;
+
         }
 
+
+        /* =========================
+           BUTTON
+        ========================= */
+
         .button {
-            display: inline-block;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
 
             width: 100%;
 
-            padding: 15px;
+            min-height: 52px;
+
+            padding: 14px 20px;
 
             border-radius: 11px;
 
@@ -129,75 +197,172 @@
             font-weight: 800;
 
             transition: 0.2s ease;
-        }
-
-        .button:hover {
-            transform: translateY(-2px);
 
             box-shadow:
-                0 10px 25px rgba(22,163,74,0.30);
+                0 8px 20px
+                rgba(22,163,74,0.20);
+
         }
 
+
+        .button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 28px
+                rgba(22,163,74,0.30);
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
         .footer {
+
             margin-top: 25px;
 
             color: #71717a;
 
             font-size: 11px;
 
-            line-height: 1.7;
+            line-height: 1.8;
+
         }
 
+
         .footer strong {
+
             color: #9ca3af;
+
         }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 500px) {
 
-            .card {
-                padding: 35px 22px;
+            body {
+
+                padding: 15px;
+
             }
+
+
+            .card {
+
+                padding:
+                    35px 22px;
+
+                border-radius:
+                    20px;
+
+            }
+
 
             .logo {
-                width: 90px;
-                height: 90px;
+
+                width: 95px;
+
+                height: 95px;
+
             }
 
+
             h1 {
+
                 font-size: 25px;
+
             }
+
+
+            h2 {
+
+                font-size: 15px;
+
+            }
+
+
+            .tagline {
+
+                font-size: 12px;
+
+            }
+
+
+            .description {
+
+                font-size: 13px;
+
+            }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
     <div class="container">
+
 
         <div class="card">
 
+
+            <!-- =========================
+                 NESI MEDICALS LOGO
+            ========================== -->
+
             <img
-                src="images/logo.png"
+                src="assets/logo.png"
                 alt="Nesi Medicals Logo"
                 class="logo"
             >
+
+
+            <!-- =========================
+                 BRAND NAME
+            ========================== -->
 
             <h1>
                 Nesi Medicals
             </h1>
 
+
             <h2>
                 & Minimart Enterprises
             </h2>
 
+
             <p class="tagline">
-                Quality Care. Essential Products.<br>
+
+                Quality Care.
+                Essential Products.
+                <br>
                 Trusted Service.
+
             </p>
 
+
             <p class="description">
-                Welcome to the Nesi Medicals Business Management System.
+
+                Welcome to the Nesi Medicals
+                Business Management System.
+
             </p>
+
+
+            <!-- =========================
+                 LOGIN BUTTON
+            ========================== -->
 
             <a
                 href="login.html"
@@ -205,6 +370,11 @@
             >
                 Login to Dashboard
             </a>
+
+
+            <!-- =========================
+                 FOOTER
+            ========================== -->
 
             <div class="footer">
 
@@ -222,9 +392,13 @@
 
             </div>
 
+
         </div>
+
 
     </div>
 
+
 </body>
+
 </html>
