@@ -1,1 +1,1972 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sales | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Nesi Medicals Sales Management"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f7f6;
+
+            color: #17201c;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* ===============================
+           SIDEBAR
+        =============================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 250px;
+
+            height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #073b2a,
+                    #062b21
+                );
+
+            color: white;
+
+            padding: 22px 15px;
+
+            z-index: 1000;
+
+            overflow-y: auto;
+
+            transition: 0.3s ease;
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding:
+                0 8px 25px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.10);
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .brand img {
+
+            width: 45px;
+            height: 45px;
+
+            object-fit: contain;
+
+            border-radius: 8px;
+
+        }
+
+
+        .brand-text strong {
+
+            display: block;
+
+            color: #4ade80;
+
+            font-size: 16px;
+
+        }
+
+
+        .brand-text span {
+
+            display: block;
+
+            color: #c9e8df;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+
+        }
+
+
+        .nav-title {
+
+            color: #7fb8a8;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin:
+                20px 10px 8px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .7px;
+
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 5px;
+
+            border-radius: 9px;
+
+            color: #dceee8;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: .2s ease;
+
+        }
+
+
+        .nav-link:hover,
+        .nav-link.active {
+
+            background:
+                rgba(74,222,128,.14);
+
+            color: white;
+
+        }
+
+
+        .nav-icon {
+
+            width: 24px;
+
+            text-align: center;
+
+            font-size: 17px;
+
+        }
+
+
+        /* ===============================
+           MAIN
+        =============================== */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* ===============================
+           TOPBAR
+        =============================== */
+
+        .topbar {
+
+            height: 72px;
+
+            background: white;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 30px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
+
+        }
+
+
+        .menu-button {
+
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+        }
+
+
+        .topbar-title h1 {
+
+            font-size: 20px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .topbar-title p {
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+        }
+
+
+        .user-area {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .user-avatar {
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+
+        }
+
+
+        .user-info strong {
+
+            display: block;
+
+            font-size: 12px;
+
+        }
+
+
+        .user-info span {
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+        }
+
+
+        /* ===============================
+           CONTENT
+        =============================== */
+
+        .content {
+
+            padding: 30px;
+
+            max-width: 1300px;
+
+            margin: auto;
+
+        }
+
+
+        .page-heading {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+
+            gap: 15px;
+
+        }
+
+
+        .page-heading h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .page-heading p {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+        }
+
+
+        .date-badge {
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            padding:
+                10px 14px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            color: #4b5563;
+
+        }
+
+
+        /* ===============================
+           SUMMARY
+        =============================== */
+
+        .summary {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .summary-card {
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,.04);
+
+        }
+
+
+        .summary-card span {
+
+            display: block;
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            font-weight: 700;
+
+            margin-bottom: 9px;
+
+        }
+
+
+        .summary-card strong {
+
+            font-size: 23px;
+
+        }
+
+
+        /* ===============================
+           SALES FORM
+        =============================== */
+
+        .sales-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                1.6fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        .panel {
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 23px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,.04);
+
+        }
+
+
+        .panel-title {
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 17px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+        }
+
+
+        .form-group.full {
+
+            grid-column:
+                1 / -1;
+
+        }
+
+
+        .form-group label {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+        }
+
+
+        .form-input,
+        .form-select {
+
+            width: 100%;
+
+            height: 46px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 9px;
+
+            padding:
+                0 12px;
+
+            background: white;
+
+            font-size: 13px;
+
+            color: #17201c;
+
+            outline: none;
+
+        }
+
+
+        .form-input:focus,
+        .form-select:focus {
+
+            border-color: #16a34a;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(22,163,74,.10);
+
+        }
+
+
+        textarea.form-input {
+
+            height: 80px;
+
+            padding: 12px;
+
+            resize: vertical;
+
+        }
+
+
+        /* ===============================
+           BUTTONS
+        =============================== */
+
+        .button-row {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .button {
+
+            border: none;
+
+            border-radius: 9px;
+
+            height: 46px;
+
+            padding:
+                0 18px;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+        }
+
+
+        .button-primary {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #16a34a,
+                    #0f766e
+                );
+
+            color: white;
+
+            flex: 1;
+
+        }
+
+
+        .button-secondary {
+
+            background: #f3f4f6;
+
+            color: #374151;
+
+        }
+
+
+        /* ===============================
+           RECEIPT PREVIEW
+        =============================== */
+
+        .receipt {
+
+            border:
+                1px dashed #d1d5db;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            background: #fafafa;
+
+        }
+
+
+        .receipt-header {
+
+            text-align: center;
+
+            padding-bottom: 15px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .receipt-header img {
+
+            width: 55px;
+            height: 55px;
+
+            object-fit: contain;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .receipt-header strong {
+
+            display: block;
+
+            font-size: 15px;
+
+        }
+
+
+        .receipt-header span {
+
+            color: #6b7280;
+
+            font-size: 9px;
+
+        }
+
+
+        .receipt-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 8px 0;
+
+            font-size: 11px;
+
+        }
+
+
+        .receipt-row span:first-child {
+
+            color: #6b7280;
+
+        }
+
+
+        .receipt-total {
+
+            border-top:
+                1px solid #d1d5db;
+
+            margin-top: 10px;
+
+            padding-top: 13px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+        }
+
+
+        .empty-receipt {
+
+            text-align: center;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+
+            padding: 20px 0;
+
+        }
+
+
+        /* ===============================
+           MOBILE
+        =============================== */
+
+        .overlay {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0,0,0,.45);
+
+            z-index: 999;
+
+        }
+
+
+        @media(max-width:1000px) {
+
+            .sales-layout {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media(max-width:700px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+            }
+
+
+            .sidebar.open {
+
+                transform:
+                    translateX(0);
+
+            }
+
+
+            .overlay.show {
+
+                display: block;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .menu-button {
+
+                display: block;
+
+            }
+
+
+            .topbar {
+
+                padding:
+                    0 18px;
+
+            }
+
+
+            .topbar-title {
+
+                margin-left: 10px;
+
+            }
+
+
+            .topbar-title h1 {
+
+                font-size: 16px;
+
+            }
+
+
+            .user-info {
+
+                display: none;
+
+            }
+
+
+            .content {
+
+                padding:
+                    20px 15px;
+
+            }
+
+
+            .page-heading {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .summary {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+        }
+
+
+        @media(max-width:500px) {
+
+            .form-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .form-group.full {
+
+                grid-column:
+                    auto;
+
+            }
+
+
+            .button-row {
+
+                flex-direction:
+                    column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ===============================
+         SIDEBAR
+    =============================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="brand">
+
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+            >
+
+            <div class="brand-text">
+
+                <strong>
+                    Nesi Medicals
+                </strong>
+
+                <span>
+                    & Minimart Enterprises
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-title">
+            Main
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                📊
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            href="sales.html"
+            class="nav-link active"
+        >
+
+            <span class="nav-icon">
+                💰
+            </span>
+
+            Sales
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                📦
+            </span>
+
+            Inventory
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                👥
+            </span>
+
+            Customers
+
+        </a>
+
+
+        <div class="nav-title">
+            Management
+        </div>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                🚚
+            </span>
+
+            Suppliers
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                💳
+            </span>
+
+            Expenses
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                📈
+            </span>
+
+            Reports
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                👨‍💼
+            </span>
+
+            Staff
+
+        </a>
+
+
+        <div class="nav-title">
+            System
+        </div>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ⚙️
+            </span>
+
+            Settings
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+            id="logoutButton"
+        >
+
+            <span class="nav-icon">
+                🚪
+            </span>
+
+            Logout
+
+        </a>
+
+    </aside>
+
+
+    <div
+        class="overlay"
+        id="overlay"
+    ></div>
+
+
+    <!-- ===============================
+         MAIN
+    =============================== -->
+
+    <main class="main">
+
+
+        <header class="topbar">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                "
+            >
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                >
+                    ☰
+                </button>
+
+
+                <div class="topbar-title">
+
+                    <h1>
+                        Sales
+                    </h1>
+
+                    <p>
+                        Record and manage business transactions
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <div class="user-avatar">
+                    N
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        Nesi Medicals
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h2>
+                        Sales Management
+                    </h2>
+
+                    <p>
+                        Record a new sale and preview the receipt.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="date-badge"
+                    id="todayDate"
+                >
+                    Today
+                </div>
+
+            </div>
+
+
+            <!-- ==========================
+                 SUMMARY
+            =========================== -->
+
+            <div class="summary">
+
+
+                <div class="summary-card">
+
+                    <span>
+                        Today's Sales
+                    </span>
+
+                    <strong id="todaySales">
+                        ₦0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>
+                        Transactions
+                    </span>
+
+                    <strong id="transactionCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span>
+                        Last Transaction
+                    </span>
+
+                    <strong id="lastTransaction">
+                        —
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="sales-layout">
+
+
+                <!-- ======================
+                     SALES FORM
+                ======================= -->
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        New Sale
+                    </div>
+
+
+                    <form id="salesForm">
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group full">
+
+                                <label for="product">
+                                    Product / Service
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="product"
+                                    class="form-input"
+                                    placeholder="Enter product name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="quantity">
+                                    Quantity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="quantity"
+                                    class="form-input"
+                                    value="1"
+                                    min="1"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="price">
+                                    Unit Price (₦)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="price"
+                                    class="form-input"
+                                    placeholder="0.00"
+                                    min="0"
+                                    step="0.01"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="customer">
+                                    Customer
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer"
+                                    class="form-input"
+                                    placeholder="Walk-in Customer"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="paymentMethod">
+                                    Payment Method
+                                </label>
+
+                                <select
+                                    id="paymentMethod"
+                                    class="form-select"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select payment method
+                                    </option>
+
+                                    <option value="Cash">
+                                        Cash
+                                    </option>
+
+                                    <option value="POS">
+                                        POS
+                                    </option>
+
+                                    <option value="Transfer">
+                                        Bank Transfer
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group full">
+
+                                <label for="notes">
+                                    Notes
+                                </label>
+
+                                <textarea
+                                    id="notes"
+                                    class="form-input"
+                                    placeholder="Optional notes about this transaction"
+                                ></textarea>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="button-row">
+
+                            <button
+                                type="button"
+                                class="button button-secondary"
+                                id="clearButton"
+                            >
+                                Clear
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                class="button button-primary"
+                            >
+                                Record Sale
+                            </button>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+
+                <!-- ======================
+                     RECEIPT
+                ======================= -->
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Receipt Preview
+                    </div>
+
+
+                    <div
+                        class="receipt"
+                        id="receipt"
+                    >
+
+                        <div class="receipt-header">
+
+                            <img
+                                src="assets/logo.png"
+                                alt="Nesi Medicals"
+                            >
+
+                            <strong>
+                                Nesi Medicals
+                            </strong>
+
+                            <span>
+                                & Minimart Enterprises
+                            </span>
+
+                        </div>
+
+
+                        <div class="empty-receipt">
+                            Enter sale details to preview receipt.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ===============================
+         JAVASCRIPT
+    =============================== -->
+
+    <script>
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const overlay =
+            document.getElementById("overlay");
+
+        const salesForm =
+            document.getElementById("salesForm");
+
+        const product =
+            document.getElementById("product");
+
+        const quantity =
+            document.getElementById("quantity");
+
+        const price =
+            document.getElementById("price");
+
+        const customer =
+            document.getElementById("customer");
+
+        const paymentMethod =
+            document.getElementById("paymentMethod");
+
+        const notes =
+            document.getElementById("notes");
+
+        const receipt =
+            document.getElementById("receipt");
+
+        const clearButton =
+            document.getElementById("clearButton");
+
+        const todaySales =
+            document.getElementById("todaySales");
+
+        const transactionCount =
+            document.getElementById("transactionCount");
+
+        const lastTransaction =
+            document.getElementById("lastTransaction");
+
+
+        /* ==========================
+           MOBILE MENU
+        =========================== */
+
+        menuButton.addEventListener(
+            "click",
+            function() {
+
+                sidebar.classList.add("open");
+
+                overlay.classList.add("show");
+
+            }
+        );
+
+
+        overlay.addEventListener(
+            "click",
+            function() {
+
+                sidebar.classList.remove("open");
+
+                overlay.classList.remove("show");
+
+            }
+        );
+
+
+        /* ==========================
+           DATE
+        =========================== */
+
+        const now = new Date();
+
+        document.getElementById(
+            "todayDate"
+        ).textContent =
+            now.toLocaleDateString(
+                "en-NG",
+                {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+
+        /* ==========================
+           FORMAT MONEY
+        =========================== */
+
+        function money(value) {
+
+            return new Intl.NumberFormat(
+                "en-NG",
+                {
+                    style: "currency",
+                    currency: "NGN"
+                }
+            ).format(value);
+
+        }
+
+
+        /* ==========================
+           RECEIPT PREVIEW
+        =========================== */
+
+        function updateReceipt() {
+
+            const productName =
+                product.value.trim();
+
+            const qty =
+                Number(quantity.value) || 0;
+
+            const unitPrice =
+                Number(price.value) || 0;
+
+            const customerName =
+                customer.value.trim()
+                || "Walk-in Customer";
+
+            const payment =
+                paymentMethod.value
+                || "Not selected";
+
+            const total =
+                qty * unitPrice;
+
+
+            if (!productName && !unitPrice) {
+
+                receipt.innerHTML = `
+
+                    <div class="receipt-header">
+
+                        <img
+                            src="assets/logo.png"
+                            alt="Nesi Medicals"
+                        >
+
+                        <strong>
+                            Nesi Medicals
+                        </strong>
+
+                        <span>
+                            & Minimart Enterprises
+                        </span>
+
+                    </div>
+
+                    <div class="empty-receipt">
+
+                        Enter sale details to preview receipt.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            receipt.innerHTML = `
+
+                <div class="receipt-header">
+
+                    <img
+                        src="assets/logo.png"
+                        alt="Nesi Medicals"
+                    >
+
+                    <strong>
+                        Nesi Medicals
+                    </strong>
+
+                    <span>
+                        & Minimart Enterprises
+                    </span>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Product
+                    </span>
+
+                    <strong>
+                        ${productName || "—"}
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Quantity
+                    </span>
+
+                    <strong>
+                        ${qty}
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Unit Price
+                    </span>
+
+                    <strong>
+                        ${money(unitPrice)}
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Customer
+                    </span>
+
+                    <strong>
+                        ${customerName}
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Payment
+                    </span>
+
+                    <strong>
+                        ${payment}
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong>
+                        ${money(total)}
+                    </strong>
+
+                </div>
+
+            `;
+
+        }
+
+
+        [
+            product,
+            quantity,
+            price,
+            customer,
+            paymentMethod
+        ].forEach(function(element) {
+
+            element.addEventListener(
+                "input",
+                updateReceipt
+            );
+
+            element.addEventListener(
+                "change",
+                updateReceipt
+            );
+
+        });
+
+
+        /* ==========================
+           RECORD SALE
+        =========================== */
+
+        salesForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const productName =
+                    product.value.trim();
+
+                const qty =
+                    Number(quantity.value);
+
+                const unitPrice =
+                    Number(price.value);
+
+                const payment =
+                    paymentMethod.value;
+
+
+                if (
+                    !productName ||
+                    qty <= 0 ||
+                    unitPrice < 0 ||
+                    !payment
+                ) {
+
+                    alert(
+                        "Please complete the required sale information."
+                    );
+
+                    return;
+
+                }
+
+
+                const total =
+                    qty * unitPrice;
+
+
+                const currentSales =
+                    Number(
+                        localStorage.getItem(
+                            "nesiTodaySales"
+                        )
+                    ) || 0;
+
+
+                const currentTransactions =
+                    Number(
+                        localStorage.getItem(
+                            "nesiTransactionCount"
+                        )
+                    ) || 0;
+
+
+                localStorage.setItem(
+                    "nesiTodaySales",
+                    currentSales + total
+                );
+
+
+                localStorage.setItem(
+                    "nesiTransactionCount",
+                    currentTransactions + 1
+                );
+
+
+                localStorage.setItem(
+                    "nesiLastTransaction",
+                    money(total)
+                );
+
+
+                todaySales.textContent =
+                    money(
+                        currentSales + total
+                    );
+
+
+                transactionCount.textContent =
+                    currentTransactions + 1;
+
+
+                lastTransaction.textContent =
+                    money(total);
+
+
+                alert(
+                    "Sale recorded successfully!"
+                );
+
+
+                salesForm.reset();
+
+                quantity.value = 1;
+
+                updateReceipt();
+
+            }
+        );
+
+
+        /* ==========================
+           CLEAR FORM
+        =========================== */
+
+        clearButton.addEventListener(
+            "click",
+            function() {
+
+                salesForm.reset();
+
+                quantity.value = 1;
+
+                updateReceipt();
+
+            }
+        );
+
+
+        /* ==========================
+           LOAD SAVED TOTALS
+        =========================== */
+
+        const savedSales =
+            Number(
+                localStorage.getItem(
+                    "nesiTodaySales"
+                )
+            ) || 0;
+
+
+        const savedTransactions =
+            Number(
+                localStorage.getItem(
+                    "nesiTransactionCount"
+                )
+            ) || 0;
+
+
+        const savedLast =
+            localStorage.getItem(
+                "nesiLastTransaction"
+            );
+
+
+        todaySales.textContent =
+            money(savedSales);
+
+
+        transactionCount.textContent =
+            savedTransactions;
+
+
+        lastTransaction.textContent =
+            savedLast || "—";
+
+
+        /* ==========================
+           TEMPORARY LOGOUT
+        =========================== */
+
+        document
+            .getElementById("logoutButton")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    window.location.href =
+                        "login.html";
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>
