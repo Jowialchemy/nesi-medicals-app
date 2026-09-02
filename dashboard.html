@@ -1493,95 +1493,139 @@
 
 
     <!-- ================================
-         MOBILE MENU JAVASCRIPT
-    ================================= -->
+     DASHBOARD JAVASCRIPT
+================================ -->
 
-    <script>
+<script>
 
-        const sidebar =
-            document.getElementById("sidebar");
+    const sidebar =
+        document.getElementById("sidebar");
 
-        const menuButton =
-            document.getElementById("menuButton");
+    const menuButton =
+        document.getElementById("menuButton");
 
-        const overlay =
-            document.getElementById("overlay");
-
-
-        function openMenu() {
-
-            sidebar.classList.add("open");
-
-            overlay.classList.add("show");
-
-        }
+    const overlay =
+        document.getElementById("overlay");
 
 
-        function closeMenu() {
+    function openMenu() {
 
-            sidebar.classList.remove("open");
+        sidebar.classList.add("open");
 
-            overlay.classList.remove("show");
+        overlay.classList.add("show");
 
-        }
-
-
-        menuButton.addEventListener(
-            "click",
-            openMenu
-        );
+    }
 
 
-        overlay.addEventListener(
-            "click",
-            closeMenu
-        );
+    function closeMenu() {
+
+        sidebar.classList.remove("open");
+
+        overlay.classList.remove("show");
+
+    }
 
 
-        /* Close menu after clicking
-           a navigation link on mobile */
+    menuButton.addEventListener(
+        "click",
+        openMenu
+    );
 
-        document
-            .querySelectorAll(".nav-link")
-            .forEach(function(link) {
 
-                link.addEventListener(
-                    "click",
-                    function() {
+    overlay.addEventListener(
+        "click",
+        closeMenu
+    );
 
-                        if (
-                            window.innerWidth <= 700
-                        ) {
 
-                            closeMenu();
+    document
+        .querySelectorAll(".nav-link")
+        .forEach(function(link) {
 
-                        }
+            link.addEventListener(
+                "click",
+                function() {
+
+                    if (
+                        window.innerWidth <= 700
+                    ) {
+
+                        closeMenu();
 
                     }
-                );
-
-            });
-
-
-        /* Logout will be connected
-           to Firebase in the next step. */
-
-        document
-            .getElementById("logoutButton")
-            .addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    window.location.href =
-                        "login.html";
 
                 }
             );
 
-    </script>
+        });
 
+</script>
+
+
+<!-- ================================
+     FIREBASE SECURITY & LOGOUT
+================================ -->
+
+<script type="module">
+
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import { auth } from "./js/firebase.js";
+
+
+    /* PROTECT DASHBOARD */
+
+    onAuthStateChanged(auth, (user) => {
+
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+        }
+
+    });
+
+
+    /* LOGOUT */
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+
+    logoutButton.addEventListener(
+        "click",
+        async function(event) {
+
+            event.preventDefault();
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+                alert(
+                    "Unable to logout. Please try again."
+                );
+
+            }
+
+        }
+    );
+
+</script>
 
 </body>
 
