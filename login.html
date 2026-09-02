@@ -25,6 +25,7 @@
             box-sizing: border-box;
         }
 
+
         body {
 
             min-height: 100vh;
@@ -55,10 +56,6 @@
         }
 
 
-        /* ==============================
-           CONTAINER
-        ============================== */
-
         .login-wrapper {
 
             width: 100%;
@@ -67,10 +64,6 @@
 
         }
 
-
-        /* ==============================
-           CARD
-        ============================== */
 
         .login-card {
 
@@ -92,10 +85,6 @@
         }
 
 
-        /* ==============================
-           LOGO
-        ============================== */
-
         .logo-area {
 
             text-align: center;
@@ -115,8 +104,7 @@
 
             display: block;
 
-            margin:
-                0 auto 18px;
+            margin: 0 auto 18px;
 
             border-radius: 15px;
 
@@ -160,10 +148,6 @@
         }
 
 
-        /* ==============================
-           TITLE
-        ============================== */
-
         .login-title {
 
             text-align: center;
@@ -190,10 +174,6 @@
 
         }
 
-
-        /* ==============================
-           MESSAGE
-        ============================== */
 
         .message {
 
@@ -245,10 +225,6 @@
 
         }
 
-
-        /* ==============================
-           FORM
-        ============================== */
 
         .form-group {
 
@@ -305,8 +281,7 @@
 
             height: 52px;
 
-            padding:
-                0 48px;
+            padding: 0 48px;
 
             background: #242424;
 
@@ -344,10 +319,6 @@
         }
 
 
-        /* ==============================
-           PASSWORD
-        ============================== */
-
         .password-toggle {
 
             position: absolute;
@@ -378,10 +349,6 @@
 
         }
 
-
-        /* ==============================
-           OPTIONS
-        ============================== */
 
         .form-options {
 
@@ -443,10 +410,6 @@
         }
 
 
-        /* ==============================
-           LOGIN BUTTON
-        ============================== */
-
         .login-button {
 
             width: 100%;
@@ -504,10 +467,6 @@
         }
 
 
-        /* ==============================
-           DIVIDER
-        ============================== */
-
         .divider {
 
             display: flex;
@@ -539,10 +498,6 @@
         }
 
 
-        /* ==============================
-           SIGNUP
-        ============================== */
-
         .signup-text {
 
             text-align: center;
@@ -572,10 +527,6 @@
         }
 
 
-        /* ==============================
-           FOOTER
-        ============================== */
-
         .footer {
 
             text-align: center;
@@ -602,10 +553,6 @@
 
         }
 
-
-        /* ==============================
-           LOADING
-        ============================== */
 
         .spinner {
 
@@ -645,10 +592,6 @@
 
         }
 
-
-        /* ==============================
-           MOBILE
-        ============================== */
 
         @media (max-width: 500px) {
 
@@ -735,10 +678,6 @@
         <div class="login-card">
 
 
-            <!-- =========================
-                 BRANDING
-            ========================== -->
-
             <div class="logo-area">
 
                 <img
@@ -756,21 +695,13 @@
                 </div>
 
                 <div class="tagline">
-
-                    Quality Care.
-                    Essential Products.
+                    Quality Care. Essential Products.
                     <br>
-
                     Trusted Service.
-
                 </div>
 
             </div>
 
-
-            <!-- =========================
-                 TITLE
-            ========================== -->
 
             <div class="login-title">
 
@@ -785,22 +716,17 @@
             </div>
 
 
-            <!-- MESSAGE -->
-
             <div
                 id="loginMessage"
                 class="message"
             ></div>
 
 
-            <!-- =========================
-                 LOGIN FORM
-            ========================== -->
-
             <form
                 id="loginForm"
                 autocomplete="on"
             >
+
 
                 <div class="form-group">
 
@@ -898,17 +824,14 @@
                     Login to Dashboard
                 </button>
 
+
             </form>
 
-
-            <!-- DIVIDER -->
 
             <div class="divider">
                 OR
             </div>
 
-
-            <!-- SIGNUP -->
 
             <div class="signup-text">
 
@@ -926,8 +849,6 @@
 
         </div>
 
-
-        <!-- FOOTER -->
 
         <div class="footer">
 
@@ -954,9 +875,15 @@
     </div>
 
 
-    <!-- ==============================
-         BASIC LOGIN PAGE FUNCTIONS
-    =============================== -->
+    <!-- FIREBASE LOGIN -->
+
+    <script
+        type="module"
+        src="js/auth.js"
+    ></script>
+
+
+    <!-- PASSWORD SHOW / HIDE -->
 
     <script>
 
@@ -966,20 +893,6 @@
         const togglePassword =
             document.getElementById("togglePassword");
 
-        const loginForm =
-            document.getElementById("loginForm");
-
-        const loginButton =
-            document.getElementById("loginButton");
-
-        const loginMessage =
-            document.getElementById("loginMessage");
-
-        const forgotPassword =
-            document.getElementById("forgotPassword");
-
-
-        /* SHOW / HIDE PASSWORD */
 
         togglePassword.addEventListener(
             "click",
@@ -994,6 +907,11 @@
                     togglePassword.textContent =
                         "🙈";
 
+                    togglePassword.setAttribute(
+                        "aria-label",
+                        "Hide password"
+                    );
+
                 } else {
 
                     passwordInput.type =
@@ -1002,100 +920,12 @@
                     togglePassword.textContent =
                         "👁️";
 
-                }
-
-            }
-        );
-
-
-        /* MESSAGE */
-
-        function showMessage(
-            message,
-            type = "error"
-        ) {
-
-            loginMessage.textContent =
-                message;
-
-            loginMessage.className =
-                "message " + type;
-
-        }
-
-
-        /* LOGIN */
-
-        loginForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-                const email =
-                    document
-                        .getElementById("email")
-                        .value
-                        .trim();
-
-                const password =
-                    passwordInput.value;
-
-
-                if (!email || !password) {
-
-                    showMessage(
-                        "Please enter your email and password."
+                    togglePassword.setAttribute(
+                        "aria-label",
+                        "Show password"
                     );
 
-                    return;
-
                 }
-
-
-                loginButton.disabled = true;
-
-                loginButton.innerHTML =
-                    '<span class="spinner"></span>Signing in...';
-
-
-                /*
-                 * Firebase Authentication
-                 * will be connected next.
-                 */
-
-                setTimeout(
-                    function () {
-
-                        loginButton.disabled =
-                            false;
-
-                        loginButton.innerHTML =
-                            "Login to Dashboard";
-
-                        showMessage(
-                            "Login page is ready. Firebase Authentication will be connected next."
-                        );
-
-                    },
-                    800
-                );
-
-            }
-        );
-
-
-        /* FORGOT PASSWORD */
-
-        forgotPassword.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                showMessage(
-                    "Password recovery will be connected with Firebase Authentication."
-                );
 
             }
         );
