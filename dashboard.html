@@ -1,1 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Nesi Medicals & Minimart Enterprises Business Management Dashboard"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f7f6;
+
+            color: #17201c;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =================================
+           SIDEBAR
+        ================================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 250px;
+
+            height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #073b2a,
+                    #062b21
+                );
+
+            color: white;
+
+            padding: 22px 15px;
+
+            z-index: 1000;
+
+            transition: 0.3s ease;
+
+            overflow-y: auto;
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding:
+                0 8px 25px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.10);
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .brand img {
+
+            width: 45px;
+
+            height: 45px;
+
+            object-fit: contain;
+
+            border-radius: 8px;
+
+        }
+
+
+        .brand-text strong {
+
+            display: block;
+
+            color: #4ade80;
+
+            font-size: 16px;
+
+        }
+
+
+        .brand-text span {
+
+            display: block;
+
+            color: #c9e8df;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+
+        }
+
+
+        .nav-title {
+
+            color: #7fb8a8;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin:
+                20px 10px 8px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.7px;
+
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 5px;
+
+            border-radius: 9px;
+
+            color: #dceee8;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .nav-link:hover,
+        .nav-link.active {
+
+            background:
+                rgba(74,222,128,0.14);
+
+            color: #ffffff;
+
+        }
+
+
+        .nav-icon {
+
+            width: 24px;
+
+            text-align: center;
+
+            font-size: 17px;
+
+        }
+
+
+        /* =================================
+           MAIN
+        ================================= */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =================================
+           TOPBAR
+        ================================= */
+
+        .topbar {
+
+            height: 72px;
+
+            background: #ffffff;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 30px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
+
+        }
+
+
+        .menu-button {
+
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+        }
+
+
+        .topbar-title h1 {
+
+            font-size: 20px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .topbar-title p {
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+        }
+
+
+        .user-area {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .user-avatar {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            background:
+                #dcfce7;
+
+            color: #15803d;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+
+        }
+
+
+        .user-info strong {
+
+            display: block;
+
+            font-size: 12px;
+
+        }
+
+
+        .user-info span {
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =================================
+           CONTENT
+        ================================= */
+
+        .content {
+
+            padding: 30px;
+
+        }
+
+
+        .welcome {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .welcome h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .welcome p {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =================================
+           STAT CARDS
+        ================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .stat-card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.04);
+
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .stat-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+            background: #dcfce7;
+
+        }
+
+
+        .stat-label {
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-transform:
+                uppercase;
+
+        }
+
+
+        .stat-value {
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .stat-note {
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+        }
+
+
+        .positive {
+
+            color: #16a34a;
+
+        }
+
+
+        /* =================================
+           DASHBOARD GRID
+        ================================= */
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        .panel {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.04);
+
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .panel-header h3 {
+
+            font-size: 16px;
+
+        }
+
+
+        .panel-header a {
+
+            color: #16a34a;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+        }
+
+
+        /* =================================
+           QUICK ACTIONS
+        ================================= */
+
+        .quick-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+
+        }
+
+
+        .action {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 15px;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            color: #17201c;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .action:hover {
+
+            border-color: #16a34a;
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .action-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 9px;
+
+            background: #f0fdf4;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+        }
+
+
+        .action strong {
+
+            display: block;
+
+            font-size: 12px;
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .action span {
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =================================
+           RECENT ACTIVITY
+        ================================= */
+
+        .activity {
+
+            display: flex;
+
+            gap: 12px;
+
+            padding: 12px 0;
+
+            border-bottom:
+                1px solid #f0f0f0;
+
+        }
+
+
+        .activity:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .activity-icon {
+
+            width: 34px;
+
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: #ecfdf5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        .activity strong {
+
+            display: block;
+
+            font-size: 11px;
+
+        }
+
+
+        .activity span {
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =================================
+           MOBILE OVERLAY
+        ================================= */
+
+        .overlay {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0,0,0,0.45);
+
+            z-index: 999;
+
+        }
+
+
+        /* =================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .dashboard-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+            }
+
+
+            .sidebar.open {
+
+                transform:
+                    translateX(0);
+
+            }
+
+
+            .overlay.show {
+
+                display: block;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .topbar {
+
+                padding:
+                    0 18px;
+
+            }
+
+
+            .menu-button {
+
+                display: block;
+
+            }
+
+
+            .topbar-title {
+
+                margin-left: 10px;
+
+            }
+
+
+            .topbar-title h1 {
+
+                font-size: 16px;
+
+            }
+
+
+            .user-info {
+
+                display: none;
+
+            }
+
+
+            .content {
+
+                padding: 20px 15px;
+
+            }
+
+
+            .welcome h2 {
+
+                font-size: 21px;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .stats {
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 10px;
+
+            }
+
+
+            .stat-card {
+
+                padding: 15px;
+
+            }
+
+
+            .stat-value {
+
+                font-size: 19px;
+
+            }
+
+
+            .stat-icon {
+
+                width: 35px;
+
+                height: 35px;
+
+                font-size: 16px;
+
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 350px) {
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <div class="brand">
+
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals"
+            >
+
+            <div class="brand-text">
+
+                <strong>
+                    Nesi Medicals
+                </strong>
+
+                <span>
+                    & Minimart Enterprises
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-title">
+            Main
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="nav-link active"
+        >
+
+            <span class="nav-icon">
+                📊
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                💰
+            </span>
+
+            Sales
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                📦
+            </span>
+
+            Inventory
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                👥
+            </span>
+
+            Customers
+
+        </a>
+
+
+        <div class="nav-title">
+            Management
+        </div>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                🚚
+            </span>
+
+            Suppliers
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                💳
+            </span>
+
+            Expenses
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                📈
+            </span>
+
+            Reports
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                👨‍💼
+            </span>
+
+            Staff
+
+        </a>
+
+
+        <div class="nav-title">
+            System
+        </div>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+
+            <span class="nav-icon">
+                ⚙️
+            </span>
+
+            Settings
+
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+            id="logoutButton"
+        >
+
+            <span class="nav-icon">
+                🚪
+            </span>
+
+            Logout
+
+        </a>
+
+
+    </aside>
+
+
+    <div
+        class="overlay"
+        id="overlay"
+    ></div>
+
+
+    <!-- ================================
+         MAIN
+    ================================= -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <div style="display:flex;align-items:center;">
+
+                <button
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Open menu"
+                >
+                    ☰
+                </button>
+
+
+                <div class="topbar-title">
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        Nesi Medicals Business Management System
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <div class="user-avatar">
+                    N
+                </div>
+
+
+                <div class="user-info">
+
+                    <strong>
+                        Nesi Medicals
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+
+            <div class="welcome">
+
+                <h2>
+                    Welcome Back 👋
+                </h2>
+
+                <p>
+                    Here's what's happening with your business today.
+                </p>
+
+            </div>
+
+
+            <!-- ==========================
+                 STATISTICS
+            =========================== -->
+
+            <div class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Today's Sales
+                        </span>
+
+                        <div class="stat-icon">
+                            💰
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₦0
+                    </div>
+
+                    <div class="stat-note positive">
+                        Ready for today's transactions
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Products
+                        </span>
+
+                        <div class="stat-icon">
+                            📦
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        0
+                    </div>
+
+                    <div class="stat-note">
+                        Products in inventory
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Customers
+                        </span>
+
+                        <div class="stat-icon">
+                            👥
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        0
+                    </div>
+
+                    <div class="stat-note">
+                        Registered customers
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Expenses
+                        </span>
+
+                        <div class="stat-icon">
+                            💳
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₦0
+                    </div>
+
+                    <div class="stat-note">
+                        Today's expenses
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==========================
+                 PANELS
+            =========================== -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Quick Actions
+                        </h3>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <a
+                            href="#"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                💰
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    New Sale
+                                </strong>
+
+                                <span>
+                                    Record a new transaction
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+                        <a
+                            href="#"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                📦
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Add Product
+                                </strong>
+
+                                <span>
+                                    Add item to inventory
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+                        <a
+                            href="#"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                👥
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    New Customer
+                                </strong>
+
+                                <span>
+                                    Register a customer
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+                        <a
+                            href="#"
+                            class="action"
+                        >
+
+                            <div class="action-icon">
+                                💳
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Add Expense
+                                </strong>
+
+                                <span>
+                                    Record business expense
+                                </span>
+
+                            </div>
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Recent Activity
+                        </h3>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            📊
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Dashboard Ready
+                            </strong>
+
+                            <span>
+                                Your business system is ready.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            🔐
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Secure Login
+                            </strong>
+
+                            <span>
+                                Authentication successful.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            🏥
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Nesi Medicals
+                            </strong>
+
+                            <span>
+                                Business management system.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================================
+         MOBILE MENU JAVASCRIPT
+    ================================= -->
+
+    <script>
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const overlay =
+            document.getElementById("overlay");
+
+
+        function openMenu() {
+
+            sidebar.classList.add("open");
+
+            overlay.classList.add("show");
+
+        }
+
+
+        function closeMenu() {
+
+            sidebar.classList.remove("open");
+
+            overlay.classList.remove("show");
+
+        }
+
+
+        menuButton.addEventListener(
+            "click",
+            openMenu
+        );
+
+
+        overlay.addEventListener(
+            "click",
+            closeMenu
+        );
+
+
+        /* Close menu after clicking
+           a navigation link on mobile */
+
+        document
+            .querySelectorAll(".nav-link")
+            .forEach(function(link) {
+
+                link.addEventListener(
+                    "click",
+                    function() {
+
+                        if (
+                            window.innerWidth <= 700
+                        ) {
+
+                            closeMenu();
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        /* Logout will be connected
+           to Firebase in the next step. */
+
+        document
+            .getElementById("logoutButton")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    window.location.href =
+                        "login.html";
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>
