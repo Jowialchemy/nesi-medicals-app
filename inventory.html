@@ -1,1 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Inventory | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Nesi Medicals Inventory Management"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f7f6;
+
+            color: #17201c;
+
+            min-height: 100vh;
+
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 250px;
+
+            height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #073b2a,
+                    #062b21
+                );
+
+            color: white;
+
+            padding: 22px 15px;
+
+            z-index: 1000;
+
+            overflow-y: auto;
+
+        }
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding:
+                0 8px 25px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.10);
+
+            margin-bottom: 20px;
+
+        }
+
+        .brand img {
+
+            width: 45px;
+
+            height: 45px;
+
+            object-fit: contain;
+
+            border-radius: 8px;
+
+        }
+
+        .brand-text strong {
+
+            display: block;
+
+            color: #4ade80;
+
+            font-size: 16px;
+
+        }
+
+        .brand-text span {
+
+            display: block;
+
+            color: #c9e8df;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+
+        }
+
+        .nav-title {
+
+            color: #7fb8a8;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin:
+                20px 10px 8px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.7px;
+
+        }
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 5px;
+
+            border-radius: 9px;
+
+            color: #dceee8;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.2s ease;
+
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+
+            background:
+                rgba(74,222,128,0.14);
+
+            color: #ffffff;
+
+        }
+
+        .nav-icon {
+
+            width: 24px;
+
+            text-align: center;
+
+            font-size: 17px;
+
+        }
+
+        /* MAIN */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+
+            height: 72px;
+
+            background: white;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 30px;
+
+        }
+
+        .topbar-title h1 {
+
+            font-size: 20px;
+
+            margin-bottom: 4px;
+
+        }
+
+        .topbar-title p {
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+        }
+
+        .user-area {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+        .user-avatar {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+
+        }
+
+        .user-info strong {
+
+            display: block;
+
+            font-size: 12px;
+
+        }
+
+        .user-info span {
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+        }
+
+        /* CONTENT */
+
+        .content {
+
+            padding: 30px;
+
+        }
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+
+        }
+
+        .page-header h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 7px;
+
+        }
+
+        .page-header p {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+        }
+
+        .add-button {
+
+            border: none;
+
+            background: #16a34a;
+
+            color: white;
+
+            padding: 12px 18px;
+
+            border-radius: 9px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+        }
+
+        .add-button:hover {
+
+            background: #15803d;
+
+        }
+
+        /* SEARCH */
+
+        .search-box {
+
+            background: white;
+
+            padding: 18px;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            margin-bottom: 20px;
+
+        }
+
+        .search-box input {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            outline: none;
+
+        }
+
+        .search-box input:focus {
+
+            border-color: #16a34a;
+
+        }
+
+        /* TABLE */
+
+        .table-panel {
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.04);
+
+        }
+
+        .table-wrap {
+
+            overflow-x: auto;
+
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+        th {
+
+            background: #f8faf9;
+
+            color: #4b5563;
+
+            font-size: 11px;
+
+            text-align: left;
+
+            padding: 15px;
+
+            text-transform: uppercase;
+
+        }
+
+        td {
+
+            padding: 15px;
+
+            border-top:
+                1px solid #f0f0f0;
+
+            font-size: 12px;
+
+        }
+
+        .empty {
+
+            text-align: center;
+
+            padding: 50px 20px;
+
+            color: #6b7280;
+
+        }
+
+        .empty-icon {
+
+            font-size: 40px;
+
+            margin-bottom: 10px;
+
+        }
+
+        .stock {
+
+            font-weight: 700;
+
+        }
+
+        .stock.low {
+
+            color: #dc2626;
+
+        }
+
+        .stock.good {
+
+            color: #16a34a;
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                position: fixed;
+
+                transform: translateX(-100%);
+
+            }
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+            .topbar {
+
+                padding: 0 18px;
+
+            }
+
+            .user-info {
+
+                display: none;
+
+            }
+
+            .content {
+
+                padding: 20px 15px;
+
+            }
+
+            .page-header {
+
+                align-items: flex-start;
+
+                gap: 15px;
+
+                flex-direction: column;
+
+            }
+
+            .add-button {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals"
+            >
+
+            <div class="brand-text">
+
+                <strong>
+                    Nesi Medicals
+                </strong>
+
+                <span>
+                    & Minimart Enterprises
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-title">
+            Main
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">📊</span>
+            Dashboard
+        </a>
+
+
+        <a
+            href="sales.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">💰</span>
+            Sales
+        </a>
+
+
+        <a
+            href="inventory.html"
+            class="nav-link active"
+        >
+            <span class="nav-icon">📦</span>
+            Inventory
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+            <span class="nav-icon">👥</span>
+            Customers
+        </a>
+
+
+        <div class="nav-title">
+            Management
+        </div>
+
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">🚚</span>
+            Suppliers
+        </a>
+
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">💳</span>
+            Expenses
+        </a>
+
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">📈</span>
+            Reports
+        </a>
+
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">👨‍💼</span>
+            Staff
+        </a>
+
+
+        <div class="nav-title">
+            System
+        </div>
+
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">⚙️</span>
+            Settings
+        </a>
+
+
+        <a
+            href="#"
+            class="nav-link"
+            id="logoutButton"
+        >
+            <span class="nav-icon">🚪</span>
+            Logout
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <h1>
+                    Inventory
+                </h1>
+
+                <p>
+                    Nesi Medicals Business Management System
+                </p>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <div class="user-avatar">
+                    N
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        Nesi Medicals
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>
+                        Inventory
+                    </h2>
+
+                    <p>
+                        Manage your medicines, products and stock.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="add-button"
+                    id="addProductButton"
+                >
+                    + Add Product
+                </button>
+
+            </div>
+
+
+            <div class="search-box">
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search products..."
+                >
+
+            </div>
+
+
+            <div class="table-panel">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Product
+                                </th>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th>
+                                    Stock
+                                </th>
+
+                                <th>
+                                    Selling Price
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="inventoryTable">
+
+                            <tr>
+
+                                <td
+                                    colspan="5"
+                                    class="empty"
+                                >
+
+                                    <div class="empty-icon">
+                                        📦
+                                    </div>
+
+                                    <strong>
+                                        No products yet
+                                    </strong>
+
+                                    <p>
+                                        Add your first product to start managing inventory.
+                                    </p>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <script type="module">
+
+        import {
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+        import { auth }
+        from "./js/firebase.js";
+
+
+        /* AUTHENTICATION */
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                }
+
+            }
+        );
+
+
+        /* LOGOUT */
+
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+
+        logoutButton.addEventListener(
+            "click",
+            async function(event) {
+
+                event.preventDefault();
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                        "login.html";
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Unable to logout. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* ADD PRODUCT BUTTON */
+
+        document
+            .getElementById("addProductButton")
+            .addEventListener(
+                "click",
+                function() {
+
+                    alert(
+                        "Product management will be connected to Firebase next."
+                    );
+
+                }
+            );
+
+
+        /* SEARCH */
+
+        document
+            .getElementById("searchInput")
+            .addEventListener(
+                "input",
+                function() {
+
+                    const value =
+                        this.value
+                        .toLowerCase();
+
+                    document
+                        .querySelectorAll(
+                            "#inventoryTable tr"
+                        )
+                        .forEach(
+                            function(row) {
+
+                                const text =
+                                    row.innerText
+                                    .toLowerCase();
+
+                                row.style.display =
+                                    text.includes(value)
+                                    ? ""
+                                    : "none";
+
+                            }
+                        );
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>
