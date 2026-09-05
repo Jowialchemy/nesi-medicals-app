@@ -1,1 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Product | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Add products to Nesi Medicals inventory"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7f6;
+            color: #17201c;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background:
+                linear-gradient(
+                    180deg,
+                    #073b2a,
+                    #062b21
+                );
+            color: white;
+            padding: 22px 15px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 8px 25px;
+            border-bottom:
+                1px solid rgba(255,255,255,0.10);
+            margin-bottom: 20px;
+        }
+
+        .brand img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .brand-text strong {
+            display: block;
+            color: #4ade80;
+            font-size: 16px;
+        }
+
+        .brand-text span {
+            display: block;
+            color: #c9e8df;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .nav-title {
+            color: #7fb8a8;
+            font-size: 10px;
+            font-weight: 700;
+            margin: 20px 10px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #dceee8;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(74,222,128,0.14);
+            color: white;
+        }
+
+        .nav-icon {
+            width: 24px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .topbar-title h1 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .topbar-title p {
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #15803d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .user-info span {
+            color: #6b7280;
+            font-size: 10px;
+        }
+
+        .content {
+            padding: 30px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h2 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 24px;
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: #0f5132;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            height: 46px;
+            padding: 0 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            font-size: 13px;
+            outline: none;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: #16a34a;
+            box-shadow:
+                0 0 0 3px rgba(22,163,74,0.10);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .button {
+            min-height: 46px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .button-primary {
+            background:
+                linear-gradient(
+                    135deg,
+                    #16a34a,
+                    #0f766e
+                );
+            color: white;
+        }
+
+        .button-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 12px;
+        }
+
+        .message.success {
+            display: block;
+            background: #ecfdf5;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals"
+            >
+
+            <div class="brand-text">
+
+                <strong>
+                    Nesi Medicals
+                </strong>
+
+                <span>
+                    & Minimart Enterprises
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="nav-title">
+            Main
+        </div>
+
+        <a
+            href="dashboard.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">📊</span>
+            Dashboard
+        </a>
+
+        <a
+            href="sales.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">💰</span>
+            Sales
+        </a>
+
+        <a
+            href="inventory.html"
+            class="nav-link active"
+        >
+            <span class="nav-icon">📦</span>
+            Inventory
+        </a>
+
+        <a
+            href="#"
+            class="nav-link"
+        >
+            <span class="nav-icon">👥</span>
+            Customers
+        </a>
+
+        <div class="nav-title">
+            Management
+        </div>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">🚚</span>
+            Suppliers
+        </a>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">💳</span>
+            Expenses
+        </a>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">📈</span>
+            Reports
+        </a>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">👨‍💼</span>
+            Staff
+        </a>
+
+        <div class="nav-title">
+            System
+        </div>
+
+        <a href="#" class="nav-link">
+            <span class="nav-icon">⚙️</span>
+            Settings
+        </a>
+
+        <a
+            href="#"
+            class="nav-link"
+            id="logoutButton"
+        >
+            <span class="nav-icon">🚪</span>
+            Logout
+        </a>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <h1>
+                    Add Product
+                </h1>
+
+                <p>
+                    Nesi Medicals Inventory Management
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <div class="user-avatar">
+                    N
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        Nesi Medicals
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="content">
+
+            <div class="page-header">
+
+                <h2>
+                    Add New Product
+                </h2>
+
+                <p>
+                    Enter the product, pricing, stock and expiry information.
+                </p>
+
+            </div>
+
+            <div
+                id="formMessage"
+                class="message"
+            ></div>
+
+            <div class="panel">
+
+                <form id="productForm">
+
+                    <div class="section-title">
+                        Product Information
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="productName">
+                                Product Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="productName"
+                                class="form-input"
+                                placeholder="e.g. Paracetamol 500mg"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="category">
+                                Category *
+                            </label>
+
+                            <select
+                                id="category"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="Medicine">
+                                    Medicine
+                                </option>
+
+                                <option value="Supplement">
+                                    Supplement
+                                </option>
+
+                                <option value="Cosmetics">
+                                    Cosmetics
+                                </option>
+
+                                <option value="Cream">
+                                    Cream
+                                </option>
+
+                                <option value="Soap">
+                                    Soap
+                                </option>
+
+                                <option value="Perfume">
+                                    Perfume
+                                </option>
+
+                                <option value="Drink">
+                                    Drink
+                                </option>
+
+                                <option value="Medical Supply">
+                                    Medical Supply
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="brand">
+                                Brand
+                            </label>
+
+                            <input
+                                type="text"
+                                id="brand"
+                                class="form-input"
+                                placeholder="Brand name"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="sku">
+                                Product Code / SKU
+                            </label>
+
+                            <input
+                                type="text"
+                                id="sku"
+                                class="form-input"
+                                placeholder="e.g. PCM500"
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="section-title">
+                        Stock Information
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="quantity">
+                                Quantity in Stock *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="quantity"
+                                class="form-input"
+                                min="0"
+                                value="0"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="lowStockLevel">
+                                Low Stock Alert Level
+                            </label>
+
+                            <input
+                                type="number"
+                                id="lowStockLevel"
+                                class="form-input"
+                                min="0"
+                                value="5"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="batchNumber">
+                                Batch Number
+                            </label>
+
+                            <input
+                                type="text"
+                                id="batchNumber"
+                                class="form-input"
+                                placeholder="Batch number"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="expiryDate">
+                                Expiry Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="expiryDate"
+                                class="form-input"
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="section-title">
+                        Pricing
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="costPrice">
+                                Cost Price (₦)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="costPrice"
+                                class="form-input"
+                                min="0"
+                                step="0.01"
+                                placeholder="0.00"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="sellingPrice">
+                                Selling Price (₦) *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="sellingPrice"
+                                class="form-input"
+                                min="0"
+                                step="0.01"
+                                placeholder="0.00"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="section-title">
+                        Supplier
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+
+                            <label for="supplier">
+                                Supplier Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="supplier"
+                                class="form-input"
+                                placeholder="Enter supplier name"
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="button-row">
+
+                        <button
+                            type="button"
+                            class="button button-secondary"
+                            id="cancelButton"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="button button-primary"
+                            id="saveButton"
+                        >
+                            Save Product
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script type="module">
+
+        import {
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        import { auth }
+        from "./js/firebase.js";
+
+
+        const productForm =
+            document.getElementById("productForm");
+
+        const message =
+            document.getElementById("formMessage");
+
+        const cancelButton =
+            document.getElementById("cancelButton");
+
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                }
+
+            }
+        );
+
+
+        logoutButton.addEventListener(
+            "click",
+            async function(event) {
+
+                event.preventDefault();
+
+                await signOut(auth);
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+
+        cancelButton.addEventListener(
+            "click",
+            function() {
+
+                window.location.href =
+                    "inventory.html";
+
+            }
+        );
+
+
+        productForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                message.textContent =
+                    "Product form is working. Firebase saving will be connected next.";
+
+                message.className =
+                    "message success";
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
