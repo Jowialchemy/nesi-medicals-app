@@ -786,83 +786,494 @@
 
     <script type="module">
 
-        import {
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    /* =========================================
+       FIREBASE AUTHENTICATION
+    ========================================= */
 
-        import { auth }
-        from "./js/firebase.js";
-
-
-        const productForm =
-            document.getElementById("productForm");
-
-        const message =
-            document.getElementById("formMessage");
-
-        const cancelButton =
-            document.getElementById("cancelButton");
-
-        const logoutButton =
-            document.getElementById("logoutButton");
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-        onAuthStateChanged(
-            auth,
-            (user) => {
+    /* =========================================
+       FIRESTORE
+    ========================================= */
 
-                if (!user) {
+    import {
+        collection,
+        addDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-                    window.location.href =
-                        "login.html";
 
-                }
+    /* =========================================
+       FIREBASE CONNECTION
+    ========================================= */
+
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
+
+
+    /* =========================================
+       PAGE ELEMENTS
+    ========================================= */
+
+    const productForm =
+        document.getElementById("productForm");
+
+    const message =
+        document.getElementById("formMessage");
+
+    const cancelButton =
+        document.getElementById("cancelButton");
+
+    const saveButton =
+        document.getElementById("saveButton");
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+
+    let currentUser = null;
+
+
+    /* =========================================
+       SHOW MESSAGE
+    ========================================= */
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =========================================
+       AUTHENTICATION CHECK
+    ========================================= */
+
+    onAuthStateChanged(
+        auth,
+        (user) => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
 
             }
-        );
+
+            currentUser = user;
+
+        }
+    );
 
 
-        logoutButton.addEventListener(
-            "click",
-            async function(event) {
+    /* =========================================
+       LOGOUT
+    ========================================= */
 
-                event.preventDefault();
+    logoutButton.addEventListener(
+        "click",
+        async function(event) {
+
+            event.preventDefault();
+
+            try {
 
                 await signOut(auth);
 
                 window.location.href =
                     "login.html";
 
-            }
-        );
+            } catch (error) {
 
+                console.error(
+                    "Logout error:",
+                    error
+                );
 
-        cancelButton.addEventListener(
-            "click",
-            function() {
-
-                window.location.href =
-                    "inventory.html";
-
-            }
-        );
-
-
-        productForm.addEventListener(
-            "submit",
-            function(event) {
-
-                event.preventDefault();
-
-                message.textContent =
-                    "Product form is working. Firebase saving will be connected next.";
-
-                message.className =
-                    "message success";
+                alert(
+                    "Unable to logout. Please try again."
+                );
 
             }
-        );
+
+        }
+    );
+
+
+    /* =========================================
+       CANCEL
+    ========================================= */
+
+    cancelButton.addEventListener(
+        "click",
+        function() {
+
+            window.location.href =
+                "inventory.html";
+
+        }
+    );
+
+
+    /* =========================================
+       SAVE PRODUCT TO FIRESTORE
+    ========================================= */
+
+    productForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            if (!currentUser) {
+
+                showMessage(
+                    "Your login session is not ready. Please try again.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /* PRODUCT INFORMATION */
+
+            const productName =
+                document
+                    .getElementById("productName")
+                    .value
+                    .trim();
+
+            const category =
+                document
+                    .getElementById("category")
+                    .value;
+
+            const brand =
+                document
+                    .getElementById("brand")
+                    .value
+                    .trim();
+
+            const sku =
+                document
+                    .getElementById("sku")
+                    .value
+                    .trim();
+
+
+            /* STOCK */
+
+            const quantity =
+                Number(
+                    document
+                        .getElementById("quantity")
+                        .value
+                );
+
+            const lowStockLevel =
+                Number(
+                    document
+                        .getElementById("lowStockLevel")
+                        .value
+                ) || 0;
+
+            const batchNumber =
+                document
+                    .getElementById("batchNumber")
+                    .value
+                    .trim();
+
+            const expiryDate =
+                document
+                    .getElementById("expiryDate")
+                    .value;
+
+
+            /* PRICING */
+
+            const costPrice =
+                Number(
+                    document
+                        .getElementById("costPrice")
+                        .value
+                ) || 0;
+
+            const sellingPrice =
+                Number(
+                    document
+                        .getElementById("sellingPrice")
+                        .value
+                );
+
+
+            /* SUPPLIER */
+
+            const supplier =
+                document
+                    .getElementById("supplier")
+                    .value
+                    .trim();
+
+
+            /* =================================
+               VALIDATION
+            ================================= */
+
+            if (!productName) {
+
+                showMessage(
+                    "Please enter the product name.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!category) {
+
+                showMessage(
+                    "Please select a category.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(quantity) ||
+                quantity < 0
+            ) {
+
+                showMessage(
+                    "Please enter a valid stock quantity.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(sellingPrice) ||
+                sellingPrice < 0
+            ) {
+
+                showMessage(
+                    "Please enter a valid selling price.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /* =================================
+               DISABLE BUTTON WHILE SAVING
+            ================================= */
+
+            saveButton.disabled = true;
+
+            saveButton.textContent =
+                "Saving Product...";
+
+
+            try {
+
+                /* =============================
+                   PRODUCT RECORD
+                ============================= */
+
+                const productData = {
+
+                    productName:
+                        productName,
+
+                    category:
+                        category,
+
+                    brand:
+                        brand,
+
+                    sku:
+                        sku,
+
+                    quantity:
+                        quantity,
+
+                    lowStockLevel:
+                        lowStockLevel,
+
+                    batchNumber:
+                        batchNumber,
+
+                    expiryDate:
+                        expiryDate,
+
+                    costPrice:
+                        costPrice,
+
+                    sellingPrice:
+                        sellingPrice,
+
+                    supplier:
+                        supplier,
+
+                    status:
+                        quantity <= lowStockLevel
+                            ? "Low Stock"
+                            : "In Stock",
+
+                    createdAt:
+                        serverTimestamp(),
+
+                    updatedAt:
+                        serverTimestamp(),
+
+                    createdBy:
+                        currentUser.uid,
+
+                    createdByEmail:
+                        currentUser.email || ""
+
+                };
+
+
+                /* =============================
+                   SAVE TO PRODUCTS COLLECTION
+                ============================= */
+
+                const docRef =
+                    await addDoc(
+                        collection(
+                            db,
+                            "products"
+                        ),
+                        productData
+                    );
+
+
+                console.log(
+                    "Product saved:",
+                    docRef.id
+                );
+
+
+                showMessage(
+                    "Product saved successfully! Opening Inventory...",
+                    "success"
+                );
+
+
+                productForm.reset();
+
+
+                /* RESTORE DEFAULT VALUES */
+
+                document
+                    .getElementById(
+                        "quantity"
+                    )
+                    .value = 0;
+
+                document
+                    .getElementById(
+                        "lowStockLevel"
+                    )
+                    .value = 5;
+
+
+                /* =============================
+                   GO TO INVENTORY
+                ============================= */
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "inventory.html";
+
+                    },
+                    1500
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save product error:",
+                    error
+                );
+
+
+                let errorMessage =
+                    "Unable to save the product. Please try again.";
+
+
+                if (
+                    error.code ===
+                    "permission-denied"
+                ) {
+
+                    errorMessage =
+                        "Firestore permission denied. We need to update the database security rules.";
+
+                }
+
+
+                if (
+                    error.code ===
+                    "unavailable"
+                ) {
+
+                    errorMessage =
+                        "Unable to connect to Firebase. Check your internet connection.";
+
+                }
+
+
+                showMessage(
+                    errorMessage,
+                    "error"
+                );
+
+
+                saveButton.disabled =
+                    false;
+
+                saveButton.textContent =
+                    "Save Product";
+
+            }
+
+        }
+    );
+
+</script>
 
     </script>
 
