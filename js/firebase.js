@@ -1,12 +1,12 @@
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import { 
-    getAuth,
-    setPersistence,
-    browserLocalPersistence
-} 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    getAuth 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import { 
+    getFirestore 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -28,29 +28,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-
 const auth = getAuth(app);
 
-
-/*
-   KEEP USER LOGGED IN
-   WHEN MOVING BETWEEN PAGES
-*/
-
-setPersistence(
-    auth,
-    browserLocalPersistence
-).catch((error) => {
-
-    console.error(
-        "Firebase persistence error:",
-        error
-    );
-
-});
+const db = getFirestore(app);
 
 
 export {
     app,
-    auth
+    auth,
+    db
 };
