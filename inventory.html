@@ -819,75 +819,407 @@
     </main>
 
 
-    <script type="module">
+   <script type="module">
 
-        import {
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+        getFirestore,
+        collection,
+        onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    import { auth }
+    from "./js/firebase.js";
 
 
-        import { auth }
-        from "./js/firebase.js";
+    /* FIRESTORE */
+
+    const db = getFirestore();
 
 
-        /* AUTHENTICATION */
+    /* ELEMENTS */
 
-        onAuthStateChanged(
-            auth,
-            (user) => {
+    const inventoryTable =
+        document.getElementById("inventoryTable");
 
-                if (!user) {
+    const searchInput =
+        document.getElementById("searchInput");
 
-                    window.location.href =
-                        "login.html";
+    const addProductButton =
+        document.getElementById("addProductButton");
 
-                }
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+
+    /* STORE PRODUCTS */
+
+    let allProducts = [];
+
+
+    /* AUTHENTICATION */
+
+    onAuthStateChanged(
+        auth,
+        (user) => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+            loadProducts();
+
+        }
+    );
+
+
+    /* LOAD PRODUCTS FROM FIRESTORE */
+
+    function loadProducts() {
+
+        const productsRef =
+            collection(db, "products");
+
+        onSnapshot(
+            productsRef,
+
+            (snapshot) => {
+
+                allProducts = [];
+
+                snapshot.forEach(
+                    (doc) => {
+
+                        allProducts.push({
+
+                            id: doc.id,
+
+                            ...doc.data()
+
+                        });
+
+                    }
+                );
+
+
+                displayProducts(allProducts);
+
+            },
+
+            (error) => {
+
+                console.error(
+                    "Error loading products:",
+                    error
+                );
+
+                inventoryTable.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty"
+                        >
+
+                            <div class="empty-icon">
+                                ⚠️
+                            </div>
+
+                            <strong>
+                                Unable to load products
+                            </strong>
+
+                            <p>
+                                ${error.message}
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                `;
 
             }
         );
 
-
-        /* LOGOUT */
-
-        const logoutButton =
-            document.getElementById(
-                "logoutButton"
-            );
+    }
 
 
-        logoutButton.addEventListener(
-            "click",
-            async function(event) {
+    /* DISPLAY PRODUCTS */
 
-                event.preventDefault();
+    function displayProducts(products) {
 
-                try {
+        if (products.length === 0) {
 
-                    await signOut(auth);
+            inventoryTable.innerHTML = `
 
-                    window.location.href =
-                        "login.html";
+                <tr>
 
-                } catch (error) {
+                    <td
+                        colspan="5"
+                        class="empty"
+                    >
 
-                    console.error(error);
+                        <div class="empty-icon">
+                            📦
+                        </div>
 
-                    alert(
-                        "Unable to logout. Please try again."
+                        <strong>
+                            No products yet
+                        </strong>
+
+                        <p>
+                            Add your first product to start
+                            managing inventory.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        inventoryTable.innerHTML = "";
+
+
+        products.forEach(
+            (product) => {
+
+
+                /* PRODUCT NAME */
+
+                const productName =
+                    product.productName ||
+                    product.name ||
+                    "Unnamed Product";
+
+
+                /* CATEGORY */
+
+                const category =
+                    product.category ||
+                    "—";
+
+
+                /* STOCK */
+
+                const stock =
+                    Number(
+                        product.stock ??
+                        product.quantity ??
+                        0
                     );
 
+
+                /* SELLING PRICE */
+
+                const sellingPrice =
+                    Number(
+                        product.sellingPrice ??
+                        product.price ??
+                        0
+                    );
+
+
+                /* LOW STOCK LEVEL */
+
+                const lowStockLevel =
+                    Number(
+                        product.lowStockAlert ??
+                        product.lowStock ??
+                        5
+                    );
+
+
+                /* STATUS */
+
+                let status = "";
+                let statusClass = "";
+
+                if (stock <= 0) {
+
+                    status =
+                        "Out of Stock";
+
+                    statusClass =
+                        "low";
+
+                } else if (
+                    stock <= lowStockLevel
+                ) {
+
+                    status =
+                        "Low Stock";
+
+                    statusClass =
+                        "low";
+
+                } else {
+
+                    status =
+                        "In Stock";
+
+                    statusClass =
+                        "good";
+
                 }
+
+
+                /* TABLE ROW */
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>
+
+                        <strong>
+                            ${escapeHTML(productName)}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(category)}
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="stock ${statusClass}"
+                        >
+                            ${stock}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ₦${sellingPrice.toLocaleString(
+                            "en-NG",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="stock ${statusClass}"
+                        >
+                            ${status}
+                        </span>
+
+                    </td>
+
+                `;
+
+
+                inventoryTable.appendChild(row);
 
             }
         );
 
+    }
 
-        /* ADD PRODUCT BUTTON */
 
-document
-    .getElementById("addProductButton")
-    .addEventListener(
+    /* SEARCH PRODUCTS */
+
+    searchInput.addEventListener(
+        "input",
+        function() {
+
+            const search =
+                this.value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (!search) {
+
+                displayProducts(
+                    allProducts
+                );
+
+                return;
+
+            }
+
+
+            const filtered =
+                allProducts.filter(
+                    (product) => {
+
+                        const name =
+                            product.productName ||
+                            product.name ||
+                            "";
+
+                        const category =
+                            product.category ||
+                            "";
+
+                        const sku =
+                            product.sku ||
+                            "";
+
+                        return (
+
+                            name
+                                .toLowerCase()
+                                .includes(search)
+
+                            ||
+
+                            category
+                                .toLowerCase()
+                                .includes(search)
+
+                            ||
+
+                            sku
+                                .toLowerCase()
+                                .includes(search)
+
+                        );
+
+                    }
+                );
+
+
+            displayProducts(filtered);
+
+        }
+    );
+
+
+    /* ADD PRODUCT */
+
+    addProductButton.addEventListener(
         "click",
         function() {
 
@@ -898,41 +1230,49 @@ document
     );
 
 
-        /* SEARCH */
+    /* LOGOUT */
 
-        document
-            .getElementById("searchInput")
-            .addEventListener(
-                "input",
-                function() {
+    logoutButton.addEventListener(
+        "click",
+        async function(event) {
 
-                    const value =
-                        this.value
-                        .toLowerCase();
+            event.preventDefault();
 
-                    document
-                        .querySelectorAll(
-                            "#inventoryTable tr"
-                        )
-                        .forEach(
-                            function(row) {
+            try {
 
-                                const text =
-                                    row.innerText
-                                    .toLowerCase();
+                await signOut(auth);
 
-                                row.style.display =
-                                    text.includes(value)
-                                    ? ""
-                                    : "none";
+                window.location.href =
+                    "login.html";
 
-                            }
-                        );
+            } catch (error) {
 
-                }
-            );
+                console.error(error);
 
-    </script>
+                alert(
+                    "Unable to logout. Please try again."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* SECURITY */
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+</script>
 
 
 </body>
