@@ -1,1184 +1,1072 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Sales | Nesi Medicals</title>
 
     <meta
         name="description"
-        content="Nesi Medicals Sales Management"
+        content="Nesi Medicals & Minimart Enterprises Sales Management"
     >
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            background: #f5f7f6;
-
-            color: #17201c;
-
-            min-height: 100vh;
-
+        :root {
+            --green: #16a34a;
+            --green-dark: #15803d;
+            --green-light: #dcfce7;
+            --blue: #2563eb;
+            --red: #dc2626;
+            --orange: #ea580c;
+            --dark: #111827;
+            --text: #374151;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f5f7fa;
+            --white: #ffffff;
         }
 
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
 
-        /* ===============================
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
            SIDEBAR
-        =============================== */
+        ========================= */
 
         .sidebar {
-
             position: fixed;
-
             left: 0;
             top: 0;
-
+            bottom: 0;
             width: 250px;
-
-            height: 100vh;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #073b2a,
-                    #062b21
-                );
-
-            color: white;
-
-            padding: 22px 15px;
-
+            background: #ffffff;
+            border-right: 1px solid var(--border);
             z-index: 1000;
-
-            overflow-y: auto;
-
-            transition: 0.3s ease;
-
+            display: flex;
+            flex-direction: column;
         }
-
 
         .brand {
-
+            height: 75px;
             display: flex;
-
             align-items: center;
-
-            gap: 10px;
-
-            padding:
-                0 8px 25px;
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,0.10);
-
-            margin-bottom: 20px;
-
+            gap: 12px;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border);
         }
 
-
-        .brand img {
-
-            width: 45px;
-            height: 45px;
-
+        .brand-logo {
+            width: 43px;
+            height: 43px;
+            border-radius: 10px;
             object-fit: contain;
-
-            border-radius: 8px;
-
         }
 
-
-        .brand-text strong {
-
-            display: block;
-
-            color: #4ade80;
-
-            font-size: 16px;
-
+        .brand-text h2 {
+            font-size: 17px;
+            color: var(--dark);
+            line-height: 1.2;
         }
-
 
         .brand-text span {
-
-            display: block;
-
-            color: #c9e8df;
-
-            font-size: 10px;
-
-            margin-top: 3px;
-
+            font-size: 11px;
+            color: var(--muted);
         }
 
+        .nav {
+            padding: 18px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
 
         .nav-title {
-
-            color: #7fb8a8;
-
             font-size: 10px;
-
             font-weight: 700;
-
-            margin:
-                20px 10px 8px;
-
+            color: #9ca3af;
             text-transform: uppercase;
-
-            letter-spacing: .7px;
-
+            letter-spacing: 1px;
+            padding: 0 12px 10px;
         }
 
-
-        .nav-link {
-
+        .nav a {
             display: flex;
-
             align-items: center;
-
             gap: 12px;
-
-            width: 100%;
-
-            padding: 12px;
-
-            margin-bottom: 5px;
-
-            border-radius: 9px;
-
-            color: #dceee8;
-
+            padding: 11px 13px;
+            margin-bottom: 4px;
+            color: #4b5563;
             text-decoration: none;
-
-            font-size: 13px;
-
-            transition: .2s ease;
-
+            border-radius: 9px;
+            font-size: 14px;
+            transition: 0.2s;
         }
 
-
-        .nav-link:hover,
-        .nav-link.active {
-
-            background:
-                rgba(74,222,128,.14);
-
-            color: white;
-
+        .nav a:hover {
+            background: #f3f4f6;
+            color: var(--green);
         }
 
+        .nav a.active {
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-weight: 600;
+        }
 
         .nav-icon {
-
-            width: 24px;
-
+            width: 22px;
             text-align: center;
-
             font-size: 17px;
-
         }
 
+        .sidebar-bottom {
+            padding: 15px 12px;
+            border-top: 1px solid var(--border);
+        }
 
-        /* ===============================
+        .logout-link {
+            color: #dc2626 !important;
+        }
+
+        .logout-link:hover {
+            background: #fef2f2 !important;
+            color: #b91c1c !important;
+        }
+
+        /* =========================
            MAIN
-        =============================== */
+        ========================= */
 
         .main {
-
             margin-left: 250px;
-
             min-height: 100vh;
-
         }
-
-
-        /* ===============================
-           TOPBAR
-        =============================== */
 
         .topbar {
-
-            height: 72px;
-
-            background: white;
-
-            border-bottom:
-                1px solid #e5e7eb;
-
+            height: 75px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
-
-            padding:
-                0 30px;
-
+            padding: 0 30px;
             position: sticky;
-
             top: 0;
-
-            z-index: 900;
-
+            z-index: 500;
         }
 
-
-        .menu-button {
-
-            display: none;
-
-            border: none;
-
-            background: transparent;
-
-            font-size: 25px;
-
-            cursor: pointer;
-
-        }
-
-
-        .topbar-title h1 {
-
-            font-size: 20px;
-
-            margin-bottom: 4px;
-
-        }
-
-
-        .topbar-title p {
-
-            color: #6b7280;
-
-            font-size: 11px;
-
-        }
-
-
-        .user-area {
-
+        .topbar-left {
             display: flex;
-
             align-items: center;
-
-            gap: 12px;
-
+            gap: 15px;
         }
 
-
-        .user-avatar {
-
+        .mobile-menu {
+            display: none;
+            border: none;
+            background: #f3f4f6;
             width: 40px;
             height: 40px;
-
-            border-radius: 50%;
-
-            background: #dcfce7;
-
-            color: #15803d;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-weight: 800;
-
+            border-radius: 8px;
+            font-size: 20px;
         }
 
+        .topbar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--green);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-info {
+            text-align: right;
+        }
 
         .user-info strong {
-
             display: block;
-
-            font-size: 12px;
-
+            font-size: 13px;
+            color: var(--dark);
         }
-
 
         .user-info span {
-
-            color: #6b7280;
-
-            font-size: 10px;
-
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
         }
 
-
-        /* ===============================
+        /* =========================
            CONTENT
-        =============================== */
+        ========================= */
 
         .content {
-
             padding: 30px;
-
-            max-width: 1300px;
-
+            max-width: 1500px;
             margin: auto;
-
         }
-
 
         .page-heading {
-
             display: flex;
-
-            justify-content: space-between;
-
             align-items: center;
-
+            justify-content: space-between;
+            gap: 20px;
             margin-bottom: 25px;
-
-            gap: 15px;
-
         }
 
-
-        .page-heading h2 {
-
-            font-size: 25px;
-
-            margin-bottom: 6px;
-
+        .page-heading h1 {
+            font-size: 26px;
+            color: var(--dark);
+            margin-bottom: 5px;
         }
-
 
         .page-heading p {
-
-            color: #6b7280;
-
-            font-size: 13px;
-
+            color: var(--muted);
+            font-size: 14px;
         }
 
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
 
-        .date-badge {
-
-            background: white;
-
-            border:
-                1px solid #e5e7eb;
-
-            padding:
-                10px 14px;
-
-            border-radius: 9px;
-
-            font-size: 12px;
-
-            color: #4b5563;
-
-        }
-
-
-        /* ===============================
-           SUMMARY
-        =============================== */
-
-        .summary {
-
+        .summary-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
+            grid-template-columns: repeat(3, 1fr);
             gap: 18px;
-
-            margin-bottom: 22px;
-
+            margin-bottom: 25px;
         }
-
 
         .summary-card {
-
-            background: white;
-
-            border:
-                1px solid #e5e7eb;
-
-            border-radius: 14px;
-
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 13px;
             padding: 20px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0,0,0,.04);
-
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
+        .summary-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: var(--green-light);
+        }
 
-        .summary-card span {
+        .summary-card:nth-child(2) .summary-icon {
+            background: #dbeafe;
+        }
 
+        .summary-card:nth-child(3) .summary-icon {
+            background: #ffedd5;
+        }
+
+        .summary-card small {
             display: block;
-
-            color: #6b7280;
-
-            font-size: 11px;
-
-            text-transform: uppercase;
-
-            font-weight: 700;
-
-            margin-bottom: 9px;
-
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 4px;
         }
-
 
         .summary-card strong {
-
-            font-size: 23px;
-
+            display: block;
+            color: var(--dark);
+            font-size: 21px;
         }
 
-
-        /* ===============================
-           SALES FORM
-        =============================== */
+        /* =========================
+           SALES LAYOUT
+        ========================= */
 
         .sales-layout {
-
             display: grid;
-
-            grid-template-columns:
-                1.6fr 1fr;
-
-            gap: 20px;
-
+            grid-template-columns: minmax(0, 1.3fr) minmax(330px, 0.7fr);
+            gap: 22px;
+            align-items: start;
         }
-
 
         .panel {
-
-            background: white;
-
-            border:
-                1px solid #e5e7eb;
-
-            border-radius: 15px;
-
-            padding: 23px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0,0,0,.04);
-
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
         }
 
-
-        .panel-title {
-
-            font-size: 16px;
-
-            font-weight: 800;
-
-            margin-bottom: 20px;
-
+        .panel-header {
+            padding: 19px 22px;
+            border-bottom: 1px solid var(--border);
         }
 
+        .panel-header h2 {
+            font-size: 17px;
+            color: var(--dark);
+        }
+
+        .panel-header p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .panel-body {
+            padding: 22px;
+        }
+
+        /* =========================
+           ITEMS
+        ========================= */
+
+        .items-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .items-title strong {
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .sale-item {
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #fafafa;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: minmax(200px, 1fr) 110px 145px 42px;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 11px 12px;
+            background: #ffffff;
+            color: var(--dark);
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+
+        .field textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .product-select {
+            font-size: 13px;
+        }
+
+        .stock-info {
+            font-size: 11px;
+            margin-top: 6px;
+            color: var(--muted);
+        }
+
+        .stock-info.warning {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .stock-info.danger {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .line-total-box {
+            height: 42px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 11px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 13px;
+        }
+
+        .remove-item {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #dc2626;
+            font-size: 18px;
+        }
+
+        .remove-item:hover {
+            background: #fecaca;
+        }
+
+        .remove-item:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .add-item-button {
+            width: 100%;
+            border: 1px dashed var(--green);
+            color: var(--green-dark);
+            background: #f0fdf4;
+            border-radius: 9px;
+            padding: 11px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .add-item-button:hover {
+            background: var(--green-light);
+        }
+
+        /* =========================
+           CUSTOMER/PAYMENT
+        ========================= */
 
         .form-grid {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 17px;
-
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
+        .full {
+            grid-column: 1 / -1;
+        }
 
-        .form-group {
+        /* =========================
+           TOTAL
+        ========================= */
 
+        .totals {
+            margin-top: 8px;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+        }
+
+        .total-row {
             display: flex;
-
-            flex-direction: column;
-
-            gap: 7px;
-
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 9px;
+            font-size: 13px;
         }
 
-
-        .form-group.full {
-
-            grid-column:
-                1 / -1;
-
+        .total-row span:first-child {
+            color: var(--muted);
         }
 
+        .total-row strong {
+            color: var(--dark);
+        }
 
-        .form-group label {
+        .grand-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #d1d5db;
+            margin-top: 12px;
+            padding-top: 16px;
+        }
 
-            font-size: 12px;
-
+        .grand-total span {
             font-weight: 700;
-
-            color: #374151;
-
+            color: var(--dark);
         }
 
-
-        .form-input,
-        .form-select {
-
-            width: 100%;
-
-            height: 46px;
-
-            border:
-                1px solid #d1d5db;
-
-            border-radius: 9px;
-
-            padding:
-                0 12px;
-
-            background: white;
-
-            font-size: 13px;
-
-            color: #17201c;
-
-            outline: none;
-
+        .grand-total strong {
+            font-size: 25px;
+            color: var(--green-dark);
         }
 
-
-        .form-input:focus,
-        .form-select:focus {
-
-            border-color: #16a34a;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(22,163,74,.10);
-
-        }
-
-
-        textarea.form-input {
-
-            height: 80px;
-
-            padding: 12px;
-
-            resize: vertical;
-
-        }
-
-
-        /* ===============================
+        /* =========================
            BUTTONS
-        =============================== */
+        ========================= */
 
-        .button-row {
-
+        .action-buttons {
             display: flex;
-
             gap: 10px;
-
             margin-top: 20px;
-
         }
 
-
-        .button {
-
+        .btn {
             border: none;
-
-            border-radius: 9px;
-
-            height: 46px;
-
-            padding:
-                0 18px;
-
-            font-size: 13px;
-
-            font-weight: 800;
-
-            cursor: pointer;
-
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-
-        .button-primary {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #16a34a,
-                    #0f766e
-                );
-
+        .btn-primary {
+            background: var(--green);
             color: white;
-
             flex: 1;
-
         }
 
+        .btn-primary:hover {
+            background: var(--green-dark);
+        }
 
-        .button-secondary {
+        .btn-primary:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
 
+        .btn-secondary {
             background: #f3f4f6;
-
             color: #374151;
-
         }
 
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
 
-        /* ===============================
-           RECEIPT PREVIEW
-        =============================== */
+        .btn-print {
+            width: 100%;
+            background: #111827;
+            color: white;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .btn-print:hover {
+            background: #000000;
+        }
+
+        /* =========================
+           RECEIPT
+        ========================= */
+
+        .receipt-panel {
+            position: sticky;
+            top: 95px;
+        }
 
         .receipt {
-
-            border:
-                1px dashed #d1d5db;
-
-            border-radius: 12px;
-
-            padding: 18px;
-
-            background: #fafafa;
-
+            padding: 25px;
         }
-
 
         .receipt-header {
-
             text-align: center;
-
-            padding-bottom: 15px;
-
-            border-bottom:
-                1px solid #e5e7eb;
-
+            border-bottom: 1px dashed #d1d5db;
+            padding-bottom: 18px;
             margin-bottom: 15px;
-
         }
 
-
-        .receipt-header img {
-
-            width: 55px;
-            height: 55px;
-
+        .receipt-logo {
+            width: 65px;
+            height: 65px;
             object-fit: contain;
-
-            margin-bottom: 7px;
-
+            margin-bottom: 8px;
         }
 
-
-        .receipt-header strong {
-
-            display: block;
-
-            font-size: 15px;
-
+        .receipt-header h2 {
+            font-size: 18px;
+            color: var(--dark);
         }
 
-
-        .receipt-header span {
-
-            color: #6b7280;
-
-            font-size: 9px;
-
-        }
-
-
-        .receipt-row {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            padding: 8px 0;
-
+        .receipt-header p {
+            color: var(--muted);
             font-size: 11px;
-
+            margin-top: 4px;
         }
 
-
-        .receipt-row span:first-child {
-
-            color: #6b7280;
-
+        .receipt-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 18px;
         }
 
+        .receipt-meta div {
+            font-size: 11px;
+        }
+
+        .receipt-meta span {
+            display: block;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .receipt-meta strong {
+            color: var(--dark);
+            word-break: break-word;
+        }
+
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+        }
+
+        .receipt-table th {
+            text-align: left;
+            font-size: 10px;
+            color: var(--muted);
+            padding: 8px 3px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .receipt-table th:last-child,
+        .receipt-table td:last-child {
+            text-align: right;
+        }
+
+        .receipt-table td {
+            font-size: 11px;
+            padding: 9px 3px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
+
+        .receipt-product {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .receipt-qty {
+            color: var(--muted);
+        }
 
         .receipt-total {
-
-            border-top:
-                1px solid #d1d5db;
-
-            margin-top: 10px;
-
-            padding-top: 13px;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            font-size: 16px;
-
-            font-weight: 800;
-
+            border-top: 1px dashed #d1d5db;
+            padding-top: 15px;
         }
 
+        .receipt-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .receipt-grand {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--green-dark);
+            padding-top: 8px;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            border-top: 1px dashed #d1d5db;
+            margin-top: 20px;
+            padding-top: 15px;
+        }
+
+        .receipt-footer p {
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
 
         .empty-receipt {
-
             text-align: center;
-
-            color: #9ca3af;
-
-            font-size: 11px;
-
-            padding: 20px 0;
-
+            padding: 35px 15px;
+            color: var(--muted);
+            font-size: 12px;
         }
 
+        /* =========================
+           STATUS MESSAGE
+        ========================= */
 
-        /* ===============================
-           MOBILE
-        =============================== */
-
-        .overlay {
-
+        .message {
             display: none;
-
-            position: fixed;
-
-            inset: 0;
-
-            background:
-                rgba(0,0,0,.45);
-
-            z-index: 999;
-
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 18px;
         }
 
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
 
-        @media(max-width:1000px) {
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
 
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1100px) {
             .sales-layout {
-
                 grid-template-columns: 1fr;
-
             }
 
+            .receipt-panel {
+                position: static;
+            }
         }
 
-
-        @media(max-width:700px) {
-
+        @media (max-width: 850px) {
             .sidebar {
-
-                transform:
-                    translateX(-100%);
-
+                transform: translateX(-100%);
+                transition: 0.25s;
             }
-
 
             .sidebar.open {
-
-                transform:
-                    translateX(0);
-
+                transform: translateX(0);
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
             }
-
-
-            .overlay.show {
-
-                display: block;
-
-            }
-
 
             .main {
-
                 margin-left: 0;
-
             }
 
-
-            .menu-button {
-
+            .mobile-menu {
                 display: block;
-
             }
 
-
-            .topbar {
-
-                padding:
-                    0 18px;
-
+            .summary-grid {
+                grid-template-columns: 1fr;
             }
-
-
-            .topbar-title {
-
-                margin-left: 10px;
-
-            }
-
-
-            .topbar-title h1 {
-
-                font-size: 16px;
-
-            }
-
-
-            .user-info {
-
-                display: none;
-
-            }
-
 
             .content {
-
-                padding:
-                    20px 15px;
-
+                padding: 20px;
             }
 
-
-            .page-heading {
-
-                align-items:
-                    flex-start;
-
-                flex-direction:
-                    column;
-
+            .item-grid {
+                grid-template-columns: 1fr 100px;
             }
 
-
-            .summary {
-
-                grid-template-columns:
-                    1fr;
-
+            .item-grid .product-field {
+                grid-column: 1 / -1;
             }
 
+            .item-grid .total-field {
+                grid-column: 1 / 2;
+            }
 
+            .item-grid .remove-field {
+                grid-column: 2 / 3;
+            }
         }
 
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 0 15px;
+            }
 
-        @media(max-width:500px) {
+            .topbar-title {
+                font-size: 17px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .page-heading h1 {
+                font-size: 22px;
+            }
+
+            .panel-body {
+                padding: 15px;
+            }
 
             .form-grid {
-
-                grid-template-columns:
-                    1fr;
-
+                grid-template-columns: 1fr;
             }
 
-
-            .form-group.full {
-
-                grid-column:
-                    auto;
-
+            .full {
+                grid-column: auto;
             }
 
-
-            .button-row {
-
-                flex-direction:
-                    column;
-
+            .action-buttons {
+                flex-direction: column;
             }
 
+            .btn {
+                width: 100%;
+            }
+
+            .receipt {
+                padding: 18px;
+            }
         }
 
+        /* =========================
+           PRINT
+        ========================= */
+
+        @media print {
+            body {
+                background: #ffffff;
+            }
+
+            .sidebar,
+            .topbar,
+            .page-heading,
+            .summary-grid,
+            .sales-form-panel,
+            .panel-header,
+            .btn-print {
+                display: none !important;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .content {
+                padding: 0;
+                max-width: none;
+            }
+
+            .sales-layout {
+                display: block;
+            }
+
+            .receipt-panel {
+                position: static;
+                border: none;
+                box-shadow: none;
+            }
+
+            .receipt {
+                width: 80mm;
+                max-width: 80mm;
+                margin: 0 auto;
+                padding: 5mm;
+            }
+
+            .receipt-panel .panel-header {
+                display: none !important;
+            }
+
+            .panel {
+                border: none;
+                box-shadow: none;
+            }
+
+            .receipt-footer {
+                margin-top: 15px;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- ===============================
+    <!-- =========================
          SIDEBAR
-    =============================== -->
+    ========================= -->
 
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
+    <aside class="sidebar" id="sidebar">
 
         <div class="brand">
-
             <img
                 src="assets/logo.png"
                 alt="Nesi Medicals Logo"
+                class="brand-logo"
+                onerror="this.style.display='none'"
             >
 
             <div class="brand-text">
+                <h2>Nesi Medicals</h2>
+                <span>Business Management</span>
+            </div>
+        </div>
 
-                <strong>
-                    Nesi Medicals
-                </strong>
+        <nav class="nav">
 
-                <span>
-                    & Minimart Enterprises
-                </span>
+            <div class="nav-title">Main Menu</div>
 
+            <a href="dashboard.html">
+                <span class="nav-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="sales.html" class="active">
+                <span class="nav-icon">🛒</span>
+                Sales
+            </a>
+
+            <a href="inventory.html">
+                <span class="nav-icon">📦</span>
+                Inventory
+            </a>
+
+            <a href="customers.html">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                <span class="nav-icon">🚚</span>
+                Suppliers
+            </a>
+
+            <a href="expenses.html">
+                <span class="nav-icon">💳</span>
+                Expenses
+            </a>
+
+            <a href="reports.html">
+                <span class="nav-icon">📊</span>
+                Reports
+            </a>
+
+            <div class="nav-title" style="margin-top:18px;">
+                Management
             </div>
 
+            <a href="staff.html">
+                <span class="nav-icon">👤</span>
+                Staff
+            </a>
+
+            <a href="settings.html">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a
+                href="#"
+                class="nav logout-link"
+                id="logoutButton"
+            >
+                <span class="nav-icon">↪</span>
+                Logout
+            </a>
         </div>
-
-
-        <div class="nav-title">
-            Main
-        </div>
-
-
-        <a
-            href="dashboard.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                📊
-            </span>
-
-            Dashboard
-
-        </a>
-
-
-        <a
-            href="sales.html"
-            class="nav-link active"
-        >
-
-            <span class="nav-icon">
-                💰
-            </span>
-
-            Sales
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                📦
-            </span>
-
-            Inventory
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                👥
-            </span>
-
-            Customers
-
-        </a>
-
-
-        <div class="nav-title">
-            Management
-        </div>
-
-
-        <a
-            href="#"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                🚚
-            </span>
-
-            Suppliers
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                💳
-            </span>
-
-            Expenses
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                📈
-            </span>
-
-            Reports
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                👨‍💼
-            </span>
-
-            Staff
-
-        </a>
-
-
-        <div class="nav-title">
-            System
-        </div>
-
-
-        <a
-            href="#"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ⚙️
-            </span>
-
-            Settings
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-link"
-            id="logoutButton"
-        >
-
-            <span class="nav-icon">
-                🚪
-            </span>
-
-            Logout
-
-        </a>
 
     </aside>
 
 
-    <div
-        class="overlay"
-        id="overlay"
-    ></div>
-
-
-    <!-- ===============================
+    <!-- =========================
          MAIN
-    =============================== -->
+    ========================= -->
 
     <main class="main">
 
-
         <header class="topbar">
 
-            <div
-                style="
-                    display:flex;
-                    align-items:center;
-                "
-            >
+            <div class="topbar-left">
 
                 <button
-                    class="menu-button"
-                    id="menuButton"
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    type="button"
                 >
                     ☰
                 </button>
 
-
                 <div class="topbar-title">
-
-                    <h1>
-                        Sales
-                    </h1>
-
-                    <p>
-                        Record and manage business transactions
-                    </p>
-
+                    Sales
                 </div>
 
             </div>
 
-
-            <div class="user-area">
-
-                <div class="user-avatar">
-                    N
-                </div>
+            <div class="topbar-right">
 
                 <div class="user-info">
+                    <strong id="userName">Nesi Medicals Administrator</strong>
+                    <span id="userEmail">Loading...</span>
+                </div>
 
-                    <strong>
-                        Nesi Medicals
-                    </strong>
-
-                    <span>
-                        Administrator
-                    </span>
-
+                <div class="user-avatar" id="userAvatar">
+                    N
                 </div>
 
             </div>
@@ -1188,156 +1076,128 @@
 
         <section class="content">
 
-
             <div class="page-heading">
 
                 <div>
-
-                    <h2>
-                        Sales Management
-                    </h2>
-
+                    <h1>New Sale</h1>
                     <p>
-                        Record a new sale and preview the receipt.
+                        Record sales, manage multiple products and automatically update inventory.
                     </p>
-
-                </div>
-
-
-                <div
-                    class="date-badge"
-                    id="todayDate"
-                >
-                    Today
                 </div>
 
             </div>
 
 
-            <!-- ==========================
+            <!-- =========================
                  SUMMARY
-            =========================== -->
+            ========================= -->
 
-            <div class="summary">
-
+            <div class="summary-grid">
 
                 <div class="summary-card">
 
-                    <span>
-                        Today's Sales
-                    </span>
+                    <div class="summary-icon">
+                        💰
+                    </div>
 
-                    <strong id="todaySales">
-                        ₦0.00
-                    </strong>
+                    <div>
+                        <small>Today's Sales</small>
+                        <strong id="todaySales">₦0.00</strong>
+                    </div>
 
                 </div>
 
 
                 <div class="summary-card">
 
-                    <span>
-                        Transactions
-                    </span>
+                    <div class="summary-icon">
+                        🧾
+                    </div>
 
-                    <strong id="transactionCount">
-                        0
-                    </strong>
+                    <div>
+                        <small>Total Transactions</small>
+                        <strong id="transactionCount">0</strong>
+                    </div>
 
                 </div>
 
 
                 <div class="summary-card">
 
-                    <span>
-                        Last Transaction
-                    </span>
+                    <div class="summary-icon">
+                        🕐
+                    </div>
 
-                    <strong id="lastTransaction">
-                        —
-                    </strong>
+                    <div>
+                        <small>Last Transaction</small>
+                        <strong id="lastTransaction">₦0.00</strong>
+                    </div>
 
                 </div>
-
 
             </div>
 
+
+            <!-- =========================
+                 SALES LAYOUT
+            ========================= -->
 
             <div class="sales-layout">
 
 
-                <!-- ======================
+                <!-- =========================
                      SALES FORM
-                ======================= -->
+                ========================= -->
 
-                <div class="panel">
+                <div class="panel sales-form-panel">
 
-                    <div class="panel-title">
-                        New Sale
+                    <div class="panel-header">
+
+                        <h2>Sale Details</h2>
+
+                        <p>
+                            Select products from your inventory and enter the quantity sold.
+                        </p>
+
                     </div>
 
+                    <div class="panel-body">
 
-                    <form id="salesForm">
+                        <div
+                            id="message"
+                            class="message"
+                        ></div>
 
+
+                        <!-- PRODUCTS -->
+
+                        <div class="items-title">
+                            <strong>Products</strong>
+                        </div>
+
+                        <div id="saleItems">
+
+                            <div class="loading">
+                                Loading products...
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="add-item-button"
+                            id="addItemButton"
+                        >
+                            + Add Another Product
+                        </button>
+
+
+                        <!-- CUSTOMER -->
 
                         <div class="form-grid">
 
-
-                            <div class="form-group full">
-
-                                <label for="product">
-                                    Product / Service
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="product"
-                                    class="form-input"
-                                    placeholder="Enter product name"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="form-group">
-
-                                <label for="quantity">
-                                    Quantity
-                                </label>
-
-                                <input
-                                    type="number"
-                                    id="quantity"
-                                    class="form-input"
-                                    value="1"
-                                    min="1"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="form-group">
-
-                                <label for="price">
-                                    Unit Price (₦)
-                                </label>
-
-                                <input
-                                    type="number"
-                                    id="price"
-                                    class="form-input"
-                                    placeholder="0.00"
-                                    min="0"
-                                    step="0.01"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="form-group">
+                            <div class="field">
 
                                 <label for="customer">
                                     Customer
@@ -1346,28 +1206,19 @@
                                 <input
                                     type="text"
                                     id="customer"
-                                    class="form-input"
                                     placeholder="Walk-in Customer"
                                 >
 
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="field">
 
                                 <label for="paymentMethod">
                                     Payment Method
                                 </label>
 
-                                <select
-                                    id="paymentMethod"
-                                    class="form-select"
-                                    required
-                                >
-
-                                    <option value="">
-                                        Select payment method
-                                    </option>
+                                <select id="paymentMethod">
 
                                     <option value="Cash">
                                         Cash
@@ -1377,7 +1228,7 @@
                                         POS
                                     </option>
 
-                                    <option value="Transfer">
+                                    <option value="Bank Transfer">
                                         Bank Transfer
                                     </option>
 
@@ -1386,7 +1237,7 @@
                             </div>
 
 
-                            <div class="form-group full">
+                            <div class="field full">
 
                                 <label for="notes">
                                     Notes
@@ -1394,135 +1245,341 @@
 
                                 <textarea
                                     id="notes"
-                                    class="form-input"
-                                    placeholder="Optional notes about this transaction"
+                                    placeholder="Optional sale notes..."
                                 ></textarea>
 
                             </div>
 
+                        </div>
+
+
+                        <!-- TOTALS -->
+
+                        <div class="totals">
+
+                            <div class="total-row">
+
+                                <span>
+                                    Items
+                                </span>
+
+                                <strong id="totalItems">
+                                    0
+                                </strong>
+
+                            </div>
+
+                            <div class="total-row">
+
+                                <span>
+                                    Subtotal
+                                </span>
+
+                                <strong id="subtotal">
+                                    ₦0.00
+                                </strong>
+
+                            </div>
+
+
+                            <div class="grand-total">
+
+                                <span>
+                                    Grand Total
+                                </span>
+
+                                <strong id="grandTotal">
+                                    ₦0.00
+                                </strong>
+
+                            </div>
 
                         </div>
 
 
-                        <div class="button-row">
+                        <!-- ACTIONS -->
+
+                        <div class="action-buttons">
 
                             <button
                                 type="button"
-                                class="button button-secondary"
+                                class="btn btn-secondary"
                                 id="clearButton"
                             >
-                                Clear
+                                Clear / New Sale
                             </button>
 
-
                             <button
-                                type="submit"
-                                class="button button-primary"
+                                type="button"
+                                class="btn btn-primary"
+                                id="recordSaleButton"
+                                disabled
                             >
                                 Record Sale
                             </button>
 
                         </div>
 
-
-                    </form>
+                    </div>
 
                 </div>
 
 
-                <!-- ======================
+                <!-- =========================
                      RECEIPT
-                ======================= -->
+                ========================= -->
 
-                <div class="panel">
+                <div class="panel receipt-panel">
 
-                    <div class="panel-title">
-                        Receipt Preview
+                    <div class="panel-header">
+
+                        <h2>Receipt Preview</h2>
+
+                        <p>
+                            Your printable receipt will appear here.
+                        </p>
+
                     </div>
 
-
-                    <div
-                        class="receipt"
-                        id="receipt"
-                    >
+                    <div class="receipt" id="receipt">
 
                         <div class="receipt-header">
 
                             <img
                                 src="assets/logo.png"
                                 alt="Nesi Medicals"
+                                class="receipt-logo"
+                                onerror="this.style.display='none'"
                             >
 
-                            <strong>
+                            <h2>
                                 Nesi Medicals
-                            </strong>
+                            </h2>
 
-                            <span>
+                            <p>
                                 & Minimart Enterprises
-                            </span>
+                            </p>
+
+                            <p>
+                                Pharmacy • Healthcare • Minimart
+                            </p>
 
                         </div>
 
 
-                        <div class="empty-receipt">
-                            Enter sale details to preview receipt.
+                        <div class="empty-receipt" id="emptyReceipt">
+
+                            Select products to generate the receipt preview.
+
                         </div>
+
+
+                        <div
+                            id="receiptContent"
+                            style="display:none;"
+                        >
+
+                            <div class="receipt-meta">
+
+                                <div>
+                                    <span>Sale No.</span>
+                                    <strong id="receiptSaleNumber">
+                                        Pending
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>Date</span>
+                                    <strong id="receiptDate">
+                                        —
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>Customer</span>
+                                    <strong id="receiptCustomer">
+                                        Walk-in Customer
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>Payment</span>
+                                    <strong id="receiptPayment">
+                                        Cash
+                                    </strong>
+                                </div>
+
+                            </div>
+
+
+                            <table class="receipt-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Product
+                                        </th>
+
+                                        <th>
+                                            Qty
+                                        </th>
+
+                                        <th>
+                                            Amount
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody id="receiptItems">
+                                </tbody>
+
+                            </table>
+
+
+                            <div class="receipt-total">
+
+                                <div class="receipt-total-row">
+
+                                    <span>
+                                        Items
+                                    </span>
+
+                                    <strong id="receiptItemCount">
+                                        0
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="receipt-total-row receipt-grand">
+
+                                    <span>
+                                        TOTAL
+                                    </span>
+
+                                    <strong id="receiptGrandTotal">
+                                        ₦0.00
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="receipt-footer">
+
+                                <p>
+                                    Thank you for your patronage.
+                                </p>
+
+                                <p>
+                                    +2349067075444 • +2347087471639
+                                </p>
+
+                                <p>
+                                    Please keep this receipt for your records.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="btn btn-print"
+                            id="printButton"
+                        >
+                            🖨 Print Receipt
+                        </button>
 
                     </div>
 
                 </div>
 
-
             </div>
 
-
         </section>
-
 
     </main>
 
 
-    <!-- ===============================
-         JAVASCRIPT
-    =============================== -->
+    <!-- =========================
+         FIREBASE + SALES LOGIC
+    ========================= -->
 
-    <script>
+    <script type="module">
 
-        const sidebar =
-            document.getElementById("sidebar");
+        import {
+            auth,
+            db
+        } from "./js/firebase.js";
 
-        const menuButton =
-            document.getElementById("menuButton");
+        import {
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        const overlay =
-            document.getElementById("overlay");
+        import {
+            collection,
+            onSnapshot,
+            addDoc,
+            doc,
+            runTransaction,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        const salesForm =
-            document.getElementById("salesForm");
 
-        const product =
-            document.getElementById("product");
+        /* =========================
+           GLOBAL VARIABLES
+        ========================= */
 
-        const quantity =
-            document.getElementById("quantity");
+        let currentUser = null;
 
-        const price =
-            document.getElementById("price");
+        let products = [];
 
-        const customer =
+        let saleItems = [];
+
+        let lastSale = null;
+
+        let productsUnsubscribe = null;
+
+        let salesUnsubscribe = null;
+
+        let savingSale = false;
+
+
+        /* =========================
+           ELEMENTS
+        ========================= */
+
+        const saleItemsContainer =
+            document.getElementById("saleItems");
+
+        const addItemButton =
+            document.getElementById("addItemButton");
+
+        const recordSaleButton =
+            document.getElementById("recordSaleButton");
+
+        const clearButton =
+            document.getElementById("clearButton");
+
+        const customerInput =
             document.getElementById("customer");
 
         const paymentMethod =
             document.getElementById("paymentMethod");
 
-        const notes =
+        const notesInput =
             document.getElementById("notes");
 
-        const receipt =
-            document.getElementById("receipt");
-
-        const clearButton =
-            document.getElementById("clearButton");
+        const messageBox =
+            document.getElementById("message");
 
         const todaySales =
             document.getElementById("todaySales");
@@ -1533,440 +1590,1832 @@
         const lastTransaction =
             document.getElementById("lastTransaction");
 
+        const userEmail =
+            document.getElementById("userEmail");
 
-        /* ==========================
-           MOBILE MENU
-        =========================== */
+        const userName =
+            document.getElementById("userName");
 
-        menuButton.addEventListener(
-            "click",
-            function() {
+        const userAvatar =
+            document.getElementById("userAvatar");
 
-                sidebar.classList.add("open");
+        const totalItems =
+            document.getElementById("totalItems");
 
-                overlay.classList.add("show");
+        const subtotal =
+            document.getElementById("subtotal");
 
+        const grandTotal =
+            document.getElementById("grandTotal");
+
+        const emptyReceipt =
+            document.getElementById("emptyReceipt");
+
+        const receiptContent =
+            document.getElementById("receiptContent");
+
+        const receiptItems =
+            document.getElementById("receiptItems");
+
+        const receiptSaleNumber =
+            document.getElementById("receiptSaleNumber");
+
+        const receiptDate =
+            document.getElementById("receiptDate");
+
+        const receiptCustomer =
+            document.getElementById("receiptCustomer");
+
+        const receiptPayment =
+            document.getElementById("receiptPayment");
+
+        const receiptItemCount =
+            document.getElementById("receiptItemCount");
+
+        const receiptGrandTotal =
+            document.getElementById("receiptGrandTotal");
+
+        const printButton =
+            document.getElementById("printButton");
+
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+        const mobileMenu =
+            document.getElementById("mobileMenu");
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+
+        /* =========================
+           AUTHENTICATION
+        ========================= */
+
+        onAuthStateChanged(auth, (user) => {
+
+            if (!user) {
+
+                window.location.href = "login.html";
+
+                return;
             }
-        );
+
+            currentUser = user;
+
+            userEmail.textContent =
+                user.email || "";
+
+            const name =
+                user.displayName ||
+                "Nesi Medicals Administrator";
+
+            userName.textContent = name;
+
+            userAvatar.textContent =
+                name.charAt(0).toUpperCase();
+
+            loadProducts();
+
+            loadSales();
+
+        });
 
 
-        overlay.addEventListener(
-            "click",
-            function() {
+        /* =========================
+           LOAD PRODUCTS
+        ========================= */
 
-                sidebar.classList.remove("open");
+        function loadProducts() {
 
-                overlay.classList.remove("show");
-
+            if (productsUnsubscribe) {
+                productsUnsubscribe();
             }
-        );
+
+            productsUnsubscribe = onSnapshot(
+                collection(db, "products"),
+                (snapshot) => {
+
+                    products = snapshot.docs.map((document) => {
+
+                        const data = document.data();
+
+                        return {
+                            id: document.id,
+                            ...data
+                        };
+
+                    });
+
+                    products.sort((a, b) => {
+
+                        const nameA =
+                            String(
+                                a.productName ||
+                                a.name ||
+                                ""
+                            ).toLowerCase();
+
+                        const nameB =
+                            String(
+                                b.productName ||
+                                b.name ||
+                                ""
+                            ).toLowerCase();
+
+                        return nameA.localeCompare(nameB);
+
+                    });
 
 
-        /* ==========================
-           DATE
-        =========================== */
+                    if (saleItems.length === 0) {
 
-        const now = new Date();
+                        saleItems = [
+                            {
+                                productId: "",
+                                quantity: 1
+                            }
+                        ];
 
-        document.getElementById(
-            "todayDate"
-        ).textContent =
-            now.toLocaleDateString(
-                "en-NG",
-                {
-                    weekday: "short",
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric"
+                    }
+
+                    renderSaleItems();
+
+                    updateSaleSummary();
+
+                },
+                (error) => {
+
+                    console.error(
+                        "Product loading error:",
+                        error
+                    );
+
+                    showMessage(
+                        "Unable to load products from inventory. Please check your Firebase connection.",
+                        "error"
+                    );
+
+                    saleItemsContainer.innerHTML = `
+                        <div class="loading">
+                            Unable to load products.
+                        </div>
+                    `;
+
                 }
             );
-
-
-        /* ==========================
-           FORMAT MONEY
-        =========================== */
-
-        function money(value) {
-
-            return new Intl.NumberFormat(
-                "en-NG",
-                {
-                    style: "currency",
-                    currency: "NGN"
-                }
-            ).format(value);
 
         }
 
 
-        /* ==========================
-           RECEIPT PREVIEW
-        =========================== */
+        /* =========================
+           PRODUCT HELPERS
+        ========================= */
 
-        function updateReceipt() {
+        function getProductName(product) {
 
-            const productName =
-                product.value.trim();
+            return (
+                product.productName ||
+                product.name ||
+                "Unnamed Product"
+            );
 
-            const qty =
-                Number(quantity.value) || 0;
-
-            const unitPrice =
-                Number(price.value) || 0;
-
-            const customerName =
-                customer.value.trim()
-                || "Walk-in Customer";
-
-            const payment =
-                paymentMethod.value
-                || "Not selected";
-
-            const total =
-                qty * unitPrice;
+        }
 
 
-            if (!productName && !unitPrice) {
+        function getProductStock(product) {
 
-                receipt.innerHTML = `
+            const quantity =
+                Number(product.quantity);
 
-                    <div class="receipt-header">
+            const stock =
+                Number(product.stock);
 
-                        <img
-                            src="assets/logo.png"
-                            alt="Nesi Medicals"
-                        >
+            if (
+                Number.isFinite(quantity) &&
+                product.quantity !== undefined
+            ) {
+                return quantity;
+            }
 
-                        <strong>
-                            Nesi Medicals
-                        </strong>
+            if (
+                Number.isFinite(stock) &&
+                product.stock !== undefined
+            ) {
+                return stock;
+            }
 
-                        <span>
-                            & Minimart Enterprises
-                        </span>
+            return 0;
 
+        }
+
+
+        function getProductPrice(product) {
+
+            const price =
+                Number(product.sellingPrice);
+
+            if (
+                Number.isFinite(price) &&
+                product.sellingPrice !== undefined
+            ) {
+                return price;
+            }
+
+            const oldPrice =
+                Number(product.price);
+
+            if (
+                Number.isFinite(oldPrice) &&
+                product.price !== undefined
+            ) {
+                return oldPrice;
+            }
+
+            return 0;
+
+        }
+
+
+        function getLowStockLevel(product) {
+
+            const level =
+                Number(product.lowStockLevel);
+
+            if (
+                Number.isFinite(level)
+            ) {
+                return level;
+            }
+
+            return 5;
+
+        }
+
+
+        function formatMoney(value) {
+
+            const amount =
+                Number(value) || 0;
+
+            return "₦" +
+                amount.toLocaleString(
+                    "en-NG",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                );
+
+        }
+
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================
+           RENDER SALE ITEMS
+        ========================= */
+
+        function renderSaleItems() {
+
+            if (!products.length) {
+
+                saleItemsContainer.innerHTML = `
+                    <div class="loading">
+                        No products have been added to inventory yet.
+                        <br><br>
+                        Add products from the Inventory page first.
                     </div>
+                `;
 
-                    <div class="empty-receipt">
+                recordSaleButton.disabled = true;
 
-                        Enter sale details to preview receipt.
+                return;
+            }
+
+
+            saleItemsContainer.innerHTML = "";
+
+
+            saleItems.forEach((item, index) => {
+
+                const wrapper =
+                    document.createElement("div");
+
+                wrapper.className =
+                    "sale-item";
+
+                const productOptions =
+                    products.map((product) => {
+
+                        const id =
+                            escapeHTML(product.id);
+
+                        const name =
+                            escapeHTML(
+                                getProductName(product)
+                            );
+
+                        const stock =
+                            getProductStock(product);
+
+                        const price =
+                            getProductPrice(product);
+
+                        const selected =
+                            item.productId === product.id
+                                ? "selected"
+                                : "";
+
+                        return `
+                            <option
+                                value="${id}"
+                                ${selected}
+                            >
+                                ${name} — Stock: ${stock} — ${formatMoney(price)}
+                            </option>
+                        `;
+
+                    }).join("");
+
+
+                wrapper.innerHTML = `
+
+                    <div class="item-grid">
+
+                        <div class="field product-field">
+
+                            <label>
+                                Product ${index + 1}
+                            </label>
+
+                            <select
+                                class="product-select"
+                                data-index="${index}"
+                            >
+
+                                <option value="">
+                                    Select a product
+                                </option>
+
+                                ${productOptions}
+
+                            </select>
+
+                            <div
+                                class="stock-info"
+                                id="stockInfo-${index}"
+                            >
+                                Select a product
+                            </div>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Quantity
+                            </label>
+
+                            <input
+                                type="number"
+                                class="item-quantity"
+                                data-index="${index}"
+                                min="1"
+                                step="1"
+                                value="${Math.max(
+                                    1,
+                                    Number(item.quantity) || 1
+                                )}"
+                            >
+
+                        </div>
+
+
+                        <div class="field total-field">
+
+                            <label>
+                                Total
+                            </label>
+
+                            <div
+                                class="line-total-box"
+                                id="lineTotal-${index}"
+                            >
+                                ₦0.00
+                            </div>
+
+                        </div>
+
+
+                        <div class="field remove-field">
+
+                            <label>
+                                &nbsp;
+                            </label>
+
+                            <button
+                                type="button"
+                                class="remove-item"
+                                data-index="${index}"
+                                ${
+                                    saleItems.length === 1
+                                        ? "disabled"
+                                        : ""
+                                }
+                                title="Remove product"
+                            >
+                                ×
+                            </button>
+
+                        </div>
 
                     </div>
 
                 `;
 
-                return;
 
-            }
+                saleItemsContainer.appendChild(
+                    wrapper
+                );
 
-
-            receipt.innerHTML = `
-
-                <div class="receipt-header">
-
-                    <img
-                        src="assets/logo.png"
-                        alt="Nesi Medicals"
-                    >
-
-                    <strong>
-                        Nesi Medicals
-                    </strong>
-
-                    <span>
-                        & Minimart Enterprises
-                    </span>
-
-                </div>
+            });
 
 
-                <div class="receipt-row">
+            attachItemEvents();
 
-                    <span>
-                        Product
-                    </span>
-
-                    <strong>
-                        ${productName || "—"}
-                    </strong>
-
-                </div>
-
-
-                <div class="receipt-row">
-
-                    <span>
-                        Quantity
-                    </span>
-
-                    <strong>
-                        ${qty}
-                    </strong>
-
-                </div>
-
-
-                <div class="receipt-row">
-
-                    <span>
-                        Unit Price
-                    </span>
-
-                    <strong>
-                        ${money(unitPrice)}
-                    </strong>
-
-                </div>
-
-
-                <div class="receipt-row">
-
-                    <span>
-                        Customer
-                    </span>
-
-                    <strong>
-                        ${customerName}
-                    </strong>
-
-                </div>
-
-
-                <div class="receipt-row">
-
-                    <span>
-                        Payment
-                    </span>
-
-                    <strong>
-                        ${payment}
-                    </strong>
-
-                </div>
-
-
-                <div class="receipt-total">
-
-                    <span>
-                        TOTAL
-                    </span>
-
-                    <strong>
-                        ${money(total)}
-                    </strong>
-
-                </div>
-
-            `;
+            updateItemDisplays();
 
         }
 
 
-        [
-            product,
-            quantity,
-            price,
-            customer,
-            paymentMethod
-        ].forEach(function(element) {
+        /* =========================
+           ITEM EVENTS
+        ========================= */
 
-            element.addEventListener(
-                "input",
-                updateReceipt
-            );
+        function attachItemEvents() {
 
-            element.addEventListener(
-                "change",
-                updateReceipt
-            );
+            document
+                .querySelectorAll(".product-select")
+                .forEach((select) => {
 
-        });
+                    select.addEventListener(
+                        "change",
+                        () => {
+
+                            const index =
+                                Number(
+                                    select.dataset.index
+                                );
+
+                            saleItems[index].productId =
+                                select.value;
+
+                            updateItemDisplays();
+
+                        }
+                    );
+
+                });
 
 
-        /* ==========================
+            document
+                .querySelectorAll(".item-quantity")
+                .forEach((input) => {
+
+                    input.addEventListener(
+                        "input",
+                        () => {
+
+                            const index =
+                                Number(
+                                    input.dataset.index
+                                );
+
+                            let quantity =
+                                Number(input.value);
+
+                            if (
+                                !Number.isFinite(quantity) ||
+                                quantity < 1
+                            ) {
+                                quantity = 1;
+                            }
+
+                            quantity =
+                                Math.floor(quantity);
+
+                            input.value =
+                                quantity;
+
+                            saleItems[index].quantity =
+                                quantity;
+
+                            updateItemDisplays();
+
+                        }
+                    );
+
+                });
+
+
+            document
+                .querySelectorAll(".remove-item")
+                .forEach((button) => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const index =
+                                Number(
+                                    button.dataset.index
+                                );
+
+                            if (
+                                saleItems.length <= 1
+                            ) {
+                                return;
+                            }
+
+                            saleItems.splice(
+                                index,
+                                1
+                            );
+
+                            renderSaleItems();
+
+                        }
+                    );
+
+                });
+
+        }
+
+
+        /* =========================
+           UPDATE ITEM DISPLAY
+        ========================= */
+
+        function updateItemDisplays() {
+
+            saleItems.forEach((item, index) => {
+
+                const product =
+                    products.find(
+                        (p) =>
+                            p.id === item.productId
+                    );
+
+                const info =
+                    document.getElementById(
+                        `stockInfo-${index}`
+                    );
+
+                const lineTotal =
+                    document.getElementById(
+                        `lineTotal-${index}`
+                    );
+
+                if (!info || !lineTotal) {
+                    return;
+                }
+
+
+                if (!product) {
+
+                    info.textContent =
+                        "Select a product";
+
+                    info.className =
+                        "stock-info";
+
+                    lineTotal.textContent =
+                        "₦0.00";
+
+                    return;
+                }
+
+
+                const stock =
+                    getProductStock(product);
+
+                const price =
+                    getProductPrice(product);
+
+                const quantity =
+                    Number(item.quantity) || 1;
+
+                const total =
+                    price * quantity;
+
+
+                lineTotal.textContent =
+                    formatMoney(total);
+
+
+                if (stock <= 0) {
+
+                    info.textContent =
+                        "Out of stock";
+
+                    info.className =
+                        "stock-info danger";
+
+                } else if (
+                    quantity > stock
+                ) {
+
+                    info.textContent =
+                        `Only ${stock} available`;
+
+                    info.className =
+                        "stock-info danger";
+
+                } else if (
+                    stock <= getLowStockLevel(product)
+                ) {
+
+                    info.textContent =
+                        `Stock available: ${stock} (Low stock)`;
+
+                    info.className =
+                        "stock-info warning";
+
+                } else {
+
+                    info.textContent =
+                        `Stock available: ${stock}`;
+
+                    info.className =
+                        "stock-info";
+
+                }
+
+            });
+
+
+            updateSaleSummary();
+
+        }
+
+
+        /* =========================
+           ADD ITEM
+        ========================= */
+
+        addItemButton.addEventListener(
+            "click",
+            () => {
+
+                saleItems.push({
+                    productId: "",
+                    quantity: 1
+                });
+
+                renderSaleItems();
+
+                const selects =
+                    document.querySelectorAll(
+                        ".product-select"
+                    );
+
+                const lastSelect =
+                    selects[selects.length - 1];
+
+                if (lastSelect) {
+                    lastSelect.focus();
+                }
+
+            }
+        );
+
+
+        /* =========================
+           SALE SUMMARY
+        ========================= */
+
+        function getCurrentSaleData() {
+
+            const items = [];
+
+            let subtotalValue = 0;
+
+            let quantityTotal = 0;
+
+
+            saleItems.forEach((item) => {
+
+                const product =
+                    products.find(
+                        (p) =>
+                            p.id === item.productId
+                    );
+
+                if (!product) {
+                    return;
+                }
+
+                const quantity =
+                    Number(item.quantity) || 0;
+
+                const unitPrice =
+                    getProductPrice(product);
+
+                const total =
+                    quantity * unitPrice;
+
+
+                items.push({
+                    productId: product.id,
+                    productName:
+                        getProductName(product),
+                    quantity,
+                    unitPrice,
+                    total
+                });
+
+
+                subtotalValue += total;
+
+                quantityTotal += quantity;
+
+            });
+
+
+            return {
+                items,
+                subtotal: subtotalValue,
+                total: subtotalValue,
+                quantityTotal
+            };
+
+        }
+
+
+        function updateSaleSummary() {
+
+            const data =
+                getCurrentSaleData();
+
+
+            totalItems.textContent =
+                data.quantityTotal;
+
+            subtotal.textContent =
+                formatMoney(data.subtotal);
+
+            grandTotal.textContent =
+                formatMoney(data.total);
+
+
+            updateReceiptPreview();
+
+
+            const valid =
+                validateSale(false);
+
+            recordSaleButton.disabled =
+                !valid ||
+                savingSale;
+
+        }
+
+
+        /* =========================
+           RECEIPT PREVIEW
+        ========================= */
+
+        function updateReceiptPreview() {
+
+            const data =
+                getCurrentSaleData();
+
+
+            if (!data.items.length) {
+
+                emptyReceipt.style.display =
+                    "block";
+
+                receiptContent.style.display =
+                    "none";
+
+                printButton.style.display =
+                    "none";
+
+                return;
+            }
+
+
+            emptyReceipt.style.display =
+                "none";
+
+            receiptContent.style.display =
+                "block";
+
+
+            const now =
+                new Date();
+
+
+            receiptDate.textContent =
+                now.toLocaleString(
+                    "en-NG",
+                    {
+                        dateStyle: "medium",
+                        timeStyle: "short"
+                    }
+                );
+
+
+            receiptCustomer.textContent =
+                customerInput.value.trim() ||
+                "Walk-in Customer";
+
+
+            receiptPayment.textContent =
+                paymentMethod.value;
+
+
+            receiptSaleNumber.textContent =
+                lastSale?.saleNumber ||
+                "Pending";
+
+
+            receiptItems.innerHTML =
+                data.items.map((item) => {
+
+                    return `
+                        <tr>
+
+                            <td>
+                                <div class="receipt-product">
+                                    ${escapeHTML(
+                                        item.productName
+                                    )}
+                                </div>
+
+                                <div class="receipt-qty">
+                                    ${formatMoney(
+                                        item.unitPrice
+                                    )} each
+                                </div>
+                            </td>
+
+                            <td>
+                                ${item.quantity}
+                            </td>
+
+                            <td>
+                                ${formatMoney(
+                                    item.total
+                                )}
+                            </td>
+
+                        </tr>
+                    `;
+
+                }).join("");
+
+
+            receiptItemCount.textContent =
+                data.quantityTotal;
+
+            receiptGrandTotal.textContent =
+                formatMoney(data.total);
+
+
+            if (lastSale) {
+
+                printButton.style.display =
+                    "block";
+
+            } else {
+
+                printButton.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        customerInput.addEventListener(
+            "input",
+            updateSaleSummary
+        );
+
+        paymentMethod.addEventListener(
+            "change",
+            updateSaleSummary
+        );
+
+        notesInput.addEventListener(
+            "input",
+            updateSaleSummary
+        );
+
+
+        /* =========================
+           VALIDATE SALE
+        ========================= */
+
+        function validateSale(showErrors = true) {
+
+            if (!products.length) {
+
+                if (showErrors) {
+                    showMessage(
+                        "There are no products in your inventory.",
+                        "error"
+                    );
+                }
+
+                return false;
+            }
+
+
+            if (!saleItems.length) {
+
+                if (showErrors) {
+                    showMessage(
+                        "Please add at least one product.",
+                        "error"
+                    );
+                }
+
+                return false;
+            }
+
+
+            const selectedIds =
+                new Set();
+
+
+            for (
+                let index = 0;
+                index < saleItems.length;
+                index++
+            ) {
+
+                const item =
+                    saleItems[index];
+
+
+                if (!item.productId) {
+
+                    if (showErrors) {
+                        showMessage(
+                            `Please select Product ${index + 1}.`,
+                            "error"
+                        );
+                    }
+
+                    return false;
+                }
+
+
+                if (
+                    selectedIds.has(
+                        item.productId
+                    )
+                ) {
+
+                    if (showErrors) {
+                        showMessage(
+                            "The same product cannot be added twice. Increase its quantity instead.",
+                            "error"
+                        );
+                    }
+
+                    return false;
+                }
+
+
+                selectedIds.add(
+                    item.productId
+                );
+
+
+                const product =
+                    products.find(
+                        (p) =>
+                            p.id ===
+                            item.productId
+                    );
+
+
+                if (!product) {
+
+                    if (showErrors) {
+                        showMessage(
+                            "One of the selected products no longer exists.",
+                            "error"
+                        );
+                    }
+
+                    return false;
+                }
+
+
+                const quantity =
+                    Number(item.quantity);
+
+
+                if (
+                    !Number.isInteger(quantity) ||
+                    quantity < 1
+                ) {
+
+                    if (showErrors) {
+                        showMessage(
+                            "Quantity must be a whole number greater than zero.",
+                            "error"
+                        );
+                    }
+
+                    return false;
+                }
+
+
+                const stock =
+                    getProductStock(product);
+
+
+                if (stock <= 0) {
+
+                    if (showErrors) {
+                        showMessage(
+                            `${getProductName(product)} is out of stock.`,
+                            "error"
+                        );
+                    }
+
+                    return false;
+                }
+
+
+                if (quantity > stock) {
+
+                    if (showErrors) {
+                        showMessage(
+                            `Not enough stock for ${getProductName(product)}. Available: ${stock}.`,
+                            "error"
+                        );
+                    }
+
+                    return false;
+                }
+
+
+                const price =
+                    getProductPrice(product);
+
+
+                if (
+                    !Number.isFinite(price) ||
+                    price < 0
+                ) {
+
+                    if (showErrors) {
+                        showMessage(
+                            `${getProductName(product)} has an invalid selling price.`,
+                            "error"
+                        );
+                    }
+
+                    return false;
+                }
+
+            }
+
+
+            return true;
+
+        }
+
+
+        /* =========================
            RECORD SALE
-        =========================== */
+        ========================= */
 
-        salesForm.addEventListener(
-            "submit",
-            function(event) {
+        recordSaleButton.addEventListener(
+            "click",
+            async () => {
+
+                if (savingSale) {
+                    return;
+                }
+
+
+                clearMessage();
+
+
+                if (!validateSale(true)) {
+                    return;
+                }
+
+
+                if (!currentUser) {
+
+                    showMessage(
+                        "Your login session has expired. Please log in again.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                const saleData =
+                    getCurrentSaleData();
+
+
+                if (!saleData.items.length) {
+
+                    showMessage(
+                        "Please select at least one product.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                savingSale = true;
+
+                recordSaleButton.disabled =
+                    true;
+
+                recordSaleButton.textContent =
+                    "Recording Sale...";
+
+
+                try {
+
+                    const saleRef =
+                        doc(
+                            collection(
+                                db,
+                                "sales"
+                            )
+                        );
+
+
+                    const saleNumber =
+                        generateSaleNumber();
+
+
+                    const saleToSave = {
+
+                        saleNumber,
+
+                        customer:
+                            customerInput.value.trim() ||
+                            "Walk-in Customer",
+
+                        paymentMethod:
+                            paymentMethod.value,
+
+                        notes:
+                            notesInput.value.trim(),
+
+                        items:
+                            saleData.items,
+
+                        subtotal:
+                            saleData.subtotal,
+
+                        total:
+                            saleData.total,
+
+                        totalQuantity:
+                            saleData.quantityTotal,
+
+                        createdBy:
+                            currentUser.uid,
+
+                        createdByEmail:
+                            currentUser.email ||
+                            "",
+
+                        createdAt:
+                            serverTimestamp()
+
+                    };
+
+
+                    await runTransaction(
+                        db,
+                        async (transaction) => {
+
+                            /*
+                             * IMPORTANT:
+                             * All product reads happen
+                             * before any writes.
+                             */
+
+                            const productRefs =
+                                saleData.items.map(
+                                    (item) =>
+                                        doc(
+                                            db,
+                                            "products",
+                                            item.productId
+                                        )
+                                );
+
+
+                            const snapshots = [];
+
+
+                            for (
+                                const productRef
+                                of productRefs
+                            ) {
+
+                                const snapshot =
+                                    await transaction.get(
+                                        productRef
+                                    );
+
+                                snapshots.push(
+                                    snapshot
+                                );
+
+                            }
+
+
+                            const updates = [];
+
+
+                            for (
+                                let i = 0;
+                                i < snapshots.length;
+                                i++
+                            ) {
+
+                                const snapshot =
+                                    snapshots[i];
+
+                                const saleItem =
+                                    saleData.items[i];
+
+
+                                if (
+                                    !snapshot.exists()
+                                ) {
+
+                                    throw new Error(
+                                        `${saleItem.productName} no longer exists in inventory.`
+                                    );
+
+                                }
+
+
+                                const product =
+                                    snapshot.data();
+
+
+                                const currentStock =
+                                    getProductStock(
+                                        product
+                                    );
+
+
+                                if (
+                                    saleItem.quantity >
+                                    currentStock
+                                ) {
+
+                                    throw new Error(
+                                        `Not enough stock for ${saleItem.productName}. Available stock: ${currentStock}.`
+                                    );
+
+                                }
+
+
+                                const newStock =
+                                    currentStock -
+                                    saleItem.quantity;
+
+
+                                const lowStockLevel =
+                                    getLowStockLevel(
+                                        product
+                                    );
+
+
+                                let status =
+                                    "In Stock";
+
+
+                                if (
+                                    newStock <= 0
+                                ) {
+
+                                    status =
+                                        "Out of Stock";
+
+                                } else if (
+                                    newStock <=
+                                    lowStockLevel
+                                ) {
+
+                                    status =
+                                        "Low Stock";
+
+                                }
+
+
+                                updates.push({
+                                    ref:
+                                        productRefs[i],
+                                    newStock,
+                                    status
+                                });
+
+                            }
+
+
+                            /*
+                             * Save complete sale.
+                             */
+
+                            transaction.set(
+                                saleRef,
+                                saleToSave
+                            );
+
+
+                            /*
+                             * Reduce inventory.
+                             */
+
+                            updates.forEach(
+                                (update) => {
+
+                                    transaction.update(
+                                        update.ref,
+                                        {
+
+                                            quantity:
+                                                update.newStock,
+
+                                            stock:
+                                                update.newStock,
+
+                                            status:
+                                                update.status,
+
+                                            updatedAt:
+                                                serverTimestamp(),
+
+                                            updatedBy:
+                                                currentUser.uid
+
+                                        }
+                                    );
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                    /*
+                     * Successful sale.
+                     */
+
+                    lastSale = {
+
+                        id:
+                            saleRef.id,
+
+                        saleNumber,
+
+                        ...saleToSave
+
+                    };
+
+
+                    showMessage(
+                        `Sale ${saleNumber} recorded successfully. Inventory has been updated.`,
+                        "success"
+                    );
+
+
+                    updateReceiptPreview();
+
+
+                    printButton.style.display =
+                        "block";
+
+
+                    /*
+                     * Refresh product data so
+                     * stock displayed on the
+                     * page is current.
+                     */
+
+                    renderSaleItems();
+
+                    updateSaleSummary();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Sale recording error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        error.message ||
+                        "Unable to record sale. Please try again.",
+                        "error"
+                    );
+
+                } finally {
+
+                    savingSale = false;
+
+                    recordSaleButton.textContent =
+                        "Record Sale";
+
+
+                    updateSaleSummary();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           SALE NUMBER
+        ========================= */
+
+        function generateSaleNumber() {
+
+            const now =
+                new Date();
+
+            const year =
+                now.getFullYear();
+
+            const month =
+                String(
+                    now.getMonth() + 1
+                ).padStart(2, "0");
+
+            const day =
+                String(
+                    now.getDate()
+                ).padStart(2, "0");
+
+            const time =
+                String(
+                    Date.now()
+                ).slice(-6);
+
+
+            return `NM-${year}${month}${day}-${time}`;
+
+        }
+
+
+        /* =========================
+           LOAD SALES SUMMARY
+        ========================= */
+
+        function loadSales() {
+
+            if (salesUnsubscribe) {
+                salesUnsubscribe();
+            }
+
+
+            salesUnsubscribe =
+                onSnapshot(
+                    collection(db, "sales"),
+                    (snapshot) => {
+
+                        const sales =
+                            snapshot.docs.map(
+                                (document) => {
+
+                                    return {
+                                        id:
+                                            document.id,
+                                        ...document.data()
+                                    };
+
+                                }
+                            );
+
+
+                        transactionCount.textContent =
+                            sales.length;
+
+
+                        let todayTotal = 0;
+
+                        let newestSale = null;
+
+
+                        const now =
+                            new Date();
+
+                        const startOfToday =
+                            new Date(
+                                now.getFullYear(),
+                                now.getMonth(),
+                                now.getDate()
+                            );
+
+                        const startOfTomorrow =
+                            new Date(
+                                now.getFullYear(),
+                                now.getMonth(),
+                                now.getDate() + 1
+                            );
+
+
+                        sales.forEach((sale) => {
+
+                            const total =
+                                Number(
+                                    sale.total
+                                ) || 0;
+
+
+                            let saleDate =
+                                null;
+
+
+                            if (
+                                sale.createdAt &&
+                                typeof sale.createdAt.toDate ===
+                                    "function"
+                            ) {
+
+                                saleDate =
+                                    sale.createdAt.toDate();
+
+                            }
+
+
+                            if (
+                                saleDate &&
+                                saleDate >=
+                                    startOfToday &&
+                                saleDate <
+                                    startOfTomorrow
+                            ) {
+
+                                todayTotal +=
+                                    total;
+
+                            }
+
+
+                            if (
+                                saleDate &&
+                                (
+                                    !newestSale ||
+                                    saleDate >
+                                        newestSale.date
+                                )
+                            ) {
+
+                                newestSale = {
+
+                                    date:
+                                        saleDate,
+
+                                    total
+
+                                };
+
+                            }
+
+                        });
+
+
+                        todaySales.textContent =
+                            formatMoney(
+                                todayTotal
+                            );
+
+
+                        if (newestSale) {
+
+                            lastTransaction.textContent =
+                                formatMoney(
+                                    newestSale.total
+                                );
+
+                        } else {
+
+                            lastTransaction.textContent =
+                                "₦0.00";
+
+                        }
+
+                    },
+                    (error) => {
+
+                        console.error(
+                            "Sales loading error:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+
+
+        /* =========================
+           CLEAR / NEW SALE
+        ========================= */
+
+        clearButton.addEventListener(
+            "click",
+            () => {
+
+                saleItems = [
+                    {
+                        productId: "",
+                        quantity: 1
+                    }
+                ];
+
+                customerInput.value =
+                    "";
+
+                paymentMethod.value =
+                    "Cash";
+
+                notesInput.value =
+                    "";
+
+                lastSale =
+                    null;
+
+                clearMessage();
+
+                renderSaleItems();
+
+                updateSaleSummary();
+
+            }
+        );
+
+
+        /* =========================
+           PRINT
+        ========================= */
+
+        printButton.addEventListener(
+            "click",
+            () => {
+
+                if (!lastSale) {
+
+                    showMessage(
+                        "Please record the sale before printing the receipt.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                window.print();
+
+            }
+        );
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        logoutButton.addEventListener(
+            "click",
+            async (event) => {
 
                 event.preventDefault();
 
 
-                const productName =
-                    product.value.trim();
+                try {
 
-                const qty =
-                    Number(quantity.value);
+                    await signOut(auth);
 
-                const unitPrice =
-                    Number(price.value);
+                    window.location.href =
+                        "login.html";
 
-                const payment =
-                    paymentMethod.value;
+                } catch (error) {
 
-
-                if (
-                    !productName ||
-                    qty <= 0 ||
-                    unitPrice < 0 ||
-                    !payment
-                ) {
-
-                    alert(
-                        "Please complete the required sale information."
+                    console.error(
+                        "Logout error:",
+                        error
                     );
-
-                    return;
-
-                }
-
-
-                const total =
-                    qty * unitPrice;
-
-
-                const currentSales =
-                    Number(
-                        localStorage.getItem(
-                            "nesiTodaySales"
-                        )
-                    ) || 0;
-
-
-                const currentTransactions =
-                    Number(
-                        localStorage.getItem(
-                            "nesiTransactionCount"
-                        )
-                    ) || 0;
-
-
-                localStorage.setItem(
-                    "nesiTodaySales",
-                    currentSales + total
-                );
-
-
-                localStorage.setItem(
-                    "nesiTransactionCount",
-                    currentTransactions + 1
-                );
-
-
-                localStorage.setItem(
-                    "nesiLastTransaction",
-                    money(total)
-                );
-
-
-                todaySales.textContent =
-                    money(
-                        currentSales + total
-                    );
-
-
-                transactionCount.textContent =
-                    currentTransactions + 1;
-
-
-                lastTransaction.textContent =
-                    money(total);
-
-
-                alert(
-                    "Sale recorded successfully!"
-                );
-
-
-                salesForm.reset();
-
-                quantity.value = 1;
-
-                updateReceipt();
-
-            }
-        );
-
-
-        /* ==========================
-           CLEAR FORM
-        =========================== */
-
-        clearButton.addEventListener(
-            "click",
-            function() {
-
-                salesForm.reset();
-
-                quantity.value = 1;
-
-                updateReceipt();
-
-            }
-        );
-
-
-        /* ==========================
-           LOAD SAVED TOTALS
-        =========================== */
-
-        const savedSales =
-            Number(
-                localStorage.getItem(
-                    "nesiTodaySales"
-                )
-            ) || 0;
-
-
-        const savedTransactions =
-            Number(
-                localStorage.getItem(
-                    "nesiTransactionCount"
-                )
-            ) || 0;
-
-
-        const savedLast =
-            localStorage.getItem(
-                "nesiLastTransaction"
-            );
-
-
-        todaySales.textContent =
-            money(savedSales);
-
-
-        transactionCount.textContent =
-            savedTransactions;
-
-
-        lastTransaction.textContent =
-            savedLast || "—";
-
-
-        /* ==========================
-           TEMPORARY LOGOUT
-        =========================== */
-
-        document
-            .getElementById("logoutButton")
-            .addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
 
                     window.location.href =
                         "login.html";
 
                 }
-            );
+
+            }
+        );
+
+
+        /* =========================
+           MOBILE MENU
+        ========================= */
+
+        mobileMenu.addEventListener(
+            "click",
+            () => {
+
+                sidebar.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+
+        document
+            .querySelectorAll(".nav a")
+            .forEach((link) => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        sidebar.classList.remove(
+                            "open"
+                        );
+
+                    }
+                );
+
+            });
+
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
+        function showMessage(
+            message,
+            type
+        ) {
+
+            messageBox.textContent =
+                message;
+
+            messageBox.className =
+                `message ${type}`;
+
+        }
+
+
+        function clearMessage() {
+
+            messageBox.textContent =
+                "";
+
+            messageBox.className =
+                "message";
+
+        }
+
+
+        /* =========================
+           INITIAL RECEIPT
+        ========================= */
+
+        updateReceiptPreview();
 
     </script>
 
-
 </body>
-
 </html>
