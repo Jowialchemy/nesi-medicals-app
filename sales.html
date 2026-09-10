@@ -135,10 +135,14 @@
         }
 
         .nav a.active {
-            background: var(--green-light);
-            color: var(--green-dark);
-            font-weight: 600;
-        }
+    background: var(--green-light);
+    color: var(--green-dark) !important;
+    font-weight: 600;
+}
+
+.nav a.active .nav-icon {
+    color: var(--green-dark) !important;
+}
 
         .nav-icon {
             width: 22px;
