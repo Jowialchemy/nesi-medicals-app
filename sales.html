@@ -1079,7 +1079,7 @@
 
         <section class="content">
 
-            <<div class="page-heading">
+           <div class="page-heading">
 
     <div>
         <h1>New Sale</h1>
@@ -3420,11 +3420,25 @@
         }
 
 
-        /* =========================
+       /* =========================
            INITIAL RECEIPT
         ========================= */
 
         updateReceiptPreview();
+
+
+        /* =========================
+           SALES HISTORY BUTTON
+        ========================= */
+
+        document
+            .getElementById("salesHistoryButton")
+            .addEventListener("click", () => {
+
+                window.location.href =
+                    "sales-history.html";
+
+            });
 
     </script>
 
