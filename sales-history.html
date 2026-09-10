@@ -1,1 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales History | Nesi Medicals</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            background: #111827;
+            color: white;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 20px 15px;
+            overflow-y: auto;
+        }
+
+        .brand {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #374151;
+            margin-bottom: 15px;
+        }
+
+        .brand img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .brand h2 {
+            font-size: 18px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .nav a {
+            display: block;
+            text-decoration: none;
+            color: #d1d5db;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .nav a:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .nav a.active {
+            background: #0A5FFF;
+            color: white;
+        }
+
+        .logout {
+            margin-top: 20px;
+            color: #ff8a00 !important;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: white;
+            padding: 18px 25px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h1 {
+            font-size: 22px;
+        }
+
+        .user {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .page-title h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* SEARCH */
+        .search-box {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #0A5FFF;
+        }
+
+        /* TABLE */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #f3f4f6;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        td {
+            padding: 14px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        tr:hover td {
+            background: #f9fafb;
+        }
+
+        .sale-number {
+            font-weight: bold;
+            color: #0A5FFF;
+        }
+
+        .amount {
+            font-weight: bold;
+        }
+
+        .payment {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #3730a3;
+            font-size: 11px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 6px;
+            padding: 8px 11px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 4px;
+        }
+
+        .btn-view {
+            background: #0A5FFF;
+            color: white;
+        }
+
+        .btn-print {
+            background: #ff8a00;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6b7280;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: block;
+        }
+
+        .modal-box {
+            background: white;
+            max-width: 600px;
+            margin: 30px auto;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            background: #111827;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 17px;
+        }
+
+        .close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .receipt {
+            padding: 25px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 1px dashed #999;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-header img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+        }
+
+        .receipt-header h2 {
+            margin-top: 5px;
+            font-size: 19px;
+        }
+
+        .receipt-header p {
+            font-size: 12px;
+            color: #555;
+            margin-top: 3px;
+        }
+
+        .receipt-info {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-info div {
+            margin-bottom: 5px;
+        }
+
+        .receipt table {
+            min-width: 0;
+            margin-bottom: 15px;
+        }
+
+        .receipt table th,
+        .receipt table td {
+            padding: 8px 5px;
+            font-size: 12px;
+        }
+
+        .receipt-total {
+            border-top: 1px dashed #999;
+            padding-top: 12px;
+            text-align: right;
+        }
+
+        .receipt-total p {
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .receipt-total .grand {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            border-top: 1px dashed #999;
+            margin-top: 20px;
+            padding-top: 15px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        .modal-actions {
+            padding: 15px 20px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-actions button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .print-main {
+            background: #ff8a00;
+            color: white;
+        }
+
+        .close-main {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        /* MOBILE */
+        .mobile-menu {
+            display: none;
+            border: none;
+            background: #111827;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.25s;
+                z-index: 999;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                padding: 15px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .topbar h1 {
+                font-size: 18px;
+            }
+        }
+
+        /* PRINT */
+        @media print {
+
+            body * {
+                visibility: hidden;
+            }
+
+            #printArea,
+            #printArea * {
+                visibility: visible;
+            }
+
+            #printArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <img src="assets/logo.png" alt="Nesi Medicals Logo">
+
+            <h2>Nesi Medicals</h2>
+
+            <p>Business Management System</p>
+        </div>
+
+        <nav class="nav">
+
+            <a href="dashboard.html">Dashboard</a>
+
+            <a href="sales.html">Sales</a>
+
+            <a href="sales-history.html" class="active">
+                Sales History
+            </a>
+
+            <a href="inventory.html">Inventory</a>
+
+            <a href="customers.html">Customers</a>
+
+            <a href="suppliers.html">Suppliers</a>
+
+            <a href="expenses.html">Expenses</a>
+
+            <a href="reports.html">Reports</a>
+
+            <a href="staff.html">Staff</a>
+
+            <a href="settings.html">Settings</a>
+
+            <a href="#" class="logout" id="logoutBtn">
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex; align-items:center; gap:15px;">
+
+                <button class="mobile-menu" id="mobileMenu">
+                    ☰
+                </button>
+
+                <h1>Sales History</h1>
+
+            </div>
+
+            <div class="user" id="userEmail">
+                Loading...
+            </div>
+
+        </header>
+
+        <section class="content">
+
+            <div class="page-title">
+
+                <h2>Sales & Receipts</h2>
+
+                <p>
+                    Review previous transactions and reprint receipts.
+                </p>
+
+            </div>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search sale number or customer..."
+                >
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Sale No.</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="salesTable">
+
+                        <tr>
+                            <td colspan="7" class="loading">
+                                Loading sales...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- RECEIPT MODAL -->
+
+<div class="modal" id="receiptModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>Receipt</h3>
+
+            <button class="close" id="closeModal">
+                ×
+            </button>
+
+        </div>
+
+        <div id="printArea" class="receipt">
+
+            <!-- Receipt generated here -->
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button class="close-main" id="closeModal2">
+                Close
+            </button>
+
+            <button class="print-main" id="printReceipt">
+                🖨️ Print Receipt
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+        collection,
+        onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
+
+
+    const salesTable = document.getElementById("salesTable");
+
+    const searchInput = document.getElementById("searchInput");
+
+    const receiptModal = document.getElementById("receiptModal");
+
+    const printArea = document.getElementById("printArea");
+
+    const userEmail = document.getElementById("userEmail");
+
+    let allSales = [];
+
+    let selectedSale = null;
+
+
+    /* AUTH */
+
+    onAuthStateChanged(auth, (user) => {
+
+        if (!user) {
+
+            window.location.href = "login.html";
+
+            return;
+        }
+
+        userEmail.textContent =
+            user.email || "Nesi Medicals Administrator";
+
+        loadSales();
+
+    });
+
+
+    /* LOAD SALES */
+
+    function loadSales() {
+
+        onSnapshot(
+            collection(db, "sales"),
+            (snapshot) => {
+
+                allSales = [];
+
+                snapshot.forEach((doc) => {
+
+                    allSales.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+
+                });
+
+                allSales.sort((a, b) => {
+
+                    const aTime =
+                        a.createdAt?.seconds || 0;
+
+                    const bTime =
+                        b.createdAt?.seconds || 0;
+
+                    return bTime - aTime;
+
+                });
+
+                renderSales(allSales);
+
+            },
+            (error) => {
+
+                console.error(error);
+
+                salesTable.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty">
+                            Unable to load sales.
+                            <br><br>
+                            ${error.message}
+                        </td>
+                    </tr>
+                `;
+
+            }
+        );
+
+    }
+
+
+    /* RENDER SALES */
+
+    function renderSales(sales) {
+
+        if (!sales.length) {
+
+            salesTable.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty">
+                        No sales have been recorded yet.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        salesTable.innerHTML = sales.map((sale, index) => {
+
+            const saleNumber =
+                sale.saleNumber ||
+                sale.id ||
+                "N/A";
+
+            const customer =
+                sale.customer ||
+                "Walk-in Customer";
+
+            const items =
+                Array.isArray(sale.items)
+                    ? sale.items
+                    : [];
+
+            const itemCount = items.reduce(
+                (total, item) =>
+                    total + Number(item.quantity || 0),
+                0
+            );
+
+            const total =
+                Number(
+                    sale.total ??
+                    sale.grandTotal ??
+                    sale.subtotal ??
+                    0
+                );
+
+            const payment =
+                sale.paymentMethod ||
+                "Cash";
+
+            const date =
+                formatDate(sale.createdAt);
+
+
+            return `
+                <tr>
+
+                    <td>
+                        <span class="sale-number">
+                            ${escapeHtml(saleNumber)}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${date}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(customer)}
+                    </td>
+
+                    <td>
+                        ${itemCount}
+                    </td>
+
+                    <td>
+                        <span class="amount">
+                            ₦${formatMoney(total)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="payment">
+                            ${escapeHtml(payment)}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-view"
+                            data-index="${index}"
+                        >
+                            View
+                        </button>
+
+                        <button
+                            class="btn btn-print"
+                            data-index="${index}"
+                        >
+                            Print
+                        </button>
+
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
+
+
+        document
+            .querySelectorAll(".btn-view")
+            .forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    const index =
+                        Number(button.dataset.index);
+
+                    openReceipt(sales[index]);
+
+                });
+
+            });
+
+
+        document
+            .querySelectorAll(".btn-print")
+            .forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    const index =
+                        Number(button.dataset.index);
+
+                    openReceipt(
+                        sales[index],
+                        true
+                    );
+
+                });
+
+            });
+
+    }
+
+
+    /* SEARCH */
+
+    searchInput.addEventListener("input", () => {
+
+        const term =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        if (!term) {
+
+            renderSales(allSales);
+
+            return;
+        }
+
+        const filtered =
+            allSales.filter(sale => {
+
+                const saleNumber =
+                    String(
+                        sale.saleNumber ||
+                        sale.id ||
+                        ""
+                    ).toLowerCase();
+
+                const customer =
+                    String(
+                        sale.customer ||
+                        ""
+                    ).toLowerCase();
+
+                return (
+                    saleNumber.includes(term) ||
+                    customer.includes(term)
+                );
+
+            });
+
+        renderSales(filtered);
+
+    });
+
+
+    /* OPEN RECEIPT */
+
+    function openReceipt(sale, autoPrint = false) {
+
+        selectedSale = sale;
+
+        const items =
+            Array.isArray(sale.items)
+                ? sale.items
+                : [];
+
+
+        const saleNumber =
+            sale.saleNumber ||
+            sale.id ||
+            "N/A";
+
+
+        const customer =
+            sale.customer ||
+            "Walk-in Customer";
+
+
+        const payment =
+            sale.paymentMethod ||
+            "Cash";
+
+
+        const subtotal =
+            Number(
+                sale.subtotal ??
+                sale.total ??
+                0
+            );
+
+
+        const total =
+            Number(
+                sale.total ??
+                sale.grandTotal ??
+                subtotal
+            );
+
+
+        const date =
+            formatDate(sale.createdAt);
+
+
+        printArea.innerHTML = `
+
+            <div class="receipt-header">
+
+                <img
+                    src="assets/logo.png"
+                    alt="Nesi Medicals"
+                >
+
+                <h2>
+                    Nesi Medicals
+                </h2>
+
+                <p>
+                    & Minimart Enterprises
+                </p>
+
+                <p>
+                    Quality Care. Essential Products. Trusted Service.
+                </p>
+
+                <p>
+                    13, Angwan Dadi beside Emzy Garden,
+                    Abuja, FCT, Nigeria
+                </p>
+
+            </div>
+
+
+            <div class="receipt-info">
+
+                <div>
+                    <strong>Sale No:</strong>
+                    ${escapeHtml(saleNumber)}
+                </div>
+
+                <div>
+                    <strong>Date:</strong>
+                    ${date}
+                </div>
+
+                <div>
+                    <strong>Customer:</strong>
+                    ${escapeHtml(customer)}
+                </div>
+
+                <div>
+                    <strong>Payment:</strong>
+                    ${escapeHtml(payment)}
+                </div>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${
+                        items.length
+                        ?
+                        items.map(item => {
+
+                            const name =
+                                item.productName ||
+                                item.name ||
+                                "Product";
+
+                            const qty =
+                                Number(
+                                    item.quantity || 0
+                                );
+
+                            const price =
+                                Number(
+                                    item.sellingPrice ??
+                                    item.price ??
+                                    0
+                                );
+
+                            const lineTotal =
+                                Number(
+                                    item.lineTotal ??
+                                    item.total ??
+                                    (qty * price)
+                                );
+
+                            return `
+                                <tr>
+
+                                    <td>
+                                        ${escapeHtml(name)}
+                                    </td>
+
+                                    <td>
+                                        ${qty}
+                                    </td>
+
+                                    <td>
+                                        ₦${formatMoney(price)}
+                                    </td>
+
+                                    <td>
+                                        ₦${formatMoney(lineTotal)}
+                                    </td>
+
+                                </tr>
+                            `;
+
+                        }).join("")
+                        :
+                        `
+                            <tr>
+                                <td colspan="4">
+                                    No item details available
+                                </td>
+                            </tr>
+                        `
+                    }
+
+                </tbody>
+
+            </table>
+
+
+            <div class="receipt-total">
+
+                <p>
+                    Subtotal:
+                    ₦${formatMoney(subtotal)}
+                </p>
+
+                <p class="grand">
+                    Total:
+                    ₦${formatMoney(total)}
+                </p>
+
+            </div>
+
+
+            ${
+                sale.notes
+                ?
+                `
+                    <div style="
+                        margin-top:15px;
+                        font-size:12px;
+                    ">
+                        <strong>Notes:</strong>
+                        ${escapeHtml(sale.notes)}
+                    </div>
+                `
+                :
+                ""
+            }
+
+
+            <div class="receipt-footer">
+
+                <p>
+                    Thank you for your patronage.
+                </p>
+
+                <p>
+                    Nesi Medicals & Minimart Enterprises
+                </p>
+
+                <p>
+                    +2349067075444 &nbsp; | &nbsp;
+                    +2347087471639
+                </p>
+
+            </div>
+
+        `;
+
+
+        receiptModal.classList.add("show");
+
+
+        if (autoPrint) {
+
+            setTimeout(() => {
+
+                window.print();
+
+            }, 400);
+
+        }
+
+    }
+
+
+    /* PRINT */
+
+    document
+        .getElementById("printReceipt")
+        .addEventListener("click", () => {
+
+            if (!selectedSale) return;
+
+            window.print();
+
+        });
+
+
+    /* CLOSE */
+
+    function closeModal() {
+
+        receiptModal.classList.remove("show");
+
+        selectedSale = null;
+
+    }
+
+
+    document
+        .getElementById("closeModal")
+        .addEventListener("click", closeModal);
+
+
+    document
+        .getElementById("closeModal2")
+        .addEventListener("click", closeModal);
+
+
+    receiptModal.addEventListener("click", (event) => {
+
+        if (event.target === receiptModal) {
+
+            closeModal();
+
+        }
+
+    });
+
+
+    /* LOGOUT */
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async (event) => {
+
+            event.preventDefault();
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                alert(
+                    "Logout failed: " +
+                    error.message
+                );
+
+            }
+
+        });
+
+
+    /* MOBILE MENU */
+
+    document
+        .getElementById("mobileMenu")
+        .addEventListener("click", () => {
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
+
+        });
+
+
+    /* HELPERS */
+
+    function formatMoney(value) {
+
+        return Number(value || 0)
+            .toLocaleString(
+                "en-NG",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+    }
+
+
+    function formatDate(timestamp) {
+
+        if (!timestamp) {
+
+            return "Unknown date";
+
+        }
+
+        try {
+
+            let date;
+
+            if (
+                timestamp.toDate &&
+                typeof timestamp.toDate === "function"
+            ) {
+
+                date = timestamp.toDate();
+
+            } else if (timestamp.seconds) {
+
+                date =
+                    new Date(
+                        timestamp.seconds * 1000
+                    );
+
+            } else {
+
+                date = new Date(timestamp);
+
+            }
+
+            return date.toLocaleString(
+                "en-NG",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        } catch {
+
+            return "Unknown date";
+
+        }
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+</script>
+
+</body>
+                  </html>
