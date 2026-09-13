@@ -1534,14 +1534,14 @@
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         import {
-            collection,
-            onSnapshot,
-            addDoc,
-            doc,
-            runTransaction,
-            serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+    collection,
+    onSnapshot,
+    addDoc,
+    doc,
+    runTransaction,
+    serverTimestamp,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         /* =========================
            GLOBAL VARIABLES
@@ -1583,6 +1583,64 @@
 
         const paymentMethod =
             document.getElementById("paymentMethod");
+        async function loadCustomers() {
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(db, "customers")
+            );
+
+        customerInput.innerHTML = `
+            <option value="">
+                Walk-in Customer
+            </option>
+        `;
+
+        snapshot.forEach((document) => {
+
+            const customer =
+                document.data();
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                document.id;
+
+            option.textContent =
+                `${customer.name || "Unnamed Customer"}${
+                    customer.phone
+                        ? " — " + customer.phone
+                        : ""
+                }`;
+
+            option.dataset.customerName =
+                customer.name || "";
+
+            option.dataset.customerPhone =
+                customer.phone || "";
+
+            option.dataset.customerEmail =
+                customer.email || "";
+
+            customerInput.appendChild(
+                option
+            );
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Customer loading error:",
+            error
+        );
+
+    }
+
+        }
 
         const notesInput =
             document.getElementById("notes");
