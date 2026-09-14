@@ -1583,6 +1583,45 @@
 
         const paymentMethod =
             document.getElementById("paymentMethod");
+
+        function getSelectedCustomer() {
+
+    const option =
+        customerInput.options[
+            customerInput.selectedIndex
+        ];
+
+    if (!option || !customerInput.value) {
+
+        return {
+            id: "",
+            name: "Walk-in Customer",
+            phone: "",
+            email: ""
+        };
+
+    }
+
+    return {
+
+        id: customerInput.value,
+
+        name:
+            option.dataset.customerName ||
+            "Walk-in Customer",
+
+        phone:
+            option.dataset.customerPhone ||
+            "",
+
+        email:
+            option.dataset.customerEmail ||
+            ""
+
+    };
+
+        }
+        
         function loadCustomers() {
 
     const customersRef =
