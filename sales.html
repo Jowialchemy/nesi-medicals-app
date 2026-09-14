@@ -2909,14 +2909,16 @@ receiptCustomer.textContent =
                         generateSaleNumber();
 
 
-                    const saleToSave = {
+                    const selectedCustomer = getSelectedCustomer();
 
-                        saleNumber,
+const selectedCustomer = getSelectedCustomer();
 
-                        const selectedCustomer = getSelectedCustomer();
+const saleToSave = {
 
-customer: selectedCustomer.name,
-customerId: selectedCustomer.id,
+    saleNumber,
+
+    customer: selectedCustomer.name,
+    customerId: selectedCustomer.id,
 
                         paymentMethod:
                             paymentMethod.value,
