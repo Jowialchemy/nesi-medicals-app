@@ -2913,9 +2913,10 @@ receiptCustomer.textContent =
 
                         saleNumber,
 
-                        customer:
-                            customerInput.value.trim() ||
-                            "Walk-in Customer",
+                        const selectedCustomer = getSelectedCustomer();
+
+customer: selectedCustomer.name,
+customerId: selectedCustomer.id,
 
                         paymentMethod:
                             paymentMethod.value,
