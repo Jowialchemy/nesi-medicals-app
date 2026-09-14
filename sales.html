@@ -2571,10 +2571,10 @@ loadCustomers();
                 );
 
 
-            receiptCustomer.textContent =
-                customerInput.value.trim() ||
-                "Walk-in Customer";
+           const selectedCustomer = getSelectedCustomer();
 
+receiptCustomer.textContent =
+    selectedCustomer.name;
 
             receiptPayment.textContent =
                 paymentMethod.value;
