@@ -1,1 +1,2352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Expenses | Nesi Medicals</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 14px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-area img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .logo-area h2 {
+            font-size: 20px;
+            color: #0a5fff;
+        }
+
+        .logo-area p {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            text-decoration: none;
+            color: #374151;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .nav a:hover {
+            background: #eef4ff;
+            color: #0a5fff;
+        }
+
+        .nav a.active {
+            background: #0a5fff;
+            color: #ffffff;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout {
+            margin-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 15px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h1 {
+            font-size: 22px;
+            color: #111827;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .page-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 17px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #0a5fff;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #084dcc;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: #ffffff;
+        }
+
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .summary-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .summary-card .label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .value {
+            font-size: 25px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 18px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #0a5fff;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th,
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #374151;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #eef4ff;
+            color: #0a5fff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #e0edff;
+            color: #0a5fff;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 20px;
+            color: #6b7280;
+        }
+
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 650px;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 21px;
+        }
+
+        .close {
+            border: none;
+            background: transparent;
+            font-size: 27px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+            background: #ffffff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #0a5fff;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .status-message {
+            margin-top: 12px;
+            font-size: 13px;
+            text-align: center;
+            min-height: 18px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .nav {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 7px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .content {
+                padding: 15px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .nav {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-box {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo-area">
+
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+            >
+
+            <h2>Nesi Medicals</h2>
+
+            <p>Business Management</p>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <a href="dashboard.html">
+
+                <span class="nav-icon">⌂</span>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="sales.html">
+
+                <span class="nav-icon">🛒</span>
+
+                Sales
+
+            </a>
+
+
+            <a href="sales-history.html">
+
+                <span class="nav-icon">🧾</span>
+
+                Sales History
+
+            </a>
+
+
+            <a href="inventory.html">
+
+                <span class="nav-icon">📦</span>
+
+                Inventory
+
+            </a>
+
+
+            <a href="customers.html">
+
+                <span class="nav-icon">👥</span>
+
+                Customers
+
+            </a>
+
+
+            <a href="suppliers.html">
+
+                <span class="nav-icon">🚚</span>
+
+                Suppliers
+
+            </a>
+
+
+            <a
+                href="expenses.html"
+                class="active"
+            >
+
+                <span class="nav-icon">💰</span>
+
+                Expenses
+
+            </a>
+
+
+            <a href="reports.html">
+
+                <span class="nav-icon">📊</span>
+
+                Reports
+
+            </a>
+
+
+            <a href="staff.html">
+
+                <span class="nav-icon">👨‍💼</span>
+
+                Staff
+
+            </a>
+
+
+            <a href="settings.html">
+
+                <span class="nav-icon">⚙️</span>
+
+                Settings
+
+            </a>
+
+
+            <div class="logout">
+
+                <a
+                    href="#"
+                    id="logoutBtn"
+                >
+
+                    <span class="nav-icon">🚪</span>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+
+        <header class="topbar">
+
+            <h1>
+                Nesi Medicals Business Management System
+            </h1>
+
+            <div
+                class="user-email"
+                id="userEmail"
+            >
+                Loading...
+            </div>
+
+        </header>
+
+
+
+        <section class="content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>Expenses</h2>
+
+                    <p>
+                        Record and manage business expenses.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary"
+                    id="addExpenseBtn"
+                >
+                    + Add Expense
+                </button>
+
+            </div>
+
+
+
+            <!-- SUMMARY -->
+
+            <div class="summary-grid">
+
+
+                <div class="summary-card">
+
+                    <div class="label">
+                        Total Expenses
+                    </div>
+
+                    <div
+                        class="value"
+                        id="totalExpenses"
+                    >
+                        ₦0.00
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="label">
+                        This Month
+                    </div>
+
+                    <div
+                        class="value"
+                        id="monthExpenses"
+                    >
+                        ₦0.00
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="label">
+                        Today
+                    </div>
+
+                    <div
+                        class="value"
+                        id="todayExpenses"
+                    >
+                        ₦0.00
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SEARCH -->
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search expenses by category, payee, description or payment method..."
+                >
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Category</th>
+
+                            <th>Payee / Supplier</th>
+
+                            <th>Description</th>
+
+                            <th>Payment</th>
+
+                            <th>Amount</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="expensesTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="empty"
+                            >
+                                Loading expenses...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         ADD / EDIT MODAL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="expenseModal"
+    >
+
+        <div class="modal-box">
+
+
+            <div class="modal-header">
+
+                <h3 id="modalTitle">
+                    Add Expense
+                </h3>
+
+
+                <button
+                    class="close"
+                    id="closeModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form id="expenseForm">
+
+
+                <div class="form-grid">
+
+
+                    <!-- DATE -->
+
+                    <div class="form-group">
+
+                        <label for="expenseDate">
+                            Date *
+                        </label>
+
+                        <input
+                            type="date"
+                            id="expenseDate"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="form-group">
+
+                        <label for="category">
+                            Category *
+                        </label>
+
+                        <select
+                            id="category"
+                            required
+                        >
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option value="Rent">
+                                Rent
+                            </option>
+
+                            <option value="Electricity">
+                                Electricity
+                            </option>
+
+                            <option value="Water">
+                                Water
+                            </option>
+
+                            <option value="Salaries">
+                                Salaries
+                            </option>
+
+                            <option value="Transportation">
+                                Transportation
+                            </option>
+
+                            <option value="Internet">
+                                Internet
+                            </option>
+
+                            <option value="Repairs">
+                                Repairs
+                            </option>
+
+                            <option value="Supplies">
+                                Supplies
+                            </option>
+
+                            <option value="Marketing">
+                                Marketing
+                            </option>
+
+                            <option value="Bank Charges">
+                                Bank Charges
+                            </option>
+
+                            <option value="Tax">
+                                Tax
+                            </option>
+
+                            <option value="Utilities">
+                                Utilities
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- PAYEE -->
+
+                    <div class="form-group">
+
+                        <label for="payee">
+                            Payee / Supplier
+                        </label>
+
+                        <input
+                            type="text"
+                            id="payee"
+                            placeholder="Who was paid?"
+                        >
+
+                    </div>
+
+
+
+                    <!-- PAYMENT METHOD -->
+
+                    <div class="form-group">
+
+                        <label for="paymentMethod">
+                            Payment Method *
+                        </label>
+
+                        <select
+                            id="paymentMethod"
+                            required
+                        >
+
+                            <option value="">
+                                Select Payment Method
+                            </option>
+
+                            <option value="Cash">
+                                Cash
+                            </option>
+
+                            <option value="POS">
+                                POS
+                            </option>
+
+                            <option value="Bank Transfer">
+                                Bank Transfer
+                            </option>
+
+                            <option value="Card">
+                                Card
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- AMOUNT -->
+
+                    <div class="form-group">
+
+                        <label for="amount">
+                            Amount (₦) *
+                        </label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            min="0"
+                            step="0.01"
+                            placeholder="0.00"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group full">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            placeholder="Enter details about this expense..."
+                        ></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div
+                    class="status-message"
+                    id="statusMessage"
+                ></div>
+
+
+
+                <div class="modal-footer">
+
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="cancelBtn"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="saveBtn"
+                    >
+                        Save Expense
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         FIREBASE
+    ========================= -->
+
+    <script type="module">
+
+
+        import {
+            auth,
+            db
+        } from "./js/firebase.js";
+
+
+        import {
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+        import {
+            collection,
+            addDoc,
+            onSnapshot,
+            doc,
+            updateDoc,
+            deleteDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+        /* =========================
+           ELEMENTS
+        ========================= */
+
+        const expensesTableBody =
+            document.getElementById(
+                "expensesTableBody"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+
+        const addExpenseBtn =
+            document.getElementById(
+                "addExpenseBtn"
+            );
+
+
+        const expenseModal =
+            document.getElementById(
+                "expenseModal"
+            );
+
+
+        const closeModal =
+            document.getElementById(
+                "closeModal"
+            );
+
+
+        const cancelBtn =
+            document.getElementById(
+                "cancelBtn"
+            );
+
+
+        const expenseForm =
+            document.getElementById(
+                "expenseForm"
+            );
+
+
+        const modalTitle =
+            document.getElementById(
+                "modalTitle"
+            );
+
+
+        const saveBtn =
+            document.getElementById(
+                "saveBtn"
+            );
+
+
+        const statusMessage =
+            document.getElementById(
+                "statusMessage"
+            );
+
+
+        const userEmail =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        const totalExpenses =
+            document.getElementById(
+                "totalExpenses"
+            );
+
+
+        const monthExpenses =
+            document.getElementById(
+                "monthExpenses"
+            );
+
+
+        const todayExpenses =
+            document.getElementById(
+                "todayExpenses"
+            );
+
+
+
+        /* =========================
+           VARIABLES
+        ========================= */
+
+        let expenses = [];
+
+        let editingExpenseId = null;
+
+
+
+        /* =========================
+           AUTH
+        ========================= */
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                userEmail.textContent =
+                    user.email ||
+                    "Logged in";
+
+
+                loadExpenses();
+
+            }
+        );
+
+
+
+        /* =========================
+           LOAD EXPENSES
+        ========================= */
+
+        function loadExpenses() {
+
+            const expensesRef =
+                collection(
+                    db,
+                    "expenses"
+                );
+
+
+            onSnapshot(
+
+                expensesRef,
+
+                (snapshot) => {
+
+                    expenses = [];
+
+
+                    snapshot.forEach(
+                        (docSnap) => {
+
+                            expenses.push({
+
+                                id: docSnap.id,
+
+                                ...docSnap.data()
+
+                            });
+
+                        }
+                    );
+
+
+                    expenses.sort(
+                        (a, b) => {
+
+                            return String(
+                                b.date || ""
+                            ).localeCompare(
+                                String(
+                                    a.date || ""
+                                )
+                            );
+
+                        }
+                    );
+
+
+                    updateSummary();
+
+                    renderExpenses();
+
+                },
+
+                (error) => {
+
+                    console.error(
+                        error
+                    );
+
+
+                    expensesTableBody.innerHTML = `
+                        <tr>
+                            <td
+                                colspan="7"
+                                class="empty"
+                            >
+                                Unable to load expenses.
+                            </td>
+                        </tr>
+                    `;
+
+                }
+
+            );
+
+        }
+
+
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        function updateSummary() {
+
+            const today =
+                getLocalDateString(
+                    new Date()
+                );
+
+
+            const currentMonth =
+                today.substring(
+                    0,
+                    7
+                );
+
+
+            let total = 0;
+
+            let monthTotal = 0;
+
+            let todayTotal = 0;
+
+
+            expenses.forEach(
+                (expense) => {
+
+                    const amount =
+                        Number(
+                            expense.amount || 0
+                        );
+
+
+                    total += amount;
+
+
+                    const date =
+                        String(
+                            expense.date || ""
+                        );
+
+
+                    if (
+                        date.startsWith(
+                            currentMonth
+                        )
+                    ) {
+
+                        monthTotal += amount;
+
+                    }
+
+
+                    if (
+                        date === today
+                    ) {
+
+                        todayTotal += amount;
+
+                    }
+
+                }
+            );
+
+
+            totalExpenses.textContent =
+                formatNaira(total);
+
+
+            monthExpenses.textContent =
+                formatNaira(
+                    monthTotal
+                );
+
+
+            todayExpenses.textContent =
+                formatNaira(
+                    todayTotal
+                );
+
+        }
+
+
+
+        /* =========================
+           RENDER EXPENSES
+        ========================= */
+
+        function renderExpenses() {
+
+            const search =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const filtered =
+                expenses.filter(
+                    (expense) => {
+
+                        return (
+
+                            String(
+                                expense.category ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(search)
+
+                            ||
+
+                            String(
+                                expense.payee ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(search)
+
+                            ||
+
+                            String(
+                                expense.description ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(search)
+
+                            ||
+
+                            String(
+                                expense.paymentMethod ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(search)
+
+                        );
+
+                    }
+                );
+
+
+
+            if (
+                filtered.length === 0
+            ) {
+
+                expensesTableBody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="7"
+                            class="empty"
+                        >
+                            No expenses found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+
+            expensesTableBody.innerHTML =
+                filtered.map(
+                    (expense) => {
+
+                        return `
+
+                            <tr>
+
+                                <td>
+                                    ${formatDate(
+                                        expense.date
+                                    )}
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="category-badge"
+                                    >
+                                        ${escapeHtml(
+                                            expense.category ||
+                                            "-"
+                                        )}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    ${escapeHtml(
+                                        expense.payee ||
+                                        "-"
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    ${escapeHtml(
+                                        expense.description ||
+                                        "-"
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    ${escapeHtml(
+                                        expense.paymentMethod ||
+                                        "-"
+                                    )}
+                                </td>
+
+
+                                <td class="amount">
+                                    ${formatNaira(
+                                        Number(
+                                            expense.amount ||
+                                            0
+                                        )
+                                    )}
+                                </td>
+
+
+                                <td>
+
+                                    <div class="actions">
+
+                                        <button
+                                            class="action-btn edit-btn"
+                                            onclick="editExpense('${expense.id}')"
+                                        >
+                                            Edit
+                                        </button>
+
+
+                                        <button
+                                            class="action-btn delete-btn"
+                                            onclick="deleteExpense('${expense.id}')"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                ).join("");
+
+        }
+
+
+
+        /* =========================
+           OPEN ADD MODAL
+        ========================= */
+
+        addExpenseBtn.addEventListener(
+            "click",
+            () => {
+
+                editingExpenseId = null;
+
+
+                modalTitle.textContent =
+                    "Add Expense";
+
+
+                saveBtn.textContent =
+                    "Save Expense";
+
+
+                expenseForm.reset();
+
+
+                document.getElementById(
+                    "expenseDate"
+                ).value =
+                    getLocalDateString(
+                        new Date()
+                    );
+
+
+                statusMessage.textContent =
+                    "";
+
+
+                expenseModal.classList.add(
+                    "show"
+                );
+
+            }
+        );
+
+
+
+        /* =========================
+           CLOSE MODAL
+        ========================= */
+
+        function closeExpenseModal() {
+
+            expenseModal.classList.remove(
+                "show"
+            );
+
+
+            expenseForm.reset();
+
+
+            editingExpenseId = null;
+
+
+            statusMessage.textContent =
+                "";
+
+        }
+
+
+        closeModal.addEventListener(
+            "click",
+            closeExpenseModal
+        );
+
+
+        cancelBtn.addEventListener(
+            "click",
+            closeExpenseModal
+        );
+
+
+        expenseModal.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    event.target ===
+                    expenseModal
+                ) {
+
+                    closeExpenseModal();
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           SAVE EXPENSE
+        ========================= */
+
+        expenseForm.addEventListener(
+            "submit",
+            async (event) => {
+
+                event.preventDefault();
+
+
+                const user =
+                    auth.currentUser;
+
+
+                if (!user) {
+
+                    alert(
+                        "Your session has expired. Please login again."
+                    );
+
+                    return;
+
+                }
+
+
+                const date =
+                    document
+                        .getElementById(
+                            "expenseDate"
+                        )
+                        .value;
+
+
+                const category =
+                    document
+                        .getElementById(
+                            "category"
+                        )
+                        .value;
+
+
+                const payee =
+                    document
+                        .getElementById(
+                            "payee"
+                        )
+                        .value
+                        .trim();
+
+
+                const paymentMethod =
+                    document
+                        .getElementById(
+                            "paymentMethod"
+                        )
+                        .value;
+
+
+                const amount =
+                    Number(
+                        document
+                            .getElementById(
+                                "amount"
+                            )
+                            .value
+                    );
+
+
+                const description =
+                    document
+                        .getElementById(
+                            "description"
+                        )
+                        .value
+                        .trim();
+
+
+
+                if (!date) {
+
+                    showStatus(
+                        "Expense date is required.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                if (!category) {
+
+                    showStatus(
+                        "Please select an expense category.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !paymentMethod
+                ) {
+
+                    showStatus(
+                        "Please select a payment method.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !Number.isFinite(amount) ||
+                    amount <= 0
+                ) {
+
+                    showStatus(
+                        "Please enter a valid expense amount.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+
+                const expenseData = {
+
+                    date: date,
+
+                    category: category,
+
+                    payee: payee,
+
+                    paymentMethod:
+                        paymentMethod,
+
+                    amount: amount,
+
+                    description:
+                        description,
+
+                    updatedAt:
+                        serverTimestamp(),
+
+                    updatedBy:
+                        user.uid,
+
+                    updatedByEmail:
+                        user.email || ""
+
+                };
+
+
+
+                try {
+
+                    saveBtn.disabled =
+                        true;
+
+
+                    saveBtn.textContent =
+                        editingExpenseId
+                            ? "Updating..."
+                            : "Saving...";
+
+
+
+                    if (
+                        editingExpenseId
+                    ) {
+
+                        const expenseRef =
+                            doc(
+                                db,
+                                "expenses",
+                                editingExpenseId
+                            );
+
+
+                        await updateDoc(
+                            expenseRef,
+                            expenseData
+                        );
+
+
+                        showStatus(
+                            "Expense updated successfully.",
+                            true
+                        );
+
+                    } else {
+
+
+                        expenseData.createdAt =
+                            serverTimestamp();
+
+
+                        expenseData.createdBy =
+                            user.uid;
+
+
+                        expenseData.createdByEmail =
+                            user.email || "";
+
+
+                        await addDoc(
+                            collection(
+                                db,
+                                "expenses"
+                            ),
+                            expenseData
+                        );
+
+
+                        showStatus(
+                            "Expense saved successfully.",
+                            true
+                        );
+
+                    }
+
+
+
+                    setTimeout(
+                        () => {
+
+                            closeExpenseModal();
+
+                        },
+                        700
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    showStatus(
+                        "Error saving expense: " +
+                        error.message,
+                        false
+                    );
+
+                } finally {
+
+                    saveBtn.disabled =
+                        false;
+
+
+                    saveBtn.textContent =
+                        editingExpenseId
+                            ? "Update Expense"
+                            : "Save Expense";
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           EDIT EXPENSE
+        ========================= */
+
+        window.editExpense =
+            function(id) {
+
+                const expense =
+                    expenses.find(
+                        (item) =>
+                            item.id === id
+                    );
+
+
+                if (!expense) {
+                    return;
+                }
+
+
+                editingExpenseId =
+                    id;
+
+
+                modalTitle.textContent =
+                    "Edit Expense";
+
+
+                saveBtn.textContent =
+                    "Update Expense";
+
+
+
+                document.getElementById(
+                    "expenseDate"
+                ).value =
+                    expense.date || "";
+
+
+                document.getElementById(
+                    "category"
+                ).value =
+                    expense.category || "";
+
+
+                document.getElementById(
+                    "payee"
+                ).value =
+                    expense.payee || "";
+
+
+                document.getElementById(
+                    "paymentMethod"
+                ).value =
+                    expense.paymentMethod || "";
+
+
+                document.getElementById(
+                    "amount"
+                ).value =
+                    expense.amount || "";
+
+
+                document.getElementById(
+                    "description"
+                ).value =
+                    expense.description || "";
+
+
+                statusMessage.textContent =
+                    "";
+
+
+                expenseModal.classList.add(
+                    "show"
+                );
+
+            };
+
+
+
+        /* =========================
+           DELETE EXPENSE
+        ========================= */
+
+        window.deleteExpense =
+            async function(id) {
+
+                const expense =
+                    expenses.find(
+                        (item) =>
+                            item.id === id
+                    );
+
+
+                if (!expense) {
+                    return;
+                }
+
+
+                const confirmed =
+                    confirm(
+                        `Delete this expense of ${formatNaira(
+                            Number(
+                                expense.amount || 0
+                            )
+                        )}?`
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+
+                try {
+
+                    await deleteDoc(
+                        doc(
+                            db,
+                            "expenses",
+                            id
+                        )
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    alert(
+                        "Unable to delete expense: " +
+                        error.message
+                    );
+
+                }
+
+            };
+
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        searchInput.addEventListener(
+            "input",
+            renderExpenses
+        );
+
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        logoutBtn.addEventListener(
+            "click",
+            async (event) => {
+
+                event.preventDefault();
+
+
+                try {
+
+                    await signOut(
+                        auth
+                    );
+
+
+                    window.location.href =
+                        "login.html";
+
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           HELPERS
+        ========================= */
+
+        function formatNaira(amount) {
+
+            return new Intl.NumberFormat(
+                "en-NG",
+                {
+                    style: "currency",
+                    currency: "NGN"
+                }
+            ).format(
+                Number(amount || 0)
+            );
+
+        }
+
+
+
+        function formatDate(dateString) {
+
+            if (!dateString) {
+                return "-";
+            }
+
+
+            const parts =
+                String(
+                    dateString
+                ).split("-");
+
+
+            if (
+                parts.length !== 3
+            ) {
+                return dateString;
+            }
+
+
+            return `${parts[2]} ${getMonthName(
+                Number(parts[1])
+            )} ${parts[0]}`;
+
+        }
+
+
+
+        function getMonthName(month) {
+
+            const months = [
+
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+
+            ];
+
+
+            return months[
+                month - 1
+            ] || "";
+
+        }
+
+
+
+        function getLocalDateString(
+            date
+        ) {
+
+            const year =
+                date.getFullYear();
+
+
+            const month =
+                String(
+                    date.getMonth() + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const day =
+                String(
+                    date.getDate()
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            return `${year}-${month}-${day}`;
+
+        }
+
+
+
+        function showStatus(
+            message,
+            success
+        ) {
+
+            statusMessage.textContent =
+                message;
+
+
+            statusMessage.style.color =
+                success
+                    ? "#16a34a"
+                    : "#dc2626";
+
+        }
+
+
+
+        function escapeHtml(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+    </script>
+
+</body>
+</html>
