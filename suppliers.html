@@ -1,1 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Suppliers | Nesi Medicals</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 14px;
+            overflow-y: auto;
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-area img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .logo-area h2 {
+            font-size: 20px;
+            color: #0a5fff;
+        }
+
+        .logo-area p {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            text-decoration: none;
+            color: #374151;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .nav a:hover {
+            background: #eef4ff;
+            color: #0a5fff;
+        }
+
+        .nav a.active {
+            background: #0a5fff;
+            color: #ffffff;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout {
+            margin-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 15px;
+        }
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h1 {
+            font-size: 22px;
+            color: #111827;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 17px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #0a5fff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #084dcc;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .search-box {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 18px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #0a5fff;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th,
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #374151;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #e0edff;
+            color: #0a5fff;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 20px;
+            color: #6b7280;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 21px;
+        }
+
+        .close {
+            border: none;
+            background: transparent;
+            font-size: 26px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #0a5fff;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .status-message {
+            margin-top: 12px;
+            font-size: 13px;
+            text-align: center;
+            min-height: 18px;
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .nav {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 7px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content {
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .nav {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-box {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo-area">
+            <img src="assets/logo.png" alt="Nesi Medicals Logo">
+
+            <h2>Nesi Medicals</h2>
+
+            <p>Business Management</p>
+        </div>
+
+        <nav class="nav">
+
+            <a href="dashboard.html">
+                <span class="nav-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="sales.html">
+                <span class="nav-icon">🛒</span>
+                Sales
+            </a>
+
+            <a href="sales-history.html">
+                <span class="nav-icon">🧾</span>
+                Sales History
+            </a>
+
+            <a href="inventory.html">
+                <span class="nav-icon">📦</span>
+                Inventory
+            </a>
+
+            <a href="customers.html">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
+
+            <a href="suppliers.html" class="active">
+                <span class="nav-icon">🚚</span>
+                Suppliers
+            </a>
+
+            <a href="expenses.html">
+                <span class="nav-icon">💰</span>
+                Expenses
+            </a>
+
+            <a href="reports.html">
+                <span class="nav-icon">📊</span>
+                Reports
+            </a>
+
+            <a href="staff.html">
+                <span class="nav-icon">👨‍💼</span>
+                Staff
+            </a>
+
+            <a href="settings.html">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+
+            <div class="logout">
+                <a href="#" id="logoutBtn">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </a>
+            </div>
+
+        </nav>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <h1>Nesi Medicals Business Management System</h1>
+
+            <div class="user-email" id="userEmail">
+                Loading...
+            </div>
+
+        </header>
+
+        <section class="content">
+
+            <div class="page-header">
+
+                <div>
+                    <h2>Suppliers</h2>
+
+                    <p>
+                        Manage your suppliers and supplier information.
+                    </p>
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    id="addSupplierBtn"
+                >
+                    + Add Supplier
+                </button>
+
+            </div>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search suppliers by name, phone, email or company..."
+                >
+
+            </div>
+
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Supplier Name</th>
+                            <th>Company</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="suppliersTableBody">
+
+                        <tr>
+                            <td colspan="6" class="empty">
+                                Loading suppliers...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ADD / EDIT SUPPLIER MODAL -->
+
+    <div class="modal" id="supplierModal">
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <h3 id="modalTitle">
+                    Add Supplier
+                </h3>
+
+                <button
+                    class="close"
+                    id="closeModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <form id="supplierForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="supplierName">
+                            Supplier Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="supplierName"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">
+                            Company
+                        </label>
+
+                        <input
+                            type="text"
+                            id="company"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">
+                            Phone *
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="address">
+                            Address
+                        </label>
+
+                        <input
+                            type="text"
+                            id="address"
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="notes">
+                            Notes
+                        </label>
+
+                        <textarea
+                            id="notes"
+                            placeholder="Additional supplier information..."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div
+                    class="status-message"
+                    id="statusMessage"
+                ></div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="cancelBtn"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="saveBtn"
+                    >
+                        Save Supplier
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script type="module">
+
+        import { auth, db } from "./js/firebase.js";
+
+        import {
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        import {
+            collection,
+            addDoc,
+            onSnapshot,
+            doc,
+            updateDoc,
+            deleteDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+        const suppliersTableBody =
+            document.getElementById("suppliersTableBody");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const addSupplierBtn =
+            document.getElementById("addSupplierBtn");
+
+        const supplierModal =
+            document.getElementById("supplierModal");
+
+        const closeModal =
+            document.getElementById("closeModal");
+
+        const cancelBtn =
+            document.getElementById("cancelBtn");
+
+        const supplierForm =
+            document.getElementById("supplierForm");
+
+        const modalTitle =
+            document.getElementById("modalTitle");
+
+        const saveBtn =
+            document.getElementById("saveBtn");
+
+        const statusMessage =
+            document.getElementById("statusMessage");
+
+        const userEmail =
+            document.getElementById("userEmail");
+
+        const logoutBtn =
+            document.getElementById("logoutBtn");
+
+
+        let suppliers = [];
+
+        let editingSupplierId = null;
+
+
+        // =========================
+        // AUTHENTICATION
+        // =========================
+
+        onAuthStateChanged(auth, (user) => {
+
+            if (!user) {
+
+                window.location.href = "login.html";
+
+                return;
+            }
+
+            userEmail.textContent =
+                user.email || "Logged in";
+
+            loadSuppliers();
+
+        });
+
+
+        // =========================
+        // LOAD SUPPLIERS
+        // =========================
+
+        function loadSuppliers() {
+
+            const suppliersRef =
+                collection(db, "suppliers");
+
+            onSnapshot(
+                suppliersRef,
+                (snapshot) => {
+
+                    suppliers = [];
+
+                    snapshot.forEach((docSnap) => {
+
+                        suppliers.push({
+                            id: docSnap.id,
+                            ...docSnap.data()
+                        });
+
+                    });
+
+                    renderSuppliers();
+
+                },
+                (error) => {
+
+                    console.error(error);
+
+                    suppliersTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="empty">
+                                Unable to load suppliers.
+                            </td>
+                        </tr>
+                    `;
+
+                }
+            );
+
+        }
+
+
+        // =========================
+        // DISPLAY SUPPLIERS
+        // =========================
+
+        function renderSuppliers() {
+
+            const search =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+            const filtered =
+                suppliers.filter((supplier) => {
+
+                    return (
+
+                        String(
+                            supplier.name || ""
+                        )
+                        .toLowerCase()
+                        .includes(search)
+
+                        ||
+
+                        String(
+                            supplier.company || ""
+                        )
+                        .toLowerCase()
+                        .includes(search)
+
+                        ||
+
+                        String(
+                            supplier.phone || ""
+                        )
+                        .toLowerCase()
+                        .includes(search)
+
+                        ||
+
+                        String(
+                            supplier.email || ""
+                        )
+                        .toLowerCase()
+                        .includes(search)
+
+                    );
+
+                });
+
+
+            if (filtered.length === 0) {
+
+                suppliersTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty">
+                            No suppliers found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            suppliersTableBody.innerHTML =
+                filtered.map((supplier) => {
+
+                    return `
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    ${escapeHtml(
+                                        supplier.name || ""
+                                    )}
+                                </strong>
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    supplier.company || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    supplier.phone || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    supplier.email || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    supplier.address || "-"
+                                )}
+                            </td>
+
+                            <td>
+
+                                <div class="actions">
+
+                                    <button
+                                        class="action-btn edit-btn"
+                                        onclick="editSupplier('${supplier.id}')"
+                                    >
+                                        Edit
+                                    </button>
+
+                                    <button
+                                        class="action-btn delete-btn"
+                                        onclick="deleteSupplier('${supplier.id}')"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    `;
+
+                }).join("");
+
+        }
+
+
+        // =========================
+        // OPEN MODAL
+        // =========================
+
+        addSupplierBtn.addEventListener(
+            "click",
+            () => {
+
+                editingSupplierId = null;
+
+                modalTitle.textContent =
+                    "Add Supplier";
+
+                saveBtn.textContent =
+                    "Save Supplier";
+
+                supplierForm.reset();
+
+                statusMessage.textContent = "";
+
+                supplierModal.classList.add("show");
+
+            }
+        );
+
+
+        // =========================
+        // CLOSE MODAL
+        // =========================
+
+        function closeSupplierModal() {
+
+            supplierModal.classList.remove("show");
+
+            supplierForm.reset();
+
+            editingSupplierId = null;
+
+            statusMessage.textContent = "";
+
+        }
+
+
+        closeModal.addEventListener(
+            "click",
+            closeSupplierModal
+        );
+
+        cancelBtn.addEventListener(
+            "click",
+            closeSupplierModal
+        );
+
+
+        supplierModal.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    event.target === supplierModal
+                ) {
+
+                    closeSupplierModal();
+
+                }
+
+            }
+        );
+
+
+        // =========================
+        // SAVE SUPPLIER
+        // =========================
+
+        supplierForm.addEventListener(
+            "submit",
+            async (event) => {
+
+                event.preventDefault();
+
+                const user = auth.currentUser;
+
+                if (!user) {
+
+                    alert(
+                        "Your session has expired. Please login again."
+                    );
+
+                    return;
+
+                }
+
+
+                const supplierData = {
+
+                    name:
+                        document
+                            .getElementById("supplierName")
+                            .value
+                            .trim(),
+
+                    company:
+                        document
+                            .getElementById("company")
+                            .value
+                            .trim(),
+
+                    phone:
+                        document
+                            .getElementById("phone")
+                            .value
+                            .trim(),
+
+                    email:
+                        document
+                            .getElementById("email")
+                            .value
+                            .trim(),
+
+                    address:
+                        document
+                            .getElementById("address")
+                            .value
+                            .trim(),
+
+                    notes:
+                        document
+                            .getElementById("notes")
+                            .value
+                            .trim(),
+
+                    updatedAt:
+                        serverTimestamp(),
+
+                    updatedBy:
+                        user.uid,
+
+                    updatedByEmail:
+                        user.email || ""
+
+                };
+
+
+                if (!supplierData.name) {
+
+                    statusMessage.textContent =
+                        "Supplier name is required.";
+
+                    statusMessage.style.color =
+                        "#dc2626";
+
+                    return;
+
+                }
+
+
+                if (!supplierData.phone) {
+
+                    statusMessage.textContent =
+                        "Supplier phone number is required.";
+
+                    statusMessage.style.color =
+                        "#dc2626";
+
+                    return;
+
+                }
+
+
+                try {
+
+                    saveBtn.disabled = true;
+
+                    saveBtn.textContent =
+                        "Saving...";
+
+
+                    if (editingSupplierId) {
+
+                        const supplierRef =
+                            doc(
+                                db,
+                                "suppliers",
+                                editingSupplierId
+                            );
+
+                        await updateDoc(
+                            supplierRef,
+                            supplierData
+                        );
+
+                        statusMessage.textContent =
+                            "Supplier updated successfully.";
+
+                    } else {
+
+                        supplierData.createdAt =
+                            serverTimestamp();
+
+                        supplierData.createdBy =
+                            user.uid;
+
+                        supplierData.createdByEmail =
+                            user.email || "";
+
+                        await addDoc(
+                            collection(db, "suppliers"),
+                            supplierData
+                        );
+
+                        statusMessage.textContent =
+                            "Supplier saved successfully.";
+
+                    }
+
+
+                    statusMessage.style.color =
+                        "#16a34a";
+
+
+                    setTimeout(() => {
+
+                        closeSupplierModal();
+
+                    }, 700);
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    statusMessage.textContent =
+                        "Error saving supplier: " +
+                        error.message;
+
+                    statusMessage.style.color =
+                        "#dc2626";
+
+                } finally {
+
+                    saveBtn.disabled = false;
+
+                    saveBtn.textContent =
+                        editingSupplierId
+                            ? "Update Supplier"
+                            : "Save Supplier";
+
+                }
+
+            }
+        );
+
+
+        // =========================
+        // EDIT SUPPLIER
+        // =========================
+
+        window.editSupplier = function(id) {
+
+            const supplier =
+                suppliers.find(
+                    (item) => item.id === id
+                );
+
+            if (!supplier) return;
+
+
+            editingSupplierId = id;
+
+            modalTitle.textContent =
+                "Edit Supplier";
+
+            saveBtn.textContent =
+                "Update Supplier";
+
+
+            document.getElementById(
+                "supplierName"
+            ).value =
+                supplier.name || "";
+
+
+            document.getElementById(
+                "company"
+            ).value =
+                supplier.company || "";
+
+
+            document.getElementById(
+                "phone"
+            ).value =
+                supplier.phone || "";
+
+
+            document.getElementById(
+                "email"
+            ).value =
+                supplier.email || "";
+
+
+            document.getElementById(
+                "address"
+            ).value =
+                supplier.address || "";
+
+
+            document.getElementById(
+                "notes"
+            ).value =
+                supplier.notes || "";
+
+
+            statusMessage.textContent = "";
+
+            supplierModal.classList.add("show");
+
+        };
+
+
+        // =========================
+        // DELETE SUPPLIER
+        // =========================
+
+        window.deleteSupplier = async function(id) {
+
+            const supplier =
+                suppliers.find(
+                    (item) => item.id === id
+                );
+
+            if (!supplier) return;
+
+
+            const confirmed =
+                confirm(
+                    `Delete supplier "${supplier.name}"?`
+                );
+
+
+            if (!confirmed) return;
+
+
+            try {
+
+                await deleteDoc(
+                    doc(
+                        db,
+                        "suppliers",
+                        id
+                    )
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to delete supplier: " +
+                    error.message
+                );
+
+            }
+
+        };
+
+
+        // =========================
+        // SEARCH
+        // =========================
+
+        searchInput.addEventListener(
+            "input",
+            renderSuppliers
+        );
+
+
+        // =========================
+        // LOGOUT
+        // =========================
+
+        logoutBtn.addEventListener(
+            "click",
+            async (event) => {
+
+                event.preventDefault();
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                        "login.html";
+
+                } catch (error) {
+
+                    console.error(error);
+
+                }
+
+            }
+        );
+
+
+        // =========================
+        // SECURITY / HTML ESCAPE
+        // =========================
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+    </script>
+
+</body>
+              </html>
