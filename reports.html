@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Reports | Nesi Medicals</title>
 
@@ -13,15 +17,18 @@
 
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f7f9;
-            color: #222;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
         }
 
         .layout {
@@ -29,305 +36,677 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+        /* =========================
+           SIDEBAR
+        ========================= */
 
         .sidebar {
             width: 250px;
-            background: #0d1b2a;
+            background: #111827;
             color: white;
-            padding: 20px 15px;
             position: fixed;
             left: 0;
             top: 0;
             bottom: 0;
             overflow-y: auto;
+            z-index: 1000;
         }
 
         .brand {
-            text-align: center;
-            margin-bottom: 30px;
+            padding: 22px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .brand img {
-            width: 65px;
-            height: 65px;
+            width: 45px;
+            height: 45px;
             object-fit: contain;
-            margin-bottom: 8px;
+            border-radius: 8px;
         }
 
-        .brand h2 {
-            font-size: 18px;
+        .brand-text {
+            line-height: 1.2;
         }
 
-        .brand p {
+        .brand-title {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
             font-size: 11px;
-            color: #b8c7d9;
-            margin-top: 4px;
+            color: #9ca3af;
+            margin-top: 3px;
         }
 
-        .nav-menu a {
+        .nav {
+            padding: 15px 10px;
+        }
+
+        .nav-section {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #6b7280;
+            padding: 12px 12px 7px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+        }
+
+        .nav a {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 13px 14px;
-            margin-bottom: 6px;
-            border-radius: 8px;
-            color: #dce6f0;
+            color: #d1d5db;
             text-decoration: none;
+            padding: 12px;
+            margin-bottom: 3px;
+            border-radius: 8px;
             font-size: 14px;
             transition: 0.2s;
         }
 
-        .nav-menu a:hover {
-            background: #17324d;
+        .nav a:hover {
+            background: #1f2937;
+            color: white;
         }
 
-        .nav-menu a.active {
-            background: #0a5fff;
+        .nav a.active {
+            background: #0A5FFF;
             color: white;
         }
 
         .nav-icon {
-            width: 22px;
+            width: 20px;
             text-align: center;
+            font-size: 16px;
         }
 
-        /* MAIN */
+        .sidebar-bottom {
+            padding: 15px 10px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: #dc2626;
+            color: white;
+            padding: 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
 
         .main {
             margin-left: 250px;
             width: calc(100% - 250px);
-            padding: 25px;
+            min-height: 100vh;
         }
 
         .topbar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 500;
         }
 
-        .topbar h1 {
-            font-size: 28px;
+        .page-title h1 {
+            font-size: 23px;
+            color: #111827;
         }
 
-        .topbar p {
-            color: #666;
-            margin-top: 5px;
+        .page-title p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 4px;
         }
 
         .top-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         button {
+            font-family: inherit;
+        }
+
+        .btn {
             border: none;
+            padding: 10px 14px;
             border-radius: 7px;
-            padding: 11px 16px;
             cursor: pointer;
+            font-size: 13px;
             font-weight: 600;
         }
 
-        .refresh-btn {
-            background: #0a5fff;
+        .btn-primary {
+            background: #0A5FFF;
             color: white;
         }
 
-        .print-btn {
-            background: #ff8a00;
-            color: white;
+        .btn-primary:hover {
+            background: #0049d8;
         }
 
-        /* FILTER */
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
 
-        .filter-box {
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        /* =========================
+           FILTERS
+        ========================= */
+
+        .filter-card {
             background: white;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            padding: 18px;
+            margin-bottom: 20px;
         }
 
-        .filter-box h3 {
-            margin-bottom: 15px;
+        .filter-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #111827;
         }
 
         .filters {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 14px;
             align-items: end;
-        }
-
-        .field {
-            flex: 1;
-            min-width: 180px;
         }
 
         .field label {
             display: block;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 6px;
         }
 
-        .field input,
-        .field select {
+        .field input {
             width: 100%;
-            padding: 11px;
-            border: 1px solid #d7dce2;
+            border: 1px solid #d1d5db;
             border-radius: 7px;
-            font-size: 14px;
-        }
-
-        .apply-btn {
-            background: #198754;
-            color: white;
-        }
-
-        /* SUMMARY */
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 25px;
-        }
-
-        .summary-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-        }
-
-        .summary-card .label {
-            color: #777;
+            padding: 10px;
             font-size: 13px;
+            outline: none;
+        }
+
+        .field input:focus {
+            border-color: #0A5FFF;
+            box-shadow:
+                0 0 0 3px rgba(10,95,255,0.10);
+        }
+
+        /* =========================
+           REPORT CARDS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 600;
             margin-bottom: 8px;
         }
 
-        .summary-card .value {
-            font-size: 25px;
-            font-weight: bold;
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #111827;
         }
 
-        .sales-card .value {
-            color: #198754;
+        .stat-note {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 6px;
         }
 
-        .expense-card .value {
-            color: #dc3545;
+        .sales-card {
+            border-left: 4px solid #0A5FFF;
         }
 
-        .profit-card .value {
-            color: #0a5fff;
+        .cost-card {
+            border-left: 4px solid #f59e0b;
         }
 
-        .transaction-card .value {
-            color: #ff8a00;
+        .gross-card {
+            border-left: 4px solid #16a34a;
         }
 
-        /* SECONDARY CARDS */
-
-        .secondary-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
+        .expense-card {
+            border-left: 4px solid #dc2626;
         }
 
-        .report-card {
+        .net-card {
+            border-left: 4px solid #7c3aed;
+        }
+
+        .neutral-card {
+            border-left: 4px solid #6b7280;
+        }
+
+        .positive {
+            color: #15803d !important;
+        }
+
+        .negative {
+            color: #dc2626 !important;
+        }
+
+        /* =========================
+           PROFIT FLOW
+        ========================= */
+
+        .profit-flow {
             background: white;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
         }
 
-        .report-card h3 {
-            margin-bottom: 18px;
-            font-size: 18px;
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 15px;
         }
 
-        .stat-row {
+        .flow {
+            display: grid;
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .flow-box {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            background: #f9fafb;
+        }
+
+        .flow-box strong {
+            display: block;
+            font-size: 17px;
+            margin-top: 5px;
+        }
+
+        .flow-label {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .flow-arrow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #9ca3af;
+            font-size: 20px;
+        }
+
+        /* =========================
+           TWO COLUMN
+        ========================= */
+
+        .two-column {
+            display: grid;
+            grid-template-columns:
+                1.2fr 0.8fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e5e7eb;
             display: flex;
             justify-content: space-between;
-            padding: 11px 0;
-            border-bottom: 1px solid #eee;
+            align-items: center;
             gap: 10px;
         }
 
-        .stat-row:last-child {
+        .panel-header h2 {
+            font-size: 15px;
+            color: #111827;
+        }
+
+        .panel-body {
+            padding: 18px;
+        }
+
+        /* =========================
+           PAYMENT
+        ========================= */
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .payment-row:last-child {
             border-bottom: none;
         }
 
-        .stat-row span:first-child {
-            color: #555;
+        .payment-name {
+            font-size: 13px;
+            color: #4b5563;
         }
 
-        .stat-row strong {
-            text-align: right;
+        .payment-value {
+            font-weight: 700;
+            font-size: 13px;
+            color: #111827;
         }
 
-        /* TABLE */
+        /* =========================
+           EXPENSE CATEGORY
+        ========================= */
 
-        .table-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        .expense-row {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .expense-row:last-child {
+            border-bottom: none;
+        }
+
+        .expense-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .expense-category {
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .expense-amount {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .expense-bar {
+            height: 7px;
+            background: #f3f4f6;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .expense-bar-inner {
+            height: 100%;
+            background: #dc2626;
+            border-radius: 20px;
+            width: 0;
+        }
+
+        /* =========================
+           DATA WARNING
+        ========================= */
+
+        .data-warning {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            border-radius: 10px;
+            padding: 13px 15px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .data-warning strong {
+            color: #7c2d12;
+        }
+
+        /* =========================
+           SALES TABLE
+        ========================= */
+
+        .table-wrapper {
             overflow-x: auto;
-        }
-
-        .table-card h3 {
-            margin-bottom: 18px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 700px;
+            min-width: 850px;
         }
 
         th,
         td {
-            padding: 12px;
+            padding: 12px 14px;
             text-align: left;
-            border-bottom: 1px solid #eee;
-            font-size: 14px;
+            border-bottom: 1px solid #eef0f3;
+            font-size: 12px;
+            white-space: nowrap;
         }
 
         th {
-            background: #f7f9fb;
-            font-weight: bold;
+            background: #f9fafb;
+            color: #4b5563;
+            font-weight: 700;
+        }
+
+        td {
+            color: #374151;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .badge-complete {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-old {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .profit-cell {
+            font-weight: 700;
+            color: #15803d;
+        }
+
+        .not-available {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        /* =========================
+           EMPTY / LOADING
+        ========================= */
+
+        .loading {
+            text-align: center;
+            padding: 35px;
+            color: #6b7280;
+            font-size: 13px;
         }
 
         .empty {
             text-align: center;
             padding: 30px;
-            color: #777;
+            color: #9ca3af;
+            font-size: 13px;
         }
 
-        .loading {
-            text-align: center;
-            padding: 30px;
-            color: #777;
-        }
+        /* =========================
+           PRINT
+        ========================= */
 
-        /* MOBILE */
+        @media print {
 
-        @media (max-width: 1000px) {
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
+            body {
+                background: white;
+            }
+
+            .sidebar,
+            .top-actions,
+            .filter-card,
+            .data-warning {
+                display: none !important;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                position: static;
+                border: none;
+            }
+
+            .content {
+                padding: 0;
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(4, 1fr);
+            }
+
+            .panel,
+            .profit-flow {
+                break-inside: avoid;
+            }
+
+            table {
+                min-width: 0;
+            }
+
+            th,
+            td {
+                font-size: 9px;
+                padding: 7px;
             }
         }
 
-        @media (max-width: 750px) {
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+
+            .flow {
+                grid-template-columns:
+                    1fr 30px 1fr 30px 1fr;
+            }
+
+            .flow-box:nth-child(7),
+            .flow-box:nth-child(8),
+            .flow-box:nth-child(9) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 850px) {
+
             .sidebar {
-                position: relative;
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: static;
                 width: 100%;
                 min-height: auto;
             }
@@ -339,60 +718,52 @@
             .main {
                 margin-left: 0;
                 width: 100%;
-                padding: 15px;
-            }
-
-            .secondary-grid {
-                grid-template-columns: 1fr;
             }
 
             .topbar {
+                position: static;
+                padding: 14px;
                 align-items: flex-start;
+                flex-direction: column;
             }
-        }
 
-        @media (max-width: 520px) {
-            .summary-grid {
+            .content {
+                padding: 14px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-value {
+                font-size: 19px;
+            }
+
+            .filters {
                 grid-template-columns: 1fr;
             }
 
-            .top-actions {
-                width: 100%;
+            .flow {
+                grid-template-columns: 1fr;
             }
 
-            .top-actions button {
-                flex: 1;
+            .flow-arrow {
+                display: none;
             }
 
-            .topbar h1 {
-                font-size: 23px;
-            }
-        }
-
-        /* PRINT */
-
-        @media print {
-            .sidebar,
-            .top-actions,
-            .filter-box {
-                display: none !important;
+            .flow-box:nth-child(7),
+            .flow-box:nth-child(8),
+            .flow-box:nth-child(9) {
+                display: block;
             }
 
-            .main {
-                margin-left: 0;
-                width: 100%;
-                padding: 0;
-            }
-
-            body {
-                background: white;
-            }
-
-            .summary-card,
-            .report-card,
-            .table-card {
-                box-shadow: none;
-                border: 1px solid #ddd;
+            .brand {
+                padding: 15px;
             }
         }
     </style>
@@ -402,19 +773,38 @@
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
 
     <aside class="sidebar">
 
         <div class="brand">
-            <img src="assets/logo.png" alt="Nesi Medicals Logo">
 
-            <h2>Nesi Medicals</h2>
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+            >
 
-            <p>& Minimart Enterprises</p>
+            <div class="brand-text">
+
+                <div class="brand-title">
+                    Nesi Medicals
+                </div>
+
+                <div class="brand-subtitle">
+                    & Minimart Enterprises
+                </div>
+
+            </div>
+
         </div>
 
-        <nav class="nav-menu">
+        <nav class="nav">
+
+            <div class="nav-section">
+                Main
+            </div>
 
             <a href="dashboard.html">
                 <span class="nav-icon">📊</span>
@@ -422,8 +812,13 @@
             </a>
 
             <a href="sales.html">
-                <span class="nav-icon">🛒</span>
+                <span class="nav-icon">💰</span>
                 Sales
+            </a>
+
+            <a href="sales-history.html">
+                <span class="nav-icon">🧾</span>
+                Sales History
             </a>
 
             <a href="inventory.html">
@@ -446,18 +841,29 @@
                 Suppliers
             </a>
 
+            <div class="nav-section">
+                Finance
+            </div>
+
             <a href="expenses.html">
-                <span class="nav-icon">💸</span>
+                <span class="nav-icon">💳</span>
                 Expenses
             </a>
 
-            <a href="reports.html" class="active">
+            <a
+                href="reports.html"
+                class="active"
+            >
                 <span class="nav-icon">📈</span>
                 Reports
             </a>
 
+            <div class="nav-section">
+                Management
+            </div>
+
             <a href="staff.html">
-                <span class="nav-icon">👨‍💼</span>
+                <span class="nav-icon">👨‍⚕️</span>
                 Staff
             </a>
 
@@ -466,36 +872,58 @@
                 Settings
             </a>
 
+            <a href="profile.html">
+                <span class="nav-icon">👤</span>
+                Profile
+            </a>
+
         </nav>
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                Logout
+            </button>
+
+        </div>
 
     </aside>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MAIN
+    ========================= -->
 
     <main class="main">
 
         <div class="topbar">
 
-            <div>
-                <h1>Business Reports</h1>
+            <div class="page-title">
+
+                <h1>
+                    Business Reports
+                </h1>
 
                 <p>
-                    Sales, expenses and business performance
+                    Analyze sales, costs, profit and expenses
                 </p>
+
             </div>
 
             <div class="top-actions">
 
                 <button
-                    class="refresh-btn"
+                    class="btn btn-secondary"
                     id="refreshBtn"
                 >
                     🔄 Refresh
                 </button>
 
                 <button
-                    class="print-btn"
+                    class="btn btn-primary"
                     id="printBtn"
                 >
                     🖨️ Print Report
@@ -506,240 +934,531 @@
         </div>
 
 
-        <!-- FILTER -->
+        <div class="content">
 
-        <div class="filter-box">
+            <!-- =========================
+                 FILTER
+            ========================= -->
 
-            <h3>Report Period</h3>
+            <div class="filter-card">
 
-            <div class="filters">
-
-                <div class="field">
-
-                    <label for="startDate">
-                        Start Date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="startDate"
-                    >
-
+                <div class="filter-title">
+                    Report Period
                 </div>
 
+                <div class="filters">
 
-                <div class="field">
+                    <div class="field">
 
-                    <label for="endDate">
-                        End Date
-                    </label>
+                        <label for="startDate">
+                            Start Date
+                        </label>
 
-                    <input
-                        type="date"
-                        id="endDate"
-                    >
+                        <input
+                            type="date"
+                            id="startDate"
+                        >
 
-                </div>
+                    </div>
 
+                    <div class="field">
 
-                <div>
+                        <label for="endDate">
+                            End Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="endDate"
+                        >
+
+                    </div>
 
                     <button
-                        class="apply-btn"
-                        id="applyBtn"
+                        class="btn btn-primary"
+                        id="applyFilterBtn"
                     >
-                        Apply Report
+                        Apply Filter
                     </button>
 
                 </div>
 
             </div>
 
-        </div>
+
+            <!-- =========================
+                 DATA WARNING
+            ========================= -->
+
+            <div
+                class="data-warning"
+                id="dataWarning"
+            ></div>
 
 
-        <!-- SUMMARY -->
+            <!-- =========================
+                 MAIN STATS
+            ========================= -->
 
-        <div class="summary-grid">
+            <div class="stats">
 
-            <div class="summary-card sales-card">
+                <div class="stat-card sales-card">
 
-                <div class="label">
-                    Total Sales
+                    <div class="stat-label">
+                        Total Sales
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="totalSales"
+                    >
+                        ₦0.00
+                    </div>
+
+                    <div class="stat-note">
+                        Revenue from completed sales
+                    </div>
+
                 </div>
 
-                <div
-                    class="value"
-                    id="totalSales"
-                >
-                    ₦0.00
+
+                <div class="stat-card cost-card">
+
+                    <div class="stat-label">
+                        Cost of Goods Sold
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="totalCost"
+                    >
+                        ₦0.00
+                    </div>
+
+                    <div class="stat-note">
+                        Cost recorded on upgraded sales
+                    </div>
+
                 </div>
 
-            </div>
 
+                <div class="stat-card gross-card">
 
-            <div class="summary-card expense-card">
+                    <div class="stat-label">
+                        Gross Profit
+                    </div>
 
-                <div class="label">
-                    Total Expenses
+                    <div
+                        class="stat-value positive"
+                        id="grossProfit"
+                    >
+                        ₦0.00
+                    </div>
+
+                    <div class="stat-note">
+                        Sales minus product cost
+                    </div>
+
                 </div>
 
-                <div
-                    class="value"
-                    id="totalExpenses"
-                >
-                    ₦0.00
+
+                <div class="stat-card expense-card">
+
+                    <div class="stat-label">
+                        Total Expenses
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="totalExpenses"
+                    >
+                        ₦0.00
+                    </div>
+
+                    <div class="stat-note">
+                        Business expenses
+                    </div>
+
                 </div>
 
-            </div>
 
+                <div class="stat-card net-card">
 
-            <div class="summary-card profit-card">
+                    <div class="stat-label">
+                        Net Profit
+                    </div>
 
-                <div class="label">
-                    Gross Profit
+                    <div
+                        class="stat-value"
+                        id="netProfit"
+                    >
+                        ₦0.00
+                    </div>
+
+                    <div class="stat-note">
+                        Gross profit minus expenses
+                    </div>
+
                 </div>
 
-                <div
-                    class="value"
-                    id="grossProfit"
-                >
-                    ₦0.00
-                </div>
 
-            </div>
+                <div class="stat-card neutral-card">
 
+                    <div class="stat-label">
+                        Number of Sales
+                    </div>
 
-            <div class="summary-card transaction-card">
-
-                <div class="label">
-                    Number of Sales
-                </div>
-
-                <div
-                    class="value"
-                    id="transactionCount"
-                >
-                    0
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- SECONDARY REPORTS -->
-
-        <div class="secondary-grid">
-
-            <div class="report-card">
-
-                <h3>Sales Summary</h3>
-
-                <div class="stat-row">
-
-                    <span>
-                        Number of Transactions
-                    </span>
-
-                    <strong id="salesCount">
+                    <div
+                        class="stat-value"
+                        id="salesCount"
+                    >
                         0
-                    </strong>
+                    </div>
+
+                    <div class="stat-note">
+                        Transactions in selected period
+                    </div>
 
                 </div>
 
-                <div class="stat-row">
 
-                    <span>
+                <div class="stat-card neutral-card">
+
+                    <div class="stat-label">
                         Items Sold
-                    </span>
+                    </div>
 
-                    <strong id="itemsSold">
+                    <div
+                        class="stat-value"
+                        id="itemsSold"
+                    >
                         0
-                    </strong>
+                    </div>
+
+                    <div class="stat-note">
+                        Total units sold
+                    </div>
 
                 </div>
 
-                <div class="stat-row">
 
-                    <span>
+                <div class="stat-card neutral-card">
+
+                    <div class="stat-label">
                         Average Sale
-                    </span>
+                    </div>
 
-                    <strong id="averageSale">
+                    <div
+                        class="stat-value"
+                        id="averageSale"
+                    >
                         ₦0.00
-                    </strong>
+                    </div>
 
-                </div>
-
-                <div class="stat-row">
-
-                    <span>
-                        Cash Sales
-                    </span>
-
-                    <strong id="cashSales">
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-                <div class="stat-row">
-
-                    <span>
-                        POS Sales
-                    </span>
-
-                    <strong id="posSales">
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-                <div class="stat-row">
-
-                    <span>
-                        Bank Transfer
-                    </span>
-
-                    <strong id="transferSales">
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="report-card">
-
-                <h3>Expense Summary</h3>
-
-                <div id="expenseSummary">
-
-                    <div class="loading">
-                        Loading expenses...
+                    <div class="stat-note">
+                        Average transaction value
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
+
+            <!-- =========================
+                 PROFIT FLOW
+            ========================= -->
+
+            <div class="profit-flow">
+
+                <div class="section-title">
+                    Profit Calculation
+                </div>
+
+                <div class="flow">
+
+                    <div class="flow-box">
+
+                        <span class="flow-label">
+                            Total Sales
+                        </span>
+
+                        <strong id="flowSales">
+                            ₦0.00
+                        </strong>
+
+                    </div>
+
+                    <div class="flow-arrow">
+                        −
+                    </div>
+
+                    <div class="flow-box">
+
+                        <span class="flow-label">
+                            Cost of Goods
+                        </span>
+
+                        <strong id="flowCost">
+                            ₦0.00
+                        </strong>
+
+                    </div>
+
+                    <div class="flow-arrow">
+                        =
+                    </div>
+
+                    <div class="flow-box">
+
+                        <span class="flow-label">
+                            Gross Profit
+                        </span>
+
+                        <strong
+                            id="flowGross"
+                            class="positive"
+                        >
+                            ₦0.00
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div
+                    style="
+                        text-align:center;
+                        color:#9ca3af;
+                        padding:12px 0;
+                        font-size:18px;
+                    "
+                >
+                    ↓
+                </div>
+
+                <div
+                    class="flow"
+                    style="
+                        grid-template-columns:
+                        1fr 30px 1fr;
+                    "
+                >
+
+                    <div class="flow-box">
+
+                        <span class="flow-label">
+                            Gross Profit
+                        </span>
+
+                        <strong id="flowGross2">
+                            ₦0.00
+                        </strong>
+
+                    </div>
+
+                    <div class="flow-arrow">
+                        −
+                    </div>
+
+                    <div class="flow-box">
+
+                        <span class="flow-label">
+                            Expenses
+                        </span>
+
+                        <strong id="flowExpenses">
+                            ₦0.00
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div
+                    style="
+                        text-align:center;
+                        color:#9ca3af;
+                        padding:12px 0;
+                        font-size:18px;
+                    "
+                >
+                    ↓
+                </div>
+
+                <div
+                    class="flow-box"
+                    style="
+                        max-width:350px;
+                        margin:auto;
+                        background:#f5f3ff;
+                        border-color:#ddd6fe;
+                    "
+                >
+
+                    <span class="flow-label">
+                        NET PROFIT
+                    </span>
+
+                    <strong
+                        id="flowNet"
+                        class="positive"
+                        style="font-size:23px;"
+                    >
+                        ₦0.00
+                    </strong>
+
+                </div>
+
+            </div>
 
 
-        <!-- RECENT SALES -->
+            <!-- =========================
+                 PAYMENT + EXPENSE
+            ========================= -->
 
-        <div class="table-card">
+            <div class="two-column">
 
-            <h3>
-                Sales in Selected Period
-            </h3>
+                <div class="panel">
 
-            <div id="salesTableContainer">
+                    <div class="panel-header">
 
-                <div class="loading">
-                    Loading sales...
+                        <h2>
+                            Payment Method Breakdown
+                        </h2>
+
+                    </div>
+
+                    <div
+                        class="panel-body"
+                        id="paymentBreakdown"
+                    >
+
+                        <div class="loading">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Expenses by Category
+                        </h2>
+
+                    </div>
+
+                    <div
+                        class="panel-body"
+                        id="expenseBreakdown"
+                    >
+
+                        <div class="loading">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SALES TABLE
+            ========================= -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        Sales Report
+                    </h2>
+
+                    <span
+                        id="salesTableCount"
+                        style="
+                            font-size:11px;
+                            color:#6b7280;
+                        "
+                    >
+                        0 sales
+                    </span>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Sale Number
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Items
+                                </th>
+
+                                <th>
+                                    Payment
+                                </th>
+
+                                <th>
+                                    Sales
+                                </th>
+
+                                <th>
+                                    Cost
+                                </th>
+
+                                <th>
+                                    Gross Profit
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody
+                            id="salesTableBody"
+                        >
+
+                            <tr>
+
+                                <td
+                                    colspan="9"
+                                    class="loading"
+                                >
+                                    Loading sales...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
                 </div>
 
             </div>
@@ -751,6 +1470,10 @@
 </div>
 
 
+<!-- =========================
+     FIREBASE + REPORT LOGIC
+========================= -->
+
 <script type="module">
 
     import {
@@ -759,79 +1482,102 @@
     } from "./js/firebase.js";
 
     import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
         collection,
         getDocs
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    import {
-        onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const startDateInput =
+        document.getElementById("startDate");
+
+    const endDateInput =
+        document.getElementById("endDate");
+
+    const applyFilterBtn =
+        document.getElementById("applyFilterBtn");
+
+    const refreshBtn =
+        document.getElementById("refreshBtn");
+
+    const printBtn =
+        document.getElementById("printBtn");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
 
 
-    const naira = new Intl.NumberFormat(
-        "en-NG",
-        {
-            style: "currency",
-            currency: "NGN"
-        }
-    );
+    /* =========================
+       FORMAT MONEY
+    ========================= */
+
+    function formatMoney(value) {
+
+        const amount =
+            Number(value) || 0;
+
+        return new Intl.NumberFormat(
+            "en-NG",
+            {
+                style: "currency",
+                currency: "NGN"
+            }
+        ).format(amount);
+    }
 
 
-    let allSales = [];
-    let allExpenses = [];
+    /* =========================
+       DATE HELPERS
+    ========================= */
+
+    function pad(number) {
+
+        return String(number).padStart(2, "0");
+
+    }
 
 
-    const totalSalesEl =
-        document.getElementById("totalSales");
+    function localDateString(date) {
 
-    const totalExpensesEl =
-        document.getElementById("totalExpenses");
+        return (
+            date.getFullYear() +
+            "-" +
+            pad(date.getMonth() + 1) +
+            "-" +
+            pad(date.getDate())
+        );
 
-    const grossProfitEl =
-        document.getElementById("grossProfit");
-
-    const transactionCountEl =
-        document.getElementById("transactionCount");
-
-    const salesCountEl =
-        document.getElementById("salesCount");
-
-    const itemsSoldEl =
-        document.getElementById("itemsSold");
-
-    const averageSaleEl =
-        document.getElementById("averageSale");
-
-    const cashSalesEl =
-        document.getElementById("cashSales");
-
-    const posSalesEl =
-        document.getElementById("posSales");
-
-    const transferSalesEl =
-        document.getElementById("transferSales");
-
-    const expenseSummaryEl =
-        document.getElementById("expenseSummary");
-
-    const salesTableContainer =
-        document.getElementById("salesTableContainer");
+    }
 
 
-    function localDateString(date = new Date()) {
+    function getTodayString() {
 
-        const year =
-            date.getFullYear();
+        return localDateString(
+            new Date()
+        );
 
-        const month =
-            String(date.getMonth() + 1)
-                .padStart(2, "0");
+    }
 
-        const day =
-            String(date.getDate())
-                .padStart(2, "0");
 
-        return `${year}-${month}-${day}`;
+    function getStartOfMonthString() {
+
+        const now = new Date();
+
+        return (
+            now.getFullYear() +
+            "-" +
+            pad(now.getMonth() + 1) +
+            "-01"
+        );
+
     }
 
 
@@ -847,34 +1593,63 @@
             return value.toDate();
         }
 
-        if (
-            value instanceof Date
-        ) {
+        if (value instanceof Date) {
             return value;
         }
 
         if (
-            typeof value === "string"
+            typeof value === "string" ||
+            typeof value === "number"
         ) {
-            const date =
+
+            const parsed =
                 new Date(value);
 
-            return isNaN(date)
-                ? null
-                : date;
+            if (
+                !Number.isNaN(
+                    parsed.getTime()
+                )
+            ) {
+                return parsed;
+            }
+
         }
 
         return null;
+
     }
 
 
     function getSaleDate(sale) {
 
-        return (
-            timestampToDate(sale.createdAt) ||
-            timestampToDate(sale.date) ||
-            timestampToDate(sale.timestamp)
-        );
+        const date =
+            timestampToDate(
+                sale.createdAt
+            );
+
+        if (date) {
+            return date;
+        }
+
+        if (sale.date) {
+
+            const parsed =
+                new Date(
+                    sale.date
+                );
+
+            if (
+                !Number.isNaN(
+                    parsed.getTime()
+                )
+            ) {
+                return parsed;
+            }
+
+        }
+
+        return null;
+
     }
 
 
@@ -882,87 +1657,96 @@
 
         if (expense.date) {
 
-            const date =
+            const parsed =
                 new Date(
-                    `${expense.date}T12:00:00`
+                    expense.date +
+                    "T00:00:00"
                 );
 
-            if (!isNaN(date)) {
-                return date;
+            if (
+                !Number.isNaN(
+                    parsed.getTime()
+                )
+            ) {
+                return parsed;
             }
+
         }
 
-        return timestampToDate(
-            expense.createdAt
+        const created =
+            timestampToDate(
+                expense.createdAt
+            );
+
+        return created;
+
+    }
+
+
+    /* =========================
+       STATE
+    ========================= */
+
+    let allSales = [];
+
+    let allExpenses = [];
+
+
+    /* =========================
+       DATE FILTER
+    ========================= */
+
+    function isDateInRange(
+        date,
+        startDate,
+        endDate
+    ) {
+
+        if (!date) {
+            return false;
+        }
+
+        const day =
+            localDateString(date);
+
+        return (
+            day >= startDate &&
+            day <= endDate
         );
+
     }
 
 
-    function getSaleTotal(sale) {
-
-        return Number(
-            sale.total ??
-            sale.grandTotal ??
-            sale.amount ??
-            0
-        );
-    }
-
-
-    function getItemQuantity(item) {
-
-        return Number(
-            item.quantity ??
-            item.qty ??
-            0
-        );
-    }
-
-
-    function setDefaultDates() {
-
-        const today =
-            localDateString();
-
-        const firstDay =
-            new Date();
-
-        firstDay.setDate(1);
-
-        document.getElementById(
-            "startDate"
-        ).value =
-            localDateString(firstDay);
-
-        document.getElementById(
-            "endDate"
-        ).value =
-            today;
-    }
-
+    /* =========================
+       LOAD FIRESTORE DATA
+    ========================= */
 
     async function loadData() {
 
         try {
 
-            salesTableContainer.innerHTML =
-                `<div class="loading">
-                    Loading sales...
-                </div>`;
+            showLoading();
 
-            expenseSummaryEl.innerHTML =
-                `<div class="loading">
-                    Loading expenses...
-                </div>`;
+            const [
+                salesSnapshot,
+                expensesSnapshot
+            ] = await Promise.all([
 
-
-            const salesSnapshot =
-                await getDocs(
+                getDocs(
                     collection(
                         db,
                         "sales"
                     )
-                );
+                ),
+
+                getDocs(
+                    collection(
+                        db,
+                        "expenses"
+                    )
+                )
+
+            ]);
 
 
             allSales =
@@ -971,15 +1755,6 @@
                         id: doc.id,
                         ...doc.data()
                     })
-                );
-
-
-            const expensesSnapshot =
-                await getDocs(
-                    collection(
-                        db,
-                        "expenses"
-                    )
                 );
 
 
@@ -992,75 +1767,57 @@
                 );
 
 
-            generateReport();
+            renderReport();
 
         } catch (error) {
 
             console.error(
-                "Report loading error:",
+                "Reports loading error:",
                 error
             );
 
-            salesTableContainer.innerHTML =
-                `<div class="empty">
-                    Unable to load report data.
-                </div>`;
+            alert(
+                "Unable to load reports. Please check your Firebase connection."
+            );
 
         }
 
     }
 
 
-    function generateReport() {
+    /* =========================
+       FILTER DATA
+    ========================= */
 
-        const start =
-            document.getElementById(
-                "startDate"
-            ).value;
-
-        const end =
-            document.getElementById(
-                "endDate"
-            ).value;
-
-
-        if (!start || !end) {
-            return;
-        }
-
+    function getFilteredData() {
 
         const startDate =
-            new Date(
-                `${start}T00:00:00`
-            );
+            startDateInput.value;
 
         const endDate =
-            new Date(
-                `${end}T23:59:59`
-            );
+            endDateInput.value;
 
 
-        const filteredSales =
+        const sales =
             allSales.filter(
                 sale => {
 
                     const date =
-                        getSaleDate(sale);
+                        getSaleDate(
+                            sale
+                        );
 
-                    if (!date) {
-                        return false;
-                    }
-
-                    return (
-                        date >= startDate &&
-                        date <= endDate
+                    return isDateInRange(
+                        date,
+                        startDate,
+                        endDate
                     );
 
                 }
             );
 
 
-        const filteredExpenses =
+        const expenses =
             allExpenses.filter(
                 expense => {
 
@@ -1069,113 +1826,125 @@
                             expense
                         );
 
-                    if (!date) {
-                        return false;
-                    }
-
-                    return (
-                        date >= startDate &&
-                        date <= endDate
+                    return isDateInRange(
+                        date,
+                        startDate,
+                        endDate
                     );
 
                 }
             );
 
 
-        calculateSummary(
-            filteredSales,
-            filteredExpenses
-        );
+        return {
+            sales,
+            expenses
+        };
 
-        displayExpenseSummary(
-            filteredExpenses
-        );
+    }
 
-        displaySalesTable(
-            filteredSales
+
+    /* =========================
+       VALID COST DATA
+    ========================= */
+
+    function hasCostData(sale) {
+
+        return (
+            sale &&
+            sale.grossProfit !== undefined &&
+            sale.grossProfit !== null &&
+            sale.costTotal !== undefined &&
+            sale.costTotal !== null
         );
 
     }
 
 
-    function calculateSummary(
-        sales,
-        expenses
-    ) {
+    /* =========================
+       RENDER REPORT
+    ========================= */
+
+    function renderReport() {
+
+        const {
+            sales,
+            expenses
+        } = getFilteredData();
+
+
+        /* =====================
+           SALES TOTAL
+        ===================== */
 
         let totalSales = 0;
 
+        let totalCost = 0;
+
+        let grossProfit = 0;
+
         let itemsSold = 0;
 
-        let cashSales = 0;
+        let costDataSales = 0;
 
-        let posSales = 0;
-
-        let transferSales = 0;
+        let oldSales = 0;
 
 
         sales.forEach(
             sale => {
 
-                const total =
-                    getSaleTotal(
-                        sale
+                const saleTotal =
+                    Number(
+                        sale.total ??
+                        sale.subtotal ??
+                        0
                     );
 
-                totalSales += total;
+                totalSales +=
+                    saleTotal;
 
 
-                if (
+                const items =
                     Array.isArray(
                         sale.items
                     )
-                ) {
-
-                    sale.items.forEach(
-                        item => {
-
-                            itemsSold +=
-                                getItemQuantity(
-                                    item
-                                );
-
-                        }
-                    );
-
-                }
+                        ? sale.items
+                        : [];
 
 
-                const payment =
-                    String(
-                        sale.paymentMethod ??
-                        sale.payment ??
-                        ""
-                    ).toLowerCase();
+                items.forEach(
+                    item => {
+
+                        itemsSold +=
+                            Number(
+                                item.quantity
+                            ) || 0;
+
+                    }
+                );
 
 
                 if (
-                    payment.includes(
-                        "cash"
+                    hasCostData(
+                        sale
                     )
                 ) {
 
-                    cashSales += total;
+                    totalCost +=
+                        Number(
+                            sale.costTotal
+                        ) || 0;
 
-                } else if (
-                    payment.includes(
-                        "pos"
-                    )
-                ) {
+                    grossProfit +=
+                        Number(
+                            sale.grossProfit
+                        ) || 0;
 
-                    posSales += total;
+                    costDataSales++;
 
-                } else if (
-                    payment.includes(
-                        "transfer"
-                    )
-                ) {
+                } else {
 
-                    transferSales += total;
+                    oldSales++;
 
                 }
 
@@ -1183,94 +1952,463 @@
         );
 
 
-        let totalExpenses = 0;
+        /* =====================
+           EXPENSE TOTAL
+        ===================== */
 
+        let totalExpenses = 0;
 
         expenses.forEach(
             expense => {
 
                 totalExpenses +=
                     Number(
-                        expense.amount ??
-                        0
-                    );
+                        expense.amount
+                    ) || 0;
 
             }
         );
 
 
-        const grossProfit =
-            totalSales -
+        /* =====================
+           NET PROFIT
+        ===================== */
+
+        const netProfit =
+            grossProfit -
             totalExpenses;
 
 
         const averageSale =
             sales.length > 0
-                ? totalSales / sales.length
+                ? totalSales /
+                  sales.length
                 : 0;
 
 
-        totalSalesEl.textContent =
-            naira.format(
+        /* =====================
+           UPDATE CARDS
+        ===================== */
+
+        document.getElementById(
+            "totalSales"
+        ).textContent =
+            formatMoney(
                 totalSales
             );
 
-        totalExpensesEl.textContent =
-            naira.format(
-                totalExpenses
+
+        document.getElementById(
+            "totalCost"
+        ).textContent =
+            formatMoney(
+                totalCost
             );
 
-        grossProfitEl.textContent =
-            naira.format(
+
+        document.getElementById(
+            "grossProfit"
+        ).textContent =
+            formatMoney(
                 grossProfit
             );
 
-        transactionCountEl.textContent =
+
+        document.getElementById(
+            "totalExpenses"
+        ).textContent =
+            formatMoney(
+                totalExpenses
+            );
+
+
+        document.getElementById(
+            "netProfit"
+        ).textContent =
+            formatMoney(
+                netProfit
+            );
+
+
+        document.getElementById(
+            "salesCount"
+        ).textContent =
             sales.length;
 
-        salesCountEl.textContent =
-            sales.length;
 
-        itemsSoldEl.textContent =
+        document.getElementById(
+            "itemsSold"
+        ).textContent =
             itemsSold;
 
-        averageSaleEl.textContent =
-            naira.format(
+
+        document.getElementById(
+            "averageSale"
+        ).textContent =
+            formatMoney(
                 averageSale
             );
 
-        cashSalesEl.textContent =
-            naira.format(
-                cashSales
+
+        /* =====================
+           PROFIT COLORS
+        ===================== */
+
+        setProfitColor(
+            document.getElementById(
+                "grossProfit"
+            ),
+            grossProfit
+        );
+
+
+        setProfitColor(
+            document.getElementById(
+                "netProfit"
+            ),
+            netProfit
+        );
+
+
+        setProfitColor(
+            document.getElementById(
+                "flowGross"
+            ),
+            grossProfit
+        );
+
+
+        setProfitColor(
+            document.getElementById(
+                "flowNet"
+            ),
+            netProfit
+        );
+
+
+        /* =====================
+           FLOW
+        ===================== */
+
+        document.getElementById(
+            "flowSales"
+        ).textContent =
+            formatMoney(
+                totalSales
             );
 
-        posSalesEl.textContent =
-            naira.format(
-                posSales
+
+        document.getElementById(
+            "flowCost"
+        ).textContent =
+            formatMoney(
+                totalCost
             );
 
-        transferSalesEl.textContent =
-            naira.format(
-                transferSales
+
+        document.getElementById(
+            "flowGross"
+        ).textContent =
+            formatMoney(
+                grossProfit
             );
+
+
+        document.getElementById(
+            "flowGross2"
+        ).textContent =
+            formatMoney(
+                grossProfit
+            );
+
+
+        document.getElementById(
+            "flowExpenses"
+        ).textContent =
+            formatMoney(
+                totalExpenses
+            );
+
+
+        document.getElementById(
+            "flowNet"
+        ).textContent =
+            formatMoney(
+                netProfit
+            );
+
+
+        /* =====================
+           WARNING
+        ===================== */
+
+        const warning =
+            document.getElementById(
+                "dataWarning"
+            );
+
+
+        if (oldSales > 0) {
+
+            warning.style.display =
+                "block";
+
+            warning.innerHTML = `
+                <strong>⚠️ Cost data notice:</strong>
+                ${oldSales} older sale(s) in this period
+                do not contain cost price data.
+                They are included in Total Sales,
+                Number of Sales and Items Sold,
+                but are <strong>not included in Gross Profit
+                or Cost of Goods Sold</strong>.
+                New sales recorded with the upgraded Sales page
+                will contain complete cost and profit information.
+            `;
+
+        } else {
+
+            warning.style.display =
+                "none";
+
+        }
+
+
+        /* =====================
+           OTHER REPORTS
+        ===================== */
+
+        renderPaymentBreakdown(
+            sales
+        );
+
+        renderExpenseBreakdown(
+            expenses
+        );
+
+        renderSalesTable(
+            sales
+        );
 
     }
 
 
-    function displayExpenseSummary(
+    /* =========================
+       PROFIT COLOR
+    ========================= */
+
+    function setProfitColor(
+        element,
+        value
+    ) {
+
+        element.classList.remove(
+            "positive",
+            "negative"
+        );
+
+
+        if (Number(value) < 0) {
+
+            element.classList.add(
+                "negative"
+            );
+
+        } else {
+
+            element.classList.add(
+                "positive"
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       PAYMENT BREAKDOWN
+    ========================= */
+
+    function renderPaymentBreakdown(
+        sales
+    ) {
+
+        const container =
+            document.getElementById(
+                "paymentBreakdown"
+            );
+
+
+        if (!sales.length) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    No sales found for this period.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        const totals = {
+
+            Cash: 0,
+
+            POS: 0,
+
+            "Bank Transfer": 0,
+
+            Other: 0
+
+        };
+
+
+        sales.forEach(
+            sale => {
+
+                const amount =
+                    Number(
+                        sale.total ??
+                        sale.subtotal ??
+                        0
+                    );
+
+
+                const method =
+                    String(
+                        sale.paymentMethod ||
+                        "Other"
+                    ).trim();
+
+
+                if (
+                    method
+                    .toLowerCase() ===
+                    "cash"
+                ) {
+
+                    totals.Cash +=
+                        amount;
+
+                } else if (
+                    method
+                    .toLowerCase() ===
+                    "pos"
+                ) {
+
+                    totals.POS +=
+                        amount;
+
+                } else if (
+                    method
+                    .toLowerCase()
+                    .includes(
+                        "bank"
+                    ) ||
+                    method
+                    .toLowerCase()
+                    .includes(
+                        "transfer"
+                    )
+                ) {
+
+                    totals[
+                        "Bank Transfer"
+                    ] += amount;
+
+                } else {
+
+                    totals.Other +=
+                        amount;
+
+                }
+
+            }
+        );
+
+
+        container.innerHTML = `
+
+            <div class="payment-row">
+                <span class="payment-name">
+                    💵 Cash
+                </span>
+
+                <span class="payment-value">
+                    ${formatMoney(
+                        totals.Cash
+                    )}
+                </span>
+            </div>
+
+            <div class="payment-row">
+                <span class="payment-name">
+                    💳 POS
+                </span>
+
+                <span class="payment-value">
+                    ${formatMoney(
+                        totals.POS
+                    )}
+                </span>
+            </div>
+
+            <div class="payment-row">
+                <span class="payment-name">
+                    🏦 Bank Transfer
+                </span>
+
+                <span class="payment-value">
+                    ${formatMoney(
+                        totals[
+                            "Bank Transfer"
+                        ]
+                    )}
+                </span>
+            </div>
+
+            <div class="payment-row">
+                <span class="payment-name">
+                    Other
+                </span>
+
+                <span class="payment-value">
+                    ${formatMoney(
+                        totals.Other
+                    )}
+                </span>
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================
+       EXPENSE BREAKDOWN
+    ========================= */
+
+    function renderExpenseBreakdown(
         expenses
     ) {
 
-        if (
-            expenses.length === 0
-        ) {
+        const container =
+            document.getElementById(
+                "expenseBreakdown"
+            );
 
-            expenseSummaryEl.innerHTML =
-                `<div class="empty">
-                    No expenses in this period.
-                </div>`;
+
+        if (!expenses.length) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    No expenses found for this period.
+                </div>
+            `;
 
             return;
+
         }
 
 
@@ -1281,26 +2419,32 @@
             expense => {
 
                 const category =
-                    expense.category ||
-                    "Other";
+                    String(
+                        expense.category ||
+                        "Other"
+                    ).trim();
+
 
                 const amount =
                     Number(
-                        expense.amount ??
-                        0
-                    );
+                        expense.amount
+                    ) || 0;
 
-                categories[category] =
+
+                categories[
+                    category
+                ] =
                     (
-                        categories[category] ||
-                        0
+                        categories[
+                            category
+                        ] || 0
                     ) + amount;
 
             }
         );
 
 
-        const entries =
+        const sorted =
             Object.entries(
                 categories
             ).sort(
@@ -1309,50 +2453,117 @@
             );
 
 
-        expenseSummaryEl.innerHTML =
-            entries.map(
-                ([category, amount]) => `
+        const maximum =
+            sorted.length
+                ? sorted[0][1]
+                : 1;
 
-                    <div class="stat-row">
 
-                        <span>
-                            ${escapeHtml(
-                                category
-                            )}
-                        </span>
+        container.innerHTML =
+            sorted.map(
+                ([category, amount]) => {
 
-                        <strong>
-                            ${naira.format(
-                                amount
-                            )}
-                        </strong>
+                    const percentage =
+                        maximum > 0
+                            ? (
+                                amount /
+                                maximum
+                            ) * 100
+                            : 0;
 
-                    </div>
 
-                `
+                    return `
+
+                        <div class="expense-row">
+
+                            <div class="expense-top">
+
+                                <span
+                                    class="expense-category"
+                                >
+                                    ${escapeHtml(
+                                        category
+                                    )}
+                                </span>
+
+                                <span
+                                    class="expense-amount"
+                                >
+                                    ${formatMoney(
+                                        amount
+                                    )}
+                                </span>
+
+                            </div>
+
+                            <div class="expense-bar">
+
+                                <div
+                                    class="expense-bar-inner"
+                                    style="
+                                        width:${percentage}%;
+                                    "
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
             ).join("");
 
     }
 
 
-    function displaySalesTable(
+    /* =========================
+       SALES TABLE
+    ========================= */
+
+    function renderSalesTable(
         sales
     ) {
 
-        if (
-            sales.length === 0
-        ) {
+        const tbody =
+            document.getElementById(
+                "salesTableBody"
+            );
 
-            salesTableContainer.innerHTML =
-                `<div class="empty">
-                    No sales found for this period.
-                </div>`;
+
+        const count =
+            document.getElementById(
+                "salesTableCount"
+            );
+
+
+        count.textContent =
+            `${sales.length} ${
+                sales.length === 1
+                    ? "sale"
+                    : "sales"
+            }`;
+
+
+        if (!sales.length) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="9"
+                        class="empty"
+                    >
+                        No sales found for this period.
+                    </td>
+                </tr>
+            `;
 
             return;
+
         }
 
 
-        const sorted =
+        const sortedSales =
             [...sales].sort(
                 (a, b) => {
 
@@ -1371,147 +2582,215 @@
             );
 
 
-        let html = `
+        tbody.innerHTML =
+            sortedSales.map(
+                sale => {
 
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Date
-                        </th>
-
-                        <th>
-                            Sale Number
-                        </th>
-
-                        <th>
-                            Customer
-                        </th>
-
-                        <th>
-                            Items
-                        </th>
-
-                        <th>
-                            Payment
-                        </th>
-
-                        <th>
-                            Total
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-        `;
+                    const date =
+                        getSaleDate(
+                            sale
+                        );
 
 
-        sorted.forEach(
-            sale => {
+                    const formattedDate =
+                        date
+                            ? date.toLocaleString(
+                                "en-NG",
+                                {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                }
+                            )
+                            : "Unknown";
 
-                const date =
-                    getSaleDate(
-                        sale
-                    );
+
+                    const items =
+                        Array.isArray(
+                            sale.items
+                        )
+                            ? sale.items
+                            : [];
 
 
-                const itemCount =
-                    Array.isArray(
-                        sale.items
-                    )
-                        ? sale.items.reduce(
+                    const itemCount =
+                        items.reduce(
                             (
-                                sum,
+                                total,
                                 item
                             ) =>
-                                sum +
-                                getItemQuantity(
-                                    item
+                                total +
+                                (
+                                    Number(
+                                        item.quantity
+                                    ) || 0
                                 ),
                             0
-                        )
-                        : 0;
+                        );
 
 
-                html += `
-
-                    <tr>
-
-                        <td>
-                            ${
-                                date
-                                    ? date.toLocaleDateString(
-                                        "en-NG"
-                                    )
-                                    : "-"
-                            }
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                sale.saleNumber ||
-                                sale.id ||
-                                "-"
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                sale.customer ||
-                                "Walk-in Customer"
-                            )}
-                        </td>
-
-                        <td>
-                            ${itemCount}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                sale.paymentMethod ||
-                                sale.payment ||
-                                "-"
-                            )}
-                        </td>
-
-                        <td>
-                            ${naira.format(
-                                getSaleTotal(
-                                    sale
-                                )
-                            )}
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        );
+                    const saleTotal =
+                        Number(
+                            sale.total ??
+                            sale.subtotal ??
+                            0
+                        );
 
 
-        html += `
-
-                </tbody>
-
-            </table>
-
-        `;
+                    const hasCost =
+                        hasCostData(
+                            sale
+                        );
 
 
-        salesTableContainer.innerHTML =
-            html;
+                    const cost =
+                        hasCost
+                            ? Number(
+                                sale.costTotal
+                            ) || 0
+                            : null;
+
+
+                    const profit =
+                        hasCost
+                            ? Number(
+                                sale.grossProfit
+                            ) || 0
+                            : null;
+
+
+                    const status =
+                        hasCost
+                            ? `
+                                <span
+                                    class="
+                                        badge
+                                        badge-complete
+                                    "
+                                >
+                                    Cost Data
+                                </span>
+                            `
+                            : `
+                                <span
+                                    class="
+                                        badge
+                                        badge-old
+                                    "
+                                >
+                                    Older Sale
+                                </span>
+                            `;
+
+
+                    return `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHtml(
+                                    sale.saleNumber ||
+                                    "N/A"
+                                )}
+                            </td>
+
+                            <td>
+                                ${formattedDate}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    sale.customer ||
+                                    "Walk-in Customer"
+                                )}
+                            </td>
+
+                            <td>
+                                ${itemCount}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    sale.paymentMethod ||
+                                    "Cash"
+                                )}
+                            </td>
+
+                            <td>
+                                ${formatMoney(
+                                    saleTotal
+                                )}
+                            </td>
+
+                            <td>
+
+                                ${
+                                    hasCost
+                                        ? formatMoney(
+                                            cost
+                                        )
+                                        : `
+                                            <span
+                                                class="
+                                                    not-available
+                                                "
+                                            >
+                                                Not recorded
+                                            </span>
+                                        `
+                                }
+
+                            </td>
+
+                            <td>
+
+                                ${
+                                    hasCost
+                                        ? `
+                                            <span
+                                                class="profit-cell"
+                                            >
+                                                ${formatMoney(
+                                                    profit
+                                                )}
+                                            </span>
+                                        `
+                                        : `
+                                            <span
+                                                class="
+                                                    not-available
+                                                "
+                                            >
+                                                Not available
+                                            </span>
+                                        `
+                                }
+
+                            </td>
+
+                            <td>
+                                ${status}
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            ).join("");
 
     }
 
 
-    function escapeHtml(value) {
+    /* =========================
+       ESCAPE HTML
+    ========================= */
+
+    function escapeHtml(
+        value
+    ) {
 
         return String(
             value ?? ""
@@ -1540,36 +2819,127 @@
     }
 
 
-    document.getElementById(
-        "applyBtn"
-    ).addEventListener(
+    /* =========================
+       LOADING STATE
+    ========================= */
+
+    function showLoading() {
+
+        document.getElementById(
+            "paymentBreakdown"
+        ).innerHTML = `
+            <div class="loading">
+                Loading...
+            </div>
+        `;
+
+
+        document.getElementById(
+            "expenseBreakdown"
+        ).innerHTML = `
+            <div class="loading">
+                Loading...
+            </div>
+        `;
+
+
+        document.getElementById(
+            "salesTableBody"
+        ).innerHTML = `
+            <tr>
+                <td
+                    colspan="9"
+                    class="loading"
+                >
+                    Loading sales...
+                </td>
+            </tr>
+        `;
+
+    }
+
+
+    /* =========================
+       DEFAULT DATE RANGE
+    ========================= */
+
+    function setDefaultDates() {
+
+        startDateInput.value =
+            getStartOfMonthString();
+
+        endDateInput.value =
+            getTodayString();
+
+    }
+
+
+    /* =========================
+       EVENTS
+    ========================= */
+
+    applyFilterBtn.addEventListener(
         "click",
-        generateReport
+        renderReport
     );
 
 
-    document.getElementById(
-        "refreshBtn"
-    ).addEventListener(
+    refreshBtn.addEventListener(
         "click",
-        loadData
+        async () => {
+
+            await loadData();
+
+        }
     );
 
 
-    document.getElementById(
-        "printBtn"
-    ).addEventListener(
+    printBtn.addEventListener(
         "click",
-        () => window.print()
+        () => {
+
+            window.print();
+
+        }
     );
 
 
-    setDefaultDates();
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
 
+            try {
+
+                await signOut(
+                    auth
+                );
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+                alert(
+                    "Unable to logout."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       AUTH
+    ========================= */
 
     onAuthStateChanged(
         auth,
-        user => {
+        async user => {
 
             if (!user) {
 
@@ -1580,7 +2950,10 @@
 
             }
 
-            loadData();
+
+            setDefaultDates();
+
+            await loadData();
 
         }
     );
