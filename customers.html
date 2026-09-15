@@ -30,6 +30,7 @@
             border-right: 1px solid #e5e7eb;
             padding: 25px 15px;
             z-index: 100;
+            overflow-y: auto;
         }
 
         .brand {
@@ -201,7 +202,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 750px;
+            min-width: 850px;
         }
 
         th,
@@ -229,6 +230,7 @@
         .actions {
             display: flex;
             gap: 7px;
+            flex-wrap: wrap;
         }
 
         .small-btn {
@@ -250,11 +252,20 @@
             color: #b91c1c;
         }
 
+        .history-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
         .empty {
             text-align: center;
             padding: 50px 20px;
             color: #6b7280;
         }
+
+        /* =========================
+           MODAL
+        ========================= */
 
         .modal {
             display: none;
@@ -349,6 +360,176 @@
             margin-top: 22px;
         }
 
+        /* =========================
+           PURCHASE HISTORY
+        ========================= */
+
+        .history-modal-box {
+            max-width: 1000px;
+        }
+
+        .customer-profile {
+            background: linear-gradient(
+                135deg,
+                #166534,
+                #16a34a
+            );
+            color: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .customer-profile h2 {
+            font-size: 24px;
+            margin-bottom: 7px;
+        }
+
+        .customer-profile p {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-top: 4px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 7px;
+        }
+
+        .stat-card .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #166534;
+        }
+
+        .history-table-wrapper {
+            overflow-x: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .history-table {
+            min-width: 800px;
+        }
+
+        .history-table th {
+            background: #f9fafb;
+        }
+
+        .item-list {
+            margin: 0;
+            padding-left: 17px;
+        }
+
+        .item-list li {
+            margin-bottom: 4px;
+        }
+
+        .view-btn {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .print-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 45px 20px;
+            color: #6b7280;
+            background: #f9fafb;
+            border-radius: 10px;
+        }
+
+        .loading-history {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           SALE DETAILS MODAL
+        ========================= */
+
+        .sale-details-box {
+            max-width: 700px;
+        }
+
+        .sale-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+        }
+
+        .sale-header h2 {
+            color: #166534;
+            margin-bottom: 7px;
+        }
+
+        .sale-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sale-info-item {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .sale-info-item small {
+            display: block;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .sale-info-item strong {
+            color: #111827;
+        }
+
+        .sale-items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .sale-items th,
+        .sale-items td {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .sale-total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: 700;
+            color: #166534;
+            padding: 15px 0;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
         .message {
             position: fixed;
             right: 20px;
@@ -365,6 +546,10 @@
         .message.show {
             display: block;
         }
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 800px) {
 
@@ -383,6 +568,10 @@
             .page-heading {
                 align-items: flex-start;
                 flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -415,26 +604,49 @@
             .form-group.full {
                 grid-column: auto;
             }
+
+            .sale-info {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-box {
+                padding: 18px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
 
     <aside class="sidebar">
 
         <div class="brand">
 
-            <img src="assets/logo.png" alt="Nesi Medicals Logo">
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+            >
 
             <div class="brand-text">
+
                 <h2>Nesi Medicals</h2>
-                <p>Business Management</p>
+
+                <p>
+                    Business Management
+                </p>
+
             </div>
 
         </div>
+
 
         <nav class="nav">
 
@@ -458,7 +670,10 @@
                 Inventory
             </a>
 
-            <a href="customers.html" class="active">
+            <a
+                href="customers.html"
+                class="active"
+            >
                 <span class="nav-icon">👥</span>
                 Customers
             </a>
@@ -488,7 +703,10 @@
                 Settings
             </a>
 
-            <a href="#" id="logoutButton">
+            <a
+                href="#"
+                id="logoutButton"
+            >
                 <span class="nav-icon">🚪</span>
                 Logout
             </a>
@@ -498,7 +716,9 @@
     </aside>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MAIN
+    ========================= -->
 
     <main class="main">
 
@@ -508,7 +728,10 @@
                 Nesi Medicals Business Management System
             </div>
 
-            <div class="admin" id="adminName">
+            <div
+                class="admin"
+                id="adminName"
+            >
                 Administrator
             </div>
 
@@ -520,12 +743,17 @@
             <div class="page-heading">
 
                 <div>
-                    <h1>Customers</h1>
+
+                    <h1>
+                        Customers
+                    </h1>
 
                     <p>
-                        Manage your customers and their contact information.
+                        Manage your customers and their purchase history.
                     </p>
+
                 </div>
+
 
                 <button
                     type="button"
@@ -561,21 +789,44 @@
                     <thead>
 
                         <tr>
-                            <th>Customer Name</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Actions</th>
+
+                            <th>
+                                Customer Name
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Address
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
                         </tr>
 
                     </thead>
 
+
                     <tbody id="customersTable">
 
                         <tr>
-                            <td colspan="5" class="empty">
+
+                            <td
+                                colspan="5"
+                                class="empty"
+                            >
                                 Loading customers...
+
                             </td>
+
                         </tr>
 
                     </tbody>
@@ -589,9 +840,14 @@
     </main>
 
 
-    <!-- CUSTOMER MODAL -->
+    <!-- =========================
+         ADD / EDIT CUSTOMER MODAL
+    ========================= -->
 
-    <div class="modal" id="customerModal">
+    <div
+        class="modal"
+        id="customerModal"
+    >
 
         <div class="modal-box">
 
@@ -719,12 +975,95 @@
     </div>
 
 
+    <!-- =========================
+         PURCHASE HISTORY MODAL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="historyModal"
+    >
+
+        <div class="modal-box history-modal-box">
+
+            <div class="modal-header">
+
+                <h2>
+                    Customer Purchase History
+                </h2>
+
+                <button
+                    type="button"
+                    class="close"
+                    id="closeHistoryModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="historyContent">
+
+                <div class="loading-history">
+                    Loading purchase history...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SALE DETAILS MODAL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="saleDetailsModal"
+    >
+
+        <div class="modal-box sale-details-box">
+
+            <div class="modal-header">
+
+                <h2>
+                    Sale Details
+                </h2>
+
+                <button
+                    type="button"
+                    class="close"
+                    id="closeSaleDetailsModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="saleDetailsContent">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
     <!-- MESSAGE -->
 
-    <div class="message" id="message"></div>
+    <div
+        class="message"
+        id="message"
+    ></div>
 
 
-    <!-- FIREBASE -->
+    <!-- =========================
+         FIREBASE
+    ========================= -->
 
     <script type="module">
 
@@ -747,13 +1086,18 @@
             doc,
             updateDoc,
             deleteDoc,
-            serverTimestamp
+            serverTimestamp,
+            getDocs
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
         let customers = [];
 
         let editingCustomerId = null;
+
+        let allSales = [];
+
+        let selectedCustomerForHistory = null;
 
 
         /* =========================
@@ -764,15 +1108,21 @@
 
             if (!user) {
 
-                window.location.href = "login.html";
+                window.location.href =
+                    "login.html";
 
                 return;
+
             }
 
-            document.getElementById("adminName").textContent =
+
+            document.getElementById(
+                "adminName"
+            ).textContent =
                 user.displayName ||
                 user.email ||
                 "Administrator";
+
 
             loadCustomers();
 
@@ -786,7 +1136,11 @@
         function loadCustomers() {
 
             const customersRef =
-                collection(db, "customers");
+                collection(
+                    db,
+                    "customers"
+                );
+
 
             onSnapshot(
                 customersRef,
@@ -794,26 +1148,41 @@
 
                     customers = [];
 
-                    snapshot.forEach((docSnap) => {
 
-                        customers.push({
-                            id: docSnap.id,
-                            ...docSnap.data()
-                        });
+                    snapshot.forEach(
+                        (docSnap) => {
 
-                    });
+                            customers.push({
 
-                    customers.sort((a, b) => {
+                                id: docSnap.id,
 
-                        const dateA =
-                            a.createdAt?.toMillis?.() || 0;
+                                ...docSnap.data()
 
-                        const dateB =
-                            b.createdAt?.toMillis?.() || 0;
+                            });
 
-                        return dateB - dateA;
+                        }
+                    );
 
-                    });
+
+                    customers.sort(
+                        (a, b) => {
+
+                            const dateA =
+                                a.createdAt
+                                    ?.toMillis?.() ||
+                                0;
+
+                            const dateB =
+                                b.createdAt
+                                    ?.toMillis?.() ||
+                                0;
+
+
+                            return dateB - dateA;
+
+                        }
+                    );
+
 
                     displayCustomers();
 
@@ -840,53 +1209,68 @@
         function displayCustomers() {
 
             const table =
-                document.getElementById("customersTable");
+                document.getElementById(
+                    "customersTable"
+                );
+
 
             const search =
                 document
-                    .getElementById("searchInput")
+                    .getElementById(
+                        "searchInput"
+                    )
                     .value
                     .toLowerCase()
                     .trim();
 
 
             const filtered =
-                customers.filter((customer) => {
+                customers.filter(
+                    (customer) => {
 
-                    return (
+                        return (
 
-                        String(
-                            customer.name || ""
-                        )
-                            .toLowerCase()
-                            .includes(search)
+                            String(
+                                customer.name ||
+                                ""
+                            )
+                                .toLowerCase()
+                                .includes(search)
 
-                        ||
+                            ||
 
-                        String(
-                            customer.phone || ""
-                        )
-                            .toLowerCase()
-                            .includes(search)
+                            String(
+                                customer.phone ||
+                                ""
+                            )
+                                .toLowerCase()
+                                .includes(search)
 
-                        ||
+                            ||
 
-                        String(
-                            customer.email || ""
-                        )
-                            .toLowerCase()
-                            .includes(search)
+                            String(
+                                customer.email ||
+                                ""
+                            )
+                                .toLowerCase()
+                                .includes(search)
 
-                    );
+                        );
 
-                });
+                    }
+                );
 
 
-            if (filtered.length === 0) {
+            if (
+                filtered.length === 0
+            ) {
 
                 table.innerHTML = `
                     <tr>
-                        <td colspan="5" class="empty">
+                        <td
+                            colspan="5"
+                            class="empty"
+                        >
                             ${
                                 customers.length === 0
                                     ? "No customers added yet."
@@ -897,60 +1281,83 @@
                 `;
 
                 return;
+
             }
 
 
-            table.innerHTML = filtered
-                .map((customer) => {
+            table.innerHTML =
+                filtered
+                    .map(
+                        (customer) => {
 
-                    return `
-                        <tr>
+                            return `
+                                <tr>
 
-                            <td>
-                                <strong>
-                                    ${escapeHtml(customer.name || "")}
-                                </strong>
-                            </td>
+                                    <td>
+                                        <strong>
+                                            ${escapeHtml(
+                                                customer.name ||
+                                                ""
+                                            )}
+                                        </strong>
+                                    </td>
 
-                            <td>
-                                ${escapeHtml(customer.phone || "-")}
-                            </td>
+                                    <td>
+                                        ${escapeHtml(
+                                            customer.phone ||
+                                            "-"
+                                        )}
+                                    </td>
 
-                            <td>
-                                ${escapeHtml(customer.email || "-")}
-                            </td>
+                                    <td>
+                                        ${escapeHtml(
+                                            customer.email ||
+                                            "-"
+                                        )}
+                                    </td>
 
-                            <td>
-                                ${escapeHtml(customer.address || "-")}
-                            </td>
+                                    <td>
+                                        ${escapeHtml(
+                                            customer.address ||
+                                            "-"
+                                        )}
+                                    </td>
 
-                            <td>
+                                    <td>
 
-                                <div class="actions">
+                                        <div class="actions">
 
-                                    <button
-                                        class="small-btn edit-btn"
-                                        onclick="editCustomer('${customer.id}')"
-                                    >
-                                        Edit
-                                    </button>
+                                            <button
+                                                class="small-btn history-btn"
+                                                onclick="viewPurchaseHistory('${customer.id}')"
+                                            >
+                                                History
+                                            </button>
 
-                                    <button
-                                        class="small-btn delete-btn"
-                                        onclick="deleteCustomer('${customer.id}')"
-                                    >
-                                        Delete
-                                    </button>
+                                            <button
+                                                class="small-btn edit-btn"
+                                                onclick="editCustomer('${customer.id}')"
+                                            >
+                                                Edit
+                                            </button>
 
-                                </div>
+                                            <button
+                                                class="small-btn delete-btn"
+                                                onclick="deleteCustomer('${customer.id}')"
+                                            >
+                                                Delete
+                                            </button>
 
-                            </td>
+                                        </div>
 
-                        </tr>
-                    `;
+                                    </td>
 
-                })
-                .join("");
+                                </tr>
+                            `;
+
+                        }
+                    )
+                    .join("");
 
         }
 
@@ -960,7 +1367,9 @@
         ========================= */
 
         document
-            .getElementById("searchInput")
+            .getElementById(
+                "searchInput"
+            )
             .addEventListener(
                 "input",
                 displayCustomers
@@ -968,45 +1377,60 @@
 
 
         /* =========================
-           OPEN MODAL
+           OPEN ADD CUSTOMER
         ========================= */
 
         document
-            .getElementById("addCustomerButton")
-            .addEventListener("click", () => {
+            .getElementById(
+                "addCustomerButton"
+            )
+            .addEventListener(
+                "click",
+                () => {
 
-                editingCustomerId = null;
+                    editingCustomerId = null;
 
-                document
-                    .getElementById("modalTitle")
-                    .textContent = "Add Customer";
 
-                document
-                    .getElementById("customerForm")
-                    .reset();
+                    document.getElementById(
+                        "modalTitle"
+                    ).textContent =
+                        "Add Customer";
 
-                document
-                    .getElementById("customerModal")
-                    .classList.add("show");
 
-            });
+                    document.getElementById(
+                        "customerForm"
+                    ).reset();
+
+
+                    document.getElementById(
+                        "customerModal"
+                    ).classList.add(
+                        "show"
+                    );
+
+                }
+            );
 
 
         /* =========================
-           CLOSE MODAL
+           CLOSE CUSTOMER MODAL
         ========================= */
 
         function closeModal() {
 
-            document
-                .getElementById("customerModal")
-                .classList.remove("show");
+            document.getElementById(
+                "customerModal"
+            ).classList.remove(
+                "show"
+            );
 
         }
 
 
         document
-            .getElementById("closeModal")
+            .getElementById(
+                "closeModal"
+            )
             .addEventListener(
                 "click",
                 closeModal
@@ -1014,7 +1438,9 @@
 
 
         document
-            .getElementById("cancelButton")
+            .getElementById(
+                "cancelButton"
+            )
             .addEventListener(
                 "click",
                 closeModal
@@ -1026,7 +1452,9 @@
         ========================= */
 
         document
-            .getElementById("customerForm")
+            .getElementById(
+                "customerForm"
+            )
             .addEventListener(
                 "submit",
                 async (event) => {
@@ -1036,36 +1464,53 @@
 
                     const name =
                         document
-                            .getElementById("customerName")
+                            .getElementById(
+                                "customerName"
+                            )
                             .value
                             .trim();
+
 
                     const phone =
                         document
-                            .getElementById("customerPhone")
+                            .getElementById(
+                                "customerPhone"
+                            )
                             .value
                             .trim();
+
 
                     const email =
                         document
-                            .getElementById("customerEmail")
+                            .getElementById(
+                                "customerEmail"
+                            )
                             .value
                             .trim();
+
 
                     const address =
                         document
-                            .getElementById("customerAddress")
+                            .getElementById(
+                                "customerAddress"
+                            )
                             .value
                             .trim();
+
 
                     const notes =
                         document
-                            .getElementById("customerNotes")
+                            .getElementById(
+                                "customerNotes"
+                            )
                             .value
                             .trim();
 
 
-                    if (!name || !phone) {
+                    if (
+                        !name ||
+                        !phone
+                    ) {
 
                         showMessage(
                             "Customer name and phone number are required.",
@@ -1073,12 +1518,15 @@
                         );
 
                         return;
+
                     }
 
 
                     try {
 
-                        if (editingCustomerId) {
+                        if (
+                            editingCustomerId
+                        ) {
 
                             const customerRef =
                                 doc(
@@ -1091,13 +1539,20 @@
                             await updateDoc(
                                 customerRef,
                                 {
+
                                     name,
+
                                     phone,
+
                                     email,
+
                                     address,
+
                                     notes,
+
                                     updatedAt:
                                         serverTimestamp()
+
                                 }
                             );
 
@@ -1114,15 +1569,23 @@
                                     "customers"
                                 ),
                                 {
+
                                     name,
+
                                     phone,
+
                                     email,
+
                                     address,
+
                                     notes,
+
                                     createdAt:
                                         serverTimestamp(),
+
                                     updatedAt:
                                         serverTimestamp()
+
                                 }
                             );
 
@@ -1160,54 +1623,59 @@
 
                 const customer =
                     customers.find(
-                        (item) => item.id === id
+                        (item) =>
+                            item.id === id
                     );
 
 
-                if (!customer) return;
+                if (!customer)
+                    return;
 
 
                 editingCustomerId = id;
 
 
-                document
-                    .getElementById("modalTitle")
-                    .textContent = "Edit Customer";
+                document.getElementById(
+                    "modalTitle"
+                ).textContent =
+                    "Edit Customer";
 
 
-                document
-                    .getElementById("customerName")
-                    .value =
+                document.getElementById(
+                    "customerName"
+                ).value =
                     customer.name || "";
 
 
-                document
-                    .getElementById("customerPhone")
-                    .value =
+                document.getElementById(
+                    "customerPhone"
+                ).value =
                     customer.phone || "";
 
 
-                document
-                    .getElementById("customerEmail")
-                    .value =
+                document.getElementById(
+                    "customerEmail"
+                ).value =
                     customer.email || "";
 
 
-                document
-                    .getElementById("customerAddress")
-                    .value =
+                document.getElementById(
+                    "customerAddress"
+                ).value =
                     customer.address || "";
 
 
-                document
-                    .getElementById("customerNotes")
-                    .value =
+                document.getElementById(
+                    "customerNotes"
+                ).value =
                     customer.notes || "";
 
 
-                document
-                    .getElementById("customerModal")
-                    .classList.add("show");
+                document.getElementById(
+                    "customerModal"
+                ).classList.add(
+                    "show"
+                );
 
             };
 
@@ -1221,11 +1689,13 @@
 
                 const customer =
                     customers.find(
-                        (item) => item.id === id
+                        (item) =>
+                            item.id === id
                     );
 
 
-                if (!customer) return;
+                if (!customer)
+                    return;
 
 
                 const confirmed =
@@ -1234,7 +1704,8 @@
                     );
 
 
-                if (!confirmed) return;
+                if (!confirmed)
+                    return;
 
 
                 try {
@@ -1266,28 +1737,1469 @@
             };
 
 
+        /* =====================================================
+           CUSTOMER PURCHASE HISTORY
+        ===================================================== */
+
+        window.viewPurchaseHistory =
+            async function (customerId) {
+
+                const customer =
+                    customers.find(
+                        (item) =>
+                            item.id === customerId
+                    );
+
+
+                if (!customer)
+                    return;
+
+
+                selectedCustomerForHistory =
+                    customer;
+
+
+                document.getElementById(
+                    "historyModal"
+                ).classList.add(
+                    "show"
+                );
+
+
+                document.getElementById(
+                    "historyContent"
+                ).innerHTML = `
+                    <div class="loading-history">
+                        Loading purchase history...
+                    </div>
+                `;
+
+
+                try {
+
+                    const salesSnapshot =
+                        await getDocs(
+                            collection(
+                                db,
+                                "sales"
+                            )
+                        );
+
+
+                    allSales = [];
+
+
+                    salesSnapshot.forEach(
+                        (docSnap) => {
+
+                            const sale =
+                                docSnap.data();
+
+
+                            /*
+                             * Match using customerId.
+                             * We also check customer name
+                             * for compatibility with older
+                             * sales records.
+                             */
+
+                            const matchesCustomerId =
+                                sale.customerId ===
+                                customerId;
+
+
+                            const matchesCustomerName =
+                                String(
+                                    sale.customer ||
+                                    ""
+                                )
+                                    .trim()
+                                    .toLowerCase() ===
+                                String(
+                                    customer.name ||
+                                    ""
+                                )
+                                    .trim()
+                                    .toLowerCase();
+
+
+                            if (
+                                matchesCustomerId ||
+                                matchesCustomerName
+                            ) {
+
+                                allSales.push({
+
+                                    id:
+                                        docSnap.id,
+
+                                    ...sale
+
+                                });
+
+                            }
+
+                        }
+                    );
+
+
+                    allSales.sort(
+                        (a, b) => {
+
+                            const dateA =
+                                getSaleTime(
+                                    a
+                                );
+
+                            const dateB =
+                                getSaleTime(
+                                    b
+                                );
+
+
+                            return dateB - dateA;
+
+                        }
+                    );
+
+
+                    displayPurchaseHistory(
+                        customer,
+                        allSales
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Purchase history error:",
+                        error
+                    );
+
+
+                    document.getElementById(
+                        "historyContent"
+                    ).innerHTML = `
+
+                        <div class="no-history">
+
+                            Unable to load purchase history.
+
+                            <br><br>
+
+                            Please check your internet connection
+                            and try again.
+
+                        </div>
+
+                    `;
+
+                }
+
+            };
+
+
+        /* =========================
+           DISPLAY PURCHASE HISTORY
+        ========================= */
+
+        function displayPurchaseHistory(
+            customer,
+            sales
+        ) {
+
+            let totalSpent = 0;
+
+            let lastPurchase = null;
+
+
+            sales.forEach(
+                (sale) => {
+
+                    totalSpent +=
+                        Number(
+                            sale.total || 0
+                        );
+
+
+                    const saleTime =
+                        getSaleTime(
+                            sale
+                        );
+
+
+                    if (
+                        !lastPurchase ||
+                        saleTime >
+                            lastPurchase
+                    ) {
+
+                        lastPurchase =
+                            saleTime;
+
+                    }
+
+                }
+            );
+
+
+            const lastPurchaseText =
+                lastPurchase
+                    ? formatDate(
+                        new Date(
+                            lastPurchase
+                        )
+                    )
+                    : "No purchases";
+
+
+            const salesRows =
+                sales.length > 0
+
+                    ? sales
+                        .map(
+                            (sale) => {
+
+                                const items =
+                                    Array.isArray(
+                                        sale.items
+                                    )
+                                        ? sale.items
+                                        : [];
+
+
+                                const itemCount =
+                                    items.reduce(
+                                        (
+                                            total,
+                                            item
+                                        ) => {
+
+                                            return (
+                                                total +
+                                                Number(
+                                                    item.quantity ||
+                                                    0
+                                                )
+                                            );
+
+                                        },
+                                        0
+                                    );
+
+
+                                const itemNames =
+                                    items
+                                        .map(
+                                            (
+                                                item
+                                            ) => {
+
+                                                const name =
+                                                    item.productName ||
+                                                    item.name ||
+                                                    "Item";
+
+
+                                                const quantity =
+                                                    Number(
+                                                        item.quantity ||
+                                                        0
+                                                    );
+
+
+                                                return `
+                                                    <li>
+                                                        ${escapeHtml(
+                                                            name
+                                                        )}
+                                                        × ${quantity}
+                                                    </li>
+                                                `;
+
+                                            }
+                                        )
+                                        .join("");
+
+
+                                return `
+
+                                    <tr>
+
+                                        <td>
+
+                                            <strong>
+                                                ${escapeHtml(
+                                                    sale.saleNumber ||
+                                                    "Sale"
+                                                )}
+                                            </strong>
+
+                                            <br>
+
+                                            <small>
+                                                ${formatDateTime(
+                                                    getSaleTime(
+                                                        sale
+                                                    )
+                                                )}
+                                            </small>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <ul class="item-list">
+
+                                                ${itemNames ||
+                                                "<li>No item details</li>"}
+
+                                            </ul>
+
+                                            <small>
+                                                ${itemCount}
+                                                item(s)
+                                            </small>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <strong>
+                                                ${formatCurrency(
+                                                    sale.total
+                                                )}
+                                            </strong>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            ${escapeHtml(
+                                                sale.paymentMethod ||
+                                                "-"
+                                            )}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="actions">
+
+                                                <button
+                                                    class="small-btn view-btn"
+                                                    onclick="viewSaleDetails('${sale.id}')"
+                                                >
+                                                    View
+                                                </button>
+
+                                                <button
+                                                    class="small-btn print-btn"
+                                                    onclick="printSale('${sale.id}')"
+                                                >
+                                                    Print
+                                                </button>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("")
+
+                    : "";
+
+
+            document.getElementById(
+                "historyContent"
+            ).innerHTML = `
+
+                <div class="customer-profile">
+
+                    <h2>
+                        ${escapeHtml(
+                            customer.name ||
+                            "Customer"
+                        )}
+                    </h2>
+
+                    <p>
+                        📞 ${escapeHtml(
+                            customer.phone ||
+                            "-"
+                        )}
+                    </p>
+
+                    ${
+                        customer.email
+                            ? `
+                                <p>
+                                    📧 ${escapeHtml(
+                                        customer.email
+                                    )}
+                                </p>
+                            `
+                            : ""
+                    }
+
+                    ${
+                        customer.address
+                            ? `
+                                <p>
+                                    📍 ${escapeHtml(
+                                        customer.address
+                                    )}
+                                </p>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="label">
+                            Total Spent
+                        </div>
+
+                        <div class="value">
+                            ${formatCurrency(
+                                totalSpent
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="label">
+                            Number of Purchases
+                        </div>
+
+                        <div class="value">
+                            ${sales.length}
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="label">
+                            Last Purchase
+                        </div>
+
+                        <div class="value"
+                             style="font-size:15px;">
+                            ${lastPurchaseText}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                ${
+                    sales.length === 0
+
+                        ? `
+
+                            <div class="no-history">
+
+                                <h3>
+                                    No purchase history yet
+                                </h3>
+
+                                <p style="margin-top:8px;">
+                                    Purchases made by this customer
+                                    will appear here.
+                                </p>
+
+                            </div>
+
+                        `
+
+                        : `
+
+                            <div class="history-table-wrapper">
+
+                                <table class="history-table">
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>
+                                                Sale
+                                            </th>
+
+                                            <th>
+                                                Items
+                                            </th>
+
+                                            <th>
+                                                Total
+                                            </th>
+
+                                            <th>
+                                                Payment
+                                            </th>
+
+                                            <th>
+                                                Actions
+                                            </th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        ${salesRows}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        `
+                }
+
+            `;
+
+        }
+
+
+        /* =====================================================
+           VIEW SALE DETAILS
+        ===================================================== */
+
+        window.viewSaleDetails =
+            function (saleId) {
+
+                const sale =
+                    allSales.find(
+                        (item) =>
+                            item.id === saleId
+                    );
+
+
+                if (!sale)
+                    return;
+
+
+                const items =
+                    Array.isArray(
+                        sale.items
+                    )
+                        ? sale.items
+                        : [];
+
+
+                const itemRows =
+                    items
+                        .map(
+                            (item) => {
+
+                                const price =
+                                    Number(
+                                        item.unitPrice ??
+                                        item.sellingPrice ??
+                                        item.price ??
+                                        0
+                                    );
+
+
+                                const quantity =
+                                    Number(
+                                        item.quantity ||
+                                        0
+                                    );
+
+
+                                const total =
+                                    Number(
+                                        item.total ??
+                                        price *
+                                            quantity
+                                    );
+
+
+                                return `
+
+                                    <tr>
+
+                                        <td>
+                                            ${escapeHtml(
+                                                item.productName ||
+                                                item.name ||
+                                                "Item"
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${quantity}
+                                        </td>
+
+                                        <td>
+                                            ${formatCurrency(
+                                                price
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${formatCurrency(
+                                                total
+                                            )}
+                                        </td>
+
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("");
+
+
+                document.getElementById(
+                    "saleDetailsContent"
+                ).innerHTML = `
+
+                    <div class="sale-header">
+
+                        <h2>
+                            Nesi Medicals
+                        </h2>
+
+                        <p>
+                            Sale Receipt Details
+                        </p>
+
+                    </div>
+
+
+                    <div class="sale-info">
+
+                        <div class="sale-info-item">
+
+                            <small>
+                                Sale Number
+                            </small>
+
+                            <strong>
+                                ${escapeHtml(
+                                    sale.saleNumber ||
+                                    "-"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="sale-info-item">
+
+                            <small>
+                                Date
+                            </small>
+
+                            <strong>
+                                ${formatDateTime(
+                                    getSaleTime(
+                                        sale
+                                    )
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="sale-info-item">
+
+                            <small>
+                                Customer
+                            </small>
+
+                            <strong>
+                                ${escapeHtml(
+                                    sale.customer ||
+                                    "Walk-in Customer"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="sale-info-item">
+
+                            <small>
+                                Payment Method
+                            </small>
+
+                            <strong>
+                                ${escapeHtml(
+                                    sale.paymentMethod ||
+                                    "-"
+                                )}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <table class="sale-items">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Product
+                                </th>
+
+                                <th>
+                                    Qty
+                                </th>
+
+                                <th>
+                                    Price
+                                </th>
+
+                                <th>
+                                    Total
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            ${
+                                itemRows ||
+                                `
+                                    <tr>
+                                        <td colspan="4">
+                                            No items found.
+                                        </td>
+                                    </tr>
+                                `
+                            }
+
+                        </tbody>
+
+                    </table>
+
+
+                    <div class="sale-total">
+
+                        Total:
+                        ${formatCurrency(
+                            sale.total
+                        )}
+
+                    </div>
+
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:flex-end;
+                            gap:10px;
+                        "
+                    >
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="closeSaleDetails()"
+                        >
+                            Close
+                        </button>
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="printSale('${sale.id}')"
+                        >
+                            🖨️ Print Receipt
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                document.getElementById(
+                    "saleDetailsModal"
+                ).classList.add(
+                    "show"
+                );
+
+            };
+
+
+        /* =========================
+           CLOSE SALE DETAILS
+        ========================= */
+
+        window.closeSaleDetails =
+            function () {
+
+                document.getElementById(
+                    "saleDetailsModal"
+                ).classList.remove(
+                    "show"
+                );
+
+            };
+
+
+        document
+            .getElementById(
+                "closeSaleDetailsModal"
+            )
+            .addEventListener(
+                "click",
+                closeSaleDetails
+            );
+
+
+        /* =========================
+           CLOSE HISTORY
+        ========================= */
+
+        function closeHistoryModal() {
+
+            document.getElementById(
+                "historyModal"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+
+        document
+            .getElementById(
+                "closeHistoryModal"
+            )
+            .addEventListener(
+                "click",
+                closeHistoryModal
+            );
+
+
+        /* =====================================================
+           PRINT SALE
+        ===================================================== */
+
+        window.printSale =
+            function (saleId) {
+
+                const sale =
+                    allSales.find(
+                        (item) =>
+                            item.id === saleId
+                    );
+
+
+                if (!sale)
+                    return;
+
+
+                const items =
+                    Array.isArray(
+                        sale.items
+                    )
+                        ? sale.items
+                        : [];
+
+
+                const itemRows =
+                    items
+                        .map(
+                            (item) => {
+
+                                const price =
+                                    Number(
+                                        item.unitPrice ??
+                                        item.sellingPrice ??
+                                        item.price ??
+                                        0
+                                    );
+
+
+                                const quantity =
+                                    Number(
+                                        item.quantity ||
+                                        0
+                                    );
+
+
+                                const total =
+                                    Number(
+                                        item.total ??
+                                        price *
+                                            quantity
+                                    );
+
+
+                                return `
+
+                                    <tr>
+
+                                        <td>
+                                            ${escapeHtml(
+                                                item.productName ||
+                                                item.name ||
+                                                "Item"
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${quantity}
+                                        </td>
+
+                                        <td>
+                                            ${formatCurrency(
+                                                price
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${formatCurrency(
+                                                total
+                                            )}
+                                        </td>
+
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("");
+
+
+                const printWindow =
+                    window.open(
+                        "",
+                        "_blank",
+                        "width=700,height=800"
+                    );
+
+
+                if (!printWindow) {
+
+                    showMessage(
+                        "Please allow pop-ups to print the receipt.",
+                        true
+                    );
+
+                    return;
+
+                }
+
+
+                printWindow.document.write(`
+
+                    <!DOCTYPE html>
+
+                    <html>
+
+                    <head>
+
+                        <title>
+                            Receipt ${
+                                escapeHtml(
+                                    sale.saleNumber ||
+                                    ""
+                                )
+                            }
+                        </title>
+
+                        <style>
+
+                            * {
+                                box-sizing:border-box;
+                            }
+
+                            body {
+                                font-family:Arial,sans-serif;
+                                margin:0;
+                                padding:25px;
+                                color:#111827;
+                            }
+
+                            .receipt {
+                                max-width:600px;
+                                margin:auto;
+                            }
+
+                            .header {
+                                text-align:center;
+                                border-bottom:2px solid #166534;
+                                padding-bottom:15px;
+                                margin-bottom:20px;
+                            }
+
+                            .header img {
+                                width:80px;
+                                height:80px;
+                                object-fit:contain;
+                            }
+
+                            .header h1 {
+                                color:#166534;
+                                margin:8px 0 3px;
+                                font-size:22px;
+                            }
+
+                            .header p {
+                                margin:3px 0;
+                                font-size:12px;
+                            }
+
+                            .info {
+                                margin-bottom:20px;
+                                font-size:13px;
+                            }
+
+                            .info p {
+                                margin:5px 0;
+                            }
+
+                            table {
+                                width:100%;
+                                border-collapse:collapse;
+                            }
+
+                            th,
+                            td {
+                                padding:9px 6px;
+                                border-bottom:1px solid #ddd;
+                                text-align:left;
+                                font-size:13px;
+                            }
+
+                            th {
+                                background:#f3f4f6;
+                            }
+
+                            .total {
+                                text-align:right;
+                                font-size:20px;
+                                font-weight:bold;
+                                color:#166534;
+                                margin-top:20px;
+                            }
+
+                            .footer {
+                                text-align:center;
+                                margin-top:25px;
+                                border-top:1px solid #ddd;
+                                padding-top:15px;
+                                font-size:11px;
+                                color:#666;
+                            }
+
+                            @media print {
+
+                                body {
+                                    padding:0;
+                                }
+
+                                .receipt {
+                                    max-width:none;
+                                }
+
+                            }
+
+                        </style>
+
+                    </head>
+
+
+                    <body>
+
+                        <div class="receipt">
+
+                            <div class="header">
+
+                                <img
+                                    src="${
+                                        window.location.origin
+                                    }/nesi-medicals-app/assets/logo.png"
+                                    alt="Nesi Medicals"
+                                >
+
+                                <h1>
+                                    Nesi Medicals
+                                </h1>
+
+                                <p>
+                                    & Minimart Enterprises
+                                </p>
+
+                                <p>
+                                    13, Angwan Dadi beside
+                                    Emzy Garden, Abuja, FCT
+                                </p>
+
+                                <p>
+                                    +2349067075444
+                                    &nbsp;|&nbsp;
+                                    +2347087471639
+                                </p>
+
+                            </div>
+
+
+                            <div class="info">
+
+                                <p>
+                                    <strong>
+                                        Sale Number:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        sale.saleNumber ||
+                                        "-"
+                                    )}
+                                </p>
+
+
+                                <p>
+                                    <strong>
+                                        Date:
+                                    </strong>
+
+                                    ${formatDateTime(
+                                        getSaleTime(
+                                            sale
+                                        )
+                                    )}
+                                </p>
+
+
+                                <p>
+                                    <strong>
+                                        Customer:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        sale.customer ||
+                                        "Walk-in Customer"
+                                    )}
+                                </p>
+
+
+                                <p>
+                                    <strong>
+                                        Payment:
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        sale.paymentMethod ||
+                                        "-"
+                                    )}
+                                </p>
+
+                            </div>
+
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Product
+                                        </th>
+
+                                        <th>
+                                            Qty
+                                        </th>
+
+                                        <th>
+                                            Price
+                                        </th>
+
+                                        <th>
+                                            Total
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    ${
+                                        itemRows ||
+                                        `
+                                            <tr>
+                                                <td colspan="4">
+                                                    No items found.
+                                                </td>
+                                            </tr>
+                                        `
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+
+                            <div class="total">
+
+                                Grand Total:
+                                ${formatCurrency(
+                                    sale.total
+                                )}
+
+                            </div>
+
+
+                            <div class="footer">
+
+                                Thank you for your patronage.
+
+                                <br>
+
+                                Quality Care.
+                                Essential Products.
+                                Trusted Service.
+
+                            </div>
+
+                        </div>
+
+
+                        <script>
+
+                            window.onload = function() {
+
+                                window.print();
+
+                            };
+
+                        <\/script>
+
+                    </body>
+
+                    </html>
+
+                `);
+
+
+                printWindow.document.close();
+
+            };
+
+
+        /* =========================
+           DATE HELPERS
+        ========================= */
+
+        function getSaleTime(sale) {
+
+            if (
+                sale.createdAt &&
+                typeof sale.createdAt.toMillis ===
+                    "function"
+            ) {
+
+                return sale.createdAt.toMillis();
+
+            }
+
+
+            if (
+                sale.date &&
+                typeof sale.date.toMillis ===
+                    "function"
+            ) {
+
+                return sale.date.toMillis();
+
+            }
+
+
+            if (
+                typeof sale.createdAt ===
+                "string"
+            ) {
+
+                const parsed =
+                    new Date(
+                        sale.createdAt
+                    ).getTime();
+
+
+                if (!isNaN(parsed))
+                    return parsed;
+
+            }
+
+
+            if (
+                typeof sale.date ===
+                "string"
+            ) {
+
+                const parsed =
+                    new Date(
+                        sale.date
+                    ).getTime();
+
+
+                if (!isNaN(parsed))
+                    return parsed;
+
+            }
+
+
+            return 0;
+
+        }
+
+
+        function formatDateTime(
+            timestamp
+        ) {
+
+            if (!timestamp)
+                return "-";
+
+
+            const date =
+                new Date(timestamp);
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "-";
+
+            }
+
+
+            return date.toLocaleString(
+                "en-NG",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        function formatDate(
+            date
+        ) {
+
+            if (!date)
+                return "-";
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "-";
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-NG",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        /* =========================
+           CURRENCY
+        ========================= */
+
+        function formatCurrency(
+            amount
+        ) {
+
+            return new Intl.NumberFormat(
+                "en-NG",
+                {
+                    style: "currency",
+                    currency: "NGN",
+                    minimumFractionDigits: 2
+                }
+            ).format(
+                Number(amount || 0)
+            );
+
+        }
+
+
         /* =========================
            LOGOUT
         ========================= */
 
         document
-            .getElementById("logoutButton")
+            .getElementById(
+                "logoutButton"
+            )
             .addEventListener(
                 "click",
                 async (event) => {
 
                     event.preventDefault();
 
+
                     try {
 
-                        await signOut(auth);
+                        await signOut(
+                            auth
+                        );
+
 
                         window.location.href =
                             "login.html";
 
                     } catch (error) {
 
-                        console.error(error);
+                        console.error(
+                            error
+                        );
 
                     }
 
@@ -1305,23 +3217,36 @@
         ) {
 
             const message =
-                document.getElementById("message");
+                document.getElementById(
+                    "message"
+                );
 
-            message.textContent = text;
+
+            message.textContent =
+                text;
+
 
             message.style.background =
                 error
                     ? "#b91c1c"
                     : "#166534";
 
-            message.classList.add("show");
+
+            message.classList.add(
+                "show"
+            );
 
 
-            setTimeout(() => {
+            setTimeout(
+                () => {
 
-                message.classList.remove("show");
+                    message.classList.remove(
+                        "show"
+                    );
 
-            }, 3000);
+                },
+                3000
+            );
 
         }
 
@@ -1330,19 +3255,106 @@
            SECURITY
         ========================= */
 
-        function escapeHtml(value) {
+        function escapeHtml(
+            value
+        ) {
 
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            return String(
+                value
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
         }
+
+
+        /* =========================
+           CLOSE MODALS WHEN CLICKING
+           OUTSIDE
+        ========================= */
+
+        document
+            .getElementById(
+                "historyModal"
+            )
+            .addEventListener(
+                "click",
+                (event) => {
+
+                    if (
+                        event.target.id ===
+                        "historyModal"
+                    ) {
+
+                        closeHistoryModal();
+
+                    }
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saleDetailsModal"
+            )
+            .addEventListener(
+                "click",
+                (event) => {
+
+                    if (
+                        event.target.id ===
+                        "saleDetailsModal"
+                    ) {
+
+                        closeSaleDetails();
+
+                    }
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "customerModal"
+            )
+            .addEventListener(
+                "click",
+                (event) => {
+
+                    if (
+                        event.target.id ===
+                        "customerModal"
+                    ) {
+
+                        closeModal();
+
+                    }
+
+                }
+            );
 
     </script>
 
 </body>
 
-                              </html>
+    </html>
