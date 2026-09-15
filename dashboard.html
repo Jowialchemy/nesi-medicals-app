@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -18,7 +16,6 @@
     >
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -26,1184 +23,829 @@
         }
 
         body {
-
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
 
-            background: #f5f7f6;
-
-            color: #17201c;
-
-            min-height: 100vh;
-
+            background: #f4f7fb;
+            color: #1f2937;
         }
 
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-        /* =================================
+        button {
+            font-family: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
            SIDEBAR
-        ================================= */
+        ========================= */
 
         .sidebar {
-
+            width: 250px;
+            background: #0b1220;
+            color: white;
             position: fixed;
-
             left: 0;
             top: 0;
-
-            width: 250px;
-
-            height: 100vh;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #073b2a,
-                    #062b21
-                );
-
-            color: white;
-
-            padding: 22px 15px;
-
-            z-index: 1000;
-
-            transition: 0.3s ease;
-
+            bottom: 0;
             overflow-y: auto;
-
+            z-index: 1000;
         }
-
 
         .brand {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            padding:
-                0 8px 25px;
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,0.10);
-
-            margin-bottom: 20px;
-
+            padding: 22px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
         }
-
 
         .brand img {
-
-            width: 45px;
-
-            height: 45px;
-
+            width: 58px;
+            height: 58px;
             object-fit: contain;
-
-            border-radius: 8px;
-
-        }
-
-
-        .brand-text strong {
-
             display: block;
-
-            color: #4ade80;
-
-            font-size: 16px;
-
+            margin: 0 auto 10px;
         }
 
-
-        .brand-text span {
-
-            display: block;
-
-            color: #c9e8df;
-
-            font-size: 10px;
-
-            margin-top: 3px;
-
+        .brand h2 {
+            font-size: 18px;
+            margin-bottom: 4px;
         }
 
+        .brand p {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .nav {
+            padding: 14px 10px;
+        }
 
         .nav-title {
-
-            color: #7fb8a8;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            margin:
-                20px 10px 8px;
-
-            text-transform:
-                uppercase;
-
-            letter-spacing:
-                0.7px;
-
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 12px 8px;
         }
 
-
-        .nav-link {
-
+        .nav a {
             display: flex;
-
             align-items: center;
-
             gap: 12px;
-
-            width: 100%;
-
-            padding: 12px;
-
-            margin-bottom: 5px;
-
+            padding: 12px 13px;
+            margin-bottom: 4px;
             border-radius: 9px;
-
-            color: #dceee8;
-
-            text-decoration: none;
-
-            font-size: 13px;
-
+            color: #d1d5db;
+            font-size: 14px;
             transition: 0.2s ease;
-
         }
 
-
-        .nav-link:hover,
-        .nav-link.active {
-
-            background:
-                rgba(74,222,128,0.14);
-
-            color: #ffffff;
-
+        .nav a:hover {
+            background: #172033;
+            color: white;
         }
 
+        .nav a.active {
+            background: linear-gradient(
+                135deg,
+                #0a5fff,
+                #084dcc
+            );
+            color: white;
+        }
 
         .nav-icon {
-
-            width: 24px;
-
+            width: 22px;
             text-align: center;
-
             font-size: 17px;
-
         }
 
-
-        /* =================================
+        /* =========================
            MAIN
-        ================================= */
+        ========================= */
 
         .main {
-
+            flex: 1;
             margin-left: 250px;
-
-            min-height: 100vh;
-
+            min-width: 0;
         }
 
-
-        /* =================================
+        /* =========================
            TOPBAR
-        ================================= */
+        ========================= */
 
         .topbar {
-
             height: 72px;
-
-            background: #ffffff;
-
-            border-bottom:
-                1px solid #e5e7eb;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
 
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
 
-            padding:
-                0 30px;
+            padding: 0 28px;
 
             position: sticky;
-
             top: 0;
-
-            z-index: 900;
-
+            z-index: 500;
         }
 
-
-        .menu-button {
-
-            display: none;
-
-            border: none;
-
-            background: transparent;
-
-            font-size: 25px;
-
-            cursor: pointer;
-
+        .topbar-left h1 {
+            font-size: 22px;
+            color: #111827;
         }
 
-
-        .topbar-title h1 {
-
-            font-size: 20px;
-
-            margin-bottom: 4px;
-
-        }
-
-
-        .topbar-title p {
-
+        .topbar-left p {
+            margin-top: 3px;
             color: #6b7280;
-
-            font-size: 11px;
-
+            font-size: 13px;
         }
-
 
         .user-area {
-
             display: flex;
-
             align-items: center;
-
-            gap: 12px;
-
+            gap: 10px;
         }
-
 
         .user-avatar {
-
-            width: 40px;
-
-            height: 40px;
-
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-
-            background:
-                #dcfce7;
-
-            color: #15803d;
+            background: #0a5fff;
+            color: white;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
-            font-weight: 800;
-
+            font-weight: bold;
         }
 
+        .user-info {
+            text-align: right;
+        }
 
         .user-info strong {
-
             display: block;
-
-            font-size: 12px;
-
+            font-size: 13px;
+            color: #111827;
         }
-
 
         .user-info span {
-
+            font-size: 11px;
             color: #6b7280;
-
-            font-size: 10px;
-
         }
 
+        .logout-btn {
+            border: none;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 9px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-        /* =================================
+        .logout-btn:hover {
+            background: #fecaca;
+        }
+
+        /* =========================
            CONTENT
-        ================================= */
+        ========================= */
 
         .content {
-
-            padding: 30px;
-
+            padding: 28px;
         }
-
 
         .welcome {
-
-            margin-bottom: 25px;
-
+            margin-bottom: 24px;
         }
-
 
         .welcome h2 {
-
-            font-size: 25px;
-
-            margin-bottom: 7px;
-
+            font-size: 24px;
+            color: #111827;
+            margin-bottom: 5px;
         }
-
 
         .welcome p {
-
             color: #6b7280;
-
-            font-size: 13px;
-
+            font-size: 14px;
         }
 
-
-        /* =================================
+        /* =========================
            STAT CARDS
-        ================================= */
+        ========================= */
 
-        .stats {
-
+        .stats-grid {
             display: grid;
 
             grid-template-columns:
-                repeat(5, 1fr);
+                repeat(5, minmax(0, 1fr));
 
-            gap: 18px;
+            gap: 16px;
 
-            margin-bottom: 25px;
-
+            margin-bottom: 24px;
         }
-
 
         .stat-card {
-
-            background: #ffffff;
-
-            border:
-                1px solid #e5e7eb;
-
-            border-radius: 15px;
-
-            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 19px;
+            border: 1px solid #e5e7eb;
 
             box-shadow:
-                0 4px 15px
-                rgba(0,0,0,0.04);
+                0 3px 12px rgba(15, 23, 42, 0.04);
 
+            min-width: 0;
         }
-
 
         .stat-top {
-
             display: flex;
-
-            justify-content:
-                space-between;
-
             align-items: center;
-
-            margin-bottom: 15px;
-
+            justify-content: space-between;
+            gap: 8px;
         }
-
-
-        .stat-icon {
-
-            width: 42px;
-
-            height: 42px;
-
-            border-radius: 10px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 20px;
-
-            background: #dcfce7;
-
-        }
-
 
         .stat-label {
-
             color: #6b7280;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            text-transform:
-                uppercase;
-
+            font-size: 12px;
+            font-weight: 600;
         }
 
-
-        .stat-value {
-
-            font-size: 24px;
-
-            font-weight: 800;
-
-            margin-bottom: 5px;
-
-            word-break: break-word;
-
-        }
-
-
-        .stat-note {
-
-            color: #6b7280;
-
-            font-size: 10px;
-
-        }
-
-
-        .positive {
-
-            color: #16a34a;
-
-        }
-
-
-        .negative {
-
-            color: #dc2626;
-
-        }
-
-
-        /* =================================
-           DASHBOARD GRID
-        ================================= */
-
-        .dashboard-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                2fr 1fr;
-
-            gap: 20px;
-
-        }
-
-
-        .panel {
-
-            background: #ffffff;
-
-            border:
-                1px solid #e5e7eb;
-
-            border-radius: 15px;
-
-            padding: 22px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0,0,0,0.04);
-
-        }
-
-
-        .panel-header {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content:
-                space-between;
-
-            margin-bottom: 20px;
-
-        }
-
-
-        .panel-header h3 {
-
-            font-size: 16px;
-
-        }
-
-
-        .panel-header a {
-
-            color: #16a34a;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            text-decoration: none;
-
-        }
-
-
-        /* =================================
-           QUICK ACTIONS
-        ================================= */
-
-        .quick-actions {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 12px;
-
-        }
-
-
-        .action {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
-            padding: 15px;
-
-            border:
-                1px solid #e5e7eb;
-
-            border-radius: 11px;
-
-            text-decoration: none;
-
-            color: #17201c;
-
-            transition: 0.2s ease;
-
-        }
-
-
-        .action:hover {
-
-            border-color: #16a34a;
-
-            transform:
-                translateY(-1px);
-
-        }
-
-
-        .action-icon {
-
-            width: 38px;
-
-            height: 38px;
-
+        .stat-icon {
+            width: 36px;
+            height: 36px;
             border-radius: 9px;
 
-            background: #f0fdf4;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
             font-size: 18px;
-
+            flex-shrink: 0;
         }
 
+        .icon-blue {
+            background: #dbeafe;
+        }
 
-        .action strong {
+        .icon-green {
+            background: #dcfce7;
+        }
 
-            display: block;
+        .icon-orange {
+            background: #ffedd5;
+        }
+
+        .icon-purple {
+            background: #ede9fe;
+        }
+
+        .icon-red {
+            background: #fee2e2;
+        }
+
+        .stat-value {
+            margin-top: 12px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #111827;
+            word-break: break-word;
+        }
+
+        .stat-note {
+            margin-top: 6px;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .profit-positive {
+            color: #15803d;
+        }
+
+        .profit-negative {
+            color: #dc2626;
+        }
+
+        .profit-neutral {
+            color: #6b7280;
+        }
+
+        /* =========================
+           PROFIT INFO
+        ========================= */
+
+        .profit-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+
+            padding: 12px 15px;
+            border-radius: 9px;
 
             font-size: 12px;
-
-            margin-bottom: 3px;
-
+            margin-bottom: 22px;
         }
 
-
-        .action span {
-
-            color: #6b7280;
-
-            font-size: 10px;
-
+        .profit-info strong {
+            color: #1e3a8a;
         }
 
+        /* =========================
+           QUICK ACTIONS
+        ========================= */
 
-        /* =================================
-           RECENT ACTIVITY
-        ================================= */
+        .section-title {
+            font-size: 18px;
+            color: #111827;
+            margin-bottom: 14px;
+        }
 
-        .activity {
+        .quick-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .quick-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 11px;
+            padding: 17px;
 
             display: flex;
-
-            gap: 12px;
-
-            padding: 12px 0;
-
-            border-bottom:
-                1px solid #f0f0f0;
-
-        }
-
-
-        .activity:last-child {
-
-            border-bottom: none;
-
-        }
-
-
-        .activity-icon {
-
-            width: 34px;
-
-            height: 34px;
-
-            border-radius: 50%;
-
-            background: #ecfdf5;
-
-            display: flex;
-
             align-items: center;
+            gap: 13px;
 
+            transition: 0.2s ease;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, 0.08);
+
+            border-color: #bfdbfe;
+        }
+
+        .quick-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #eff6ff;
+
+            display: flex;
+            align-items: center;
             justify-content: center;
 
+            font-size: 20px;
+            flex-shrink: 0;
         }
 
-
-        .activity strong {
-
+        .quick-card strong {
             display: block;
-
-            font-size: 11px;
-
+            color: #111827;
+            font-size: 14px;
+            margin-bottom: 4px;
         }
 
-
-        .activity span {
-
+        .quick-card span {
             color: #6b7280;
-
-            font-size: 10px;
-
+            font-size: 11px;
         }
 
+        /* =========================
+           RECENT ACTIVITY
+        ========================= */
 
-        /* =================================
-           MOBILE OVERLAY
-        ================================= */
+        .activity-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+        }
 
-        .overlay {
+        .activity-header {
+            padding: 17px 19px;
+            border-bottom: 1px solid #e5e7eb;
 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-header h3 {
+            font-size: 16px;
+            color: #111827;
+        }
+
+        .activity-header a {
+            color: #0a5fff;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .activity-body {
+            padding: 0;
+        }
+
+        .activity-row {
+            padding: 15px 19px;
+            border-bottom: 1px solid #f1f5f9;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .activity-row:last-child {
+            border-bottom: none;
+        }
+
+        .activity-main {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-width: 0;
+        }
+
+        .activity-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: #eff6ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .activity-text {
+            min-width: 0;
+        }
+
+        .activity-text strong {
+            display: block;
+            color: #111827;
+            font-size: 13px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .activity-text span {
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .activity-amount {
+            font-size: 13px;
+            font-weight: 700;
+            color: #15803d;
+            white-space: nowrap;
+        }
+
+        .empty-activity {
+            padding: 30px 20px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            color: #6b7280;
+        }
+
+        /* =========================
+           MOBILE MENU
+        ========================= */
+
+        .mobile-menu-btn {
             display: none;
 
-            position: fixed;
+            border: none;
+            background: #eff6ff;
+            color: #0a5fff;
 
-            inset: 0;
+            width: 38px;
+            height: 38px;
 
-            background:
-                rgba(0,0,0,0.45);
+            border-radius: 8px;
 
-            z-index: 999;
-
+            cursor: pointer;
+            font-size: 20px;
         }
 
+        .sidebar-overlay {
+            display: none;
+        }
 
-        /* =================================
-           MOBILE
-        ================================= */
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
         @media (max-width: 1200px) {
-
-            .stats {
-
+            .stats-grid {
                 grid-template-columns:
-                    repeat(3, 1fr);
-
+                    repeat(3, minmax(0, 1fr));
             }
 
+            .quick-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
         }
 
-
-        @media (max-width: 1000px) {
-
-            .stats {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-
-            }
-
-
-            .dashboard-grid {
-
-                grid-template-columns: 1fr;
-
-            }
-
-        }
-
-
-        @media (max-width: 700px) {
-
+        @media (max-width: 900px) {
             .sidebar {
-
-                transform:
-                    translateX(-100%);
-
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
             }
-
 
             .sidebar.open {
-
-                transform:
-                    translateX(0);
-
+                transform: translateX(0);
             }
 
+            .sidebar-overlay {
+                position: fixed;
+                inset: 0;
 
-            .overlay.show {
+                background: rgba(0,0,0,0.45);
 
+                z-index: 900;
+            }
+
+            .sidebar-overlay.show {
                 display: block;
-
             }
-
 
             .main {
-
                 margin-left: 0;
-
             }
 
+            .mobile-menu-btn {
+                display: block;
+            }
 
             .topbar {
-
-                padding:
-                    0 18px;
-
+                padding: 0 16px;
             }
 
-
-            .menu-button {
-
-                display: block;
-
+            .topbar-left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
             }
-
-
-            .topbar-title {
-
-                margin-left: 10px;
-
-            }
-
-
-            .topbar-title h1 {
-
-                font-size: 16px;
-
-            }
-
 
             .user-info {
-
                 display: none;
-
             }
-
 
             .content {
-
-                padding:
-                    20px 15px;
-
+                padding: 20px 16px;
             }
-
-
-            .welcome h2 {
-
-                font-size: 21px;
-
-            }
-
         }
 
-
-        @media (max-width: 500px) {
-
-            .stats {
-
+        @media (max-width: 650px) {
+            .stats-grid {
                 grid-template-columns:
-                    1fr 1fr;
-
-                gap: 10px;
-
+                    repeat(2, minmax(0, 1fr));
             }
-
-
-            .stat-card {
-
-                padding: 15px;
-
-            }
-
 
             .stat-value {
-
                 font-size: 18px;
-
             }
 
-
-            .stat-icon {
-
-                width: 35px;
-
-                height: 35px;
-
-                font-size: 16px;
-
+            .quick-grid {
+                grid-template-columns: 1fr;
             }
 
-
-            .quick-actions {
-
-                grid-template-columns:
-                    1fr;
-
+            .welcome h2 {
+                font-size: 21px;
             }
 
+            .topbar-left h1 {
+                font-size: 18px;
+            }
+
+            .logout-btn {
+                padding: 8px 9px;
+            }
         }
 
-
-        @media (max-width: 350px) {
-
-            .stats {
-
-                grid-template-columns:
-                    1fr;
-
+        @media (max-width: 420px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
+            .stat-card {
+                padding: 16px;
+            }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+<div class="app">
 
-    <!-- =================================
+    <!-- =========================
          SIDEBAR
-    ================================= -->
+    ========================= -->
 
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
+    <aside class="sidebar" id="sidebar">
 
         <div class="brand">
 
             <img
                 src="assets/logo.png"
-                alt="Nesi Medicals"
+                alt="Nesi Medicals Logo"
             >
 
-            <div class="brand-text">
+            <h2>Nesi Medicals</h2>
 
-                <strong>
-                    Nesi Medicals
-                </strong>
+            <p>& Minimart Enterprises</p>
 
-                <span>
-                    & Minimart Enterprises
-                </span>
+        </div>
 
+        <nav class="nav">
+
+            <div class="nav-title">
+                Main
             </div>
 
-        </div>
+            <a
+                href="dashboard.html"
+                class="active"
+            >
+                <span class="nav-icon">🏠</span>
+                Dashboard
+            </a>
 
+            <a href="sales.html">
+                <span class="nav-icon">🛒</span>
+                Sales
+            </a>
 
-        <div class="nav-title">
-            Main
-        </div>
+            <a href="sales-history.html">
+                <span class="nav-icon">🧾</span>
+                Sales History
+            </a>
 
+            <a href="inventory.html">
+                <span class="nav-icon">📦</span>
+                Inventory
+            </a>
 
-        <a
-            href="dashboard.html"
-            class="nav-link active"
-        >
+            <a href="products.html">
+                <span class="nav-icon">💊</span>
+                Products
+            </a>
 
-            <span class="nav-icon">
-                📊
-            </span>
+            <a href="customers.html">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
 
-            Dashboard
+            <a href="suppliers.html">
+                <span class="nav-icon">🚚</span>
+                Suppliers
+            </a>
 
-        </a>
+            <a href="expenses.html">
+                <span class="nav-icon">💰</span>
+                Expenses
+            </a>
 
+            <div class="nav-title">
+                Management
+            </div>
 
-        <a
-            href="sales.html"
-            class="nav-link"
-        >
+            <a href="reports.html">
+                <span class="nav-icon">📊</span>
+                Reports
+            </a>
 
-            <span class="nav-icon">
-                💰
-            </span>
+            <a href="staff.html">
+                <span class="nav-icon">👨‍💼</span>
+                Staff
+            </a>
 
-            Sales
+            <a href="settings.html">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
 
-        </a>
+            <a href="profile.html">
+                <span class="nav-icon">👤</span>
+                Profile
+            </a>
 
-
-        <a
-            href="inventory.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                📦
-            </span>
-
-            Inventory
-
-        </a>
-
-
-        <a
-            href="customers.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                👥
-            </span>
-
-            Customers
-
-        </a>
-
-
-        <div class="nav-title">
-            Management
-        </div>
-
-
-        <a
-            href="suppliers.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                🚚
-            </span>
-
-            Suppliers
-
-        </a>
-
-
-        <a
-            href="expenses.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                💳
-            </span>
-
-            Expenses
-
-        </a>
-
-
-        <a
-            href="reports.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                📈
-            </span>
-
-            Reports
-
-        </a>
-
-
-        <a
-            href="staff.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                👨‍💼
-            </span>
-
-            Staff
-
-        </a>
-
-
-        <div class="nav-title">
-            System
-        </div>
-
-
-        <a
-            href="settings.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                ⚙️
-            </span>
-
-            Settings
-
-        </a>
-
-
-        <a
-            href="profile.html"
-            class="nav-link"
-        >
-
-            <span class="nav-icon">
-                👤
-            </span>
-
-            Profile
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-link"
-            id="logoutButton"
-        >
-
-            <span class="nav-icon">
-                🚪
-            </span>
-
-            Logout
-
-        </a>
-
+        </nav>
 
     </aside>
 
-
     <div
-        class="overlay"
-        id="overlay"
+        class="sidebar-overlay"
+        id="sidebarOverlay"
     ></div>
 
-
-    <!-- =================================
+    <!-- =========================
          MAIN
-    ================================= -->
+    ========================= -->
 
     <main class="main">
 
+        <!-- TOPBAR -->
 
         <header class="topbar">
 
-            <div
-                style="
-                    display:flex;
-                    align-items:center;
-                "
-            >
+            <div class="topbar-left">
 
                 <button
-                    class="menu-button"
-                    id="menuButton"
-                    aria-label="Open menu"
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    type="button"
                 >
                     ☰
                 </button>
 
-
-                <div class="topbar-title">
-
-                    <h1>
-                        Dashboard
-                    </h1>
+                <div>
+                    <h1>Dashboard</h1>
 
                     <p>
-                        Nesi Medicals Business Management System
+                        Nesi Medicals & Minimart Enterprises
                     </p>
-
                 </div>
 
             </div>
 
-
             <div class="user-area">
 
-                <div
-                    class="user-avatar"
-                    id="userAvatar"
-                >
-                    N
+                <div class="user-avatar" id="userAvatar">
+                    U
                 </div>
-
 
                 <div class="user-info">
 
                     <strong id="userName">
-                        Nesi Medicals
+                        User
                     </strong>
 
-                    <span id="userRole">
-                        Administrator
+                    <span id="userEmail">
+                        Loading...
                     </span>
 
                 </div>
+
+                <button
+                    class="logout-btn"
+                    id="logoutBtn"
+                    type="button"
+                >
+                    Logout
+                </button>
 
             </div>
 
         </header>
 
-
-        <!-- =================================
-             CONTENT
-        ================================= -->
+        <!-- CONTENT -->
 
         <section class="content">
-
 
             <div class="welcome">
 
                 <h2>
-                    Welcome Back 👋
+                    Welcome back<span id="welcomeName"></span> 👋
                 </h2>
 
                 <p>
@@ -1212,15 +854,13 @@
 
             </div>
 
+            <!-- =========================
+                 STATS
+            ========================= -->
 
-            <!-- =================================
-                 STATISTICS
-            ================================= -->
+            <div class="stats-grid">
 
-            <div class="stats">
-
-
-                <!-- TODAY SALES -->
+                <!-- SALES -->
 
                 <div class="stat-card">
 
@@ -1230,8 +870,8 @@
                             Today's Sales
                         </span>
 
-                        <div class="stat-icon">
-                            💰
+                        <div class="stat-icon icon-blue">
+                            💵
                         </div>
 
                     </div>
@@ -1240,17 +880,77 @@
                         class="stat-value"
                         id="todaySales"
                     >
-                        ₦0
+                        ₦0.00
                     </div>
 
-                    <div class="stat-note positive">
-                        Sales recorded today
+                    <div class="stat-note">
+                        Total sales recorded today
                     </div>
 
                 </div>
 
+                <!-- GROSS PROFIT -->
 
-                <!-- TODAY PROFIT -->
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Today's Gross Profit
+                        </span>
+
+                        <div class="stat-icon icon-green">
+                            📈
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="stat-value profit-neutral"
+                        id="todayGrossProfit"
+                    >
+                        ₦0.00
+                    </div>
+
+                    <div
+                        class="stat-note"
+                        id="grossProfitNote"
+                    >
+                        Based on sales with cost data
+                    </div>
+
+                </div>
+
+                <!-- EXPENSES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Today's Expenses
+                        </span>
+
+                        <div class="stat-icon icon-orange">
+                            💸
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="todayExpenses"
+                    >
+                        ₦0.00
+                    </div>
+
+                    <div class="stat-note">
+                        Expenses recorded today
+                    </div>
+
+                </div>
+
+                <!-- NET PROFIT -->
 
                 <div class="stat-card">
 
@@ -1260,28 +960,24 @@
                             Today's Net Profit
                         </span>
 
-                        <div class="stat-icon">
-                            📈
+                        <div class="stat-icon icon-purple">
+                            💎
                         </div>
 
                     </div>
 
                     <div
-                        class="stat-value positive"
-                        id="todayProfit"
+                        class="stat-value profit-neutral"
+                        id="todayNetProfit"
                     >
-                        ₦0
+                        ₦0.00
                     </div>
 
-                    <div
-                        class="stat-note"
-                        id="profitNote"
-                    >
-                        Sales minus today's expenses
+                    <div class="stat-note">
+                        Gross profit − expenses
                     </div>
 
                 </div>
-
 
                 <!-- PRODUCTS -->
 
@@ -1293,7 +989,7 @@
                             Products
                         </span>
 
-                        <div class="stat-icon">
+                        <div class="stat-icon icon-red">
                             📦
                         </div>
 
@@ -1312,21 +1008,43 @@
 
                 </div>
 
+            </div>
 
-                <!-- CUSTOMERS -->
+            <!-- =========================
+                 PROFIT INFORMATION
+            ========================= -->
+
+            <div class="profit-info">
+
+                <strong>Profit calculation:</strong>
+
+                Today's Net Profit is calculated from the
+                actual gross profit stored with each upgraded
+                sale, minus today's recorded expenses.
+
+                Older sales without cost-price data are not
+                treated as profit.
+
+            </div>
+
+            <!-- =========================
+                 SECONDARY STATS
+            ========================= -->
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:
+                    repeat(auto-fit,minmax(220px,1fr));
+                    gap:16px;
+                    margin-bottom:28px;
+                "
+            >
 
                 <div class="stat-card">
 
-                    <div class="stat-top">
-
-                        <span class="stat-label">
-                            Customers
-                        </span>
-
-                        <div class="stat-icon">
-                            👥
-                        </div>
-
+                    <div class="stat-label">
+                        Customers
                     </div>
 
                     <div
@@ -1342,879 +1060,1128 @@
 
                 </div>
 
-
-                <!-- EXPENSES -->
-
                 <div class="stat-card">
 
-                    <div class="stat-top">
-
-                        <span class="stat-label">
-                            Today's Expenses
-                        </span>
-
-                        <div class="stat-icon">
-                            💳
-                        </div>
-
+                    <div class="stat-label">
+                        Today's Transactions
                     </div>
 
                     <div
                         class="stat-value"
-                        id="todayExpenses"
+                        id="todayTransactions"
                     >
-                        ₦0
+                        0
                     </div>
 
                     <div class="stat-note">
-                        Expenses recorded today
+                        Sales transactions today
                     </div>
 
                 </div>
 
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Items Sold Today
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="todayItems"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-note">
+                        Total quantity sold today
+                    </div>
+
+                </div>
 
             </div>
 
+            <!-- =========================
+                 QUICK ACTIONS
+            ========================= -->
 
-            <!-- =================================
-                 PANELS
-            ================================= -->
+            <h3 class="section-title">
+                Quick Actions
+            </h3>
 
-            <div class="dashboard-grid">
+            <div class="quick-grid">
 
+                <a
+                    href="sales.html"
+                    class="quick-card"
+                >
 
-                <!-- QUICK ACTIONS -->
+                    <div class="quick-icon">
+                        🛒
+                    </div>
 
-                <div class="panel">
+                    <div>
 
-                    <div class="panel-header">
+                        <strong>
+                            New Sale
+                        </strong>
 
-                        <h3>
-                            Quick Actions
-                        </h3>
+                        <span>
+                            Record a new customer sale
+                        </span>
 
                     </div>
 
+                </a>
 
-                    <div class="quick-actions">
+                <a
+                    href="products.html"
+                    class="quick-card"
+                >
 
+                    <div class="quick-icon">
+                        ➕
+                    </div>
 
-                        <a
-                            href="sales.html"
-                            class="action"
-                        >
+                    <div>
 
-                            <div class="action-icon">
-                                💰
-                            </div>
+                        <strong>
+                            Add Product
+                        </strong>
 
-                            <div>
-
-                                <strong>
-                                    New Sale
-                                </strong>
-
-                                <span>
-                                    Record a new transaction
-                                </span>
-
-                            </div>
-
-                        </a>
-
-
-                        <a
-                            href="products.html"
-                            class="action"
-                        >
-
-                            <div class="action-icon">
-                                📦
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Add Product
-                                </strong>
-
-                                <span>
-                                    Add item to inventory
-                                </span>
-
-                            </div>
-
-                        </a>
-
-
-                        <a
-                            href="customers.html"
-                            class="action"
-                        >
-
-                            <div class="action-icon">
-                                👥
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    New Customer
-                                </strong>
-
-                                <span>
-                                    Register a customer
-                                </span>
-
-                            </div>
-
-                        </a>
-
-
-                        <a
-                            href="expenses.html"
-                            class="action"
-                        >
-
-                            <div class="action-icon">
-                                💳
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Add Expense
-                                </strong>
-
-                                <span>
-                                    Record business expense
-                                </span>
-
-                            </div>
-
-                        </a>
-
+                        <span>
+                            Add products to your inventory
+                        </span>
 
                     </div>
 
-                </div>
+                </a>
 
+                <a
+                    href="customers.html"
+                    class="quick-card"
+                >
 
-                <!-- RECENT ACTIVITY -->
+                    <div class="quick-icon">
+                        👥
+                    </div>
 
-                <div class="panel">
+                    <div>
 
-                    <div class="panel-header">
+                        <strong>
+                            Add Customer
+                        </strong>
 
-                        <h3>
-                            Recent Activity
-                        </h3>
+                        <span>
+                            Register a new customer
+                        </span>
 
                     </div>
 
+                </a>
 
-                    <div class="activity">
+                <a
+                    href="expenses.html"
+                    class="quick-card"
+                >
 
-                        <div class="activity-icon">
-                            📊
-                        </div>
+                    <div class="quick-icon">
+                        💰
+                    </div>
 
-                        <div>
+                    <div>
 
-                            <strong>
-                                Dashboard Ready
-                            </strong>
+                        <strong>
+                            Add Expense
+                        </strong>
 
-                            <span>
-                                Live business figures are connected.
-                            </span>
-
-                        </div>
+                        <span>
+                            Record a business expense
+                        </span>
 
                     </div>
 
-
-                    <div class="activity">
-
-                        <div class="activity-icon">
-                            💰
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Sales Tracking
-                            </strong>
-
-                            <span>
-                                Today's sales update automatically.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="activity">
-
-                        <div class="activity-icon">
-                            📦
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Inventory Connected
-                            </strong>
-
-                            <span>
-                                Product records are read from Firebase.
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
+                </a>
 
             </div>
 
+            <!-- =========================
+                 RECENT ACTIVITY
+            ========================= -->
+
+            <div class="activity-card">
+
+                <div class="activity-header">
+
+                    <h3>
+                        Recent Sales
+                    </h3>
+
+                    <a href="sales-history.html">
+                        View All
+                    </a>
+
+                </div>
+
+                <div
+                    class="activity-body"
+                    id="recentActivity"
+                >
+
+                    <div class="empty-activity">
+                        Loading recent sales...
+                    </div>
+
+                </div>
+
+            </div>
 
         </section>
 
-
     </main>
 
-
-    <!-- =================================
-         MENU JAVASCRIPT
-    ================================= -->
-
-    <script>
-
-        const sidebar =
-            document.getElementById("sidebar");
-
-        const menuButton =
-            document.getElementById("menuButton");
-
-        const overlay =
-            document.getElementById("overlay");
+</div>
 
 
-        function openMenu() {
+<!-- =========================
+     FIREBASE DASHBOARD LOGIC
+========================= -->
 
-            sidebar.classList.add("open");
+<script type="module">
 
-            overlay.classList.add("show");
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
 
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+        collection,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const todaySalesEl =
+        document.getElementById("todaySales");
+
+    const todayGrossProfitEl =
+        document.getElementById("todayGrossProfit");
+
+    const todayExpensesEl =
+        document.getElementById("todayExpenses");
+
+    const todayNetProfitEl =
+        document.getElementById("todayNetProfit");
+
+    const productCountEl =
+        document.getElementById("productCount");
+
+    const customerCountEl =
+        document.getElementById("customerCount");
+
+    const todayTransactionsEl =
+        document.getElementById("todayTransactions");
+
+    const todayItemsEl =
+        document.getElementById("todayItems");
+
+    const grossProfitNoteEl =
+        document.getElementById("grossProfitNote");
+
+    const recentActivityEl =
+        document.getElementById("recentActivity");
+
+    const userNameEl =
+        document.getElementById("userName");
+
+    const userEmailEl =
+        document.getElementById("userEmail");
+
+    const userAvatarEl =
+        document.getElementById("userAvatar");
+
+    const welcomeNameEl =
+        document.getElementById("welcomeName");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const mobileMenuBtn =
+        document.getElementById("mobileMenuBtn");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const sidebarOverlay =
+        document.getElementById("sidebarOverlay");
+
+
+    /* =========================
+       CURRENCY
+    ========================= */
+
+    function formatCurrency(amount) {
+
+        return new Intl.NumberFormat(
+            "en-NG",
+            {
+                style: "currency",
+                currency: "NGN"
+            }
+        ).format(
+            Number(amount) || 0
+        );
+    }
+
+
+    /* =========================
+       DATE HELPERS
+    ========================= */
+
+    function getTodayString() {
+
+        const now = new Date();
+
+        const year =
+            now.getFullYear();
+
+        const month =
+            String(
+                now.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                now.getDate()
+            ).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    }
+
+
+    function getDateFromValue(value) {
+
+        if (!value) {
+            return null;
         }
 
-
-        function closeMenu() {
-
-            sidebar.classList.remove("open");
-
-            overlay.classList.remove("show");
-
+        if (
+            typeof value.toDate === "function"
+        ) {
+            return value.toDate();
         }
 
+        if (
+            value instanceof Date
+        ) {
+            return value;
+        }
 
-        menuButton.addEventListener(
-            "click",
-            openMenu
+        if (
+            typeof value === "string"
+        ) {
+            const date =
+                new Date(value);
+
+            if (
+                !Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return date;
+            }
+        }
+
+        if (
+            typeof value === "number"
+        ) {
+            const date =
+                new Date(value);
+
+            if (
+                !Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return date;
+            }
+        }
+
+        return null;
+    }
+
+
+    function isToday(value) {
+
+        const date =
+            getDateFromValue(value);
+
+        if (!date) {
+            return false;
+        }
+
+        const today =
+            new Date();
+
+        return (
+            date.getFullYear() ===
+                today.getFullYear() &&
+
+            date.getMonth() ===
+                today.getMonth() &&
+
+            date.getDate() ===
+                today.getDate()
+        );
+    }
+
+
+    function getExpenseDate(expense) {
+
+        if (
+            expense &&
+            typeof expense.date === "string" &&
+            expense.date
+        ) {
+            return expense.date;
+        }
+
+        return expense?.createdAt || null;
+    }
+
+
+    /* =========================
+       PROFIT COLOR
+    ========================= */
+
+    function applyProfitColor(
+        element,
+        amount
+    ) {
+
+        element.classList.remove(
+            "profit-positive",
+            "profit-negative",
+            "profit-neutral"
         );
 
+        const value =
+            Number(amount) || 0;
 
-        overlay.addEventListener(
-            "click",
-            closeMenu
-        );
+        if (value > 0) {
+
+            element.classList.add(
+                "profit-positive"
+            );
+
+        } else if (value < 0) {
+
+            element.classList.add(
+                "profit-negative"
+            );
+
+        } else {
+
+            element.classList.add(
+                "profit-neutral"
+            );
+        }
+    }
 
 
-        document
-            .querySelectorAll(".nav-link")
-            .forEach(function(link) {
+    /* =========================
+       LOAD DASHBOARD
+    ========================= */
 
-                link.addEventListener(
-                    "click",
-                    function() {
+    async function loadDashboard() {
+
+        try {
+
+            const [
+                productsSnapshot,
+                customersSnapshot,
+                salesSnapshot,
+                expensesSnapshot
+            ] = await Promise.all([
+
+                getDocs(
+                    collection(
+                        db,
+                        "products"
+                    )
+                ),
+
+                getDocs(
+                    collection(
+                        db,
+                        "customers"
+                    )
+                ),
+
+                getDocs(
+                    collection(
+                        db,
+                        "sales"
+                    )
+                ),
+
+                getDocs(
+                    collection(
+                        db,
+                        "expenses"
+                    )
+                )
+
+            ]);
+
+
+            /* =========================
+               PRODUCTS
+            ========================= */
+
+            productCountEl.textContent =
+                productsSnapshot.size;
+
+
+            /* =========================
+               CUSTOMERS
+            ========================= */
+
+            customerCountEl.textContent =
+                customersSnapshot.size;
+
+
+            /* =========================
+               TODAY
+            ========================= */
+
+            const today =
+                getTodayString();
+
+
+            let todaySales = 0;
+
+            let todayGrossProfit = 0;
+
+            let todayExpenses = 0;
+
+            let todayTransactions = 0;
+
+            let todayItems = 0;
+
+            let salesWithProfitData = 0;
+
+            let oldSalesWithoutProfit = 0;
+
+
+            const recentSales = [];
+
+
+            /* =========================
+               SALES
+            ========================= */
+
+            salesSnapshot.forEach(
+                (docSnapshot) => {
+
+                    const sale =
+                        docSnapshot.data();
+
+
+                    const saleDate =
+                        getDateFromValue(
+                            sale.createdAt
+                        );
+
+
+                    const saleIsToday =
+                        isToday(
+                            sale.createdAt
+                        );
+
+
+                    if (saleIsToday) {
+
+                        const saleTotal =
+                            Number(
+                                sale.total ??
+                                sale.subtotal ??
+                                0
+                            );
+
+
+                        todaySales +=
+                            saleTotal;
+
+
+                        todayTransactions++;
+
+
+                        const items =
+                            Array.isArray(
+                                sale.items
+                            )
+                                ? sale.items
+                                : [];
+
+
+                        items.forEach(
+                            (item) => {
+
+                                todayItems +=
+                                    Number(
+                                        item.quantity
+                                    ) || 0;
+
+                            }
+                        );
+
+
+                        /*
+                         * IMPORTANT:
+                         * Only use the actual grossProfit
+                         * saved by the upgraded Sales page.
+                         */
 
                         if (
-                            window.innerWidth <= 700
+                            sale.grossProfit !==
+                            undefined &&
+                            sale.grossProfit !==
+                            null &&
+                            Number.isFinite(
+                                Number(
+                                    sale.grossProfit
+                                )
+                            )
                         ) {
 
-                            closeMenu();
+                            todayGrossProfit +=
+                                Number(
+                                    sale.grossProfit
+                                );
+
+                            salesWithProfitData++;
+
+                        } else {
+
+                            oldSalesWithoutProfit++;
 
                         }
 
                     }
-                );
-
-            });
-
-    </script>
 
 
-    <!-- =================================
-         FIREBASE DASHBOARD
-    ================================= -->
+                    /* =========================
+                       RECENT SALES
+                    ========================= */
 
-    <script type="module">
+                    if (saleDate) {
 
-        import {
-            auth,
-            db
-        } from "./js/firebase.js";
+                        recentSales.push({
 
+                            id:
+                                docSnapshot.id,
 
-        import {
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+                            saleNumber:
+                                sale.saleNumber ||
+                                "Sale",
 
+                            customer:
+                                sale.customer ||
+                                "Walk-in Customer",
 
-        import {
-            collection,
-            getDocs
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+                            total:
+                                Number(
+                                    sale.total ||
+                                    0
+                                ),
 
+                            createdAt:
+                                saleDate
 
-        const todaySalesElement =
-            document.getElementById("todaySales");
+                        });
 
-        const todayProfitElement =
-            document.getElementById("todayProfit");
+                    }
 
-        const todayExpensesElement =
-            document.getElementById("todayExpenses");
-
-        const productCountElement =
-            document.getElementById("productCount");
-
-        const customerCountElement =
-            document.getElementById("customerCount");
-
-        const profitNoteElement =
-            document.getElementById("profitNote");
-
-        const userNameElement =
-            document.getElementById("userName");
-
-        const userAvatarElement =
-            document.getElementById("userAvatar");
-
-        const logoutButton =
-            document.getElementById("logoutButton");
-
-
-        /* =================================
-           NAIRA FORMAT
-        ================================= */
-
-        function formatNaira(amount) {
-
-            return new Intl.NumberFormat(
-                "en-NG",
-                {
-                    style: "currency",
-                    currency: "NGN",
-                    maximumFractionDigits: 2
                 }
-            ).format(
-                Number(amount) || 0
             );
 
-        }
+
+            /* =========================
+               EXPENSES
+            ========================= */
+
+            expensesSnapshot.forEach(
+                (docSnapshot) => {
+
+                    const expense =
+                        docSnapshot.data();
 
 
-        /* =================================
-           GET TODAY
-        ================================= */
+                    const expenseDate =
+                        getExpenseDate(
+                            expense
+                        );
 
-        function getTodayString() {
 
-            const now =
-                new Date();
+                    let expenseIsToday =
+                        false;
 
-            const year =
-                now.getFullYear();
 
-            const month =
-                String(
-                    now.getMonth() + 1
-                ).padStart(
-                    2,
-                    "0"
-                );
+                    /*
+                     * Expense date is normally
+                     * saved as YYYY-MM-DD.
+                     */
 
-            const day =
-                String(
-                    now.getDate()
-                ).padStart(
-                    2,
-                    "0"
-                );
+                    if (
+                        typeof expenseDate ===
+                            "string" &&
+                        /^\d{4}-\d{2}-\d{2}$/.test(
+                            expenseDate
+                        )
+                    ) {
 
-            return (
-                year +
-                "-" +
-                month +
-                "-" +
-                day
+                        expenseIsToday =
+                            expenseDate === today;
+
+                    } else {
+
+                        expenseIsToday =
+                            isToday(
+                                expenseDate
+                            );
+
+                    }
+
+
+                    if (expenseIsToday) {
+
+                        todayExpenses +=
+                            Number(
+                                expense.amount ||
+                                0
+                            );
+
+                    }
+
+                }
             );
 
-        }
+
+            /* =========================
+               NET PROFIT
+            ========================= */
+
+            const todayNetProfit =
+                todayGrossProfit -
+                todayExpenses;
 
 
-        /* =================================
-           SALES DATE CHECK
-        ================================= */
+            /* =========================
+               UPDATE CARDS
+            ========================= */
 
-        function isSaleToday(sale) {
-
-            if (!sale) {
-                return false;
-            }
-
-
-            if (!sale.createdAt) {
-                return false;
-            }
+            todaySalesEl.textContent =
+                formatCurrency(
+                    todaySales
+                );
 
 
-            let saleDate;
+            todayGrossProfitEl.textContent =
+                formatCurrency(
+                    todayGrossProfit
+                );
 
+
+            todayExpensesEl.textContent =
+                formatCurrency(
+                    todayExpenses
+                );
+
+
+            todayNetProfitEl.textContent =
+                formatCurrency(
+                    todayNetProfit
+                );
+
+
+            todayTransactionsEl.textContent =
+                todayTransactions;
+
+
+            todayItemsEl.textContent =
+                todayItems;
+
+
+            applyProfitColor(
+                todayGrossProfitEl,
+                todayGrossProfit
+            );
+
+
+            applyProfitColor(
+                todayNetProfitEl,
+                todayNetProfit
+            );
+
+
+            /* =========================
+               PROFIT NOTE
+            ========================= */
 
             if (
-                sale.createdAt.toDate
+                oldSalesWithoutProfit > 0
             ) {
 
-                saleDate =
-                    sale.createdAt.toDate();
+                grossProfitNoteEl.textContent =
+                    `${salesWithProfitData} sale(s) with cost data • ${oldSalesWithoutProfit} older sale(s) excluded`;
 
             } else {
 
-                saleDate =
-                    new Date(
-                        sale.createdAt
-                    );
+                grossProfitNoteEl.textContent =
+                    `${salesWithProfitData} sale(s) included`;
 
             }
 
 
-            if (
-                Number.isNaN(
-                    saleDate.getTime()
-                )
-            ) {
+            /* =========================
+               RECENT SALES
+            ========================= */
 
-                return false;
-
-            }
-
-
-            const today =
-                getTodayString();
-
-
-            const saleDay =
-                saleDate.getFullYear() +
-                "-" +
-                String(
-                    saleDate.getMonth() + 1
-                ).padStart(2, "0") +
-                "-" +
-                String(
-                    saleDate.getDate()
-                ).padStart(2, "0");
-
-
-            return (
-                saleDay === today
+            recentSales.sort(
+                (
+                    a,
+                    b
+                ) =>
+                    b.createdAt.getTime() -
+                    a.createdAt.getTime()
             );
 
-        }
+
+            renderRecentSales(
+                recentSales.slice(
+                    0,
+                    5
+                )
+            );
 
 
-        /* =================================
-           EXPENSE DATE CHECK
-        ================================= */
+        } catch (error) {
 
-        function isExpenseToday(expense) {
+            console.error(
+                "Dashboard error:",
+                error
+            );
 
-            if (!expense) {
-                return false;
-            }
+            todaySalesEl.textContent =
+                "₦0.00";
 
+            todayGrossProfitEl.textContent =
+                "₦0.00";
 
-            const today =
-                getTodayString();
+            todayExpensesEl.textContent =
+                "₦0.00";
 
+            todayNetProfitEl.textContent =
+                "₦0.00";
 
-            if (expense.date) {
-
-                const expenseDate =
-                    String(
-                        expense.date
-                    ).substring(
-                        0,
-                        10
-                    );
-
-                return (
-                    expenseDate === today
-                );
-
-            }
-
-
-            if (expense.createdAt) {
-
-                let createdDate;
-
-
-                if (
-                    expense.createdAt.toDate
-                ) {
-
-                    createdDate =
-                        expense.createdAt.toDate();
-
-                } else {
-
-                    createdDate =
-                        new Date(
-                            expense.createdAt
-                        );
-
-                }
-
-
-                if (
-                    Number.isNaN(
-                        createdDate.getTime()
-                    )
-                ) {
-
-                    return false;
-
-                }
-
-
-                const createdDay =
-                    createdDate.getFullYear() +
-                    "-" +
-                    String(
-                        createdDate.getMonth() + 1
-                    ).padStart(2, "0") +
-                    "-" +
-                    String(
-                        createdDate.getDate()
-                    ).padStart(2, "0");
-
-
-                return (
-                    createdDay === today
-                );
-
-            }
-
-
-            return false;
+            recentActivityEl.innerHTML = `
+                <div class="empty-activity">
+                    Unable to load dashboard data.
+                    Please refresh the page.
+                </div>
+            `;
 
         }
 
+    }
 
-        /* =================================
-           LOAD DASHBOARD DATA
-        ================================= */
 
-        async function loadDashboardData() {
+    /* =========================
+       RECENT SALES DISPLAY
+    ========================= */
+
+    function renderRecentSales(
+        sales
+    ) {
+
+        if (
+            !sales.length
+        ) {
+
+            recentActivityEl.innerHTML = `
+                <div class="empty-activity">
+                    No sales recorded yet.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        recentActivityEl.innerHTML =
+            sales.map(
+                (sale) => {
+
+                    const date =
+                        sale.createdAt
+                            .toLocaleString(
+                                "en-NG",
+                                {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                }
+                            );
+
+
+                    return `
+
+                        <div class="activity-row">
+
+                            <div class="activity-main">
+
+                                <div class="activity-icon">
+                                    🧾
+                                </div>
+
+                                <div class="activity-text">
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            sale.saleNumber
+                                        )}
+                                    </strong>
+
+                                    <span>
+                                        ${escapeHtml(
+                                            sale.customer
+                                        )}
+                                        •
+                                        ${date}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="activity-amount">
+                                ${formatCurrency(
+                                    sale.total
+                                )}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    /* =========================
+       HTML ESCAPE
+    ========================= */
+
+    function escapeHtml(
+        value
+    ) {
+
+        return String(
+            value ?? ""
+        )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    onAuthStateChanged(
+        auth,
+        async (user) => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            const displayName =
+                user.displayName ||
+                "User";
+
+
+            const email =
+                user.email ||
+                "";
+
+
+            userNameEl.textContent =
+                displayName;
+
+
+            userEmailEl.textContent =
+                email;
+
+
+            welcomeNameEl.textContent =
+                displayName !== "User"
+                    ? `, ${displayName}`
+                    : "";
+
+
+            const firstLetter =
+                displayName
+                    .charAt(0)
+                    .toUpperCase() ||
+                "U";
+
+
+            userAvatarEl.textContent =
+                firstLetter;
+
+
+            await loadDashboard();
+
+        }
+    );
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
 
             try {
 
-                /* PRODUCTS */
-
-                const productsSnapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "products"
-                        )
-                    );
-
-
-                productCountElement.textContent =
-                    productsSnapshot.size;
-
-
-                /* CUSTOMERS */
-
-                const customersSnapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "customers"
-                        )
-                    );
-
-
-                customerCountElement.textContent =
-                    customersSnapshot.size;
-
-
-                /* SALES */
-
-                const salesSnapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "sales"
-                        )
-                    );
-
-
-                let todaySales =
-                    0;
-
-
-                salesSnapshot.forEach(
-                    (saleDocument) => {
-
-                        const sale =
-                            saleDocument.data();
-
-
-                        if (
-                            isSaleToday(
-                                sale
-                            )
-                        ) {
-
-                            todaySales +=
-                                Number(
-                                    sale.total ??
-                                    sale.grandTotal ??
-                                    sale.amount ??
-                                    0
-                                );
-
-                        }
-
-                    }
+                await signOut(
+                    auth
                 );
 
-
-                /* EXPENSES */
-
-                const expensesSnapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "expenses"
-                        )
-                    );
-
-
-                let todayExpenses =
-                    0;
-
-
-                expensesSnapshot.forEach(
-                    (expenseDocument) => {
-
-                        const expense =
-                            expenseDocument.data();
-
-
-                        if (
-                            isExpenseToday(
-                                expense
-                            )
-                        ) {
-
-                            todayExpenses +=
-                                Number(
-                                    expense.amount ??
-                                    0
-                                );
-
-                        }
-
-                    }
-                );
-
-
-                /* NET PROFIT */
-
-                const todayProfit =
-                    todaySales -
-                    todayExpenses;
-
-
-                /* DISPLAY SALES */
-
-                todaySalesElement.textContent =
-                    formatNaira(
-                        todaySales
-                    );
-
-
-                /* DISPLAY EXPENSES */
-
-                todayExpensesElement.textContent =
-                    formatNaira(
-                        todayExpenses
-                    );
-
-
-                /* DISPLAY PROFIT */
-
-                todayProfitElement.textContent =
-                    formatNaira(
-                        todayProfit
-                    );
-
-
-                if (
-                    todayProfit >= 0
-                ) {
-
-                    todayProfitElement.classList
-                        .remove("negative");
-
-                    todayProfitElement.classList
-                        .add("positive");
-
-                    profitNoteElement.textContent =
-                        "Sales minus today's expenses";
-
-                } else {
-
-                    todayProfitElement.classList
-                        .remove("positive");
-
-                    todayProfitElement.classList
-                        .add("negative");
-
-                    profitNoteElement.textContent =
-                        "Today's expenses are higher than sales";
-
-                }
-
+                window.location.href =
+                    "login.html";
 
             } catch (error) {
 
                 console.error(
-                    "Dashboard data error:",
+                    "Logout error:",
                     error
                 );
 
-                todaySalesElement.textContent =
-                    "₦0";
-
-                todayProfitElement.textContent =
-                    "₦0";
-
-                todayExpensesElement.textContent =
-                    "₦0";
-
-                productCountElement.textContent =
-                    "0";
-
-                customerCountElement.textContent =
-                    "0";
+                alert(
+                    "Unable to logout. Please try again."
+                );
 
             }
 
         }
+    );
 
 
-        /* =================================
-           AUTHENTICATION
-        ================================= */
+    /* =========================
+       MOBILE SIDEBAR
+    ========================= */
 
-        onAuthStateChanged(
-            auth,
-            async (user) => {
+    mobileMenuBtn.addEventListener(
+        "click",
+        () => {
 
-                if (!user) {
+            sidebar.classList.add(
+                "open"
+            );
 
-                    window.location.href =
-                        "login.html";
+            sidebarOverlay.classList.add(
+                "show"
+            );
 
-                    return;
-
-                }
-
-
-                /* USER NAME */
-
-                const name =
-                    user.displayName ||
-                    "Nesi Medicals";
+        }
+    );
 
 
-                userNameElement.textContent =
-                    name;
+    sidebarOverlay.addEventListener(
+        "click",
+        () => {
+
+            sidebar.classList.remove(
+                "open"
+            );
+
+            sidebarOverlay.classList.remove(
+                "show"
+            );
+
+        }
+    );
 
 
-                userAvatarElement.textContent =
-                    name
-                        .charAt(0)
-                        .toUpperCase();
+    /* Close sidebar after
+       clicking a mobile link */
 
+    document
+        .querySelectorAll(
+            ".nav a"
+        )
+        .forEach(
+            (link) => {
 
-                /* LOAD DATA */
+                link.addEventListener(
+                    "click",
+                    () => {
 
-                await loadDashboardData();
+                        sidebar.classList.remove(
+                            "open"
+                        );
 
-            }
-        );
+                        sidebarOverlay.classList.remove(
+                            "show"
+                        );
 
-
-        /* =================================
-           LOGOUT
-        ================================= */
-
-        logoutButton.addEventListener(
-            "click",
-            async function(event) {
-
-                event.preventDefault();
-
-
-                try {
-
-                    await signOut(auth);
-
-
-                    window.location.href =
-                        "login.html";
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Logout error:",
-                        error
-                    );
-
-
-                    alert(
-                        "Unable to logout. Please try again."
-                    );
-
-                }
+                    }
+                );
 
             }
         );
 
-    </script>
+</script>
 
 </body>
-
 </html>
