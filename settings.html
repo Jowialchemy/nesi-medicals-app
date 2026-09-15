@@ -1,1 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Settings | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Nesi Medicals & Minimart Enterprises Settings"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            background: #101828;
+            color: white;
+            padding: 22px 14px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px 25px;
+        }
+
+        .brand img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .brand-text {
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        .brand-text small {
+            display: block;
+            color: #98a2b3;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .nav-title {
+            color: #667085;
+            font-size: 11px;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            margin-top: 5px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #d0d5dd;
+            text-decoration: none;
+            padding: 12px;
+            margin: 3px 0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .nav-menu a:hover {
+            background: #1d2939;
+            color: white;
+        }
+
+        .nav-menu a.active {
+            background: #0a5fff;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout {
+            margin-top: 20px;
+            border-top: 1px solid #344054;
+            padding-top: 15px;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: white;
+            border-bottom: 1px solid #eaecf0;
+            padding: 18px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar h1 {
+            font-size: 22px;
+        }
+
+        .topbar p {
+            color: #667085;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .user-info {
+            font-size: 13px;
+            color: #667085;
+        }
+
+        .content {
+            padding: 28px;
+            max-width: 1100px;
+        }
+
+        /* SETTINGS CARDS */
+        .settings-card {
+            background: white;
+            border: 1px solid #eaecf0;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(16, 24, 40, 0.04);
+        }
+
+        .settings-card h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .settings-card > p {
+            color: #667085;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #344054;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d0d5dd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #0a5fff;
+            box-shadow: 0 0 0 3px rgba(10, 95, 255, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* CHECKBOXES */
+        .checkbox-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #344054;
+        }
+
+        .checkbox-row input {
+            width: 18px;
+            height: 18px;
+            accent-color: #0a5fff;
+        }
+
+        /* SAVE */
+        .save-area {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .save-btn {
+            border: none;
+            background: #0a5fff;
+            color: white;
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #0048d8;
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+            background: #ecfdf3;
+            color: #027a48;
+            border: 1px solid #abefc6;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef3f2;
+            color: #b42318;
+            border: 1px solid #fecdca;
+        }
+
+        /* MOBILE */
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                min-height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar {
+                padding: 16px 18px;
+            }
+
+            .content {
+                padding: 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+            >
+
+            <div class="brand-text">
+                Nesi Medicals
+                <small>& Minimart Enterprises</small>
+            </div>
+        </div>
+
+        <div class="nav-title">Main Menu</div>
+
+        <nav class="nav-menu">
+
+            <a href="dashboard.html">
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </a>
+
+            <a href="sales.html">
+                <span class="nav-icon">💰</span>
+                Sales
+            </a>
+
+            <a href="inventory.html">
+                <span class="nav-icon">📦</span>
+                Inventory
+            </a>
+
+            <a href="products.html">
+                <span class="nav-icon">🛍️</span>
+                Products
+            </a>
+
+            <a href="customers.html">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                <span class="nav-icon">🚚</span>
+                Suppliers
+            </a>
+
+            <a href="expenses.html">
+                <span class="nav-icon">💳</span>
+                Expenses
+            </a>
+
+            <a href="reports.html">
+                <span class="nav-icon">📈</span>
+                Reports
+            </a>
+
+            <a href="staff.html">
+                <span class="nav-icon">👨‍💼</span>
+                Staff
+            </a>
+
+            <a
+                href="settings.html"
+                class="active"
+            >
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+        <div class="logout">
+
+            <a href="#" id="logoutBtn">
+                <span class="nav-icon">🚪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Settings</h1>
+                <p>Manage your Nesi Medicals business settings</p>
+            </div>
+
+            <div
+                class="user-info"
+                id="userEmail"
+            >
+                Loading...
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+            <!-- BUSINESS INFORMATION -->
+            <div class="settings-card">
+
+                <h2>🏢 Business Information</h2>
+
+                <p>
+                    Update the information used throughout your
+                    Nesi Medicals system.
+                </p>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="businessName">
+                            Business Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="businessName"
+                            value="Nesi Medicals & Minimart Enterprises"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="businessPhone">
+                            Primary Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="businessPhone"
+                            placeholder="Enter business phone"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="businessPhone2">
+                            Secondary Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="businessPhone2"
+                            placeholder="Enter second phone"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="businessEmail">
+                            Business Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="businessEmail"
+                            placeholder="Enter business email"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="businessAddress">
+                            Business Address
+                        </label>
+
+                        <textarea
+                            id="businessAddress"
+                            placeholder="Enter business address"
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="businessDescription">
+                            Business Description
+                        </label>
+
+                        <textarea
+                            id="businessDescription"
+                            placeholder="Short description of your business"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECEIPT SETTINGS -->
+            <div class="settings-card">
+
+                <h2>🧾 Receipt Settings</h2>
+
+                <p>
+                    Control what appears on printed sales receipts.
+                </p>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="receiptTitle">
+                            Receipt Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="receiptTitle"
+                            value="SALES RECEIPT"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="receiptFooter">
+                            Receipt Footer
+                        </label>
+
+                        <input
+                            type="text"
+                            id="receiptFooter"
+                            value="Thank you for your patronage!"
+                        >
+
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="checkbox-list">
+
+                    <label class="checkbox-row">
+
+                        <input
+                            type="checkbox"
+                            id="showCustomer"
+                            checked
+                        >
+
+                        Show customer information on receipts
+
+                    </label>
+
+
+                    <label class="checkbox-row">
+
+                        <input
+                            type="checkbox"
+                            id="showPhone"
+                            checked
+                        >
+
+                        Show business phone numbers on receipts
+
+                    </label>
+
+
+                    <label class="checkbox-row">
+
+                        <input
+                            type="checkbox"
+                            id="showAddress"
+                            checked
+                        >
+
+                        Show business address on receipts
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- SALES SETTINGS -->
+            <div class="settings-card">
+
+                <h2>💰 Sales Settings</h2>
+
+                <p>
+                    Configure your default sales preferences.
+                </p>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="currency">
+                            Currency
+                        </label>
+
+                        <select id="currency">
+
+                            <option value="NGN">
+                                Nigerian Naira (₦)
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="defaultPayment">
+                            Default Payment Method
+                        </label>
+
+                        <select id="defaultPayment">
+
+                            <option value="Cash">
+                                Cash
+                            </option>
+
+                            <option value="POS">
+                                POS
+                            </option>
+
+                            <option value="Bank Transfer">
+                                Bank Transfer
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INVENTORY SETTINGS -->
+            <div class="settings-card">
+
+                <h2>📦 Inventory Settings</h2>
+
+                <p>
+                    Configure how inventory warnings should work.
+                </p>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="defaultLowStock">
+                            Default Low Stock Level
+                        </label>
+
+                        <input
+                            type="number"
+                            id="defaultLowStock"
+                            min="0"
+                            value="5"
+                        >
+
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="checkbox-list">
+
+                    <label class="checkbox-row">
+
+                        <input
+                            type="checkbox"
+                            id="lowStockAlerts"
+                            checked
+                        >
+
+                        Enable low-stock warnings
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- SAVE -->
+            <div class="save-area">
+
+                <button
+                    class="save-btn"
+                    id="saveSettingsBtn"
+                >
+                    💾 Save Settings
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script type="module">
+
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
+
+    import {
+        doc,
+        getDoc,
+        setDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+    const userEmail = document.getElementById("userEmail");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const saveBtn = document.getElementById("saveSettingsBtn");
+    const message = document.getElementById("message");
+
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+        setTimeout(() => {
+
+            message.className = "message";
+
+        }, 4000);
+
+    }
+
+
+    function getSettingsData() {
+
+        return {
+
+            businessName:
+                document.getElementById("businessName").value.trim(),
+
+            businessPhone:
+                document.getElementById("businessPhone").value.trim(),
+
+            businessPhone2:
+                document.getElementById("businessPhone2").value.trim(),
+
+            businessEmail:
+                document.getElementById("businessEmail").value.trim(),
+
+            businessAddress:
+                document.getElementById("businessAddress").value.trim(),
+
+            businessDescription:
+                document.getElementById("businessDescription").value.trim(),
+
+            receiptTitle:
+                document.getElementById("receiptTitle").value.trim(),
+
+            receiptFooter:
+                document.getElementById("receiptFooter").value.trim(),
+
+            showCustomer:
+                document.getElementById("showCustomer").checked,
+
+            showPhone:
+                document.getElementById("showPhone").checked,
+
+            showAddress:
+                document.getElementById("showAddress").checked,
+
+            currency:
+                document.getElementById("currency").value,
+
+            defaultPayment:
+                document.getElementById("defaultPayment").value,
+
+            defaultLowStock:
+                Number(
+                    document.getElementById("defaultLowStock").value
+                ) || 0,
+
+            lowStockAlerts:
+                document.getElementById("lowStockAlerts").checked
+
+        };
+
+    }
+
+
+    function fillSettings(data) {
+
+        if (!data) {
+            return;
+        }
+
+        document.getElementById("businessName").value =
+            data.businessName || "Nesi Medicals & Minimart Enterprises";
+
+        document.getElementById("businessPhone").value =
+            data.businessPhone || "";
+
+        document.getElementById("businessPhone2").value =
+            data.businessPhone2 || "";
+
+        document.getElementById("businessEmail").value =
+            data.businessEmail || "";
+
+        document.getElementById("businessAddress").value =
+            data.businessAddress || "";
+
+        document.getElementById("businessDescription").value =
+            data.businessDescription || "";
+
+        document.getElementById("receiptTitle").value =
+            data.receiptTitle || "SALES RECEIPT";
+
+        document.getElementById("receiptFooter").value =
+            data.receiptFooter ||
+            "Thank you for your patronage!";
+
+        document.getElementById("showCustomer").checked =
+            data.showCustomer !== false;
+
+        document.getElementById("showPhone").checked =
+            data.showPhone !== false;
+
+        document.getElementById("showAddress").checked =
+            data.showAddress !== false;
+
+        document.getElementById("currency").value =
+            data.currency || "NGN";
+
+        document.getElementById("defaultPayment").value =
+            data.defaultPayment || "Cash";
+
+        document.getElementById("defaultLowStock").value =
+            data.defaultLowStock ?? 5;
+
+        document.getElementById("lowStockAlerts").checked =
+            data.lowStockAlerts !== false;
+
+    }
+
+
+    async function loadSettings() {
+
+        try {
+
+            const settingsRef =
+                doc(db, "settings", "business");
+
+            const snapshot =
+                await getDoc(settingsRef);
+
+            if (snapshot.exists()) {
+
+                fillSettings(snapshot.data());
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Unable to load settings.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    saveBtn.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                saveBtn.disabled = true;
+
+                saveBtn.textContent =
+                    "Saving...";
+
+                const data =
+                    getSettingsData();
+
+                await setDoc(
+                    doc(db, "settings", "business"),
+                    {
+                        ...data,
+                        updatedAt: serverTimestamp()
+                    },
+                    {
+                        merge: true
+                    }
+                );
+
+                showMessage(
+                    "Settings saved successfully.",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to save settings. Please try again.",
+                    "error"
+                );
+
+            } finally {
+
+                saveBtn.disabled = false;
+
+                saveBtn.textContent =
+                    "💾 Save Settings";
+
+            }
+
+        }
+    );
+
+
+    logoutBtn.addEventListener(
+        "click",
+        async (event) => {
+
+            event.preventDefault();
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to logout.",
+                    "error"
+                );
+
+            }
+
+        }
+    );
+
+
+    onAuthStateChanged(
+        auth,
+        async (user) => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+            userEmail.textContent =
+                user.email || "Logged in";
+
+            await loadSettings();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
