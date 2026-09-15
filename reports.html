@@ -1,1 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Reports | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Nesi Medicals & Minimart Enterprises Business Reports"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+            color: #222;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            background: #0d1b2a;
+            color: white;
+            padding: 20px 15px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .brand h2 {
+            font-size: 18px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            color: #b8c7d9;
+            margin-top: 4px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #dce6f0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-menu a:hover {
+            background: #17324d;
+        }
+
+        .nav-menu a.active {
+            background: #0a5fff;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .topbar p {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .refresh-btn {
+            background: #0a5fff;
+            color: white;
+        }
+
+        .print-btn {
+            background: #ff8a00;
+            color: white;
+        }
+
+        /* FILTER */
+
+        .filter-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .filter-box h3 {
+            margin-bottom: 15px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .field {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d7dce2;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .apply-btn {
+            background: #198754;
+            color: white;
+        }
+
+        /* SUMMARY */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .summary-card .label {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .value {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .sales-card .value {
+            color: #198754;
+        }
+
+        .expense-card .value {
+            color: #dc3545;
+        }
+
+        .profit-card .value {
+            color: #0a5fff;
+        }
+
+        .transaction-card .value {
+            color: #ff8a00;
+        }
+
+        /* SECONDARY CARDS */
+
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .report-card h3 {
+            margin-bottom: 18px;
+            font-size: 18px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 11px 0;
+            border-bottom: 1px solid #eee;
+            gap: 10px;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-row span:first-child {
+            color: #555;
+        }
+
+        .stat-row strong {
+            text-align: right;
+        }
+
+        /* TABLE */
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+
+        .table-card h3 {
+            margin-bottom: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f7f9fb;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 1000px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .secondary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-actions {
+                width: 100%;
+            }
+
+            .top-actions button {
+                flex: 1;
+            }
+
+            .topbar h1 {
+                font-size: 23px;
+            }
+        }
+
+        /* PRINT */
+
+        @media print {
+            .sidebar,
+            .top-actions,
+            .filter-box {
+                display: none !important;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 0;
+            }
+
+            body {
+                background: white;
+            }
+
+            .summary-card,
+            .report-card,
+            .table-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <img src="assets/logo.png" alt="Nesi Medicals Logo">
+
+            <h2>Nesi Medicals</h2>
+
+            <p>& Minimart Enterprises</p>
+        </div>
+
+        <nav class="nav-menu">
+
+            <a href="dashboard.html">
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </a>
+
+            <a href="sales.html">
+                <span class="nav-icon">🛒</span>
+                Sales
+            </a>
+
+            <a href="inventory.html">
+                <span class="nav-icon">📦</span>
+                Inventory
+            </a>
+
+            <a href="products.html">
+                <span class="nav-icon">💊</span>
+                Products
+            </a>
+
+            <a href="customers.html">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                <span class="nav-icon">🚚</span>
+                Suppliers
+            </a>
+
+            <a href="expenses.html">
+                <span class="nav-icon">💸</span>
+                Expenses
+            </a>
+
+            <a href="reports.html" class="active">
+                <span class="nav-icon">📈</span>
+                Reports
+            </a>
+
+            <a href="staff.html">
+                <span class="nav-icon">👨‍💼</span>
+                Staff
+            </a>
+
+            <a href="settings.html">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Business Reports</h1>
+
+                <p>
+                    Sales, expenses and business performance
+                </p>
+            </div>
+
+            <div class="top-actions">
+
+                <button
+                    class="refresh-btn"
+                    id="refreshBtn"
+                >
+                    🔄 Refresh
+                </button>
+
+                <button
+                    class="print-btn"
+                    id="printBtn"
+                >
+                    🖨️ Print Report
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- FILTER -->
+
+        <div class="filter-box">
+
+            <h3>Report Period</h3>
+
+            <div class="filters">
+
+                <div class="field">
+
+                    <label for="startDate">
+                        Start Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="startDate"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="endDate">
+                        End Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="endDate"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <button
+                        class="apply-btn"
+                        id="applyBtn"
+                    >
+                        Apply Report
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary-grid">
+
+            <div class="summary-card sales-card">
+
+                <div class="label">
+                    Total Sales
+                </div>
+
+                <div
+                    class="value"
+                    id="totalSales"
+                >
+                    ₦0.00
+                </div>
+
+            </div>
+
+
+            <div class="summary-card expense-card">
+
+                <div class="label">
+                    Total Expenses
+                </div>
+
+                <div
+                    class="value"
+                    id="totalExpenses"
+                >
+                    ₦0.00
+                </div>
+
+            </div>
+
+
+            <div class="summary-card profit-card">
+
+                <div class="label">
+                    Gross Profit
+                </div>
+
+                <div
+                    class="value"
+                    id="grossProfit"
+                >
+                    ₦0.00
+                </div>
+
+            </div>
+
+
+            <div class="summary-card transaction-card">
+
+                <div class="label">
+                    Number of Sales
+                </div>
+
+                <div
+                    class="value"
+                    id="transactionCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SECONDARY REPORTS -->
+
+        <div class="secondary-grid">
+
+            <div class="report-card">
+
+                <h3>Sales Summary</h3>
+
+                <div class="stat-row">
+
+                    <span>
+                        Number of Transactions
+                    </span>
+
+                    <strong id="salesCount">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="stat-row">
+
+                    <span>
+                        Items Sold
+                    </span>
+
+                    <strong id="itemsSold">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="stat-row">
+
+                    <span>
+                        Average Sale
+                    </span>
+
+                    <strong id="averageSale">
+                        ₦0.00
+                    </strong>
+
+                </div>
+
+                <div class="stat-row">
+
+                    <span>
+                        Cash Sales
+                    </span>
+
+                    <strong id="cashSales">
+                        ₦0.00
+                    </strong>
+
+                </div>
+
+                <div class="stat-row">
+
+                    <span>
+                        POS Sales
+                    </span>
+
+                    <strong id="posSales">
+                        ₦0.00
+                    </strong>
+
+                </div>
+
+                <div class="stat-row">
+
+                    <span>
+                        Bank Transfer
+                    </span>
+
+                    <strong id="transferSales">
+                        ₦0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-card">
+
+                <h3>Expense Summary</h3>
+
+                <div id="expenseSummary">
+
+                    <div class="loading">
+                        Loading expenses...
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT SALES -->
+
+        <div class="table-card">
+
+            <h3>
+                Sales in Selected Period
+            </h3>
+
+            <div id="salesTableContainer">
+
+                <div class="loading">
+                    Loading sales...
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script type="module">
+
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
+
+    import {
+        collection,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    import {
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+    const naira = new Intl.NumberFormat(
+        "en-NG",
+        {
+            style: "currency",
+            currency: "NGN"
+        }
+    );
+
+
+    let allSales = [];
+    let allExpenses = [];
+
+
+    const totalSalesEl =
+        document.getElementById("totalSales");
+
+    const totalExpensesEl =
+        document.getElementById("totalExpenses");
+
+    const grossProfitEl =
+        document.getElementById("grossProfit");
+
+    const transactionCountEl =
+        document.getElementById("transactionCount");
+
+    const salesCountEl =
+        document.getElementById("salesCount");
+
+    const itemsSoldEl =
+        document.getElementById("itemsSold");
+
+    const averageSaleEl =
+        document.getElementById("averageSale");
+
+    const cashSalesEl =
+        document.getElementById("cashSales");
+
+    const posSalesEl =
+        document.getElementById("posSales");
+
+    const transferSalesEl =
+        document.getElementById("transferSales");
+
+    const expenseSummaryEl =
+        document.getElementById("expenseSummary");
+
+    const salesTableContainer =
+        document.getElementById("salesTableContainer");
+
+
+    function localDateString(date = new Date()) {
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(date.getMonth() + 1)
+                .padStart(2, "0");
+
+        const day =
+            String(date.getDate())
+                .padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    }
+
+
+    function timestampToDate(value) {
+
+        if (!value) {
+            return null;
+        }
+
+        if (
+            typeof value.toDate === "function"
+        ) {
+            return value.toDate();
+        }
+
+        if (
+            value instanceof Date
+        ) {
+            return value;
+        }
+
+        if (
+            typeof value === "string"
+        ) {
+            const date =
+                new Date(value);
+
+            return isNaN(date)
+                ? null
+                : date;
+        }
+
+        return null;
+    }
+
+
+    function getSaleDate(sale) {
+
+        return (
+            timestampToDate(sale.createdAt) ||
+            timestampToDate(sale.date) ||
+            timestampToDate(sale.timestamp)
+        );
+    }
+
+
+    function getExpenseDate(expense) {
+
+        if (expense.date) {
+
+            const date =
+                new Date(
+                    `${expense.date}T12:00:00`
+                );
+
+            if (!isNaN(date)) {
+                return date;
+            }
+        }
+
+        return timestampToDate(
+            expense.createdAt
+        );
+    }
+
+
+    function getSaleTotal(sale) {
+
+        return Number(
+            sale.total ??
+            sale.grandTotal ??
+            sale.amount ??
+            0
+        );
+    }
+
+
+    function getItemQuantity(item) {
+
+        return Number(
+            item.quantity ??
+            item.qty ??
+            0
+        );
+    }
+
+
+    function setDefaultDates() {
+
+        const today =
+            localDateString();
+
+        const firstDay =
+            new Date();
+
+        firstDay.setDate(1);
+
+        document.getElementById(
+            "startDate"
+        ).value =
+            localDateString(firstDay);
+
+        document.getElementById(
+            "endDate"
+        ).value =
+            today;
+    }
+
+
+    async function loadData() {
+
+        try {
+
+            salesTableContainer.innerHTML =
+                `<div class="loading">
+                    Loading sales...
+                </div>`;
+
+            expenseSummaryEl.innerHTML =
+                `<div class="loading">
+                    Loading expenses...
+                </div>`;
+
+
+            const salesSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "sales"
+                    )
+                );
+
+
+            allSales =
+                salesSnapshot.docs.map(
+                    doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    })
+                );
+
+
+            const expensesSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "expenses"
+                    )
+                );
+
+
+            allExpenses =
+                expensesSnapshot.docs.map(
+                    doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    })
+                );
+
+
+            generateReport();
+
+        } catch (error) {
+
+            console.error(
+                "Report loading error:",
+                error
+            );
+
+            salesTableContainer.innerHTML =
+                `<div class="empty">
+                    Unable to load report data.
+                </div>`;
+
+        }
+
+    }
+
+
+    function generateReport() {
+
+        const start =
+            document.getElementById(
+                "startDate"
+            ).value;
+
+        const end =
+            document.getElementById(
+                "endDate"
+            ).value;
+
+
+        if (!start || !end) {
+            return;
+        }
+
+
+        const startDate =
+            new Date(
+                `${start}T00:00:00`
+            );
+
+        const endDate =
+            new Date(
+                `${end}T23:59:59`
+            );
+
+
+        const filteredSales =
+            allSales.filter(
+                sale => {
+
+                    const date =
+                        getSaleDate(sale);
+
+                    if (!date) {
+                        return false;
+                    }
+
+                    return (
+                        date >= startDate &&
+                        date <= endDate
+                    );
+
+                }
+            );
+
+
+        const filteredExpenses =
+            allExpenses.filter(
+                expense => {
+
+                    const date =
+                        getExpenseDate(
+                            expense
+                        );
+
+                    if (!date) {
+                        return false;
+                    }
+
+                    return (
+                        date >= startDate &&
+                        date <= endDate
+                    );
+
+                }
+            );
+
+
+        calculateSummary(
+            filteredSales,
+            filteredExpenses
+        );
+
+        displayExpenseSummary(
+            filteredExpenses
+        );
+
+        displaySalesTable(
+            filteredSales
+        );
+
+    }
+
+
+    function calculateSummary(
+        sales,
+        expenses
+    ) {
+
+        let totalSales = 0;
+
+        let itemsSold = 0;
+
+        let cashSales = 0;
+
+        let posSales = 0;
+
+        let transferSales = 0;
+
+
+        sales.forEach(
+            sale => {
+
+                const total =
+                    getSaleTotal(
+                        sale
+                    );
+
+                totalSales += total;
+
+
+                if (
+                    Array.isArray(
+                        sale.items
+                    )
+                ) {
+
+                    sale.items.forEach(
+                        item => {
+
+                            itemsSold +=
+                                getItemQuantity(
+                                    item
+                                );
+
+                        }
+                    );
+
+                }
+
+
+                const payment =
+                    String(
+                        sale.paymentMethod ??
+                        sale.payment ??
+                        ""
+                    ).toLowerCase();
+
+
+                if (
+                    payment.includes(
+                        "cash"
+                    )
+                ) {
+
+                    cashSales += total;
+
+                } else if (
+                    payment.includes(
+                        "pos"
+                    )
+                ) {
+
+                    posSales += total;
+
+                } else if (
+                    payment.includes(
+                        "transfer"
+                    )
+                ) {
+
+                    transferSales += total;
+
+                }
+
+            }
+        );
+
+
+        let totalExpenses = 0;
+
+
+        expenses.forEach(
+            expense => {
+
+                totalExpenses +=
+                    Number(
+                        expense.amount ??
+                        0
+                    );
+
+            }
+        );
+
+
+        const grossProfit =
+            totalSales -
+            totalExpenses;
+
+
+        const averageSale =
+            sales.length > 0
+                ? totalSales / sales.length
+                : 0;
+
+
+        totalSalesEl.textContent =
+            naira.format(
+                totalSales
+            );
+
+        totalExpensesEl.textContent =
+            naira.format(
+                totalExpenses
+            );
+
+        grossProfitEl.textContent =
+            naira.format(
+                grossProfit
+            );
+
+        transactionCountEl.textContent =
+            sales.length;
+
+        salesCountEl.textContent =
+            sales.length;
+
+        itemsSoldEl.textContent =
+            itemsSold;
+
+        averageSaleEl.textContent =
+            naira.format(
+                averageSale
+            );
+
+        cashSalesEl.textContent =
+            naira.format(
+                cashSales
+            );
+
+        posSalesEl.textContent =
+            naira.format(
+                posSales
+            );
+
+        transferSalesEl.textContent =
+            naira.format(
+                transferSales
+            );
+
+    }
+
+
+    function displayExpenseSummary(
+        expenses
+    ) {
+
+        if (
+            expenses.length === 0
+        ) {
+
+            expenseSummaryEl.innerHTML =
+                `<div class="empty">
+                    No expenses in this period.
+                </div>`;
+
+            return;
+        }
+
+
+        const categories = {};
+
+
+        expenses.forEach(
+            expense => {
+
+                const category =
+                    expense.category ||
+                    "Other";
+
+                const amount =
+                    Number(
+                        expense.amount ??
+                        0
+                    );
+
+                categories[category] =
+                    (
+                        categories[category] ||
+                        0
+                    ) + amount;
+
+            }
+        );
+
+
+        const entries =
+            Object.entries(
+                categories
+            ).sort(
+                (a, b) =>
+                    b[1] - a[1]
+            );
+
+
+        expenseSummaryEl.innerHTML =
+            entries.map(
+                ([category, amount]) => `
+
+                    <div class="stat-row">
+
+                        <span>
+                            ${escapeHtml(
+                                category
+                            )}
+                        </span>
+
+                        <strong>
+                            ${naira.format(
+                                amount
+                            )}
+                        </strong>
+
+                    </div>
+
+                `
+            ).join("");
+
+    }
+
+
+    function displaySalesTable(
+        sales
+    ) {
+
+        if (
+            sales.length === 0
+        ) {
+
+            salesTableContainer.innerHTML =
+                `<div class="empty">
+                    No sales found for this period.
+                </div>`;
+
+            return;
+        }
+
+
+        const sorted =
+            [...sales].sort(
+                (a, b) => {
+
+                    const dateA =
+                        getSaleDate(a);
+
+                    const dateB =
+                        getSaleDate(b);
+
+                    return (
+                        (dateB?.getTime() || 0) -
+                        (dateA?.getTime() || 0)
+                    );
+
+                }
+            );
+
+
+        let html = `
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Sale Number
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Items
+                        </th>
+
+                        <th>
+                            Payment
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+        `;
+
+
+        sorted.forEach(
+            sale => {
+
+                const date =
+                    getSaleDate(
+                        sale
+                    );
+
+
+                const itemCount =
+                    Array.isArray(
+                        sale.items
+                    )
+                        ? sale.items.reduce(
+                            (
+                                sum,
+                                item
+                            ) =>
+                                sum +
+                                getItemQuantity(
+                                    item
+                                ),
+                            0
+                        )
+                        : 0;
+
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${
+                                date
+                                    ? date.toLocaleDateString(
+                                        "en-NG"
+                                    )
+                                    : "-"
+                            }
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                sale.saleNumber ||
+                                sale.id ||
+                                "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                sale.customer ||
+                                "Walk-in Customer"
+                            )}
+                        </td>
+
+                        <td>
+                            ${itemCount}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                sale.paymentMethod ||
+                                sale.payment ||
+                                "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${naira.format(
+                                getSaleTotal(
+                                    sale
+                                )
+                            )}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        html += `
+
+                </tbody>
+
+            </table>
+
+        `;
+
+
+        salesTableContainer.innerHTML =
+            html;
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(
+            value ?? ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    document.getElementById(
+        "applyBtn"
+    ).addEventListener(
+        "click",
+        generateReport
+    );
+
+
+    document.getElementById(
+        "refreshBtn"
+    ).addEventListener(
+        "click",
+        loadData
+    );
+
+
+    document.getElementById(
+        "printBtn"
+    ).addEventListener(
+        "click",
+        () => window.print()
+    );
+
+
+    setDefaultDates();
+
+
+    onAuthStateChanged(
+        auth,
+        user => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+            loadData();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
