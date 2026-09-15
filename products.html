@@ -2,62 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Products | Nesi Medicals</title>
 
-    <meta
-        name="description"
-        content="Nesi Medicals & Minimart Enterprises Product Management"
-    >
-
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-            background: #f5f7fb;
-            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
         }
 
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* =========================
-           SIDEBAR
-        ========================= */
-
-        .sidebar {
-            width: 250px;
-            background: #111827;
+        header {
+            background: linear-gradient(135deg, #0a5fff, #0648c7);
             color: white;
-            position: fixed;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            position: sticky;
             top: 0;
-            left: 0;
-            bottom: 0;
-            overflow-y: auto;
-            z-index: 1000;
+            z-index: 10;
         }
 
         .brand {
-            padding: 20px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .brand img {
@@ -65,351 +43,187 @@
             height: 45px;
             object-fit: contain;
             border-radius: 8px;
+            background: white;
         }
 
-        .brand-title {
-            font-size: 17px;
-            font-weight: 700;
+        .brand h1 {
+            font-size: 20px;
         }
 
-        .brand-subtitle {
-            font-size: 11px;
-            color: #9ca3af;
+        .brand p {
+            font-size: 12px;
+            opacity: 0.9;
             margin-top: 3px;
         }
 
-        .nav {
-            padding: 15px 10px;
-        }
-
-        .nav-section {
-            color: #6b7280;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            padding: 12px;
-        }
-
-        .nav a {
+        .header-actions {
             display: flex;
+            gap: 8px;
             align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: #d1d5db;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 3px;
-            font-size: 14px;
-            transition: 0.2s;
         }
 
-        .nav a:hover {
-            background: #1f2937;
-            color: white;
-        }
-
-        .nav a.active {
-            background: #0A5FFF;
-            color: white;
-        }
-
-        .nav-icon {
-            width: 20px;
-            text-align: center;
-            font-size: 16px;
-        }
-
-        .sidebar-bottom {
-            padding: 15px 10px;
-            border-top: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .logout-btn {
-            width: 100%;
+        button,
+        .button-link {
             border: none;
-            background: #dc2626;
-            color: white;
-            padding: 11px;
-            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            padding: 10px 15px;
+            border-radius: 7px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .logout-btn:hover {
-            background: #b91c1c;
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            min-height: 100vh;
-        }
-
-        .topbar {
+        .btn-light {
             background: white;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 16px 25px;
+            color: #0a5fff;
+        }
+
+        .btn-orange {
+            background: #ff8a00;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .page-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 500;
-        }
-
-        .page-title h1 {
-            font-size: 23px;
-            color: #111827;
-        }
-
-        .page-title p {
-            font-size: 13px;
-            color: #6b7280;
-            margin-top: 4px;
-        }
-
-        .top-actions {
-            display: flex;
-            gap: 8px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        .content {
-            padding: 25px;
+        .page-top h2 {
+            font-size: 26px;
         }
 
-        /* =========================
-           BUTTONS
-        ========================= */
-
-        .btn {
-            border: none;
-            padding: 10px 15px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
+        .page-top p {
+            color: #64748b;
+            margin-top: 5px;
         }
-
-        .btn-primary {
-            background: #0A5FFF;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #0049d8;
-        }
-
-        .btn-secondary {
-            background: #e5e7eb;
-            color: #111827;
-        }
-
-        .btn-secondary:hover {
-            background: #d1d5db;
-        }
-
-        .btn-danger {
-            background: #dc2626;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #b91c1c;
-        }
-
-        .btn-warning {
-            background: #f59e0b;
-            color: white;
-        }
-
-        /* =========================
-           SUMMARY CARDS
-        ========================= */
 
         .stats {
             display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 20px;
         }
 
         .stat-card {
             background: white;
-            border: 1px solid #e5e7eb;
             border-radius: 12px;
-            padding: 18px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border-left: 5px solid #0a5fff;
         }
 
-        .stat-label {
-            color: #6b7280;
-            font-size: 12px;
-            font-weight: 600;
+        .stat-card.orange {
+            border-left-color: #ff8a00;
+        }
+
+        .stat-card.green {
+            border-left-color: #16a34a;
+        }
+
+        .stat-card.red {
+            border-left-color: #dc3545;
+        }
+
+        .stat-title {
+            color: #64748b;
+            font-size: 13px;
             margin-bottom: 8px;
         }
 
         .stat-value {
-            color: #111827;
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 25px;
+            font-weight: bold;
         }
 
-        .stat-note {
-            color: #9ca3af;
-            font-size: 11px;
-            margin-top: 5px;
-        }
-
-        .blue {
-            border-left: 4px solid #0A5FFF;
-        }
-
-        .green {
-            border-left: 4px solid #16a34a;
-        }
-
-        .orange {
-            border-left: 4px solid #f59e0b;
-        }
-
-        .red {
-            border-left: 4px solid #dc2626;
-        }
-
-        /* =========================
-           SEARCH
-        ========================= */
-
-        .search-card {
+        .toolbar {
             background: white;
-            border: 1px solid #e5e7eb;
+            padding: 15px;
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .search-row {
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .search-input {
+        .search {
             flex: 1;
-            border: 1px solid #d1d5db;
+            min-width: 220px;
+            padding: 12px;
+            border: 1px solid #d7deea;
             border-radius: 7px;
-            padding: 11px 12px;
-            font-size: 13px;
             outline: none;
         }
 
-        .search-input:focus {
-            border-color: #0A5FFF;
-            box-shadow:
-                0 0 0 3px rgba(10,95,255,0.10);
+        .search:focus,
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #0a5fff;
         }
-
-        /* =========================
-           TABLE
-        ========================= */
 
         .table-card {
             background: white;
-            border: 1px solid #e5e7eb;
             border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
             overflow: hidden;
         }
 
-        .table-header {
-            padding: 17px 18px;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .table-header h2 {
-            font-size: 15px;
-            color: #111827;
-        }
-
-        .table-count {
-            font-size: 11px;
-            color: #6b7280;
-        }
-
         .table-wrapper {
+            width: 100%;
             overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1100px;
-        }
-
-        th,
-        td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #eef0f3;
-            text-align: left;
-            font-size: 12px;
-            white-space: nowrap;
+            min-width: 950px;
         }
 
         th {
-            background: #f9fafb;
-            color: #4b5563;
-            font-weight: 700;
+            background: #eef4ff;
+            color: #1e3a8a;
+            padding: 13px;
+            text-align: left;
+            font-size: 13px;
         }
 
         td {
-            color: #374151;
+            padding: 13px;
+            border-bottom: 1px solid #edf0f5;
+            font-size: 14px;
         }
 
-        .product-name {
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .category-badge {
-            display: inline-block;
-            background: #eff6ff;
-            color: #1d4ed8;
-            padding: 5px 8px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .stock-good {
-            color: #15803d;
-            font-weight: 700;
-        }
-
-        .stock-low {
-            color: #d97706;
-            font-weight: 700;
-        }
-
-        .stock-out {
-            color: #dc2626;
-            font-weight: 700;
+        tr:hover td {
+            background: #fafcff;
         }
 
         .status {
-            display: inline-block;
-            padding: 5px 8px;
+            padding: 5px 9px;
             border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
         }
 
         .status-in {
@@ -418,8 +232,8 @@
         }
 
         .status-low {
-            background: #fef3c7;
-            color: #92400e;
+            background: #fff7ed;
+            color: #c2410c;
         }
 
         .status-out {
@@ -427,187 +241,140 @@
             color: #991b1b;
         }
 
-        .action-buttons {
+        .actions {
             display: flex;
-            gap: 6px;
+            gap: 5px;
+            flex-wrap: wrap;
         }
 
         .small-btn {
-            border: none;
             padding: 7px 9px;
-            border-radius: 6px;
-            cursor: pointer;
             font-size: 11px;
-            font-weight: 600;
         }
 
-        .edit-btn {
-            background: #dbeafe;
-            color: #1d4ed8;
+        .loading,
+        .empty,
+        .error-box {
+            padding: 40px 20px;
+            text-align: center;
         }
 
-        .delete-btn {
-            background: #fee2e2;
-            color: #b91c1c;
+        .loading {
+            color: #0a5fff;
         }
 
-        /* =========================
-           MODAL
-        ========================= */
+        .empty {
+            color: #64748b;
+        }
+
+        .error-box {
+            color: #991b1b;
+            background: #fff1f2;
+        }
 
         .modal {
+            display: none;
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.55);
-            display: none;
-            justify-content: center;
-            align-items: center;
+            z-index: 100;
             padding: 20px;
-            z-index: 2000;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-box {
-            background: white;
-            width: 100%;
-            max-width: 700px;
-            max-height: 92vh;
             overflow-y: auto;
-            border-radius: 13px;
-            box-shadow:
-                0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 750px;
+            margin: 30px auto;
+            border-radius: 14px;
+            padding: 25px;
         }
 
         .modal-header {
-            padding: 18px 20px;
-            border-bottom: 1px solid #e5e7eb;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
         }
 
-        .modal-header h2 {
+        .close {
+            background: #f1f5f9;
+            color: #334155;
             font-size: 18px;
-            color: #111827;
-        }
-
-        .close-btn {
-            border: none;
-            background: transparent;
-            font-size: 25px;
-            cursor: pointer;
-            color: #6b7280;
-        }
-
-        .modal-body {
-            padding: 20px;
+            width: 38px;
+            height: 38px;
+            padding: 0;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
 
         .form-group {
-            margin-bottom: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .form-group.full {
             grid-column: 1 / -1;
         }
 
-        .form-group label {
-            display: block;
-            color: #374151;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .required {
-            color: #dc2626;
-        }
-
-        .form-control {
-            width: 100%;
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
-            padding: 10px;
+        label {
             font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d7deea;
+            border-radius: 7px;
             outline: none;
+            font-size: 14px;
             background: white;
         }
 
-        .form-control:focus {
-            border-color: #0A5FFF;
-            box-shadow:
-                0 0 0 3px rgba(10,95,255,0.10);
-        }
-
-        textarea.form-control {
+        textarea {
             min-height: 80px;
             resize: vertical;
         }
 
-        .form-help {
-            font-size: 10px;
-            color: #9ca3af;
-            margin-top: 4px;
-        }
-
-        .modal-footer {
-            padding: 15px 20px;
-            border-top: 1px solid #e5e7eb;
+        .form-buttons {
             display: flex;
             justify-content: flex-end;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        /* =========================
-           EMPTY / LOADING
-        ========================= */
-
-        .loading {
-            text-align: center;
-            padding: 35px;
-            color: #6b7280;
+        .message {
+            margin-bottom: 15px;
+            padding: 11px;
+            border-radius: 7px;
+            display: none;
             font-size: 13px;
         }
 
-        .empty {
-            text-align: center;
-            padding: 40px;
-            color: #9ca3af;
-            font-size: 13px;
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media (max-width: 1050px) {
-
-            .stats {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         @media (max-width: 800px) {
-
-            .sidebar {
-                width: 220px;
-            }
-
-            .main {
-                margin-left: 220px;
-                width: calc(100% - 220px);
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .form-grid {
@@ -618,821 +385,256 @@
                 grid-column: auto;
             }
 
+            .container {
+                padding: 15px;
+            }
+
+            header {
+                padding: 12px 15px;
+            }
+
+            .brand h1 {
+                font-size: 17px;
+            }
+
+            .header-actions .button-link {
+                display: none;
+            }
         }
 
-        @media (max-width: 650px) {
-
-            .layout {
-                display: block;
-            }
-
-            .sidebar {
-                position: static;
-                width: 100%;
-                min-height: auto;
-            }
-
-            .main {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .topbar {
-                position: static;
-                padding: 14px;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .content {
-                padding: 14px;
-            }
-
+        @media (max-width: 480px) {
             .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                grid-template-columns: 1fr;
             }
 
-            .stat-card {
-                padding: 14px;
+            .page-top h2 {
+                font-size: 22px;
             }
 
-            .stat-value {
-                font-size: 19px;
+            .btn-orange {
+                width: 100%;
             }
-
-            .search-row {
-                flex-direction: column;
-            }
-
         }
     </style>
 </head>
 
 <body>
 
-<div class="layout">
+<header>
+    <div class="brand">
+        <img src="assets/logo.png" alt="Nesi Medicals Logo">
 
-    <!-- =========================
-         SIDEBAR
-    ========================= -->
+        <div>
+            <h1>Nesi Medicals</h1>
+            <p>& Minimart Enterprises</p>
+        </div>
+    </div>
 
-    <aside class="sidebar">
+    <div class="header-actions">
+        <a href="dashboard.html" class="button-link btn-light">Dashboard</a>
+        <button class="btn-orange" id="logoutBtn">Logout</button>
+    </div>
+</header>
 
-        <div class="brand">
+<div class="container">
 
-            <img
-                src="assets/logo.png"
-                alt="Nesi Medicals Logo"
-            >
-
-            <div>
-
-                <div class="brand-title">
-                    Nesi Medicals
-                </div>
-
-                <div class="brand-subtitle">
-                    & Minimart Enterprises
-                </div>
-
-            </div>
-
+    <div class="page-top">
+        <div>
+            <h2>Products</h2>
+            <p>Manage your products and stock records.</p>
         </div>
 
+        <button class="btn-orange" id="addProductBtn">
+            + Add Product
+        </button>
+    </div>
 
-        <nav class="nav">
+    <div class="stats">
 
-            <div class="nav-section">
-                Main
-            </div>
+        <div class="stat-card">
+            <div class="stat-title">Total Products</div>
+            <div class="stat-value" id="totalProducts">0</div>
+        </div>
 
-            <a href="dashboard.html">
-                <span class="nav-icon">📊</span>
-                Dashboard
-            </a>
+        <div class="stat-card orange">
+            <div class="stat-title">Low Stock</div>
+            <div class="stat-value" id="lowStockProducts">0</div>
+        </div>
 
-            <a href="sales.html">
-                <span class="nav-icon">💰</span>
-                Sales
-            </a>
+        <div class="stat-card green">
+            <div class="stat-title">In Stock</div>
+            <div class="stat-value" id="inStockProducts">0</div>
+        </div>
 
-            <a href="sales-history.html">
-                <span class="nav-icon">🧾</span>
-                Sales History
-            </a>
+        <div class="stat-card red">
+            <div class="stat-title">Out of Stock</div>
+            <div class="stat-value" id="outStockProducts">0</div>
+        </div>
 
-            <a href="inventory.html">
-                <span class="nav-icon">📦</span>
-                Inventory
-            </a>
+    </div>
 
-            <a
-                href="products.html"
-                class="active"
-            >
-                <span class="nav-icon">💊</span>
-                Products
-            </a>
+    <div class="toolbar">
+        <input
+            type="text"
+            id="searchInput"
+            class="search"
+            placeholder="Search products by name, category, brand or SKU..."
+        >
 
-            <a href="customers.html">
-                <span class="nav-icon">👥</span>
-                Customers
-            </a>
+        <button class="btn-secondary" id="refreshBtn">
+            Refresh
+        </button>
+    </div>
 
-            <a href="suppliers.html">
-                <span class="nav-icon">🚚</span>
-                Suppliers
-            </a>
+    <div class="table-card">
 
+        <div id="loadingMessage" class="loading">
+            Loading products...
+        </div>
 
-            <div class="nav-section">
-                Finance
-            </div>
+        <div id="errorMessage" class="error-box" style="display:none;"></div>
 
-            <a href="expenses.html">
-                <span class="nav-icon">💳</span>
-                Expenses
-            </a>
-
-            <a href="reports.html">
-                <span class="nav-icon">📈</span>
-                Reports
-            </a>
-
-
-            <div class="nav-section">
-                Management
-            </div>
-
-            <a href="staff.html">
-                <span class="nav-icon">👨‍⚕️</span>
-                Staff
-            </a>
-
-            <a href="settings.html">
-                <span class="nav-icon">⚙️</span>
-                Settings
-            </a>
-
-            <a href="profile.html">
-                <span class="nav-icon">👤</span>
-                Profile
-            </a>
-
-        </nav>
-
-
-        <div class="sidebar-bottom">
-
-            <button
-                class="logout-btn"
-                id="logoutBtn"
-            >
-                Logout
+        <div id="emptyMessage" class="empty" style="display:none;">
+            No products found.
+            <br><br>
+            <button class="btn-orange" id="emptyAddBtn">
+                + Add First Product
             </button>
-
         </div>
 
-    </aside>
+        <div class="table-wrapper" id="tableContainer" style="display:none;">
 
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th>SKU</th>
+                        <th>Qty</th>
+                        <th>Cost Price</th>
+                        <th>Selling Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-    <!-- =========================
-         MAIN
-    ========================= -->
-
-    <main class="main">
-
-        <div class="topbar">
-
-            <div class="page-title">
-
-                <h1>
-                    Products
-                </h1>
-
-                <p>
-                    Manage your Nesi Medicals products
-                </p>
-
-            </div>
-
-
-            <div class="top-actions">
-
-                <button
-                    class="btn btn-secondary"
-                    id="refreshBtn"
-                >
-                    🔄 Refresh
-                </button>
-
-                <button
-                    class="btn btn-primary"
-                    id="addProductBtn"
-                >
-                    + Add Product
-                </button>
-
-            </div>
+                <tbody id="productsTableBody"></tbody>
+            </table>
 
         </div>
-
-
-        <div class="content">
-
-            <!-- =========================
-                 STATS
-            ========================= -->
-
-            <div class="stats">
-
-                <div class="stat-card blue">
-
-                    <div class="stat-label">
-                        Total Products
-                    </div>
-
-                    <div
-                        class="stat-value"
-                        id="totalProducts"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-note">
-                        Products in your database
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card green">
-
-                    <div class="stat-label">
-                        In Stock
-                    </div>
-
-                    <div
-                        class="stat-value"
-                        id="inStock"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-note">
-                        Products with healthy stock
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card orange">
-
-                    <div class="stat-label">
-                        Low Stock
-                    </div>
-
-                    <div
-                        class="stat-value"
-                        id="lowStock"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-note">
-                        Products needing attention
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card red">
-
-                    <div class="stat-label">
-                        Out of Stock
-                    </div>
-
-                    <div
-                        class="stat-value"
-                        id="outOfStock"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-note">
-                        Products with zero stock
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- =========================
-                 SEARCH
-            ========================= -->
-
-            <div class="search-card">
-
-                <div class="search-row">
-
-                    <input
-                        type="text"
-                        id="searchInput"
-                        class="search-input"
-                        placeholder="Search product name, category, brand, SKU or supplier..."
-                    >
-
-                    <button
-                        class="btn btn-secondary"
-                        id="clearSearchBtn"
-                    >
-                        Clear
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- =========================
-                 TABLE
-            ========================= -->
-
-            <div class="table-card">
-
-                <div class="table-header">
-
-                    <h2>
-                        Product List
-                    </h2>
-
-                    <span
-                        class="table-count"
-                        id="tableCount"
-                    >
-                        0 products
-                    </span>
-
-                </div>
-
-
-                <div class="table-wrapper">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Product
-                                </th>
-
-                                <th>
-                                    Category
-                                </th>
-
-                                <th>
-                                    Brand
-                                </th>
-
-                                <th>
-                                    SKU
-                                </th>
-
-                                <th>
-                                    Cost Price
-                                </th>
-
-                                <th>
-                                    Selling Price
-                                </th>
-
-                                <th>
-                                    Quantity
-                                </th>
-
-                                <th>
-                                    Low Stock
-                                </th>
-
-                                <th>
-                                    Supplier
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                                <th>
-                                    Actions
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="productsTableBody">
-
-                            <tr>
-
-                                <td
-                                    colspan="11"
-                                    class="loading"
-                                >
-                                    Loading products...
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </main>
+    </div>
 
 </div>
 
 
-<!-- =========================
-     ADD / EDIT PRODUCT MODAL
-========================= -->
+<!-- PRODUCT MODAL -->
 
-<div
-    class="modal"
-    id="productModal"
->
+<div class="modal" id="productModal">
 
-    <div class="modal-box">
+    <div class="modal-content">
 
         <div class="modal-header">
 
-            <h2 id="modalTitle">
-                Add Product
-            </h2>
+            <div>
+                <h2 id="modalTitle">Add Product</h2>
+                <p style="color:#64748b;font-size:13px;margin-top:4px;">
+                    Enter the product information below.
+                </p>
+            </div>
 
-            <button
-                class="close-btn"
-                id="closeModalBtn"
-            >
-                ×
-            </button>
+            <button class="close" id="closeModalBtn">×</button>
 
         </div>
 
+        <div id="formMessage" class="message"></div>
 
         <form id="productForm">
 
-            <div class="modal-body">
-
-                <div class="form-grid">
-
-                    <!-- PRODUCT NAME -->
-
-                    <div class="form-group full">
-
-                        <label>
-                            Product Name
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="text"
-                            id="productName"
-                            class="form-control"
-                            placeholder="e.g. Paracetamol 500mg"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- CATEGORY -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Category
-                            <span class="required">*</span>
-                        </label>
-
-                        <select
-                            id="category"
-                            class="form-control"
-                            required
-                        >
-
-                            <option value="">
-                                Select Category
-                            </option>
-
-                            <option value="Medicine">
-                                Medicine
-                            </option>
-
-                            <option value="Toiletries">
-                                Toiletries
-                            </option>
-
-                            <option value="Cosmetics">
-                                Cosmetics
-                            </option>
-
-                            <option value="Creams">
-                                Creams
-                            </option>
-
-                            <option value="Soaps">
-                                Soaps
-                            </option>
-
-                            <option value="Perfumes">
-                                Perfumes
-                            </option>
-
-                            <option value="Drinks">
-                                Drinks
-                            </option>
-
-                            <option value="Baby Products">
-                                Baby Products
-                            </option>
-
-                            <option value="Medical Supplies">
-                                Medical Supplies
-                            </option>
-
-                            <option value="Personal Care">
-                                Personal Care
-                            </option>
-
-                            <option value="Household">
-                                Household
-                            </option>
-
-                            <option value="Other">
-                                Other
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- BRAND -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Brand
-                        </label>
-
-                        <input
-                            type="text"
-                            id="brand"
-                            class="form-control"
-                            placeholder="e.g. Emzor"
-                        >
-
-                    </div>
-
-
-                    <!-- SKU -->
-
-                    <div class="form-group">
-
-                        <label>
-                            SKU / Product Code
-                        </label>
-
-                        <input
-                            type="text"
-                            id="sku"
-                            class="form-control"
-                            placeholder="e.g. PCM-500"
-                        >
-
-                    </div>
-
-
-                    <!-- BATCH -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Batch Number
-                        </label>
-
-                        <input
-                            type="text"
-                            id="batchNumber"
-                            class="form-control"
-                            placeholder="e.g. BATCH001"
-                        >
-
-                    </div>
-
-
-                    <!-- COST PRICE -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Cost Price
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="number"
-                            id="costPrice"
-                            class="form-control"
-                            min="0"
-                            step="0.01"
-                            placeholder="0.00"
-                            required
-                        >
-
-                        <div class="form-help">
-                            What the business pays for one unit.
-                        </div>
-
-                    </div>
-
-
-                    <!-- SELLING PRICE -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Selling Price
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="number"
-                            id="sellingPrice"
-                            class="form-control"
-                            min="0"
-                            step="0.01"
-                            placeholder="0.00"
-                            required
-                        >
-
-                        <div class="form-help">
-                            Customer selling price per unit.
-                        </div>
-
-                    </div>
-
-
-                    <!-- QUANTITY -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Quantity / Stock
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="number"
-                            id="quantity"
-                            class="form-control"
-                            min="0"
-                            step="1"
-                            placeholder="0"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- LOW STOCK -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Low Stock Level
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="number"
-                            id="lowStockLevel"
-                            class="form-control"
-                            min="0"
-                            step="1"
-                            value="5"
-                            required
-                        >
-
-                        <div class="form-help">
-                            Warning appears when stock reaches this level.
-                        </div>
-
-                    </div>
-
-
-                    <!-- EXPIRY -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Expiry Date
-                        </label>
-
-                        <input
-                            type="date"
-                            id="expiryDate"
-                            class="form-control"
-                        >
-
-                    </div>
-
-
-                    <!-- SUPPLIER -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Supplier
-                        </label>
-
-                        <input
-                            type="text"
-                            id="supplier"
-                            class="form-control"
-                            placeholder="Supplier name"
-                        >
-
-                    </div>
-
-
-                    <!-- STATUS -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Status
-                        </label>
-
-                        <select
-                            id="status"
-                            class="form-control"
-                        >
-
-                            <option value="In Stock">
-                                In Stock
-                            </option>
-
-                            <option value="Low Stock">
-                                Low Stock
-                            </option>
-
-                            <option value="Out of Stock">
-                                Out of Stock
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- NOTES -->
-
-                    <div class="form-group full">
-
-                        <label>
-                            Notes
-                        </label>
-
-                        <textarea
-                            id="notes"
-                            class="form-control"
-                            placeholder="Additional product information..."
-                        ></textarea>
-
-                    </div>
-
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="productName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option value="Medicine">Medicine</option>
+                        <option value="Toiletries">Toiletries</option>
+                        <option value="Cosmetics">Cosmetics</option>
+                        <option value="Creams">Creams</option>
+                        <option value="Soaps">Soaps</option>
+                        <option value="Perfumes">Perfumes</option>
+                        <option value="Drinks">Drinks</option>
+                        <option value="Baby Products">Baby Products</option>
+                        <option value="Medical Supplies">Medical Supplies</option>
+                        <option value="Personal Care">Personal Care</option>
+                        <option value="Household">Household</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" id="brand">
+                </div>
+
+                <div class="form-group">
+                    <label>SKU / Product Code</label>
+                    <input type="text" id="sku">
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity *</label>
+                    <input type="number" id="quantity" min="0" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Low Stock Level *</label>
+                    <input type="number" id="lowStockLevel" min="0" step="1" value="5" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Cost Price (₦) *</label>
+                    <input type="number" id="costPrice" min="0" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Selling Price (₦) *</label>
+                    <input type="number" id="sellingPrice" min="0" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Batch Number</label>
+                    <input type="text" id="batchNumber">
+                </div>
+
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="date" id="expiryDate">
+                </div>
+
+                <div class="form-group full">
+                    <label>Supplier</label>
+                    <input type="text" id="supplier">
+                </div>
+
+                <div class="form-group full">
+                    <label>Notes</label>
+                    <textarea id="notes"></textarea>
                 </div>
 
             </div>
 
-
-            <div class="modal-footer">
+            <div class="form-buttons">
 
                 <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn-secondary"
                     id="cancelBtn"
                 >
                     Cancel
@@ -1440,7 +642,7 @@
 
                 <button
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn-orange"
                     id="saveBtn"
                 >
                     Save Product
@@ -1451,27 +653,17 @@
         </form>
 
     </div>
-
 </div>
 
 
-<!-- =========================
-     FIREBASE
-========================= -->
-
 <script type="module">
 
-    import {
-        auth,
-        db
-    } from "./js/firebase.js";
-
+    import { auth, db } from "./js/firebase.js";
 
     import {
         onAuthStateChanged,
         signOut
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 
     import {
         collection,
@@ -1484,232 +676,216 @@
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-    /* =========================
-       ELEMENTS
-    ========================= */
-
-    const productModal =
-        document.getElementById(
-            "productModal"
-        );
-
-    const productForm =
-        document.getElementById(
-            "productForm"
-        );
-
-    const productsTableBody =
-        document.getElementById(
-            "productsTableBody"
-        );
-
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
-
-    const addProductBtn =
-        document.getElementById(
-            "addProductBtn"
-        );
-
-    const closeModalBtn =
-        document.getElementById(
-            "closeModalBtn"
-        );
-
-    const cancelBtn =
-        document.getElementById(
-            "cancelBtn"
-        );
-
-    const saveBtn =
-        document.getElementById(
-            "saveBtn"
-        );
-
-    const refreshBtn =
-        document.getElementById(
-            "refreshBtn"
-        );
-
-    const clearSearchBtn =
-        document.getElementById(
-            "clearSearchBtn"
-        );
-
-    const logoutBtn =
-        document.getElementById(
-            "logoutBtn"
-        );
-
-
-    /* =========================
-       STATE
-    ========================= */
-
-    let currentUser = null;
-
     let products = [];
-
+    let currentUser = null;
     let editingProductId = null;
 
 
-    /* =========================
-       MONEY
-    ========================= */
+    const loadingMessage =
+        document.getElementById("loadingMessage");
 
-    function formatMoney(
-        value
-    ) {
+    const errorMessage =
+        document.getElementById("errorMessage");
 
-        return new Intl.NumberFormat(
-            "en-NG",
-            {
-                style: "currency",
-                currency: "NGN"
-            }
-        ).format(
-            Number(value) || 0
-        );
+    const emptyMessage =
+        document.getElementById("emptyMessage");
 
-    }
+    const tableContainer =
+        document.getElementById("tableContainer");
+
+    const productsTableBody =
+        document.getElementById("productsTableBody");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const productModal =
+        document.getElementById("productModal");
+
+    const productForm =
+        document.getElementById("productForm");
+
+    const formMessage =
+        document.getElementById("formMessage");
 
 
-    /* =========================
-       ESCAPE HTML
-    ========================= */
+    function showLoading() {
 
-    function escapeHtml(
-        value
-    ) {
-
-        return String(
-            value ?? ""
-        )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        loadingMessage.style.display = "block";
+        errorMessage.style.display = "none";
+        emptyMessage.style.display = "none";
+        tableContainer.style.display = "none";
 
     }
 
 
-    /* =========================
-       CALCULATE STATUS
-    ========================= */
+    function showError(message) {
 
-    function calculateStatus(
-        quantity,
-        lowStockLevel
-    ) {
+        loadingMessage.style.display = "none";
+        emptyMessage.style.display = "none";
+        tableContainer.style.display = "none";
 
-        const qty =
-            Number(quantity) || 0;
+        errorMessage.style.display = "block";
 
-        const low =
-            Number(lowStockLevel) || 0;
+        errorMessage.innerHTML = `
+            <strong>Unable to load products.</strong>
+            <br><br>
+            ${message}
+            <br><br>
+            <button class="btn-orange" onclick="location.reload()">
+                Try Again
+            </button>
+        `;
+
+    }
 
 
-        if (qty <= 0) {
+    function getQuantity(product) {
 
+        const quantity =
+            product.quantity !== undefined
+                ? Number(product.quantity)
+                : Number(product.stock);
+
+        return Number.isFinite(quantity) ? quantity : 0;
+
+    }
+
+
+    function getLowStockLevel(product) {
+
+        const level = Number(product.lowStockLevel);
+
+        return Number.isFinite(level) ? level : 5;
+
+    }
+
+
+    function getSellingPrice(product) {
+
+        const price =
+            product.sellingPrice !== undefined
+                ? Number(product.sellingPrice)
+                : Number(product.price);
+
+        return Number.isFinite(price) ? price : 0;
+
+    }
+
+
+    function getCostPrice(product) {
+
+        const price =
+            product.costPrice !== undefined
+                ? Number(product.costPrice)
+                : Number(product.cost);
+
+        return Number.isFinite(price) ? price : 0;
+
+    }
+
+
+    function getStatus(product) {
+
+        const quantity = getQuantity(product);
+        const lowLevel = getLowStockLevel(product);
+
+        if (quantity <= 0) {
             return "Out of Stock";
-
         }
 
-
-        if (qty <= low) {
-
+        if (quantity <= lowLevel) {
             return "Low Stock";
-
         }
-
 
         return "In Stock";
 
     }
 
 
-    /* =========================
-       LOAD PRODUCTS
-    ========================= */
+    function statusHTML(status) {
+
+        if (status === "Out of Stock") {
+
+            return `
+                <span class="status status-out">
+                    Out of Stock
+                </span>
+            `;
+
+        }
+
+        if (status === "Low Stock") {
+
+            return `
+                <span class="status status-low">
+                    Low Stock
+                </span>
+            `;
+
+        }
+
+        return `
+            <span class="status status-in">
+                In Stock
+            </span>
+        `;
+
+    }
+
+
+    function money(value) {
+
+        return "₦" + Number(value || 0).toLocaleString(
+            "en-NG",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+
+    }
+
 
     async function loadProducts() {
 
-        productsTableBody.innerHTML = `
-            <tr>
-                <td
-                    colspan="11"
-                    class="loading"
-                >
-                    Loading products...
-                </td>
-            </tr>
-        `;
-
+        showLoading();
 
         try {
 
+            console.log("Loading products from Firestore...");
+
             const snapshot =
-                await getDocs(
-                    collection(
-                        db,
-                        "products"
-                    )
-                );
+                await getDocs(collection(db, "products"));
 
+            products = snapshot.docs.map(item => {
 
-            products =
-                snapshot.docs.map(
-                    item => ({
-                        id: item.id,
-                        ...item.data()
-                    })
-                );
+                return {
+                    id: item.id,
+                    ...item.data()
+                };
 
+            });
 
-            renderProducts();
+            console.log(
+                "Products loaded:",
+                products.length
+            );
 
             updateStats();
+
+            renderProducts();
 
         } catch (error) {
 
             console.error(
-                "Load products error:",
+                "Product loading error:",
                 error
             );
 
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td
-                        colspan="11"
-                        class="empty"
-                    >
-                        Unable to load products.
-                    </td>
-                </tr>
-            `;
-
-
-            alert(
-                "Unable to load products. Please check your Firebase connection."
+            showError(
+                error.message ||
+                "There was a problem connecting to Firestore."
             );
 
         }
@@ -1717,420 +893,436 @@
     }
 
 
-    /* =========================
-       RENDER PRODUCTS
-    ========================= */
+    function updateStats() {
+
+        const total =
+            products.length;
+
+        const low =
+            products.filter(
+                product => getStatus(product) === "Low Stock"
+            ).length;
+
+        const inStock =
+            products.filter(
+                product => getStatus(product) === "In Stock"
+            ).length;
+
+        const outStock =
+            products.filter(
+                product => getStatus(product) === "Out of Stock"
+            ).length;
+
+
+        document.getElementById(
+            "totalProducts"
+        ).textContent = total;
+
+        document.getElementById(
+            "lowStockProducts"
+        ).textContent = low;
+
+        document.getElementById(
+            "inStockProducts"
+        ).textContent = inStock;
+
+        document.getElementById(
+            "outStockProducts"
+        ).textContent = outStock;
+
+    }
+
 
     function renderProducts() {
 
         const search =
-            searchInput.value
-                .trim()
-                .toLowerCase();
+            searchInput.value.trim().toLowerCase();
 
 
         const filtered =
-            products.filter(
-                product => {
+            products.filter(product => {
 
-                    const text = [
+                const text = [
 
-                        product.productName,
+                    product.productName,
+                    product.category,
+                    product.brand,
+                    product.sku,
+                    product.supplier
 
-                        product.category,
+                ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
 
-                        product.brand,
+                return text.includes(search);
 
-                        product.sku,
-
-                        product.supplier,
-
-                        product.batchNumber
-
-                    ]
-                    .join(" ")
-                    .toLowerCase();
+            });
 
 
-                    return text.includes(
-                        search
+        loadingMessage.style.display = "none";
+        errorMessage.style.display = "none";
+
+
+        if (filtered.length === 0) {
+
+            tableContainer.style.display = "none";
+            emptyMessage.style.display = "block";
+
+            if (products.length > 0 && search) {
+
+                emptyMessage.innerHTML = `
+                    No products match "${searchInput.value}".
+                    <br><br>
+                    <button class="btn-secondary" onclick="
+                        document.getElementById('searchInput').value='';
+                        document.getElementById('searchInput').dispatchEvent(new Event('input'));
+                    ">
+                        Clear Search
+                    </button>
+                `;
+
+            } else {
+
+                emptyMessage.innerHTML = `
+                    No products found.
+                    <br><br>
+                    <button class="btn-orange" id="emptyAddBtn">
+                        + Add First Product
+                    </button>
+                `;
+
+                document
+                    .getElementById("emptyAddBtn")
+                    .addEventListener(
+                        "click",
+                        openAddModal
                     );
 
-                }
-            );
-
-
-        document.getElementById(
-            "tableCount"
-        ).textContent =
-            `${filtered.length} ${
-                filtered.length === 1
-                    ? "product"
-                    : "products"
-            }`;
-
-
-        if (!filtered.length) {
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td
-                        colspan="11"
-                        class="empty"
-                    >
-                        ${
-                            search
-                                ? "No products match your search."
-                                : "No products found. Click + Add Product to create your first product."
-                        }
-                    </td>
-                </tr>
-            `;
+            }
 
             return;
 
         }
 
 
-        const sorted =
-            [...filtered].sort(
-                (a, b) =>
-                    String(
-                        a.productName || ""
-                    ).localeCompare(
-                        String(
-                            b.productName || ""
-                        )
-                    )
-            );
+        emptyMessage.style.display = "none";
+        tableContainer.style.display = "block";
 
 
         productsTableBody.innerHTML =
-            sorted.map(
-                product => {
-
-                    const quantity =
-                        Number(
-                            product.quantity ??
-                            product.stock ??
-                            0
-                        );
-
-
-                    const lowStockLevel =
-                        Number(
-                            product.lowStockLevel ??
-                            5
-                        );
-
-
-                    const status =
-                        calculateStatus(
-                            quantity,
-                            lowStockLevel
-                        );
-
-
-                    const statusClass =
-                        status ===
-                        "Out of Stock"
-                            ? "status-out"
-                            : status ===
-                              "Low Stock"
-                                ? "status-low"
-                                : "status-in";
-
-
-                    const stockClass =
-                        status ===
-                        "Out of Stock"
-                            ? "stock-out"
-                            : status ===
-                              "Low Stock"
-                                ? "stock-low"
-                                : "stock-good";
-
-
-                    return `
-
-                        <tr>
-
-                            <td>
-                                <span
-                                    class="product-name"
-                                >
-                                    ${escapeHtml(
-                                        product.productName ||
-                                        "Unnamed Product"
-                                    )}
-                                </span>
-                            </td>
-
-                            <td>
-
-                                <span
-                                    class="category-badge"
-                                >
-                                    ${escapeHtml(
-                                        product.category ||
-                                        "Other"
-                                    )}
-                                </span>
-
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    product.brand ||
-                                    "—"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    product.sku ||
-                                    "—"
-                                )}
-                            </td>
-
-                            <td>
-                                ${formatMoney(
-                                    product.costPrice ??
-                                    product.cost ??
-                                    0
-                                )}
-                            </td>
-
-                            <td>
-                                ${formatMoney(
-                                    product.sellingPrice ??
-                                    0
-                                )}
-                            </td>
-
-                            <td>
-                                <span
-                                    class="${stockClass}"
-                                >
-                                    ${quantity}
-                                </span>
-                            </td>
-
-                            <td>
-                                ${lowStockLevel}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    product.supplier ||
-                                    "—"
-                                )}
-                            </td>
-
-                            <td>
-
-                                <span
-                                    class="
-                                        status
-                                        ${statusClass}
-                                    "
-                                >
-                                    ${status}
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <div
-                                    class="action-buttons"
-                                >
-
-                                    <button
-                                        class="
-                                            small-btn
-                                            edit-btn
-                                        "
-                                        data-id="${product.id}"
-                                        data-action="edit"
-                                    >
-                                        Edit
-                                    </button>
-
-                                    <button
-                                        class="
-                                            small-btn
-                                            delete-btn
-                                        "
-                                        data-id="${product.id}"
-                                        data-action="delete"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                }
-            ).join("");
-
-    }
-
-
-    /* =========================
-       UPDATE STATS
-    ========================= */
-
-    function updateStats() {
-
-        let inStock = 0;
-
-        let lowStock = 0;
-
-        let outOfStock = 0;
-
-
-        products.forEach(
-            product => {
+            filtered.map(product => {
 
                 const quantity =
-                    Number(
-                        product.quantity ??
-                        product.stock ??
-                        0
-                    );
-
-
-                const lowStockLevel =
-                    Number(
-                        product.lowStockLevel ??
-                        5
-                    );
-
+                    getQuantity(product);
 
                 const status =
-                    calculateStatus(
-                        quantity,
-                        lowStockLevel
-                    );
+                    getStatus(product);
 
 
-                if (
-                    status ===
-                    "In Stock"
-                ) {
+                return `
 
-                    inStock++;
+                    <tr>
 
-                } else if (
-                    status ===
-                    "Low Stock"
-                ) {
+                        <td>
+                            <strong>
+                                ${escapeHTML(
+                                    product.productName || "Unnamed Product"
+                                )}
+                            </strong>
 
-                    lowStock++;
+                            ${
+                                product.batchNumber
+                                ? `
+                                    <br>
+                                    <small style="color:#64748b;">
+                                        Batch:
+                                        ${escapeHTML(product.batchNumber)}
+                                    </small>
+                                  `
+                                : ""
+                            }
 
-                } else {
+                        </td>
 
-                    outOfStock++;
+                        <td>
+                            ${escapeHTML(
+                                product.category || "-"
+                            )}
+                        </td>
 
-                }
+                        <td>
+                            ${escapeHTML(
+                                product.brand || "-"
+                            )}
+                        </td>
 
-            }
-        );
+                        <td>
+                            ${escapeHTML(
+                                product.sku || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            <strong>${quantity}</strong>
+                        </td>
+
+                        <td>
+                            ${money(
+                                getCostPrice(product)
+                            )}
+                        </td>
+
+                        <td>
+                            ${money(
+                                getSellingPrice(product)
+                            )}
+                        </td>
+
+                        <td>
+                            ${statusHTML(status)}
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="btn-secondary small-btn"
+                                    data-edit="${product.id}"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="btn-danger small-btn"
+                                    data-delete="${product.id}"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }).join("");
 
 
-        document.getElementById(
-            "totalProducts"
-        ).textContent =
-            products.length;
+        document
+            .querySelectorAll("[data-edit]")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => editProduct(
+                        button.dataset.edit
+                    )
+                );
+
+            });
 
 
-        document.getElementById(
-            "inStock"
-        ).textContent =
-            inStock;
+        document
+            .querySelectorAll("[data-delete]")
+            .forEach(button => {
 
+                button.addEventListener(
+                    "click",
+                    () => deleteProduct(
+                        button.dataset.delete
+                    )
+                );
 
-        document.getElementById(
-            "lowStock"
-        ).textContent =
-            lowStock;
-
-
-        document.getElementById(
-            "outOfStock"
-        ).textContent =
-            outOfStock;
+            });
 
     }
 
 
-    /* =========================
-       OPEN ADD MODAL
-    ========================= */
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
 
     function openAddModal() {
 
-        editingProductId =
-            null;
-
+        editingProductId = null;
 
         document.getElementById(
             "modalTitle"
-        ).textContent =
-            "Add Product";
+        ).textContent = "Add Product";
 
-
-        saveBtn.textContent =
-            "Save Product";
-
+        document.getElementById(
+            "saveBtn"
+        ).textContent = "Save Product";
 
         productForm.reset();
-
 
         document.getElementById(
             "lowStockLevel"
         ).value = 5;
 
+        clearFormMessage();
 
-        document.getElementById(
-            "status"
-        ).value =
-            "In Stock";
-
-
-        productModal.classList.add(
-            "show"
-        );
+        productModal.style.display = "block";
 
     }
 
 
-    /* =========================
-       OPEN EDIT MODAL
-    ========================= */
+    function closeModal() {
 
-    function openEditModal(
-        productId
+        productModal.style.display = "none";
+        productForm.reset();
+        editingProductId = null;
+        clearFormMessage();
+
+    }
+
+
+    function clearFormMessage() {
+
+        formMessage.className = "message";
+        formMessage.textContent = "";
+
+    }
+
+
+    function showFormMessage(
+        message,
+        type
     ) {
+
+        formMessage.className =
+            "message " + type;
+
+        formMessage.textContent =
+            message;
+
+    }
+
+
+    function editProduct(id) {
 
         const product =
             products.find(
-                item =>
-                    item.id ===
-                    productId
+                item => item.id === id
             );
 
-
         if (!product) {
+            return;
+        }
 
-            alert(
-                "Product not found."
+
+        editingProductId = id;
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent = "Edit Product";
+
+        document.getElementById(
+            "saveBtn"
+        ).textContent = "Update Product";
+
+
+        document.getElementById(
+            "productName"
+        ).value =
+            product.productName || "";
+
+
+        document.getElementById(
+            "category"
+        ).value =
+            product.category || "";
+
+
+        document.getElementById(
+            "brand"
+        ).value =
+            product.brand || "";
+
+
+        document.getElementById(
+            "sku"
+        ).value =
+            product.sku || "";
+
+
+        document.getElementById(
+            "quantity"
+        ).value =
+            getQuantity(product);
+
+
+        document.getElementById(
+            "lowStockLevel"
+        ).value =
+            getLowStockLevel(product);
+
+
+        document.getElementById(
+            "costPrice"
+        ).value =
+            getCostPrice(product);
+
+
+        document.getElementById(
+            "sellingPrice"
+        ).value =
+            getSellingPrice(product);
+
+
+        document.getElementById(
+            "batchNumber"
+        ).value =
+            product.batchNumber || "";
+
+
+        document.getElementById(
+            "expiryDate"
+        ).value =
+            product.expiryDate || "";
+
+
+        document.getElementById(
+            "supplier"
+        ).value =
+            product.supplier || "";
+
+
+        document.getElementById(
+            "notes"
+        ).value =
+            product.notes || "";
+
+
+        clearFormMessage();
+
+        productModal.style.display = "block";
+
+    }
+
+
+    async function saveProduct(event) {
+
+        event.preventDefault();
+
+        if (!currentUser) {
+
+            showFormMessage(
+                "You must be logged in.",
+                "error"
             );
 
             return;
@@ -2138,425 +1330,440 @@
         }
 
 
-        editingProductId =
-            productId;
+        const productName =
+            document.getElementById(
+                "productName"
+            ).value.trim();
+
+        const category =
+            document.getElementById(
+                "category"
+            ).value;
+
+        const brand =
+            document.getElementById(
+                "brand"
+            ).value.trim();
+
+        const sku =
+            document.getElementById(
+                "sku"
+            ).value.trim();
+
+        const quantity =
+            Number(
+                document.getElementById(
+                    "quantity"
+                ).value
+            );
+
+        const lowStockLevel =
+            Number(
+                document.getElementById(
+                    "lowStockLevel"
+                ).value
+            );
+
+        const costPrice =
+            Number(
+                document.getElementById(
+                    "costPrice"
+                ).value
+            );
+
+        const sellingPrice =
+            Number(
+                document.getElementById(
+                    "sellingPrice"
+                ).value
+            );
+
+        const batchNumber =
+            document.getElementById(
+                "batchNumber"
+            ).value.trim();
+
+        const expiryDate =
+            document.getElementById(
+                "expiryDate"
+            ).value;
+
+        const supplier =
+            document.getElementById(
+                "supplier"
+            ).value.trim();
+
+        const notes =
+            document.getElementById(
+                "notes"
+            ).value.trim();
 
 
-        document.getElementById(
-            "modalTitle"
-        ).textContent =
-            "Edit Product";
+        if (!productName) {
+
+            showFormMessage(
+                "Product name is required.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-        saveBtn.textContent =
-            "Update Product";
+        if (!category) {
+
+            showFormMessage(
+                "Please select a category.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-        document.getElementById(
-            "productName"
-        ).value =
-            product.productName ||
-            "";
+        if (
+            !Number.isFinite(quantity) ||
+            quantity < 0
+        ) {
+
+            showFormMessage(
+                "Please enter a valid quantity.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-        document.getElementById(
-            "category"
-        ).value =
-            product.category ||
-            "";
+        if (
+            !Number.isFinite(costPrice) ||
+            costPrice < 0
+        ) {
+
+            showFormMessage(
+                "Please enter a valid cost price.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-        document.getElementById(
-            "brand"
-        ).value =
-            product.brand ||
-            "";
+        if (
+            !Number.isFinite(sellingPrice) ||
+            sellingPrice < 0
+        ) {
+
+            showFormMessage(
+                "Please enter a valid selling price.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-        document.getElementById(
-            "sku"
-        ).value =
-            product.sku ||
-            "";
+        const status =
+            quantity <= 0
+                ? "Out of Stock"
+                : quantity <= lowStockLevel
+                    ? "Low Stock"
+                    : "In Stock";
 
 
-        document.getElementById(
-            "batchNumber"
-        ).value =
-            product.batchNumber ||
-            "";
+        const productData = {
+
+            productName,
+            category,
+            brand,
+            sku,
+
+            quantity,
+
+            // Keep stock for compatibility
+            // with older inventory records.
+            stock: quantity,
+
+            lowStockLevel,
+
+            batchNumber,
+            expiryDate,
+
+            costPrice,
+            sellingPrice,
+
+            supplier,
+            notes,
+
+            status,
+
+            updatedAt: serverTimestamp(),
+
+            updatedBy: currentUser.uid,
+
+            updatedByEmail:
+                currentUser.email || ""
+
+        };
 
 
-        document.getElementById(
-            "costPrice"
-        ).value =
-            product.costPrice ??
-            product.cost ??
-            "";
-
-
-        document.getElementById(
-            "sellingPrice"
-        ).value =
-            product.sellingPrice ??
-            "";
-
-
-        document.getElementById(
-            "quantity"
-        ).value =
-            product.quantity ??
-            product.stock ??
-            0;
-
-
-        document.getElementById(
-            "lowStockLevel"
-        ).value =
-            product.lowStockLevel ??
-            5;
-
-
-        document.getElementById(
-            "expiryDate"
-        ).value =
-            product.expiryDate ||
-            "";
-
-
-        document.getElementById(
-            "supplier"
-        ).value =
-            product.supplier ||
-            "";
-
-
-        document.getElementById(
-            "status"
-        ).value =
-            calculateStatus(
-                product.quantity ??
-                product.stock ??
-                0,
-                product.lowStockLevel ??
-                5
+        const saveButton =
+            document.getElementById(
+                "saveBtn"
             );
 
 
-        document.getElementById(
-            "notes"
-        ).value =
-            product.notes ||
-            "";
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
 
 
-        productModal.classList.add(
-            "show"
-        );
+        try {
+
+            if (editingProductId) {
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "products",
+                        editingProductId
+                    ),
+                    productData
+                );
+
+            } else {
+
+                productData.createdAt =
+                    serverTimestamp();
+
+                productData.createdBy =
+                    currentUser.uid;
+
+                productData.createdByEmail =
+                    currentUser.email || "";
+
+
+                await addDoc(
+                    collection(db, "products"),
+                    productData
+                );
+
+            }
+
+
+            await loadProducts();
+
+            closeModal();
+
+        } catch (error) {
+
+            console.error(
+                "Save product error:",
+                error
+            );
+
+            showFormMessage(
+                error.message ||
+                "Unable to save product.",
+                "error"
+            );
+
+        } finally {
+
+            saveButton.disabled = false;
+
+            saveButton.textContent =
+                editingProductId
+                    ? "Update Product"
+                    : "Save Product";
+
+        }
 
     }
 
 
-    /* =========================
-       CLOSE MODAL
-    ========================= */
+    async function deleteProduct(id) {
 
-    function closeModal() {
+        const product =
+            products.find(
+                item => item.id === id
+            );
 
-        productModal.classList.remove(
-            "show"
-        );
+        if (!product) {
+            return;
+        }
 
-        editingProductId =
-            null;
 
-        productForm.reset();
+        const confirmed =
+            confirm(
+                `Are you sure you want to delete "${product.productName || "this product"}"?`
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "products",
+                    id
+                )
+            );
+
+
+            await loadProducts();
+
+
+        } catch (error) {
+
+            console.error(
+                "Delete product error:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to delete product."
+            );
+
+        }
 
     }
 
 
-    /* =========================
-       SAVE PRODUCT
-    ========================= */
+    document
+        .getElementById("addProductBtn")
+        .addEventListener(
+            "click",
+            openAddModal
+        );
+
+
+    document
+        .getElementById("closeModalBtn")
+        .addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    document
+        .getElementById("cancelBtn")
+        .addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    document
+        .getElementById("refreshBtn")
+        .addEventListener(
+            "click",
+            loadProducts
+        );
+
+
+    searchInput.addEventListener(
+        "input",
+        renderProducts
+    );
+
 
     productForm.addEventListener(
         "submit",
-        async event => {
+        saveProduct
+    );
 
-            event.preventDefault();
 
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            async () => {
 
-            if (!currentUser) {
+                try {
 
-                alert(
-                    "Please login first."
-                );
+                    await signOut(auth);
 
-                return;
+                    window.location.href =
+                        "login.html";
 
-            }
-
-
-            const productName =
-                document.getElementById(
-                    "productName"
-                ).value.trim();
-
-
-            const category =
-                document.getElementById(
-                    "category"
-                ).value;
-
-
-            const brand =
-                document.getElementById(
-                    "brand"
-                ).value.trim();
-
-
-            const sku =
-                document.getElementById(
-                    "sku"
-                ).value.trim();
-
-
-            const batchNumber =
-                document.getElementById(
-                    "batchNumber"
-                ).value.trim();
-
-
-            const costPrice =
-                Number(
-                    document.getElementById(
-                        "costPrice"
-                    ).value
-                );
-
-
-            const sellingPrice =
-                Number(
-                    document.getElementById(
-                        "sellingPrice"
-                    ).value
-                );
-
-
-            const quantity =
-                Number(
-                    document.getElementById(
-                        "quantity"
-                    ).value
-                );
-
-
-            const lowStockLevel =
-                Number(
-                    document.getElementById(
-                        "lowStockLevel"
-                    ).value
-                );
-
-
-            const expiryDate =
-                document.getElementById(
-                    "expiryDate"
-                ).value;
-
-
-            const supplier =
-                document.getElementById(
-                    "supplier"
-                ).value.trim();
-
-
-            const notes =
-                document.getElementById(
-                    "notes"
-                ).value.trim();
-
-
-            if (!productName) {
-
-                alert(
-                    "Please enter the product name."
-                );
-
-                return;
-
-            }
-
-
-            if (!category) {
-
-                alert(
-                    "Please select a category."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                Number.isNaN(
-                    costPrice
-                ) ||
-                costPrice < 0
-            ) {
-
-                alert(
-                    "Please enter a valid cost price."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                Number.isNaN(
-                    sellingPrice
-                ) ||
-                sellingPrice < 0
-            ) {
-
-                alert(
-                    "Please enter a valid selling price."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                Number.isNaN(
-                    quantity
-                ) ||
-                quantity < 0
-            ) {
-
-                alert(
-                    "Please enter a valid quantity."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                Number.isNaN(
-                    lowStockLevel
-                ) ||
-                lowStockLevel < 0
-            ) {
-
-                alert(
-                    "Please enter a valid low-stock level."
-                );
-
-                return;
-
-            }
-
-
-            const status =
-                calculateStatus(
-                    quantity,
-                    lowStockLevel
-                );
-
-
-            const productData = {
-
-                productName,
-
-                category,
-
-                brand,
-
-                sku,
-
-                batchNumber,
-
-                costPrice,
-
-                sellingPrice,
-
-                quantity,
-
-                stock: quantity,
-
-                lowStockLevel,
-
-                expiryDate,
-
-                supplier,
-
-                status,
-
-                notes
-
-            };
-
-
-            saveBtn.disabled =
-                true;
-
-
-            saveBtn.textContent =
-                editingProductId
-                    ? "Updating..."
-                    : "Saving...";
-
-
-            try {
-
-                if (
-                    editingProductId
-                ) {
-
-                    await updateDoc(
-
-                        doc(
-                            db,
-                            "products",
-                            editingProductId
-                        ),
-
-                        {
-                            ...productData,
-
-                            updatedAt:
-                                serverTimestamp(),
-
-                            updatedBy:
-                                currentUser.uid,
-
-                            updatedByEmail:
-                                currentUser.email ||
-                                ""
-
-                        }
-
-                    );
-
+                } catch (error) {
 
                     alert(
-                        "Product updated successfully."
+                        error.message ||
+                        "Unable to log out."
                     );
 
-                } else {
+                }
 
-                    await addDoc(
+            }
+        );
 
-                        collection(
-                            db,
-                            "products"
-                        ),
 
-                        {
-                            ...product
+    productModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                productModal
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+    /*
+     * IMPORTANT:
+     * Wait for Firebase Authentication first.
+     * Then load the existing products.
+     */
+
+    onAuthStateChanged(
+        auth,
+        async user => {
+
+            console.log(
+                "Auth state:",
+                user
+                    ? user.email
+                    : "No user"
+            );
+
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            currentUser = user;
+
+
+            await loadProducts();
+
+        }
+    );
+
+</script>
+
+</body>
+    </html>
