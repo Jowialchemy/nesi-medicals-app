@@ -1,1 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Staff | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Nesi Medicals & Minimart Enterprises Staff Management"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7f9;
+            color: #222;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            background: #0d1b2a;
+            color: white;
+            padding: 20px 15px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .brand h2 {
+            font-size: 18px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            color: #b8c7d9;
+            margin-top: 4px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #dce6f0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-menu a:hover {
+            background: #17324d;
+        }
+
+        .nav-menu a.active {
+            background: #0a5fff;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 25px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .topbar p {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .add-btn {
+            background: #0a5fff;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #084dcc;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .summary-card .label {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .value {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .total-card .value {
+            color: #0a5fff;
+        }
+
+        .active-card .value {
+            color: #198754;
+        }
+
+        .inactive-card .value {
+            color: #dc3545;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d7dce2;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #0a5fff;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th,
+        td {
+            padding: 13px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f7f9fb;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background: #fafcff;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status.active {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status.inactive {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 7px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #e7f0ff;
+            color: #0a5fff;
+        }
+
+        .delete-btn {
+            background: #ffe5e8;
+            color: #dc3545;
+        }
+
+        .edit-btn:hover {
+            background: #d8e7ff;
+        }
+
+        .delete-btn:hover {
+            background: #ffd5da;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #777;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 35px;
+            color: #777;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 650px;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+        }
+
+        .close-btn {
+            border: none;
+            background: transparent;
+            font-size: 25px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d7dce2;
+            border-radius: 7px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0a5fff;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .cancel-btn {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .save-btn {
+            background: #0a5fff;
+            color: white;
+        }
+
+        .cancel-btn,
+        .save-btn {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1000px) {
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .topbar h1 {
+                font-size: 23px;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+            >
+
+            <h2>Nesi Medicals</h2>
+
+            <p>& Minimart Enterprises</p>
+
+        </div>
+
+        <nav class="nav-menu">
+
+            <a href="dashboard.html">
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </a>
+
+            <a href="sales.html">
+                <span class="nav-icon">🛒</span>
+                Sales
+            </a>
+
+            <a href="inventory.html">
+                <span class="nav-icon">📦</span>
+                Inventory
+            </a>
+
+            <a href="products.html">
+                <span class="nav-icon">💊</span>
+                Products
+            </a>
+
+            <a href="customers.html">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                <span class="nav-icon">🚚</span>
+                Suppliers
+            </a>
+
+            <a href="expenses.html">
+                <span class="nav-icon">💸</span>
+                Expenses
+            </a>
+
+            <a href="reports.html">
+                <span class="nav-icon">📈</span>
+                Reports
+            </a>
+
+            <a
+                href="staff.html"
+                class="active"
+            >
+                <span class="nav-icon">👨‍💼</span>
+                Staff
+            </a>
+
+            <a href="settings.html">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Staff Management</h1>
+
+                <p>
+                    Manage your Nesi Medicals staff members
+                </p>
+
+            </div>
+
+            <button
+                class="add-btn"
+                id="addStaffBtn"
+            >
+                + Add Staff
+            </button>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary-grid">
+
+            <div class="summary-card total-card">
+
+                <div class="label">
+                    Total Staff
+                </div>
+
+                <div
+                    class="value"
+                    id="totalStaff"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card active-card">
+
+                <div class="label">
+                    Active Staff
+                </div>
+
+                <div
+                    class="value"
+                    id="activeStaff"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card inactive-card">
+
+                <div class="label">
+                    Inactive Staff
+                </div>
+
+                <div
+                    class="value"
+                    id="inactiveStaff"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search staff by name, role, phone or email..."
+            >
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-card">
+
+            <div id="staffTableContainer">
+
+                <div class="loading">
+                    Loading staff...
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- STAFF MODAL -->
+
+<div
+    class="modal"
+    id="staffModal"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add Staff
+            </h2>
+
+            <button
+                class="close-btn"
+                id="closeModalBtn"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="staffForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="staffName">
+                        Full Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="staffName"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="staffRole">
+                        Role *
+                    </label>
+
+                    <select
+                        id="staffRole"
+                        required
+                    >
+
+                        <option value="">
+                            Select Role
+                        </option>
+
+                        <option value="Manager">
+                            Manager
+                        </option>
+
+                        <option value="Pharmacist">
+                            Pharmacist
+                        </option>
+
+                        <option value="Nurse">
+                            Nurse
+                        </option>
+
+                        <option value="Cashier">
+                            Cashier
+                        </option>
+
+                        <option value="Sales Representative">
+                            Sales Representative
+                        </option>
+
+                        <option value="Store Keeper">
+                            Store Keeper
+                        </option>
+
+                        <option value="Accountant">
+                            Accountant
+                        </option>
+
+                        <option value="Administrator">
+                            Administrator
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="staffPhone">
+                        Phone Number *
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="staffPhone"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="staffEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="staffEmail"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="staffDateJoined">
+                        Date Joined *
+                    </label>
+
+                    <input
+                        type="date"
+                        id="staffDateJoined"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="staffStatus">
+                        Status *
+                    </label>
+
+                    <select
+                        id="staffStatus"
+                        required
+                    >
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="staffAddress">
+                        Address
+                    </label>
+
+                    <input
+                        type="text"
+                        id="staffAddress"
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="staffNotes">
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="staffNotes"
+                        placeholder="Additional information about this staff member..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelBtn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                    id="saveBtn"
+                >
+                    Save Staff
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
+
+
+    import {
+        collection,
+        addDoc,
+        getDocs,
+        doc,
+        updateDoc,
+        deleteDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+    import {
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+    let currentUser = null;
+
+    let staffList = [];
+
+    let editingStaffId = null;
+
+
+    const staffModal =
+        document.getElementById(
+            "staffModal"
+        );
+
+    const staffForm =
+        document.getElementById(
+            "staffForm"
+        );
+
+    const modalTitle =
+        document.getElementById(
+            "modalTitle"
+        );
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+    const staffTableContainer =
+        document.getElementById(
+            "staffTableContainer"
+        );
+
+
+    function escapeHtml(value) {
+
+        return String(
+            value ?? ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    function localDateString(
+        date = new Date()
+    ) {
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return "-";
+        }
+
+        const date =
+            new Date(
+                `${dateValue}T12:00:00`
+            );
+
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+            return dateValue;
+        }
+
+        return date.toLocaleDateString(
+            "en-NG",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    function openModal(
+        staff = null
+    ) {
+
+        staffModal.classList.add(
+            "show"
+        );
+
+
+        if (staff) {
+
+            editingStaffId =
+                staff.id;
+
+            modalTitle.textContent =
+                "Edit Staff";
+
+            saveBtn.textContent =
+                "Update Staff";
+
+
+            document.getElementById(
+                "staffName"
+            ).value =
+                staff.name || "";
+
+
+            document.getElementById(
+                "staffRole"
+            ).value =
+                staff.role || "";
+
+
+            document.getElementById(
+                "staffPhone"
+            ).value =
+                staff.phone || "";
+
+
+            document.getElementById(
+                "staffEmail"
+            ).value =
+                staff.email || "";
+
+
+            document.getElementById(
+                "staffDateJoined"
+            ).value =
+                staff.dateJoined || "";
+
+
+            document.getElementById(
+                "staffStatus"
+            ).value =
+                staff.status || "Active";
+
+
+            document.getElementById(
+                "staffAddress"
+            ).value =
+                staff.address || "";
+
+
+            document.getElementById(
+                "staffNotes"
+            ).value =
+                staff.notes || "";
+
+        } else {
+
+            editingStaffId =
+                null;
+
+            modalTitle.textContent =
+                "Add Staff";
+
+            saveBtn.textContent =
+                "Save Staff";
+
+            staffForm.reset();
+
+            document.getElementById(
+                "staffDateJoined"
+            ).value =
+                localDateString();
+
+            document.getElementById(
+                "staffStatus"
+            ).value =
+                "Active";
+
+        }
+
+    }
+
+
+    function closeModal() {
+
+        staffModal.classList.remove(
+            "show"
+        );
+
+        editingStaffId =
+            null;
+
+        staffForm.reset();
+
+    }
+
+
+    async function loadStaff() {
+
+        try {
+
+            staffTableContainer.innerHTML =
+                `<div class="loading">
+                    Loading staff...
+                </div>`;
+
+
+            const snapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "staff"
+                    )
+                );
+
+
+            staffList =
+                snapshot.docs.map(
+                    document => ({
+                        id: document.id,
+                        ...document.data()
+                    })
+                );
+
+
+            staffList.sort(
+                (a, b) =>
+                    String(
+                        a.name || ""
+                    ).localeCompare(
+                        String(
+                            b.name || ""
+                        )
+                    )
+            );
+
+
+            updateSummary();
+
+            renderStaff();
+
+        } catch (error) {
+
+            console.error(
+                "Error loading staff:",
+                error
+            );
+
+
+            staffTableContainer.innerHTML =
+                `<div class="empty">
+                    Unable to load staff.
+                    Please refresh the page.
+                </div>`;
+
+        }
+
+    }
+
+
+    function updateSummary() {
+
+        const total =
+            staffList.length;
+
+        const active =
+            staffList.filter(
+                staff =>
+                    String(
+                        staff.status ||
+                        "Active"
+                    ).toLowerCase() ===
+                    "active"
+            ).length;
+
+        const inactive =
+            total - active;
+
+
+        document.getElementById(
+            "totalStaff"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "activeStaff"
+        ).textContent =
+            active;
+
+
+        document.getElementById(
+            "inactiveStaff"
+        ).textContent =
+            inactive;
+
+    }
+
+
+    function renderStaff() {
+
+        const search =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            staffList.filter(
+                staff => {
+
+                    const text = [
+
+                        staff.name,
+
+                        staff.role,
+
+                        staff.phone,
+
+                        staff.email,
+
+                        staff.status
+
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+
+                    return text.includes(
+                        search
+                    );
+
+                }
+            );
+
+
+        if (
+            filtered.length === 0
+        ) {
+
+            staffTableContainer.innerHTML =
+                `<div class="empty">
+                    No staff members found.
+                </div>`;
+
+            return;
+
+        }
+
+
+        let html = `
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Role
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Date Joined
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+        `;
+
+
+        filtered.forEach(
+            staff => {
+
+                const status =
+                    staff.status ||
+                    "Active";
+
+
+                const statusClass =
+                    status.toLowerCase() ===
+                    "active"
+                        ? "active"
+                        : "inactive";
+
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                ${escapeHtml(
+                                    staff.name
+                                )}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                staff.role
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                staff.phone
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                staff.email ||
+                                "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${formatDate(
+                                staff.dateJoined
+                            )}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="status ${statusClass}"
+                            >
+                                ${escapeHtml(
+                                    status
+                                )}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div
+                                class="action-buttons"
+                            >
+
+                                <button
+                                    class="edit-btn"
+                                    data-action="edit"
+                                    data-id="${staff.id}"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="delete-btn"
+                                    data-action="delete"
+                                    data-id="${staff.id}"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        html += `
+
+                </tbody>
+
+            </table>
+
+        `;
+
+
+        staffTableContainer.innerHTML =
+            html;
+
+
+        staffTableContainer
+            .querySelectorAll(
+                '[data-action="edit"]'
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const staff =
+                                staffList.find(
+                                    item =>
+                                        item.id ===
+                                        button.dataset.id
+                                );
+
+
+                            if (staff) {
+                                openModal(
+                                    staff
+                                );
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+        staffTableContainer
+            .querySelectorAll(
+                '[data-action="delete"]'
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            deleteStaff(
+                                button.dataset.id
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    async function saveStaff(
+        event
+    ) {
+
+        event.preventDefault();
+
+
+        if (!currentUser) {
+
+            alert(
+                "You must be logged in."
+            );
+
+            return;
+
+        }
+
+
+        const name =
+            document.getElementById(
+                "staffName"
+            ).value.trim();
+
+
+        const role =
+            document.getElementById(
+                "staffRole"
+            ).value;
+
+
+        const phone =
+            document.getElementById(
+                "staffPhone"
+            ).value.trim();
+
+
+        const email =
+            document.getElementById(
+                "staffEmail"
+            ).value.trim();
+
+
+        const dateJoined =
+            document.getElementById(
+                "staffDateJoined"
+            ).value;
+
+
+        const status =
+            document.getElementById(
+                "staffStatus"
+            ).value;
+
+
+        const address =
+            document.getElementById(
+                "staffAddress"
+            ).value.trim();
+
+
+        const notes =
+            document.getElementById(
+                "staffNotes"
+            ).value.trim();
+
+
+        if (
+            !name ||
+            !role ||
+            !phone ||
+            !dateJoined
+        ) {
+
+            alert(
+                "Please complete all required fields."
+            );
+
+            return;
+
+        }
+
+
+        saveBtn.disabled =
+            true;
+
+
+        saveBtn.textContent =
+            editingStaffId
+                ? "Updating..."
+                : "Saving...";
+
+
+        try {
+
+            const staffData = {
+
+                name,
+
+                role,
+
+                phone,
+
+                email,
+
+                dateJoined,
+
+                status,
+
+                address,
+
+                notes
+
+            };
+
+
+            if (editingStaffId) {
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "staff",
+                        editingStaffId
+                    ),
+                    {
+
+                        ...staffData,
+
+                        updatedAt:
+                            serverTimestamp(),
+
+                        updatedBy:
+                            currentUser.uid,
+
+                        updatedByEmail:
+                            currentUser.email ||
+                            ""
+
+                    }
+                );
+
+
+                alert(
+                    "Staff updated successfully."
+                );
+
+            } else {
+
+                await addDoc(
+                    collection(
+                        db,
+                        "staff"
+                    ),
+                    {
+
+                        ...staffData,
+
+                        createdAt:
+                            serverTimestamp(),
+
+                        createdBy:
+                            currentUser.uid,
+
+                        createdByEmail:
+                            currentUser.email ||
+                            "",
+
+                        updatedAt:
+                            serverTimestamp(),
+
+                        updatedBy:
+                            currentUser.uid,
+
+                        updatedByEmail:
+                            currentUser.email ||
+                            ""
+
+                    }
+                );
+
+
+                alert(
+                    "Staff added successfully."
+                );
+
+            }
+
+
+            closeModal();
+
+            await loadStaff();
+
+        } catch (error) {
+
+            console.error(
+                "Error saving staff:",
+                error
+            );
+
+
+            alert(
+                "Unable to save staff. Please try again."
+            );
+
+        } finally {
+
+            saveBtn.disabled =
+                false;
+
+            saveBtn.textContent =
+                editingStaffId
+                    ? "Update Staff"
+                    : "Save Staff";
+
+        }
+
+    }
+
+
+    async function deleteStaff(
+        staffId
+    ) {
+
+        const staff =
+            staffList.find(
+                item =>
+                    item.id ===
+                    staffId
+            );
+
+
+        if (!staff) {
+            return;
+        }
+
+
+        const confirmed =
+            confirm(
+                `Delete ${staff.name}? This action cannot be undone.`
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "staff",
+                    staffId
+                )
+            );
+
+
+            alert(
+                "Staff deleted successfully."
+            );
+
+
+            await loadStaff();
+
+        } catch (error) {
+
+            console.error(
+                "Error deleting staff:",
+                error
+            );
+
+
+            alert(
+                "Unable to delete staff. Please try again."
+            );
+
+        }
+
+    }
+
+
+    document.getElementById(
+        "addStaffBtn"
+    ).addEventListener(
+        "click",
+        () => openModal()
+    );
+
+
+    document.getElementById(
+        "closeModalBtn"
+    ).addEventListener(
+        "click",
+        closeModal
+    );
+
+
+    document.getElementById(
+        "cancelBtn"
+    ).addEventListener(
+        "click",
+        closeModal
+    );
+
+
+    staffForm.addEventListener(
+        "submit",
+        saveStaff
+    );
+
+
+    searchInput.addEventListener(
+        "input",
+        renderStaff
+    );
+
+
+    staffModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                staffModal
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+    onAuthStateChanged(
+        auth,
+        user => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            currentUser =
+                user;
+
+
+            loadStaff();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
