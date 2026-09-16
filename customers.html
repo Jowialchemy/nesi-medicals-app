@@ -1,316 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Customers | Nesi Medicals</title>
 
+    <meta
+        name="description"
+        content="Nesi Medicals & Minimart Enterprises Customer Management"
+    >
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+        }
+
+        :root {
+            --green: #0b8f55;
+            --green-dark: #087044;
+            --green-light: #e9f8f0;
+            --orange: #ff8a00;
+            --blue: #0a5fff;
+            --red: #dc3545;
+            --yellow: #f5a623;
+            --dark: #17202a;
+            --text: #263238;
+            --muted: #6b7280;
+            --bg: #f5f7f9;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 4px 16px rgba(0,0,0,.07);
         }
 
         body {
-            background: #f5f7fa;
-            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
         }
 
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
-            left: 0;
             top: 0;
+            left: 0;
             width: 250px;
             height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #e5e7eb;
-            padding: 25px 15px;
-            z-index: 100;
+            background: #111827;
+            color: white;
+            z-index: 1000;
             overflow-y: auto;
+            transition: .3s;
         }
 
-        .brand {
+        .sidebar-header {
+            height: 78px;
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 0 10px 25px;
-            border-bottom: 1px solid #eeeeee;
-            margin-bottom: 20px;
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
         }
 
-        .brand img {
-            width: 50px;
-            height: 50px;
+        .sidebar-header img {
+            width: 45px;
+            height: 45px;
             object-fit: contain;
+            border-radius: 8px;
+            background: white;
         }
 
-        .brand-text h2 {
-            font-size: 16px;
-            color: #166534;
+        .brand-text {
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.15;
         }
 
-        .brand-text p {
-            font-size: 11px;
-            color: #6b7280;
-            margin-top: 3px;
+        .brand-text small {
+            display: block;
+            color: #9ca3af;
+            font-size: 10px;
+            margin-top: 4px;
+            font-weight: 400;
         }
 
         .nav {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+            padding: 15px 10px;
+        }
+
+        .nav-section {
+            color: #6b7280;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 14px 12px 7px;
         }
 
         .nav a {
-            text-decoration: none;
-            color: #4b5563;
-            padding: 13px 15px;
-            border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 12px;
+            text-decoration: none;
+            color: #d1d5db;
+            padding: 12px 13px;
+            border-radius: 8px;
+            margin-bottom: 3px;
             font-size: 14px;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .nav a:hover {
-            background: #f0fdf4;
-            color: #166534;
+            background: rgba(255,255,255,.08);
+            color: white;
         }
 
         .nav a.active {
-            background: #dcfce7;
-            color: #166534 !important;
-            font-weight: 600;
+            background: var(--green);
+            color: white;
         }
 
         .nav-icon {
-            width: 22px;
+            width: 20px;
             text-align: center;
+            font-size: 16px;
         }
 
+        /* MAIN */
         .main {
             margin-left: 250px;
             min-height: 100vh;
         }
 
         .topbar {
-            height: 75px;
-            background: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0 30px;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
         }
 
-        .topbar-title {
-            font-size: 15px;
-            color: #6b7280;
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
-        .admin {
-            font-size: 14px;
-            font-weight: 600;
-            color: #166534;
+        .mobile-menu {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user-email {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .logout-btn {
+            border: 1px solid var(--border);
+            background: white;
+            padding: 8px 13px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .logout-btn:hover {
+            border-color: var(--red);
+            color: var(--red);
         }
 
         .content {
-            padding: 30px;
+            padding: 25px 28px 40px;
         }
 
-        .page-heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            gap: 15px;
-        }
-
-        .page-heading h1 {
-            font-size: 28px;
-            color: #111827;
-        }
-
-        .page-heading p {
-            color: #6b7280;
-            margin-top: 6px;
-            font-size: 14px;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 8px;
-            padding: 12px 18px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background: #16a34a;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #15803d;
-        }
-
-        .btn-secondary {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .btn-danger {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .toolbar {
-            background: #ffffff;
-            padding: 18px;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+        /* SUMMARY */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
             margin-bottom: 20px;
         }
 
-        .search {
-            width: 100%;
-            max-width: 500px;
-            padding: 12px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .search:focus {
-            border-color: #16a34a;
-        }
-
-        .table-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
+        .summary-card {
+            background: white;
+            border: 1px solid var(--border);
             border-radius: 12px;
+            padding: 19px;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .summary-card.green .summary-value {
+            color: var(--green);
+        }
+
+        .summary-card.blue .summary-value {
+            color: var(--blue);
+        }
+
+        .summary-card.orange .summary-value {
+            color: var(--orange);
+        }
+
+        .summary-card.red .summary-value {
+            color: var(--red);
+        }
+
+        /* TOOLBAR */
+        .toolbar {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .search-box input:focus {
+            border-color: var(--green);
+        }
+
+        .add-btn {
+            border: 0;
+            background: var(--green);
+            color: white;
+            padding: 12px 17px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: var(--green-dark);
+        }
+
+        /* TABLE */
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .panel-header {
+            padding: 17px 19px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h3 {
+            font-size: 16px;
+        }
+
+        .panel-header span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .table-wrap {
             overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 850px;
-        }
-
-        th,
-        td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #eeeeee;
-            font-size: 14px;
+            min-width: 900px;
         }
 
         th {
-            background: #f9fafb;
-            color: #374151;
-            font-weight: 600;
+            text-align: left;
+            background: #f8fafb;
+            color: var(--muted);
+            font-size: 11px;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
         }
 
         td {
-            color: #4b5563;
+            padding: 13px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 12px;
+            vertical-align: middle;
         }
 
-        tr:last-child td {
-            border-bottom: none;
+        .customer-name {
+            font-weight: 700;
+            color: var(--dark);
         }
 
-        .actions {
+        .customer-phone {
+            color: var(--muted);
+            margin-top: 4px;
+            font-size: 11px;
+        }
+
+        .amount {
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .balance {
+            font-weight: 700;
+            color: var(--red);
+        }
+
+        .balance.zero {
+            color: var(--green);
+        }
+
+        .action-buttons {
             display: flex;
-            gap: 7px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
-        .small-btn {
-            border: none;
+        .action-btn {
+            border: 1px solid var(--border);
+            background: white;
+            padding: 6px 8px;
             border-radius: 6px;
-            padding: 7px 10px;
+            font-size: 10px;
             cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
         }
 
-        .edit-btn {
-            background: #dcfce7;
-            color: #166534;
+        .action-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
         }
 
-        .delete-btn {
-            background: #fee2e2;
-            color: #b91c1c;
+        .action-btn.view {
+            background: var(--green-light);
+            color: var(--green-dark);
+            border-color: #c9ead9;
         }
 
-        .history-btn {
-            background: #dbeafe;
-            color: #1d4ed8;
+        .action-btn.statement {
+            background: #eef5ff;
+            color: var(--blue);
+            border-color: #d8e5ff;
+        }
+
+        .action-btn.delete {
+            color: var(--red);
         }
 
         .empty {
             text-align: center;
-            padding: 50px 20px;
-            color: #6b7280;
+            padding: 35px 15px;
+            color: var(--muted);
+            font-size: 13px;
         }
 
-        /* =========================
-           MODAL
-        ========================= */
-
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+            background: rgba(0,0,0,.55);
+            z-index: 2000;
             padding: 20px;
+            overflow-y: auto;
         }
 
         .modal.show {
             display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .modal-box {
+        .modal-card {
             background: white;
             width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
+            max-width: 850px;
+            max-height: 94vh;
             overflow-y: auto;
             border-radius: 14px;
-            padding: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,.2);
         }
 
         .modal-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 2;
         }
 
-        .modal-header h2 {
-            font-size: 21px;
+        .modal-header h3 {
+            font-size: 17px;
         }
 
-        .close {
-            border: none;
-            background: transparent;
-            font-size: 25px;
+        .close-btn {
+            border: 0;
+            background: #f1f3f5;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
             cursor: pointer;
-            color: #6b7280;
+            font-size: 18px;
         }
 
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* FORM */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -318,9 +478,7 @@
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
+            margin-bottom: 2px;
         }
 
         .form-group.full {
@@ -328,265 +486,231 @@
         }
 
         label {
-            font-size: 13px;
-            font-weight: 600;
+            display: block;
             color: #374151;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
         }
 
         input,
         textarea {
             width: 100%;
-            border: 1px solid #d1d5db;
+            border: 1px solid var(--border);
             border-radius: 8px;
             padding: 11px 12px;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 85px;
         }
 
         input:focus,
         textarea:focus {
-            border-color: #16a34a;
+            border-color: var(--green);
         }
 
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        .modal-footer {
+        .form-actions {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
-            margin-top: 22px;
+            margin-top: 20px;
         }
 
-        /* =========================
-           PURCHASE HISTORY
-        ========================= */
-
-        .history-modal-box {
-            max-width: 1000px;
+        .cancel-btn {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 11px 17px;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
-        .customer-profile {
-            background: linear-gradient(
-                135deg,
-                #166534,
-                #16a34a
-            );
+        .save-btn {
+            background: var(--green);
+            border: 0;
             color: white;
-            border-radius: 12px;
-            padding: 22px;
-            margin-bottom: 20px;
+            padding: 11px 19px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
         }
 
-        .customer-profile h2 {
-            font-size: 24px;
-            margin-bottom: 7px;
-        }
-
-        .customer-profile p {
-            font-size: 14px;
-            opacity: 0.95;
-            margin-top: 4px;
-        }
-
-        .stats-grid {
+        /* PROFILE */
+        .profile-header {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
             margin-bottom: 20px;
         }
 
-        .stat-card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 18px;
+        .profile-box {
+            background: #f8fafb;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 13px;
         }
 
-        .stat-card .label {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 7px;
+        .profile-box small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 5px;
         }
 
-        .stat-card .value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #166534;
-        }
-
-        .history-table-wrapper {
-            overflow-x: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
+        .profile-box strong {
+            font-size: 15px;
         }
 
         .history-table {
-            min-width: 800px;
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 11px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
         }
 
         .history-table th {
-            background: #f9fafb;
+            background: #f8fafb;
         }
 
-        .item-list {
-            margin: 0;
-            padding-left: 17px;
+        /* STATEMENT */
+        .statement {
+            background: white;
+            padding: 30px;
+            color: #111;
         }
 
-        .item-list li {
-            margin-bottom: 4px;
-        }
-
-        .view-btn {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .print-btn {
-            background: #dbeafe;
-            color: #1d4ed8;
-        }
-
-        .no-history {
+        .statement-head {
             text-align: center;
-            padding: 45px 20px;
-            color: #6b7280;
-            background: #f9fafb;
-            border-radius: 10px;
-        }
-
-        .loading-history {
-            text-align: center;
-            padding: 40px;
-            color: #6b7280;
-        }
-
-        /* =========================
-           SALE DETAILS MODAL
-        ========================= */
-
-        .sale-details-box {
-            max-width: 700px;
-        }
-
-        .sale-header {
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 2px solid #111;
             padding-bottom: 15px;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
-        .sale-header h2 {
-            color: #166534;
-            margin-bottom: 7px;
+        .statement-head img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 8px;
         }
 
-        .sale-info {
+        .statement-head h2 {
+            font-size: 20px;
+        }
+
+        .statement-head p {
+            font-size: 11px;
+            color: #555;
+            margin-top: 4px;
+        }
+
+        .statement-customer {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 20px;
         }
 
-        .sale-info-item {
-            background: #f9fafb;
-            padding: 12px;
-            border-radius: 8px;
+        .statement-customer div {
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 12px;
         }
 
-        .sale-info-item small {
+        .statement-customer strong {
             display: block;
-            color: #6b7280;
-            margin-bottom: 4px;
+            margin-top: 4px;
         }
 
-        .sale-info-item strong {
-            color: #111827;
-        }
-
-        .sale-items {
-            width: 100%;
-            border-collapse: collapse;
+        .statement-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
 
-        .sale-items th,
-        .sale-items td {
-            padding: 10px;
-            border-bottom: 1px solid #e5e7eb;
+        .statement-summary div {
+            border: 1px solid #ddd;
+            padding: 12px;
         }
 
-        .sale-total {
-            text-align: right;
-            font-size: 20px;
-            font-weight: 700;
-            color: #166534;
-            padding: 15px 0;
-        }
-
-        /* =========================
-           MESSAGE
-        ========================= */
-
-        .message {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background: #166534;
-            color: white;
-            padding: 13px 18px;
-            border-radius: 8px;
-            display: none;
-            z-index: 2000;
-            font-size: 14px;
-        }
-
-        .message.show {
+        .statement-summary span {
             display: block;
+            font-size: 10px;
+            color: #666;
         }
 
-        /* =========================
-           MOBILE
-        ========================= */
+        .statement-summary strong {
+            display: block;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .print-actions {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background: white;
+            position: sticky;
+            bottom: 0;
+        }
+
+        .print-btn {
+            background: var(--blue);
+            color: white;
+            border: 0;
+            padding: 10px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+            padding: 25px 10px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 1100px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
         @media (max-width: 800px) {
 
             .sidebar {
-                width: 210px;
+                transform: translateX(-100%);
             }
 
-            .main {
-                margin-left: 210px;
-            }
-
-            .content {
-                padding: 20px;
-            }
-
-            .page-heading {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid #e5e7eb;
+            .sidebar.open {
+                transform: translateX(0);
             }
 
             .main {
                 margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .user-email {
+                display: none;
             }
 
             .topbar {
@@ -594,7 +718,27 @@
             }
 
             .content {
-                padding: 15px;
+                padding: 18px 15px 30px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .profile-header {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
             }
 
             .form-grid {
@@ -605,16 +749,45 @@
                 grid-column: auto;
             }
 
-            .sale-info {
+            .statement {
+                padding: 18px;
+            }
+
+            .statement-customer,
+            .statement-summary {
                 grid-template-columns: 1fr;
             }
 
-            .modal {
-                padding: 10px;
+            .page-title {
+                font-size: 19px;
+            }
+        }
+
+        /* PRINT */
+        @media print {
+
+            body {
+                background: white;
             }
 
-            .modal-box {
-                padding: 18px;
+            body * {
+                visibility: hidden;
+            }
+
+            #statementPrint,
+            #statementPrint * {
+                visibility: visible;
+            }
+
+            #statementPrint {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+
+            .print-actions {
+                display: none !important;
             }
         }
     </style>
@@ -622,167 +795,258 @@
 
 <body>
 
-    <!-- =========================
-         SIDEBAR
-    ========================= -->
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
 
-    <aside class="sidebar">
+    <div class="sidebar-header">
 
-        <div class="brand">
+        <img
+            src="assets/logo.png"
+            alt="Nesi Medicals Logo"
+        >
 
-            <img
-                src="assets/logo.png"
-                alt="Nesi Medicals Logo"
+        <div class="brand-text">
+            Nesi Medicals
+            <small>& Minimart Enterprises</small>
+        </div>
+
+    </div>
+
+    <nav class="nav">
+
+        <div class="nav-section">Main</div>
+
+        <a href="dashboard.html">
+            <span class="nav-icon">📊</span>
+            Dashboard
+        </a>
+
+        <a href="sales.html">
+            <span class="nav-icon">🛒</span>
+            Sales
+        </a>
+
+        <a href="sales-history.html">
+            <span class="nav-icon">🧾</span>
+            Sales History
+        </a>
+
+        <a href="inventory.html">
+            <span class="nav-icon">📦</span>
+            Inventory
+        </a>
+
+        <div class="nav-section">Management</div>
+
+        <a href="products.html">
+            <span class="nav-icon">💊</span>
+            Products
+        </a>
+
+        <a href="customers.html" class="active">
+            <span class="nav-icon">👥</span>
+            Customers
+        </a>
+
+        <a href="suppliers.html">
+            <span class="nav-icon">🚚</span>
+            Suppliers
+        </a>
+
+        <a href="expenses.html">
+            <span class="nav-icon">💸</span>
+            Expenses
+        </a>
+
+        <div class="nav-section">Business</div>
+
+        <a href="reports.html">
+            <span class="nav-icon">📈</span>
+            Reports
+        </a>
+
+        <a href="staff.html">
+            <span class="nav-icon">👨‍💼</span>
+            Staff
+        </a>
+
+        <a href="settings.html">
+            <span class="nav-icon">⚙️</span>
+            Settings
+        </a>
+
+        <a href="profile.html">
+            <span class="nav-icon">👤</span>
+            Profile
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
             >
+                ☰
+            </button>
 
-            <div class="brand-text">
+            <div>
 
-                <h2>Nesi Medicals</h2>
+                <div class="page-title">
+                    Customers
+                </div>
 
-                <p>
-                    Business Management
-                </p>
+                <div class="page-subtitle">
+                    Customer management & purchase history
+                </div>
 
             </div>
 
         </div>
 
 
-        <nav class="nav">
+        <div class="user-area">
 
-            <a href="dashboard.html">
-                <span class="nav-icon">⌂</span>
-                Dashboard
-            </a>
-
-            <a href="sales.html">
-                <span class="nav-icon">🛒</span>
-                Sales
-            </a>
-
-            <a href="sales-history.html">
-                <span class="nav-icon">🧾</span>
-                Sales History
-            </a>
-
-            <a href="inventory.html">
-                <span class="nav-icon">📦</span>
-                Inventory
-            </a>
-
-            <a
-                href="customers.html"
-                class="active"
+            <span
+                class="user-email"
+                id="userEmail"
             >
-                <span class="nav-icon">👥</span>
-                Customers
-            </a>
+                Loading...
+            </span>
 
-            <a href="suppliers.html">
-                <span class="nav-icon">🚚</span>
-                Suppliers
-            </a>
-
-            <a href="expenses.html">
-                <span class="nav-icon">💰</span>
-                Expenses
-            </a>
-
-            <a href="reports.html">
-                <span class="nav-icon">📊</span>
-                Reports
-            </a>
-
-            <a href="staff.html">
-                <span class="nav-icon">👨‍💼</span>
-                Staff
-            </a>
-
-            <a href="settings.html">
-                <span class="nav-icon">⚙️</span>
-                Settings
-            </a>
-
-            <a
-                href="#"
-                id="logoutButton"
+            <button
+                class="logout-btn"
+                id="logoutBtn"
             >
-                <span class="nav-icon">🚪</span>
                 Logout
-            </a>
+            </button>
 
-        </nav>
+        </div>
 
-    </aside>
-
-
-    <!-- =========================
-         MAIN
-    ========================= -->
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <div class="topbar-title">
-                Nesi Medicals Business Management System
-            </div>
-
-            <div
-                class="admin"
-                id="adminName"
-            >
-                Administrator
-            </div>
-
-        </header>
+    </header>
 
 
-        <section class="content">
+    <section class="content">
 
-            <div class="page-heading">
+        <!-- SUMMARY -->
+        <div class="summary-grid">
 
-                <div>
+            <div class="summary-card green">
 
-                    <h1>
-                        Customers
-                    </h1>
-
-                    <p>
-                        Manage your customers and their purchase history.
-                    </p>
-
+                <div class="summary-label">
+                    Total Customers
                 </div>
 
-
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="addCustomerButton"
+                <div
+                    class="summary-value"
+                    id="totalCustomers"
                 >
-                    + Add Customer
-                </button>
+                    0
+                </div>
 
             </div>
 
 
-            <!-- SEARCH -->
+            <div class="summary-card blue">
 
-            <div class="toolbar">
+                <div class="summary-label">
+                    Customers With Purchases
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="activeCustomers"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card orange">
+
+                <div class="summary-label">
+                    Total Customer Sales
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="totalCustomerSales"
+                >
+                    ₦0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card red">
+
+                <div class="summary-label">
+                    Outstanding Balance
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="totalOutstanding"
+                >
+                    ₦0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+
+            <div class="search-box">
 
                 <input
                     type="search"
                     id="searchInput"
-                    class="search"
-                    placeholder="Search customers by name, phone or email..."
+                    placeholder="Search customer by name, phone or email..."
                 >
 
             </div>
 
 
-            <!-- TABLE -->
+            <button
+                class="add-btn"
+                id="addCustomerBtn"
+            >
+                + Add Customer
+            </button>
 
-            <div class="table-card">
+        </div>
+
+
+        <!-- CUSTOMER TABLE -->
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Customer Records
+                </h3>
+
+                <span id="customerCountText">
+                    Loading customers...
+                </span>
+
+            </div>
+
+
+            <div class="table-wrap">
 
                 <table>
 
@@ -790,25 +1054,13 @@
 
                         <tr>
 
-                            <th>
-                                Customer Name
-                            </th>
-
-                            <th>
-                                Phone
-                            </th>
-
-                            <th>
-                                Email
-                            </th>
-
-                            <th>
-                                Address
-                            </th>
-
-                            <th>
-                                Actions
-                            </th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Total Purchases</th>
+                            <th>Total Spent</th>
+                            <th>Outstanding</th>
+                            <th>Last Purchase</th>
+                            <th>Actions</th>
 
                         </tr>
 
@@ -820,11 +1072,10 @@
                         <tr>
 
                             <td
-                                colspan="5"
+                                colspan="7"
                                 class="empty"
                             >
                                 Loading customers...
-
                             </td>
 
                         </tr>
@@ -835,54 +1086,59 @@
 
             </div>
 
-        </section>
-
-    </main>
+        </div>
 
 
-    <!-- =========================
-         ADD / EDIT CUSTOMER MODAL
-    ========================= -->
+        <div class="footer">
+            Nesi Medicals & Minimart Enterprises • Customer Management v1.2
+        </div>
 
-    <div
-        class="modal"
-        id="customerModal"
-    >
+    </section>
 
-        <div class="modal-box">
+</main>
 
-            <div class="modal-header">
 
-                <h2 id="modalTitle">
-                    Add Customer
-                </h2>
+<!-- ADD / EDIT CUSTOMER MODAL -->
+<div
+    class="modal"
+    id="customerModal"
+>
 
-                <button
-                    type="button"
-                    class="close"
-                    id="closeModal"
-                >
-                    ×
-                </button>
+    <div class="modal-card">
 
-            </div>
+        <div class="modal-header">
 
+            <h3 id="customerModalTitle">
+                Add Customer
+            </h3>
+
+            <button
+                class="close-btn"
+                id="closeCustomerModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
 
             <form id="customerForm">
 
                 <div class="form-grid">
 
-                    <div class="form-group full">
+                    <div class="form-group">
 
-                        <label for="customerName">
-                            Customer Name *
+                        <label>
+                            Full Name *
                         </label>
 
                         <input
                             type="text"
                             id="customerName"
                             required
-                            placeholder="Enter customer full name"
+                            placeholder="Customer full name"
                         >
 
                     </div>
@@ -890,7 +1146,7 @@
 
                     <div class="form-group">
 
-                        <label for="customerPhone">
+                        <label>
                             Phone Number *
                         </label>
 
@@ -898,7 +1154,7 @@
                             type="tel"
                             id="customerPhone"
                             required
-                            placeholder="e.g. 08012345678"
+                            placeholder="08012345678"
                         >
 
                     </div>
@@ -906,8 +1162,8 @@
 
                     <div class="form-group">
 
-                        <label for="customerEmail">
-                            Email Address
+                        <label>
+                            Email
                         </label>
 
                         <input
@@ -919,29 +1175,66 @@
                     </div>
 
 
-                    <div class="form-group full">
+                    <div class="form-group">
 
-                        <label for="customerAddress">
-                            Address
+                        <label>
+                            Credit Limit (₦)
                         </label>
 
-                        <textarea
-                            id="customerAddress"
-                            placeholder="Enter customer address"
-                        ></textarea>
+                        <input
+                            type="number"
+                            id="creditLimit"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Outstanding Balance (₦)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="outstandingBalance"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="0"
+                        >
 
                     </div>
 
 
                     <div class="form-group full">
 
-                        <label for="customerNotes">
+                        <label>
+                            Address
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerAddress"
+                            placeholder="Customer address"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
                             Notes
                         </label>
 
                         <textarea
                             id="customerNotes"
-                            placeholder="Optional notes about this customer"
+                            placeholder="Additional customer information..."
                         ></textarea>
 
                     </div>
@@ -949,19 +1242,19 @@
                 </div>
 
 
-                <div class="modal-footer">
+                <div class="form-actions">
 
                     <button
                         type="button"
-                        class="btn btn-secondary"
-                        id="cancelButton"
+                        class="cancel-btn"
+                        id="cancelCustomer"
                     >
                         Cancel
                     </button>
 
                     <button
                         type="submit"
-                        class="btn btn-primary"
+                        class="save-btn"
                     >
                         Save Customer
                     </button>
@@ -974,137 +1267,2061 @@
 
     </div>
 
+</div>
 
-    <!-- =========================
-         PURCHASE HISTORY MODAL
-    ========================= -->
 
-    <div
-        class="modal"
-        id="historyModal"
-    >
+<!-- CUSTOMER PROFILE MODAL -->
+<div
+    class="modal"
+    id="profileModal"
+>
 
-        <div class="modal-box history-modal-box">
+    <div class="modal-card">
 
-            <div class="modal-header">
+        <div class="modal-header">
+
+            <h3>
+                Customer Profile
+            </h3>
+
+            <button
+                class="close-btn"
+                id="closeProfileModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div id="customerProfileContent">
+                Loading...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- STATEMENT MODAL -->
+<div
+    class="modal"
+    id="statementModal"
+>
+
+    <div class="modal-card">
+
+        <div
+            class="statement"
+            id="statementPrint"
+        >
+
+            <div class="statement-head">
+
+                <img
+                    src="assets/logo.png"
+                    alt="Nesi Medicals"
+                >
 
                 <h2>
-                    Customer Purchase History
+                    Nesi Medicals & Minimart Enterprises
                 </h2>
 
-                <button
-                    type="button"
-                    class="close"
-                    id="closeHistoryModal"
-                >
-                    ×
-                </button>
+                <p>
+                    CUSTOMER ACCOUNT STATEMENT
+                </p>
+
+                <p>
+                    +2349067075444 • +2347087471639
+                </p>
 
             </div>
 
 
-            <div id="historyContent">
+            <div
+                id="statementContent"
+            >
+                Loading...
+            </div>
 
-                <div class="loading-history">
-                    Loading purchase history...
+        </div>
+
+
+        <div class="print-actions">
+
+            <button
+                class="cancel-btn"
+                id="closeStatement"
+            >
+                Close
+            </button>
+
+            <button
+                class="print-btn"
+                id="printStatement"
+            >
+                🖨️ Print Statement
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+    import { auth, db } from "./js/firebase.js";
+
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+        collection,
+        getDocs,
+        addDoc,
+        updateDoc,
+        deleteDoc,
+        doc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const customersTable =
+        document.getElementById("customersTable");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const customerModal =
+        document.getElementById("customerModal");
+
+    const profileModal =
+        document.getElementById("profileModal");
+
+    const statementModal =
+        document.getElementById("statementModal");
+
+    const customerForm =
+        document.getElementById("customerForm");
+
+    const userEmail =
+        document.getElementById("userEmail");
+
+
+    /* =========================
+       DATA
+    ========================= */
+
+    let customers = [];
+    let sales = [];
+
+    let editingCustomerId = null;
+
+
+    /* =========================
+       MONEY
+    ========================= */
+
+    function money(value) {
+
+        return "₦" +
+            (Number(value) || 0).toLocaleString(
+                "en-NG",
+                {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                }
+            );
+
+    }
+
+
+    /* =========================
+       DATE
+    ========================= */
+
+    function getDate(value) {
+
+        if (!value) return null;
+
+        if (value?.toDate) {
+            return value.toDate();
+        }
+
+        if (value instanceof Date) {
+            return value;
+        }
+
+        if (typeof value === "number") {
+            return new Date(value);
+        }
+
+        if (typeof value === "string") {
+
+            const date = new Date(value);
+
+            if (!Number.isNaN(date.getTime())) {
+                return date;
+            }
+
+        }
+
+        return null;
+
+    }
+
+
+    function formatDate(value) {
+
+        const date = getDate(value);
+
+        if (!date) return "—";
+
+        return date.toLocaleDateString(
+            "en-NG",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    function getSaleDate(sale) {
+
+        return getDate(
+            sale.createdAt ||
+            sale.date ||
+            sale.saleDate ||
+            sale.timestamp
+        );
+
+    }
+
+
+    /* =========================
+       SAFE HTML
+    ========================= */
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       LOAD CUSTOMERS + SALES
+    ========================= */
+
+    async function loadData() {
+
+        try {
+
+            const [
+                customerSnapshot,
+                salesSnapshot
+            ] = await Promise.all([
+
+                getDocs(
+                    collection(db, "customers")
+                ),
+
+                getDocs(
+                    collection(db, "sales")
+                )
+
+            ]);
+
+
+            customers =
+                customerSnapshot.docs.map(item => ({
+                    id: item.id,
+                    ...item.data()
+                }));
+
+
+            sales =
+                salesSnapshot.docs.map(item => ({
+                    id: item.id,
+                    ...item.data()
+                }));
+
+
+            renderCustomers();
+
+            updateSummary();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            customersTable.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty">
+                        Unable to load customers.
+                        <br><br>
+                        <small>
+                            ${escapeHtml(error.message)}
+                        </small>
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    }
+
+
+    /* =========================
+       CUSTOMER PURCHASE DATA
+    ========================= */
+
+    function getCustomerSales(customer) {
+
+        return sales.filter(sale => {
+
+            const sameId =
+                sale.customerId &&
+                sale.customerId === customer.id;
+
+
+            const saleCustomer =
+                String(
+                    sale.customer ||
+                    ""
+                ).trim().toLowerCase();
+
+
+            const customerName =
+                String(
+                    customer.name ||
+                    customer.fullName ||
+                    customer.customerName ||
+                    ""
+                ).trim().toLowerCase();
+
+
+            const sameName =
+                saleCustomer &&
+                customerName &&
+                saleCustomer === customerName;
+
+
+            return sameId || sameName;
+
+        });
+
+    }
+
+
+    function getCustomerStats(customer) {
+
+        const customerSales =
+            getCustomerSales(customer);
+
+
+        const totalSpent =
+            customerSales.reduce(
+                (sum, sale) =>
+                    sum +
+                    (
+                        Number(
+                            sale.total ??
+                            sale.grandTotal ??
+                            sale.subtotal ??
+                            0
+                        ) || 0
+                    ),
+                0
+            );
+
+
+        const totalItems =
+            customerSales.reduce(
+                (sum, sale) => {
+
+                    if (
+                        sale.totalQuantity !== undefined
+                    ) {
+
+                        return sum +
+                            (
+                                Number(
+                                    sale.totalQuantity
+                                ) || 0
+                            );
+
+                    }
+
+
+                    if (
+                        Array.isArray(sale.items)
+                    ) {
+
+                        return sum +
+                            sale.items.reduce(
+                                (
+                                    itemSum,
+                                    item
+                                ) =>
+                                    itemSum +
+                                    (
+                                        Number(
+                                            item.quantity
+                                        ) || 0
+                                    ),
+                                0
+                            );
+
+                    }
+
+
+                    return sum;
+
+                },
+                0
+            );
+
+
+        const sortedSales =
+            [...customerSales]
+                .sort(
+                    (a, b) =>
+                        (
+                            getSaleDate(b)?.getTime() || 0
+                        ) -
+                        (
+                            getSaleDate(a)?.getTime() || 0
+                        )
+                );
+
+
+        const lastPurchase =
+            sortedSales.length
+                ? getSaleDate(sortedSales[0])
+                : null;
+
+
+        const outstanding =
+            Number(
+                customer.outstandingBalance
+            ) || 0;
+
+
+        const creditLimit =
+            Number(
+                customer.creditLimit
+            ) || 0;
+
+
+        return {
+
+            sales: customerSales,
+
+            totalSpent,
+
+            totalItems,
+
+            purchaseCount:
+                customerSales.length,
+
+            lastPurchase,
+
+            outstanding,
+
+            creditLimit
+
+        };
+
+    }
+
+
+    /* =========================
+       SUMMARY
+    ========================= */
+
+    function updateSummary() {
+
+        document.getElementById(
+            "totalCustomers"
+        ).textContent =
+            customers.length.toLocaleString();
+
+
+        const customersWithPurchases =
+            customers.filter(
+                customer =>
+                    getCustomerStats(customer)
+                        .purchaseCount > 0
+            ).length;
+
+
+        document.getElementById(
+            "activeCustomers"
+        ).textContent =
+            customersWithPurchases.toLocaleString();
+
+
+        const totalSales =
+            sales.reduce(
+                (sum, sale) =>
+                    sum +
+                    (
+                        Number(
+                            sale.total ??
+                            sale.grandTotal ??
+                            sale.subtotal ??
+                            0
+                        ) || 0
+                    ),
+                0
+            );
+
+
+        document.getElementById(
+            "totalCustomerSales"
+        ).textContent =
+            money(totalSales);
+
+
+        const outstanding =
+            customers.reduce(
+                (sum, customer) =>
+                    sum +
+                    (
+                        Number(
+                            customer.outstandingBalance
+                        ) || 0
+                    ),
+                0
+            );
+
+
+        document.getElementById(
+            "totalOutstanding"
+        ).textContent =
+            money(outstanding);
+
+    }
+
+
+    /* =========================
+       RENDER CUSTOMERS
+    ========================= */
+
+    function renderCustomers() {
+
+        const search =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            customers.filter(customer => {
+
+                const name =
+                    String(
+                        customer.name ||
+                        customer.fullName ||
+                        customer.customerName ||
+                        ""
+                    ).toLowerCase();
+
+
+                const phone =
+                    String(
+                        customer.phone ||
+                        customer.phoneNumber ||
+                        ""
+                    ).toLowerCase();
+
+
+                const email =
+                    String(
+                        customer.email ||
+                        ""
+                    ).toLowerCase();
+
+
+                return (
+                    name.includes(search) ||
+                    phone.includes(search) ||
+                    email.includes(search)
+                );
+
+            });
+
+
+        document.getElementById(
+            "customerCountText"
+        ).textContent =
+            `${filtered.length} customer${filtered.length === 1 ? "" : "s"}`;
+
+
+        if (!filtered.length) {
+
+            customersTable.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty">
+                        ${
+                            search
+                            ? "No customer matches your search."
+                            : "No customers found. Add your first customer."
+                        }
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        customersTable.innerHTML =
+            filtered.map(customer => {
+
+                const stats =
+                    getCustomerStats(customer);
+
+
+                const name =
+                    customer.name ||
+                    customer.fullName ||
+                    customer.customerName ||
+                    "Unnamed Customer";
+
+
+                const phone =
+                    customer.phone ||
+                    customer.phoneNumber ||
+                    "No phone";
+
+
+                const email =
+                    customer.email ||
+                    "—";
+
+
+                const balanceClass =
+                    stats.outstanding > 0
+                        ? "balance"
+                        : "balance zero";
+
+
+                return `
+                    <tr>
+
+                        <td>
+
+                            <div class="customer-name">
+                                ${escapeHtml(name)}
+                            </div>
+
+                            <div class="customer-phone">
+                                ${escapeHtml(phone)}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(email)}
+                        </td>
+
+
+                        <td>
+                            ${stats.purchaseCount.toLocaleString()}
+                        </td>
+
+
+                        <td>
+                            <span class="amount">
+                                ${escapeHtml(
+                                    money(stats.totalSpent)
+                                )}
+                            </span>
+                        </td>
+
+
+                        <td>
+
+                            <span class="${balanceClass}">
+                                ${escapeHtml(
+                                    money(stats.outstanding)
+                                )}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                formatDate(
+                                    stats.lastPurchase
+                                )
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button
+                                    class="action-btn view"
+                                    data-action="view"
+                                    data-id="${customer.id}"
+                                >
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn statement"
+                                    data-action="statement"
+                                    data-id="${customer.id}"
+                                >
+                                    Statement
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    data-action="edit"
+                                    data-id="${customer.id}"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete"
+                                    data-action="delete"
+                                    data-id="${customer.id}"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+
+    }
+
+
+    /* =========================
+       ADD CUSTOMER
+    ========================= */
+
+    document.getElementById(
+        "addCustomerBtn"
+    ).addEventListener(
+        "click",
+        () => {
+
+            editingCustomerId = null;
+
+            document.getElementById(
+                "customerModalTitle"
+            ).textContent =
+                "Add Customer";
+
+
+            customerForm.reset();
+
+
+            document.getElementById(
+                "creditLimit"
+            ).value = "0";
+
+
+            document.getElementById(
+                "outstandingBalance"
+            ).value = "0";
+
+
+            customerModal.classList.add(
+                "show"
+            );
+
+        }
+    );
+
+
+    /* =========================
+       EDIT CUSTOMER
+    ========================= */
+
+    function editCustomer(id) {
+
+        const customer =
+            customers.find(
+                item => item.id === id
+            );
+
+
+        if (!customer) return;
+
+
+        editingCustomerId = id;
+
+
+        document.getElementById(
+            "customerModalTitle"
+        ).textContent =
+            "Edit Customer";
+
+
+        document.getElementById(
+            "customerName"
+        ).value =
+            customer.name ||
+            customer.fullName ||
+            customer.customerName ||
+            "";
+
+
+        document.getElementById(
+            "customerPhone"
+        ).value =
+            customer.phone ||
+            customer.phoneNumber ||
+            "";
+
+
+        document.getElementById(
+            "customerEmail"
+        ).value =
+            customer.email ||
+            "";
+
+
+        document.getElementById(
+            "customerAddress"
+        ).value =
+            customer.address ||
+            "";
+
+
+        document.getElementById(
+            "customerNotes"
+        ).value =
+            customer.notes ||
+            "";
+
+
+        document.getElementById(
+            "creditLimit"
+        ).value =
+            Number(
+                customer.creditLimit
+            ) || 0;
+
+
+        document.getElementById(
+            "outstandingBalance"
+        ).value =
+            Number(
+                customer.outstandingBalance
+            ) || 0;
+
+
+        customerModal.classList.add(
+            "show"
+        );
+
+    }
+
+
+    /* =========================
+       SAVE CUSTOMER
+    ========================= */
+
+    customerForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById(
+                    "customerName"
+                ).value.trim();
+
+
+            const phone =
+                document.getElementById(
+                    "customerPhone"
+                ).value.trim();
+
+
+            if (!name || !phone) {
+
+                alert(
+                    "Please enter the customer's name and phone number."
+                );
+
+                return;
+
+            }
+
+
+            const customerData = {
+
+                name,
+
+                phone,
+
+                email:
+                    document.getElementById(
+                        "customerEmail"
+                    ).value.trim(),
+
+                address:
+                    document.getElementById(
+                        "customerAddress"
+                    ).value.trim(),
+
+                notes:
+                    document.getElementById(
+                        "customerNotes"
+                    ).value.trim(),
+
+                creditLimit:
+                    Number(
+                        document.getElementById(
+                            "creditLimit"
+                        ).value
+                    ) || 0,
+
+                outstandingBalance:
+                    Number(
+                        document.getElementById(
+                            "outstandingBalance"
+                        ).value
+                    ) || 0,
+
+                updatedAt:
+                    serverTimestamp()
+
+            };
+
+
+            try {
+
+                if (editingCustomerId) {
+
+                    await updateDoc(
+                        doc(
+                            db,
+                            "customers",
+                            editingCustomerId
+                        ),
+                        customerData
+                    );
+
+
+                    alert(
+                        "Customer updated successfully."
+                    );
+
+                } else {
+
+                    customerData.createdAt =
+                        serverTimestamp();
+
+                    customerData.createdBy =
+                        auth.currentUser?.uid || "";
+
+                    customerData.createdByEmail =
+                        auth.currentUser?.email || "";
+
+
+                    await addDoc(
+                        collection(
+                            db,
+                            "customers"
+                        ),
+                        customerData
+                    );
+
+
+                    alert(
+                        "Customer added successfully."
+                    );
+
+                }
+
+
+                customerModal.classList.remove(
+                    "show"
+                );
+
+
+                await loadData();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to save customer: " +
+                    error.message
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       VIEW CUSTOMER
+    ========================= */
+
+    function viewCustomer(id) {
+
+        const customer =
+            customers.find(
+                item => item.id === id
+            );
+
+
+        if (!customer) return;
+
+
+        const stats =
+            getCustomerStats(customer);
+
+
+        const name =
+            customer.name ||
+            customer.fullName ||
+            customer.customerName ||
+            "Unnamed Customer";
+
+
+        const phone =
+            customer.phone ||
+            customer.phoneNumber ||
+            "—";
+
+
+        const email =
+            customer.email ||
+            "—";
+
+
+        const address =
+            customer.address ||
+            "—";
+
+
+        const notes =
+            customer.notes ||
+            "—";
+
+
+        let historyHtml = "";
+
+
+        if (!stats.sales.length) {
+
+            historyHtml = `
+                <div class="empty">
+                    No purchases recorded for this customer yet.
+                </div>
+            `;
+
+        } else {
+
+            const sortedSales =
+                [...stats.sales].sort(
+                    (a, b) =>
+                        (
+                            getSaleDate(b)?.getTime() || 0
+                        ) -
+                        (
+                            getSaleDate(a)?.getTime() || 0
+                        )
+                );
+
+
+            historyHtml = `
+                <div class="table-wrap">
+
+                    <table class="history-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Date</th>
+                                <th>Sale Number</th>
+                                <th>Items</th>
+                                <th>Payment</th>
+                                <th>Total</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            ${
+                                sortedSales.map(
+                                    sale => {
+
+                                        const items =
+                                            Array.isArray(
+                                                sale.items
+                                            )
+                                            ? sale.items
+                                            : [];
+
+
+                                        const quantity =
+                                            sale.totalQuantity ??
+                                            items.reduce(
+                                                (
+                                                    total,
+                                                    item
+                                                ) =>
+                                                    total +
+                                                    (
+                                                        Number(
+                                                            item.quantity
+                                                        ) || 0
+                                                    ),
+                                                0
+                                            );
+
+
+                                        return `
+                                            <tr>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        formatDate(
+                                                            getSaleDate(
+                                                                sale
+                                                            )
+                                                        )
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    <strong>
+                                                        ${escapeHtml(
+                                                            sale.saleNumber ||
+                                                            sale.id
+                                                        )}
+                                                    </strong>
+                                                </td>
+
+                                                <td>
+                                                    ${quantity}
+                                                </td>
+
+                                                <td>
+                                                    ${escapeHtml(
+                                                        sale.paymentMethod ||
+                                                        "—"
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    <strong>
+                                                        ${escapeHtml(
+                                                            money(
+                                                                sale.total
+                                                            )
+                                                        )}
+                                                    </strong>
+                                                </td>
+
+                                            </tr>
+                                        `;
+
+                                    }
+                                ).join("")
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            `;
+
+        }
+
+
+        document.getElementById(
+            "customerProfileContent"
+        ).innerHTML = `
+
+            <div class="profile-header">
+
+                <div class="profile-box">
+                    <small>Customer</small>
+                    <strong>
+                        ${escapeHtml(name)}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Phone</small>
+                    <strong>
+                        ${escapeHtml(phone)}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Email</small>
+                    <strong>
+                        ${escapeHtml(email)}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Total Purchases</small>
+                    <strong>
+                        ${stats.purchaseCount}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Total Items Purchased</small>
+                    <strong>
+                        ${stats.totalItems}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Total Spent</small>
+                    <strong style="color:var(--green);">
+                        ${escapeHtml(
+                            money(stats.totalSpent)
+                        )}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Outstanding Balance</small>
+                    <strong style="color:var(--red);">
+                        ${escapeHtml(
+                            money(stats.outstanding)
+                        )}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Credit Limit</small>
+                    <strong>
+                        ${escapeHtml(
+                            money(stats.creditLimit)
+                        )}
+                    </strong>
+                </div>
+
+                <div class="profile-box">
+                    <small>Last Purchase</small>
+                    <strong>
+                        ${escapeHtml(
+                            formatDate(
+                                stats.lastPurchase
+                            )
+                        )}
+                    </strong>
                 </div>
 
             </div>
 
-        </div>
 
-    </div>
+            <div
+                style="
+                    margin-bottom:15px;
+                    padding:13px;
+                    background:#f8fafb;
+                    border-radius:9px;
+                    border:1px solid var(--border);
+                "
+            >
 
-
-    <!-- =========================
-         SALE DETAILS MODAL
-    ========================= -->
-
-    <div
-        class="modal"
-        id="saleDetailsModal"
-    >
-
-        <div class="modal-box sale-details-box">
-
-            <div class="modal-header">
-
-                <h2>
-                    Sale Details
-                </h2>
-
-                <button
-                    type="button"
-                    class="close"
-                    id="closeSaleDetailsModal"
+                <strong
+                    style="font-size:13px;"
                 >
-                    ×
-                </button>
+                    Address
+                </strong>
+
+                <div
+                    style="
+                        font-size:12px;
+                        color:var(--muted);
+                        margin-top:5px;
+                    "
+                >
+                    ${escapeHtml(address)}
+                </div>
 
             </div>
 
 
-            <div id="saleDetailsContent">
+            <div
+                style="
+                    margin-bottom:20px;
+                    padding:13px;
+                    background:#f8fafb;
+                    border-radius:9px;
+                    border:1px solid var(--border);
+                "
+            >
+
+                <strong
+                    style="font-size:13px;"
+                >
+                    Notes
+                </strong>
+
+                <div
+                    style="
+                        font-size:12px;
+                        color:var(--muted);
+                        margin-top:5px;
+                    "
+                >
+                    ${escapeHtml(notes)}
+                </div>
 
             </div>
 
-        </div>
 
-    </div>
+            <div
+                style="
+                    font-size:16px;
+                    font-weight:700;
+                    margin-bottom:10px;
+                "
+            >
+                Purchase History
+            </div>
 
+            ${historyHtml}
 
-    <!-- MESSAGE -->
-
-    <div
-        class="message"
-        id="message"
-    ></div>
-
-
-    <!-- =========================
-         FIREBASE
-    ========================= -->
-
-    <script type="module">
-
-        import {
-            auth,
-            db
-        } from "./js/firebase.js";
+        `;
 
 
-        import {
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        profileModal.classList.add(
+            "show"
+        );
+
+    }
 
 
-        import {
-            collection,
-            addDoc,
-            onSnapshot,
-            doc,
-            updateDoc,
-            deleteDoc,
-            serverTimestamp,
-            getDocs
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    /* =========================
+       STATEMENT
+    ========================= */
+
+    function showStatement(id) {
+
+        const customer =
+            customers.find(
+                item => item.id === id
+            );
 
 
-        let customers = [];
-
-        let editingCustomerId = null;
-
-        let allSales = [];
-
-        let selectedCustomerForHistory = null;
+        if (!customer) return;
 
 
-        /* =========================
-           AUTH
-        ========================= */
+        const stats =
+            getCustomerStats(customer);
 
-        onAuthStateChanged(auth, (user) => {
+
+        const name =
+            customer.name ||
+            customer.fullName ||
+            customer.customerName ||
+            "Unnamed Customer";
+
+
+        const phone =
+            customer.phone ||
+            customer.phoneNumber ||
+            "—";
+
+
+        const email =
+            customer.email ||
+            "—";
+
+
+        const address =
+            customer.address ||
+            "—";
+
+
+        const sortedSales =
+            [...stats.sales].sort(
+                (a, b) =>
+                    (
+                        getSaleDate(b)?.getTime() || 0
+                    ) -
+                    (
+                        getSaleDate(a)?.getTime() || 0
+                    )
+            );
+
+
+        let rows = "";
+
+
+        if (!sortedSales.length) {
+
+            rows = `
+                <tr>
+                    <td colspan="5">
+                        No purchases recorded.
+                    </td>
+                </tr>
+            `;
+
+        } else {
+
+            rows =
+                sortedSales.map(
+                    sale => {
+
+                        const items =
+                            Array.isArray(
+                                sale.items
+                            )
+                            ? sale.items
+                            : [];
+
+
+                        const quantity =
+                            sale.totalQuantity ??
+                            items.reduce(
+                                (
+                                    total,
+                                    item
+                                ) =>
+                                    total +
+                                    (
+                                        Number(
+                                            item.quantity
+                                        ) || 0
+                                    ),
+                                0
+                            );
+
+
+                        return `
+                            <tr>
+
+                                <td>
+                                    ${escapeHtml(
+                                        formatDate(
+                                            getSaleDate(
+                                                sale
+                                            )
+                                        )
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(
+                                        sale.saleNumber ||
+                                        sale.id
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${quantity}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(
+                                        sale.paymentMethod ||
+                                        "—"
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(
+                                        money(
+                                            sale.total
+                                        )
+                                    )}
+                                </td>
+
+                            </tr>
+                        `;
+
+                    }
+                ).join("");
+
+        }
+
+
+        document.getElementById(
+            "statementContent"
+        ).innerHTML = `
+
+            <div class="statement-customer">
+
+                <div>
+                    Customer Name
+                    <strong>
+                        ${escapeHtml(name)}
+                    </strong>
+                </div>
+
+                <div>
+                    Phone
+                    <strong>
+                        ${escapeHtml(phone)}
+                    </strong>
+                </div>
+
+                <div>
+                    Email
+                    <strong>
+                        ${escapeHtml(email)}
+                    </strong>
+                </div>
+
+                <div>
+                    Address
+                    <strong>
+                        ${escapeHtml(address)}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="statement-summary">
+
+                <div>
+
+                    <span>
+                        TOTAL PURCHASES
+                    </span>
+
+                    <strong>
+                        ${stats.purchaseCount}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TOTAL SPENT
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            money(stats.totalSpent)
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        OUTSTANDING BALANCE
+                    </span>
+
+                    <strong
+                        style="color:${
+                            stats.outstanding > 0
+                            ? "#dc3545"
+                            : "#0b8f55"
+                        };"
+                    >
+                        ${escapeHtml(
+                            money(stats.outstanding)
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <table
+                style="
+                    width:100%;
+                    border-collapse:collapse;
+                    min-width:650px;
+                "
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th
+                            style="
+                                text-align:left;
+                                border:1px solid #ddd;
+                                padding:9px;
+                            "
+                        >
+                            Date
+                        </th>
+
+                        <th
+                            style="
+                                text-align:left;
+                                border:1px solid #ddd;
+                                padding:9px;
+                            "
+                        >
+                            Sale Number
+                        </th>
+
+                        <th
+                            style="
+                                text-align:left;
+                                border:1px solid #ddd;
+                                padding:9px;
+                            "
+                        >
+                            Items
+                        </th>
+
+                        <th
+                            style="
+                                text-align:left;
+                                border:1px solid #ddd;
+                                padding:9px;
+                            "
+                        >
+                            Payment
+                        </th>
+
+                        <th
+                            style="
+                                text-align:left;
+                                border:1px solid #ddd;
+                                padding:9px;
+                            "
+                        >
+                            Amount
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${rows}
+
+                </tbody>
+
+            </table>
+
+
+            <div
+                style="
+                    margin-top:25px;
+                    border-top:1px solid #ddd;
+                    padding-top:12px;
+                    font-size:11px;
+                    color:#666;
+                "
+            >
+
+                Statement generated from Nesi Medicals
+                business records.
+
+                <br><br>
+
+                Contact:
+                +2349067075444 • +2347087471639
+
+            </div>
+
+        `;
+
+
+        statementModal.classList.add(
+            "show"
+        );
+
+    }
+
+
+    /* =========================
+       DELETE
+    ========================= */
+
+    async function deleteCustomerRecord(id) {
+
+        const customer =
+            customers.find(
+                item => item.id === id
+            );
+
+
+        if (!customer) return;
+
+
+        const name =
+            customer.name ||
+            customer.fullName ||
+            customer.customerName ||
+            "this customer";
+
+
+        const customerSales =
+            getCustomerSales(customer);
+
+
+        let message =
+            `Delete ${name}?`;
+
+
+        if (customerSales.length) {
+
+            message +=
+                `\n\nThis customer has ${customerSales.length} recorded sale(s). ` +
+                `The sales will remain in your sales history, but the customer record will be deleted.`;
+
+        }
+
+
+        if (!confirm(message)) {
+            return;
+        }
+
+
+        try {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "customers",
+                    id
+                )
+            );
+
+
+            alert(
+                "Customer deleted successfully."
+            );
+
+
+            await loadData();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to delete customer: " +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       TABLE ACTIONS
+    ========================= */
+
+    customersTable.addEventListener(
+        "click",
+        event => {
+
+            const button =
+                event.target.closest(
+                    "button[data-action]"
+                );
+
+
+            if (!button) return;
+
+
+            const action =
+                button.dataset.action;
+
+
+            const id =
+                button.dataset.id;
+
+
+            if (action === "view") {
+
+                viewCustomer(id);
+
+            }
+
+
+            if (action === "statement") {
+
+                showStatement(id);
+
+            }
+
+
+            if (action === "edit") {
+
+                editCustomer(id);
+
+            }
+
+
+            if (action === "delete") {
+
+                deleteCustomerRecord(id);
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    searchInput.addEventListener(
+        "input",
+        renderCustomers
+    );
+
+
+    /* =========================
+       MODAL CLOSES
+    ========================= */
+
+    document.getElementById(
+        "closeCustomerModal"
+    ).addEventListener(
+        "click",
+        () => {
+
+            customerModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "cancelCustomer"
+    ).addEventListener(
+        "click",
+        () => {
+
+            customerModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "closeProfileModal"
+    ).addEventListener(
+        "click",
+        () => {
+
+            profileModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "closeStatement"
+    ).addEventListener(
+        "click",
+        () => {
+
+            statementModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "printStatement"
+    ).addEventListener(
+        "click",
+        () => {
+
+            window.print();
+
+        }
+    );
+
+
+    /* =========================
+       CLICK OUTSIDE MODALS
+    ========================= */
+
+    [
+        customerModal,
+        profileModal,
+        statementModal
+    ].forEach(modal => {
+
+        modal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === modal
+                ) {
+
+                    modal.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    document.getElementById(
+        "mobileMenu"
+    ).addEventListener(
+        "click",
+        () => {
+
+            document.getElementById(
+                "sidebar"
+            ).classList.toggle(
+                "open"
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            const sidebar =
+                document.getElementById(
+                    "sidebar"
+                );
+
+            const menu =
+                document.getElementById(
+                    "mobileMenu"
+                );
+
+
+            if (
+                window.innerWidth <= 800 &&
+                sidebar.classList.contains(
+                    "open"
+                ) &&
+                !sidebar.contains(
+                    event.target
+                ) &&
+                event.target !== menu
+            ) {
+
+                sidebar.classList.remove(
+                    "open"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    document.getElementById(
+        "logoutBtn"
+    ).addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                alert(
+                    "Unable to logout. Please try again."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    onAuthStateChanged(
+        auth,
+        async user => {
 
             if (!user) {
 
@@ -1116,2245 +3333,16 @@
             }
 
 
-            document.getElementById(
-                "adminName"
-            ).textContent =
-                user.displayName ||
-                user.email ||
-                "Administrator";
+            userEmail.textContent =
+                user.email || "User";
 
 
-            loadCustomers();
-
-        });
-
-
-        /* =========================
-           LOAD CUSTOMERS
-        ========================= */
-
-        function loadCustomers() {
-
-            const customersRef =
-                collection(
-                    db,
-                    "customers"
-                );
-
-
-            onSnapshot(
-                customersRef,
-                (snapshot) => {
-
-                    customers = [];
-
-
-                    snapshot.forEach(
-                        (docSnap) => {
-
-                            customers.push({
-
-                                id: docSnap.id,
-
-                                ...docSnap.data()
-
-                            });
-
-                        }
-                    );
-
-
-                    customers.sort(
-                        (a, b) => {
-
-                            const dateA =
-                                a.createdAt
-                                    ?.toMillis?.() ||
-                                0;
-
-                            const dateB =
-                                b.createdAt
-                                    ?.toMillis?.() ||
-                                0;
-
-
-                            return dateB - dateA;
-
-                        }
-                    );
-
-
-                    displayCustomers();
-
-                },
-                (error) => {
-
-                    console.error(error);
-
-                    showMessage(
-                        "Unable to load customers.",
-                        true
-                    );
-
-                }
-            );
+            await loadData();
 
         }
+    );
 
-
-        /* =========================
-           DISPLAY CUSTOMERS
-        ========================= */
-
-        function displayCustomers() {
-
-            const table =
-                document.getElementById(
-                    "customersTable"
-                );
-
-
-            const search =
-                document
-                    .getElementById(
-                        "searchInput"
-                    )
-                    .value
-                    .toLowerCase()
-                    .trim();
-
-
-            const filtered =
-                customers.filter(
-                    (customer) => {
-
-                        return (
-
-                            String(
-                                customer.name ||
-                                ""
-                            )
-                                .toLowerCase()
-                                .includes(search)
-
-                            ||
-
-                            String(
-                                customer.phone ||
-                                ""
-                            )
-                                .toLowerCase()
-                                .includes(search)
-
-                            ||
-
-                            String(
-                                customer.email ||
-                                ""
-                            )
-                                .toLowerCase()
-                                .includes(search)
-
-                        );
-
-                    }
-                );
-
-
-            if (
-                filtered.length === 0
-            ) {
-
-                table.innerHTML = `
-                    <tr>
-                        <td
-                            colspan="5"
-                            class="empty"
-                        >
-                            ${
-                                customers.length === 0
-                                    ? "No customers added yet."
-                                    : "No customers match your search."
-                            }
-                        </td>
-                    </tr>
-                `;
-
-                return;
-
-            }
-
-
-            table.innerHTML =
-                filtered
-                    .map(
-                        (customer) => {
-
-                            return `
-                                <tr>
-
-                                    <td>
-                                        <strong>
-                                            ${escapeHtml(
-                                                customer.name ||
-                                                ""
-                                            )}
-                                        </strong>
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(
-                                            customer.phone ||
-                                            "-"
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(
-                                            customer.email ||
-                                            "-"
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(
-                                            customer.address ||
-                                            "-"
-                                        )}
-                                    </td>
-
-                                    <td>
-
-                                        <div class="actions">
-
-                                            <button
-                                                class="small-btn history-btn"
-                                                onclick="viewPurchaseHistory('${customer.id}')"
-                                            >
-                                                History
-                                            </button>
-
-                                            <button
-                                                class="small-btn edit-btn"
-                                                onclick="editCustomer('${customer.id}')"
-                                            >
-                                                Edit
-                                            </button>
-
-                                            <button
-                                                class="small-btn delete-btn"
-                                                onclick="deleteCustomer('${customer.id}')"
-                                            >
-                                                Delete
-                                            </button>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        /* =========================
-           SEARCH
-        ========================= */
-
-        document
-            .getElementById(
-                "searchInput"
-            )
-            .addEventListener(
-                "input",
-                displayCustomers
-            );
-
-
-        /* =========================
-           OPEN ADD CUSTOMER
-        ========================= */
-
-        document
-            .getElementById(
-                "addCustomerButton"
-            )
-            .addEventListener(
-                "click",
-                () => {
-
-                    editingCustomerId = null;
-
-
-                    document.getElementById(
-                        "modalTitle"
-                    ).textContent =
-                        "Add Customer";
-
-
-                    document.getElementById(
-                        "customerForm"
-                    ).reset();
-
-
-                    document.getElementById(
-                        "customerModal"
-                    ).classList.add(
-                        "show"
-                    );
-
-                }
-            );
-
-
-        /* =========================
-           CLOSE CUSTOMER MODAL
-        ========================= */
-
-        function closeModal() {
-
-            document.getElementById(
-                "customerModal"
-            ).classList.remove(
-                "show"
-            );
-
-        }
-
-
-        document
-            .getElementById(
-                "closeModal"
-            )
-            .addEventListener(
-                "click",
-                closeModal
-            );
-
-
-        document
-            .getElementById(
-                "cancelButton"
-            )
-            .addEventListener(
-                "click",
-                closeModal
-            );
-
-
-        /* =========================
-           SAVE CUSTOMER
-        ========================= */
-
-        document
-            .getElementById(
-                "customerForm"
-            )
-            .addEventListener(
-                "submit",
-                async (event) => {
-
-                    event.preventDefault();
-
-
-                    const name =
-                        document
-                            .getElementById(
-                                "customerName"
-                            )
-                            .value
-                            .trim();
-
-
-                    const phone =
-                        document
-                            .getElementById(
-                                "customerPhone"
-                            )
-                            .value
-                            .trim();
-
-
-                    const email =
-                        document
-                            .getElementById(
-                                "customerEmail"
-                            )
-                            .value
-                            .trim();
-
-
-                    const address =
-                        document
-                            .getElementById(
-                                "customerAddress"
-                            )
-                            .value
-                            .trim();
-
-
-                    const notes =
-                        document
-                            .getElementById(
-                                "customerNotes"
-                            )
-                            .value
-                            .trim();
-
-
-                    if (
-                        !name ||
-                        !phone
-                    ) {
-
-                        showMessage(
-                            "Customer name and phone number are required.",
-                            true
-                        );
-
-                        return;
-
-                    }
-
-
-                    try {
-
-                        if (
-                            editingCustomerId
-                        ) {
-
-                            const customerRef =
-                                doc(
-                                    db,
-                                    "customers",
-                                    editingCustomerId
-                                );
-
-
-                            await updateDoc(
-                                customerRef,
-                                {
-
-                                    name,
-
-                                    phone,
-
-                                    email,
-
-                                    address,
-
-                                    notes,
-
-                                    updatedAt:
-                                        serverTimestamp()
-
-                                }
-                            );
-
-
-                            showMessage(
-                                "Customer updated successfully."
-                            );
-
-                        } else {
-
-                            await addDoc(
-                                collection(
-                                    db,
-                                    "customers"
-                                ),
-                                {
-
-                                    name,
-
-                                    phone,
-
-                                    email,
-
-                                    address,
-
-                                    notes,
-
-                                    createdAt:
-                                        serverTimestamp(),
-
-                                    updatedAt:
-                                        serverTimestamp()
-
-                                }
-                            );
-
-
-                            showMessage(
-                                "Customer added successfully."
-                            );
-
-                        }
-
-
-                        closeModal();
-
-                    } catch (error) {
-
-                        console.error(error);
-
-                        showMessage(
-                            "Unable to save customer.",
-                            true
-                        );
-
-                    }
-
-                }
-            );
-
-
-        /* =========================
-           EDIT CUSTOMER
-        ========================= */
-
-        window.editCustomer =
-            function (id) {
-
-                const customer =
-                    customers.find(
-                        (item) =>
-                            item.id === id
-                    );
-
-
-                if (!customer)
-                    return;
-
-
-                editingCustomerId = id;
-
-
-                document.getElementById(
-                    "modalTitle"
-                ).textContent =
-                    "Edit Customer";
-
-
-                document.getElementById(
-                    "customerName"
-                ).value =
-                    customer.name || "";
-
-
-                document.getElementById(
-                    "customerPhone"
-                ).value =
-                    customer.phone || "";
-
-
-                document.getElementById(
-                    "customerEmail"
-                ).value =
-                    customer.email || "";
-
-
-                document.getElementById(
-                    "customerAddress"
-                ).value =
-                    customer.address || "";
-
-
-                document.getElementById(
-                    "customerNotes"
-                ).value =
-                    customer.notes || "";
-
-
-                document.getElementById(
-                    "customerModal"
-                ).classList.add(
-                    "show"
-                );
-
-            };
-
-
-        /* =========================
-           DELETE CUSTOMER
-        ========================= */
-
-        window.deleteCustomer =
-            async function (id) {
-
-                const customer =
-                    customers.find(
-                        (item) =>
-                            item.id === id
-                    );
-
-
-                if (!customer)
-                    return;
-
-
-                const confirmed =
-                    confirm(
-                        `Delete ${customer.name}?`
-                    );
-
-
-                if (!confirmed)
-                    return;
-
-
-                try {
-
-                    await deleteDoc(
-                        doc(
-                            db,
-                            "customers",
-                            id
-                        )
-                    );
-
-
-                    showMessage(
-                        "Customer deleted successfully."
-                    );
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    showMessage(
-                        "Unable to delete customer.",
-                        true
-                    );
-
-                }
-
-            };
-
-
-        /* =====================================================
-           CUSTOMER PURCHASE HISTORY
-        ===================================================== */
-
-        window.viewPurchaseHistory =
-            async function (customerId) {
-
-                const customer =
-                    customers.find(
-                        (item) =>
-                            item.id === customerId
-                    );
-
-
-                if (!customer)
-                    return;
-
-
-                selectedCustomerForHistory =
-                    customer;
-
-
-                document.getElementById(
-                    "historyModal"
-                ).classList.add(
-                    "show"
-                );
-
-
-                document.getElementById(
-                    "historyContent"
-                ).innerHTML = `
-                    <div class="loading-history">
-                        Loading purchase history...
-                    </div>
-                `;
-
-
-                try {
-
-                    const salesSnapshot =
-                        await getDocs(
-                            collection(
-                                db,
-                                "sales"
-                            )
-                        );
-
-
-                    allSales = [];
-
-
-                    salesSnapshot.forEach(
-                        (docSnap) => {
-
-                            const sale =
-                                docSnap.data();
-
-
-                            /*
-                             * Match using customerId.
-                             * We also check customer name
-                             * for compatibility with older
-                             * sales records.
-                             */
-
-                            const matchesCustomerId =
-                                sale.customerId ===
-                                customerId;
-
-
-                            const matchesCustomerName =
-                                String(
-                                    sale.customer ||
-                                    ""
-                                )
-                                    .trim()
-                                    .toLowerCase() ===
-                                String(
-                                    customer.name ||
-                                    ""
-                                )
-                                    .trim()
-                                    .toLowerCase();
-
-
-                            if (
-                                matchesCustomerId ||
-                                matchesCustomerName
-                            ) {
-
-                                allSales.push({
-
-                                    id:
-                                        docSnap.id,
-
-                                    ...sale
-
-                                });
-
-                            }
-
-                        }
-                    );
-
-
-                    allSales.sort(
-                        (a, b) => {
-
-                            const dateA =
-                                getSaleTime(
-                                    a
-                                );
-
-                            const dateB =
-                                getSaleTime(
-                                    b
-                                );
-
-
-                            return dateB - dateA;
-
-                        }
-                    );
-
-
-                    displayPurchaseHistory(
-                        customer,
-                        allSales
-                    );
-
-                } catch (error) {
-
-                    console.error(
-                        "Purchase history error:",
-                        error
-                    );
-
-
-                    document.getElementById(
-                        "historyContent"
-                    ).innerHTML = `
-
-                        <div class="no-history">
-
-                            Unable to load purchase history.
-
-                            <br><br>
-
-                            Please check your internet connection
-                            and try again.
-
-                        </div>
-
-                    `;
-
-                }
-
-            };
-
-
-        /* =========================
-           DISPLAY PURCHASE HISTORY
-        ========================= */
-
-        function displayPurchaseHistory(
-            customer,
-            sales
-        ) {
-
-            let totalSpent = 0;
-
-            let lastPurchase = null;
-
-
-            sales.forEach(
-                (sale) => {
-
-                    totalSpent +=
-                        Number(
-                            sale.total || 0
-                        );
-
-
-                    const saleTime =
-                        getSaleTime(
-                            sale
-                        );
-
-
-                    if (
-                        !lastPurchase ||
-                        saleTime >
-                            lastPurchase
-                    ) {
-
-                        lastPurchase =
-                            saleTime;
-
-                    }
-
-                }
-            );
-
-
-            const lastPurchaseText =
-                lastPurchase
-                    ? formatDate(
-                        new Date(
-                            lastPurchase
-                        )
-                    )
-                    : "No purchases";
-
-
-            const salesRows =
-                sales.length > 0
-
-                    ? sales
-                        .map(
-                            (sale) => {
-
-                                const items =
-                                    Array.isArray(
-                                        sale.items
-                                    )
-                                        ? sale.items
-                                        : [];
-
-
-                                const itemCount =
-                                    items.reduce(
-                                        (
-                                            total,
-                                            item
-                                        ) => {
-
-                                            return (
-                                                total +
-                                                Number(
-                                                    item.quantity ||
-                                                    0
-                                                )
-                                            );
-
-                                        },
-                                        0
-                                    );
-
-
-                                const itemNames =
-                                    items
-                                        .map(
-                                            (
-                                                item
-                                            ) => {
-
-                                                const name =
-                                                    item.productName ||
-                                                    item.name ||
-                                                    "Item";
-
-
-                                                const quantity =
-                                                    Number(
-                                                        item.quantity ||
-                                                        0
-                                                    );
-
-
-                                                return `
-                                                    <li>
-                                                        ${escapeHtml(
-                                                            name
-                                                        )}
-                                                        × ${quantity}
-                                                    </li>
-                                                `;
-
-                                            }
-                                        )
-                                        .join("");
-
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-
-                                            <strong>
-                                                ${escapeHtml(
-                                                    sale.saleNumber ||
-                                                    "Sale"
-                                                )}
-                                            </strong>
-
-                                            <br>
-
-                                            <small>
-                                                ${formatDateTime(
-                                                    getSaleTime(
-                                                        sale
-                                                    )
-                                                )}
-                                            </small>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <ul class="item-list">
-
-                                                ${itemNames ||
-                                                "<li>No item details</li>"}
-
-                                            </ul>
-
-                                            <small>
-                                                ${itemCount}
-                                                item(s)
-                                            </small>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <strong>
-                                                ${formatCurrency(
-                                                    sale.total
-                                                )}
-                                            </strong>
-
-                                        </td>
-
-
-                                        <td>
-
-                                            ${escapeHtml(
-                                                sale.paymentMethod ||
-                                                "-"
-                                            )}
-
-                                        </td>
-
-
-                                        <td>
-
-                                            <div class="actions">
-
-                                                <button
-                                                    class="small-btn view-btn"
-                                                    onclick="viewSaleDetails('${sale.id}')"
-                                                >
-                                                    View
-                                                </button>
-
-                                                <button
-                                                    class="small-btn print-btn"
-                                                    onclick="printSale('${sale.id}')"
-                                                >
-                                                    Print
-                                                </button>
-
-                                            </div>
-
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        )
-                        .join("")
-
-                    : "";
-
-
-            document.getElementById(
-                "historyContent"
-            ).innerHTML = `
-
-                <div class="customer-profile">
-
-                    <h2>
-                        ${escapeHtml(
-                            customer.name ||
-                            "Customer"
-                        )}
-                    </h2>
-
-                    <p>
-                        📞 ${escapeHtml(
-                            customer.phone ||
-                            "-"
-                        )}
-                    </p>
-
-                    ${
-                        customer.email
-                            ? `
-                                <p>
-                                    📧 ${escapeHtml(
-                                        customer.email
-                                    )}
-                                </p>
-                            `
-                            : ""
-                    }
-
-                    ${
-                        customer.address
-                            ? `
-                                <p>
-                                    📍 ${escapeHtml(
-                                        customer.address
-                                    )}
-                                </p>
-                            `
-                            : ""
-                    }
-
-                </div>
-
-
-                <div class="stats-grid">
-
-                    <div class="stat-card">
-
-                        <div class="label">
-                            Total Spent
-                        </div>
-
-                        <div class="value">
-                            ${formatCurrency(
-                                totalSpent
-                            )}
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <div class="label">
-                            Number of Purchases
-                        </div>
-
-                        <div class="value">
-                            ${sales.length}
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <div class="label">
-                            Last Purchase
-                        </div>
-
-                        <div class="value"
-                             style="font-size:15px;">
-                            ${lastPurchaseText}
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                ${
-                    sales.length === 0
-
-                        ? `
-
-                            <div class="no-history">
-
-                                <h3>
-                                    No purchase history yet
-                                </h3>
-
-                                <p style="margin-top:8px;">
-                                    Purchases made by this customer
-                                    will appear here.
-                                </p>
-
-                            </div>
-
-                        `
-
-                        : `
-
-                            <div class="history-table-wrapper">
-
-                                <table class="history-table">
-
-                                    <thead>
-
-                                        <tr>
-
-                                            <th>
-                                                Sale
-                                            </th>
-
-                                            <th>
-                                                Items
-                                            </th>
-
-                                            <th>
-                                                Total
-                                            </th>
-
-                                            <th>
-                                                Payment
-                                            </th>
-
-                                            <th>
-                                                Actions
-                                            </th>
-
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-
-                                        ${salesRows}
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
-
-                        `
-                }
-
-            `;
-
-        }
-
-
-        /* =====================================================
-           VIEW SALE DETAILS
-        ===================================================== */
-
-        window.viewSaleDetails =
-            function (saleId) {
-
-                const sale =
-                    allSales.find(
-                        (item) =>
-                            item.id === saleId
-                    );
-
-
-                if (!sale)
-                    return;
-
-
-                const items =
-                    Array.isArray(
-                        sale.items
-                    )
-                        ? sale.items
-                        : [];
-
-
-                const itemRows =
-                    items
-                        .map(
-                            (item) => {
-
-                                const price =
-                                    Number(
-                                        item.unitPrice ??
-                                        item.sellingPrice ??
-                                        item.price ??
-                                        0
-                                    );
-
-
-                                const quantity =
-                                    Number(
-                                        item.quantity ||
-                                        0
-                                    );
-
-
-                                const total =
-                                    Number(
-                                        item.total ??
-                                        price *
-                                            quantity
-                                    );
-
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-                                            ${escapeHtml(
-                                                item.productName ||
-                                                item.name ||
-                                                "Item"
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${quantity}
-                                        </td>
-
-                                        <td>
-                                            ${formatCurrency(
-                                                price
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${formatCurrency(
-                                                total
-                                            )}
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        )
-                        .join("");
-
-
-                document.getElementById(
-                    "saleDetailsContent"
-                ).innerHTML = `
-
-                    <div class="sale-header">
-
-                        <h2>
-                            Nesi Medicals
-                        </h2>
-
-                        <p>
-                            Sale Receipt Details
-                        </p>
-
-                    </div>
-
-
-                    <div class="sale-info">
-
-                        <div class="sale-info-item">
-
-                            <small>
-                                Sale Number
-                            </small>
-
-                            <strong>
-                                ${escapeHtml(
-                                    sale.saleNumber ||
-                                    "-"
-                                )}
-                            </strong>
-
-                        </div>
-
-
-                        <div class="sale-info-item">
-
-                            <small>
-                                Date
-                            </small>
-
-                            <strong>
-                                ${formatDateTime(
-                                    getSaleTime(
-                                        sale
-                                    )
-                                )}
-                            </strong>
-
-                        </div>
-
-
-                        <div class="sale-info-item">
-
-                            <small>
-                                Customer
-                            </small>
-
-                            <strong>
-                                ${escapeHtml(
-                                    sale.customer ||
-                                    "Walk-in Customer"
-                                )}
-                            </strong>
-
-                        </div>
-
-
-                        <div class="sale-info-item">
-
-                            <small>
-                                Payment Method
-                            </small>
-
-                            <strong>
-                                ${escapeHtml(
-                                    sale.paymentMethod ||
-                                    "-"
-                                )}
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <table class="sale-items">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Product
-                                </th>
-
-                                <th>
-                                    Qty
-                                </th>
-
-                                <th>
-                                    Price
-                                </th>
-
-                                <th>
-                                    Total
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            ${
-                                itemRows ||
-                                `
-                                    <tr>
-                                        <td colspan="4">
-                                            No items found.
-                                        </td>
-                                    </tr>
-                                `
-                            }
-
-                        </tbody>
-
-                    </table>
-
-
-                    <div class="sale-total">
-
-                        Total:
-                        ${formatCurrency(
-                            sale.total
-                        )}
-
-                    </div>
-
-
-                    <div
-                        style="
-                            display:flex;
-                            justify-content:flex-end;
-                            gap:10px;
-                        "
-                    >
-
-                        <button
-                            class="btn btn-secondary"
-                            onclick="closeSaleDetails()"
-                        >
-                            Close
-                        </button>
-
-                        <button
-                            class="btn btn-primary"
-                            onclick="printSale('${sale.id}')"
-                        >
-                            🖨️ Print Receipt
-                        </button>
-
-                    </div>
-
-                `;
-
-
-                document.getElementById(
-                    "saleDetailsModal"
-                ).classList.add(
-                    "show"
-                );
-
-            };
-
-
-        /* =========================
-           CLOSE SALE DETAILS
-        ========================= */
-
-        window.closeSaleDetails =
-            function () {
-
-                document.getElementById(
-                    "saleDetailsModal"
-                ).classList.remove(
-                    "show"
-                );
-
-            };
-
-
-        document
-            .getElementById(
-                "closeSaleDetailsModal"
-            )
-            .addEventListener(
-                "click",
-                closeSaleDetails
-            );
-
-
-        /* =========================
-           CLOSE HISTORY
-        ========================= */
-
-        function closeHistoryModal() {
-
-            document.getElementById(
-                "historyModal"
-            ).classList.remove(
-                "show"
-            );
-
-        }
-
-
-        document
-            .getElementById(
-                "closeHistoryModal"
-            )
-            .addEventListener(
-                "click",
-                closeHistoryModal
-            );
-
-
-        /* =====================================================
-           PRINT SALE
-        ===================================================== */
-
-        window.printSale =
-            function (saleId) {
-
-                const sale =
-                    allSales.find(
-                        (item) =>
-                            item.id === saleId
-                    );
-
-
-                if (!sale)
-                    return;
-
-
-                const items =
-                    Array.isArray(
-                        sale.items
-                    )
-                        ? sale.items
-                        : [];
-
-
-                const itemRows =
-                    items
-                        .map(
-                            (item) => {
-
-                                const price =
-                                    Number(
-                                        item.unitPrice ??
-                                        item.sellingPrice ??
-                                        item.price ??
-                                        0
-                                    );
-
-
-                                const quantity =
-                                    Number(
-                                        item.quantity ||
-                                        0
-                                    );
-
-
-                                const total =
-                                    Number(
-                                        item.total ??
-                                        price *
-                                            quantity
-                                    );
-
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-                                            ${escapeHtml(
-                                                item.productName ||
-                                                item.name ||
-                                                "Item"
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${quantity}
-                                        </td>
-
-                                        <td>
-                                            ${formatCurrency(
-                                                price
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${formatCurrency(
-                                                total
-                                            )}
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        )
-                        .join("");
-
-
-                const printWindow =
-                    window.open(
-                        "",
-                        "_blank",
-                        "width=700,height=800"
-                    );
-
-
-                if (!printWindow) {
-
-                    showMessage(
-                        "Please allow pop-ups to print the receipt.",
-                        true
-                    );
-
-                    return;
-
-                }
-
-
-                printWindow.document.write(`
-
-                    <!DOCTYPE html>
-
-                    <html>
-
-                    <head>
-
-                        <title>
-                            Receipt ${
-                                escapeHtml(
-                                    sale.saleNumber ||
-                                    ""
-                                )
-                            }
-                        </title>
-
-                        <style>
-
-                            * {
-                                box-sizing:border-box;
-                            }
-
-                            body {
-                                font-family:Arial,sans-serif;
-                                margin:0;
-                                padding:25px;
-                                color:#111827;
-                            }
-
-                            .receipt {
-                                max-width:600px;
-                                margin:auto;
-                            }
-
-                            .header {
-                                text-align:center;
-                                border-bottom:2px solid #166534;
-                                padding-bottom:15px;
-                                margin-bottom:20px;
-                            }
-
-                            .header img {
-                                width:80px;
-                                height:80px;
-                                object-fit:contain;
-                            }
-
-                            .header h1 {
-                                color:#166534;
-                                margin:8px 0 3px;
-                                font-size:22px;
-                            }
-
-                            .header p {
-                                margin:3px 0;
-                                font-size:12px;
-                            }
-
-                            .info {
-                                margin-bottom:20px;
-                                font-size:13px;
-                            }
-
-                            .info p {
-                                margin:5px 0;
-                            }
-
-                            table {
-                                width:100%;
-                                border-collapse:collapse;
-                            }
-
-                            th,
-                            td {
-                                padding:9px 6px;
-                                border-bottom:1px solid #ddd;
-                                text-align:left;
-                                font-size:13px;
-                            }
-
-                            th {
-                                background:#f3f4f6;
-                            }
-
-                            .total {
-                                text-align:right;
-                                font-size:20px;
-                                font-weight:bold;
-                                color:#166534;
-                                margin-top:20px;
-                            }
-
-                            .footer {
-                                text-align:center;
-                                margin-top:25px;
-                                border-top:1px solid #ddd;
-                                padding-top:15px;
-                                font-size:11px;
-                                color:#666;
-                            }
-
-                            @media print {
-
-                                body {
-                                    padding:0;
-                                }
-
-                                .receipt {
-                                    max-width:none;
-                                }
-
-                            }
-
-                        </style>
-
-                    </head>
-
-
-                    <body>
-
-                        <div class="receipt">
-
-                            <div class="header">
-
-                                <img
-                                    src="${
-                                        window.location.origin
-                                    }/nesi-medicals-app/assets/logo.png"
-                                    alt="Nesi Medicals"
-                                >
-
-                                <h1>
-                                    Nesi Medicals
-                                </h1>
-
-                                <p>
-                                    & Minimart Enterprises
-                                </p>
-
-                                <p>
-                                    13, Angwan Dadi beside
-                                    Emzy Garden, Abuja, FCT
-                                </p>
-
-                                <p>
-                                    +2349067075444
-                                    &nbsp;|&nbsp;
-                                    +2347087471639
-                                </p>
-
-                            </div>
-
-
-                            <div class="info">
-
-                                <p>
-                                    <strong>
-                                        Sale Number:
-                                    </strong>
-
-                                    ${escapeHtml(
-                                        sale.saleNumber ||
-                                        "-"
-                                    )}
-                                </p>
-
-
-                                <p>
-                                    <strong>
-                                        Date:
-                                    </strong>
-
-                                    ${formatDateTime(
-                                        getSaleTime(
-                                            sale
-                                        )
-                                    )}
-                                </p>
-
-
-                                <p>
-                                    <strong>
-                                        Customer:
-                                    </strong>
-
-                                    ${escapeHtml(
-                                        sale.customer ||
-                                        "Walk-in Customer"
-                                    )}
-                                </p>
-
-
-                                <p>
-                                    <strong>
-                                        Payment:
-                                    </strong>
-
-                                    ${escapeHtml(
-                                        sale.paymentMethod ||
-                                        "-"
-                                    )}
-                                </p>
-
-                            </div>
-
-
-                            <table>
-
-                                <thead>
-
-                                    <tr>
-
-                                        <th>
-                                            Product
-                                        </th>
-
-                                        <th>
-                                            Qty
-                                        </th>
-
-                                        <th>
-                                            Price
-                                        </th>
-
-                                        <th>
-                                            Total
-                                        </th>
-
-                                    </tr>
-
-                                </thead>
-
-
-                                <tbody>
-
-                                    ${
-                                        itemRows ||
-                                        `
-                                            <tr>
-                                                <td colspan="4">
-                                                    No items found.
-                                                </td>
-                                            </tr>
-                                        `
-                                    }
-
-                                </tbody>
-
-                            </table>
-
-
-                            <div class="total">
-
-                                Grand Total:
-                                ${formatCurrency(
-                                    sale.total
-                                )}
-
-                            </div>
-
-
-                            <div class="footer">
-
-                                Thank you for your patronage.
-
-                                <br>
-
-                                Quality Care.
-                                Essential Products.
-                                Trusted Service.
-
-                            </div>
-
-                        </div>
-
-
-                        <script>
-
-                            window.onload = function() {
-
-                                window.print();
-
-                            };
-
-                        <\/script>
-
-                    </body>
-
-                    </html>
-
-                `);
-
-
-                printWindow.document.close();
-
-            };
-
-
-        /* =========================
-           DATE HELPERS
-        ========================= */
-
-        function getSaleTime(sale) {
-
-            if (
-                sale.createdAt &&
-                typeof sale.createdAt.toMillis ===
-                    "function"
-            ) {
-
-                return sale.createdAt.toMillis();
-
-            }
-
-
-            if (
-                sale.date &&
-                typeof sale.date.toMillis ===
-                    "function"
-            ) {
-
-                return sale.date.toMillis();
-
-            }
-
-
-            if (
-                typeof sale.createdAt ===
-                "string"
-            ) {
-
-                const parsed =
-                    new Date(
-                        sale.createdAt
-                    ).getTime();
-
-
-                if (!isNaN(parsed))
-                    return parsed;
-
-            }
-
-
-            if (
-                typeof sale.date ===
-                "string"
-            ) {
-
-                const parsed =
-                    new Date(
-                        sale.date
-                    ).getTime();
-
-
-                if (!isNaN(parsed))
-                    return parsed;
-
-            }
-
-
-            return 0;
-
-        }
-
-
-        function formatDateTime(
-            timestamp
-        ) {
-
-            if (!timestamp)
-                return "-";
-
-
-            const date =
-                new Date(timestamp);
-
-
-            if (
-                isNaN(
-                    date.getTime()
-                )
-            ) {
-
-                return "-";
-
-            }
-
-
-            return date.toLocaleString(
-                "en-NG",
-                {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
-
-        }
-
-
-        function formatDate(
-            date
-        ) {
-
-            if (!date)
-                return "-";
-
-
-            if (
-                isNaN(
-                    date.getTime()
-                )
-            ) {
-
-                return "-";
-
-            }
-
-
-            return date.toLocaleDateString(
-                "en-NG",
-                {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric"
-                }
-            );
-
-        }
-
-
-        /* =========================
-           CURRENCY
-        ========================= */
-
-        function formatCurrency(
-            amount
-        ) {
-
-            return new Intl.NumberFormat(
-                "en-NG",
-                {
-                    style: "currency",
-                    currency: "NGN",
-                    minimumFractionDigits: 2
-                }
-            ).format(
-                Number(amount || 0)
-            );
-
-        }
-
-
-        /* =========================
-           LOGOUT
-        ========================= */
-
-        document
-            .getElementById(
-                "logoutButton"
-            )
-            .addEventListener(
-                "click",
-                async (event) => {
-
-                    event.preventDefault();
-
-
-                    try {
-
-                        await signOut(
-                            auth
-                        );
-
-
-                        window.location.href =
-                            "login.html";
-
-                    } catch (error) {
-
-                        console.error(
-                            error
-                        );
-
-                    }
-
-                }
-            );
-
-
-        /* =========================
-           MESSAGE
-        ========================= */
-
-        function showMessage(
-            text,
-            error = false
-        ) {
-
-            const message =
-                document.getElementById(
-                    "message"
-                );
-
-
-            message.textContent =
-                text;
-
-
-            message.style.background =
-                error
-                    ? "#b91c1c"
-                    : "#166534";
-
-
-            message.classList.add(
-                "show"
-            );
-
-
-            setTimeout(
-                () => {
-
-                    message.classList.remove(
-                        "show"
-                    );
-
-                },
-                3000
-            );
-
-        }
-
-
-        /* =========================
-           SECURITY
-        ========================= */
-
-        function escapeHtml(
-            value
-        ) {
-
-            return String(
-                value
-            )
-                .replace(
-                    /&/g,
-                    "&amp;"
-                )
-                .replace(
-                    /</g,
-                    "&lt;"
-                )
-                .replace(
-                    />/g,
-                    "&gt;"
-                )
-                .replace(
-                    /"/g,
-                    "&quot;"
-                )
-                .replace(
-                    /'/g,
-                    "&#039;"
-                );
-
-        }
-
-
-        /* =========================
-           CLOSE MODALS WHEN CLICKING
-           OUTSIDE
-        ========================= */
-
-        document
-            .getElementById(
-                "historyModal"
-            )
-            .addEventListener(
-                "click",
-                (event) => {
-
-                    if (
-                        event.target.id ===
-                        "historyModal"
-                    ) {
-
-                        closeHistoryModal();
-
-                    }
-
-                }
-            );
-
-
-        document
-            .getElementById(
-                "saleDetailsModal"
-            )
-            .addEventListener(
-                "click",
-                (event) => {
-
-                    if (
-                        event.target.id ===
-                        "saleDetailsModal"
-                    ) {
-
-                        closeSaleDetails();
-
-                    }
-
-                }
-            );
-
-
-        document
-            .getElementById(
-                "customerModal"
-            )
-            .addEventListener(
-                "click",
-                (event) => {
-
-                    if (
-                        event.target.id ===
-                        "customerModal"
-                    ) {
-
-                        closeModal();
-
-                    }
-
-                }
-            );
-
-    </script>
+</script>
 
 </body>
-
-    </html>
+</html>
