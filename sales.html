@@ -1,280 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales | Nesi Medicals</title>
-    <meta name="description" content="Nesi Medicals & Minimart Enterprises Sales Management">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sales | Nesi Medicals</title>
+<meta name="description" content="Nesi Medicals & Minimart Enterprises Sales Management">
 
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        :root{
-            --green:#087f5b;--green-dark:#056044;--green-light:#e9f8f2;
-            --orange:#ff8a00;--blue:#0a5fff;--dark:#172033;--text:#263238;
-            --muted:#718096;--border:#e2e8f0;--bg:#f5f7fb;--white:#fff;
-            --danger:#dc3545;--success:#198754;--warning:#f59e0b;
-            --shadow:0 8px 25px rgba(15,23,42,.08)
-        }
-        body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-        a{text-decoration:none;color:inherit}
-        button,input,select,textarea{font-family:inherit}
-        button{cursor:pointer}
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--green:#087f5b;--green-dark:#056044;--green-light:#e9f8f2;
+--orange:#ff8a00;--dark:#172033;--text:#263238;--muted:#718096;
+--border:#e2e8f0;--bg:#f5f7fb;--white:#fff;--danger:#dc3545;
+--success:#198754;--warning:#f59e0b;--shadow:0 8px 25px rgba(15,23,42,.08)
+}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
 
-        .sidebar{
-            position:fixed;left:0;top:0;bottom:0;width:250px;background:#111827;color:white;
-            padding:20px 14px;z-index:1000;overflow-y:auto
-        }
-        .brand{
-            display:flex;align-items:center;gap:12px;padding:8px 10px 24px;
-            border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:15px
-        }
-        .brand img{width:48px;height:48px;object-fit:contain;border-radius:10px;background:white;padding:3px}
-        .brand-text h2{font-size:17px;line-height:1.2}
-        .brand-text p{font-size:11px;color:#a7b0c0;margin-top:4px}
-        .nav-section{margin-bottom:20px}
-        .nav-title{color:#778197;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:0 12px 8px}
-        .nav-link{
-            display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:9px;
-            margin-bottom:4px;color:#cbd5e1;font-size:14px;transition:.2s
-        }
-        .nav-link:hover{background:rgba(255,255,255,.07);color:white}
-        .nav-link.active{background:var(--green);color:white}
-        .nav-icon{width:24px;text-align:center;font-size:17px}
+.sidebar{
+position:fixed;left:0;top:0;bottom:0;width:250px;background:#111827;color:white;
+padding:20px 14px;z-index:1000;overflow-y:auto
+}
+.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 24px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:15px}
+.brand img{width:48px;height:48px;object-fit:contain;border-radius:10px;background:white;padding:3px}
+.brand-text h2{font-size:17px}.brand-text p{font-size:11px;color:#a7b0c0;margin-top:4px}
+.nav-section{margin-bottom:20px}.nav-title{color:#778197;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:0 12px 8px}
+.nav-link{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:9px;margin-bottom:4px;color:#cbd5e1;font-size:14px}
+.nav-link:hover{background:rgba(255,255,255,.07);color:white}.nav-link.active{background:var(--green);color:white}
+.nav-icon{width:24px;text-align:center;font-size:17px}
 
-        .main{margin-left:250px;min-height:100vh}
-        .topbar{
-            height:72px;background:white;border-bottom:1px solid var(--border);display:flex;
-            align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100
-        }
-        .topbar-left{display:flex;align-items:center;gap:14px}
-        .menu-btn{display:none;border:none;background:#eef2f7;width:40px;height:40px;border-radius:8px;font-size:20px}
-        .page-title h1{font-size:22px;color:var(--dark)}
-        .page-title p{color:var(--muted);font-size:12px;margin-top:4px}
-        .user-area{display:flex;align-items:center;gap:12px}
-        .user-avatar{
-            width:38px;height:38px;background:var(--green);color:white;border-radius:50%;
-            display:flex;align-items:center;justify-content:center;font-weight:bold
-        }
-        .user-info{text-align:right}
-        .user-info strong{display:block;font-size:13px;color:var(--dark)}
-        .user-info span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
-        .logout-btn{border:none;background:#fff0f1;color:var(--danger);padding:9px 12px;border-radius:7px;font-size:12px;font-weight:bold}
-        .content{padding:25px}
+.main{margin-left:250px;min-height:100vh}
+.topbar{height:72px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100}
+.topbar-left{display:flex;align-items:center;gap:14px}.menu-btn{display:none;border:none;background:#eef2f7;width:40px;height:40px;border-radius:8px;font-size:20px}
+.page-title h1{font-size:22px;color:var(--dark)}.page-title p{color:var(--muted);font-size:12px;margin-top:4px}
+.user-area{display:flex;align-items:center;gap:12px}.user-avatar{width:38px;height:38px;background:var(--green);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.user-info{text-align:right}.user-info strong{display:block;font-size:13px;color:var(--dark)}.user-info span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.logout-btn{border:none;background:#fff0f1;color:var(--danger);padding:9px 12px;border-radius:7px;font-size:12px;font-weight:bold}
+.content{padding:25px}
 
-        .content-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:15px}
-        .content-header h2{font-size:20px;color:var(--dark)}
-        .content-header p{color:var(--muted);font-size:13px;margin-top:5px}
-        .header-actions{display:flex;gap:10px;flex-wrap:wrap}
+.content-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:15px}
+.content-header h2{font-size:20px;color:var(--dark)}.content-header p{color:var(--muted);font-size:13px;margin-top:5px}
+.header-actions{display:flex;gap:10px;flex-wrap:wrap}
 
-        .btn{
-            border:none;border-radius:8px;padding:11px 15px;font-size:13px;font-weight:bold;transition:.2s
-        }
-        .btn-primary{background:var(--green);color:white}
-        .btn-primary:hover{background:var(--green-dark)}
-        .btn-secondary{background:#eef2f7;color:var(--dark)}
-        .btn-secondary:hover{background:#e2e8f0}
-        .btn-danger{background:var(--danger);color:white}
-        .btn-orange{background:var(--orange);color:white}
+.btn{border:none;border-radius:8px;padding:11px 15px;font-size:13px;font-weight:bold}
+.btn-primary{background:var(--green);color:white}.btn-primary:hover{background:var(--green-dark)}
+.btn-secondary{background:#eef2f7;color:var(--dark)}.btn-orange{background:var(--orange);color:white}
 
-        .sales-layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
-        .card{background:white;border-radius:13px;box-shadow:var(--shadow);border:1px solid var(--border)}
-        .card-header{
-            padding:18px 20px;border-bottom:1px solid var(--border);display:flex;
-            align-items:center;justify-content:space-between;gap:10px
-        }
-        .card-header h3{font-size:16px;color:var(--dark)}
-        .card-body{padding:20px}
+.sales-layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+.card{background:white;border-radius:13px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card-header h3{font-size:16px;color:var(--dark)}.card-body{padding:20px}
 
-        .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-        .form-group{margin-bottom:15px}
-        .form-group.full{grid-column:1/-1}
-        label{display:block;font-size:12px;font-weight:bold;color:#475569;margin-bottom:7px}
-        input,select,textarea{
-            width:100%;border:1px solid #d8dee8;border-radius:8px;padding:11px 12px;
-            font-size:13px;outline:none;background:white;color:var(--text)
-        }
-        input:focus,select:focus,textarea:focus{
-            border-color:var(--green);box-shadow:0 0 0 3px rgba(8,127,91,.08)
-        }
-        textarea{resize:vertical;min-height:80px}
-        .helper-text{font-size:11px;color:var(--muted);margin-top:5px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.form-group{margin-bottom:15px}.form-group.full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:bold;color:#475569;margin-bottom:7px}
+input,select,textarea{width:100%;border:1px solid #d8dee8;border-radius:8px;padding:11px 12px;font-size:13px;outline:none;background:white;color:var(--text)}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(8,127,91,.08)}
+textarea{resize:vertical;min-height:80px}.helper-text{font-size:11px;color:var(--muted);margin-top:5px}
 
-        .items-header,.sale-item{
-            display:grid;grid-template-columns:minmax(220px,1fr) 100px 130px 48px;gap:10px
-        }
-        .items-header{
-            padding:0 0 8px;color:var(--muted);font-size:11px;font-weight:bold
-        }
-        .sale-item{align-items:center;margin-bottom:10px}
-        .item-product select{min-width:0}
-        .item-quantity input{text-align:center}
-        .item-total{
-            background:#f8fafc;border:1px solid var(--border);border-radius:8px;
-            padding:11px 8px;text-align:right;font-size:13px;font-weight:bold;white-space:nowrap
-        }
-        .remove-item{
-            width:40px;height:40px;border:none;background:#fff0f1;color:var(--danger);
-            border-radius:8px;font-size:18px
-        }
-        .remove-item:hover{background:#ffe0e3}
-        .add-item-row{margin-top:15px;padding-top:15px;border-top:1px solid var(--border)}
-        .add-item-btn{
-            border:1px dashed var(--green);background:var(--green-light);color:var(--green-dark);
-            padding:10px 14px;border-radius:8px;font-weight:bold;font-size:12px
-        }
-        .empty-items{
-            border:1px dashed #cbd5e1;padding:25px;border-radius:10px;text-align:center;
-            color:var(--muted);font-size:13px
-        }
+.items-header,.sale-item{display:grid;grid-template-columns:minmax(220px,1fr) 100px 130px 48px;gap:10px}
+.items-header{padding:0 0 8px;color:var(--muted);font-size:11px;font-weight:bold}
+.sale-item{align-items:center;margin-bottom:10px}.item-quantity input{text-align:center}
+.item-total{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:11px 8px;text-align:right;font-size:13px;font-weight:bold;white-space:nowrap}
+.remove-item{width:40px;height:40px;border:none;background:#fff0f1;color:var(--danger);border-radius:8px;font-size:18px}
+.add-item-row{margin-top:15px;padding-top:15px;border-top:1px solid var(--border)}
+.add-item-btn{border:1px dashed var(--green);background:var(--green-light);color:var(--green-dark);padding:10px 14px;border-radius:8px;font-weight:bold;font-size:12px}
+.empty-items{border:1px dashed #cbd5e1;padding:25px;border-radius:10px;text-align:center;color:var(--muted);font-size:13px}
 
-        .summary-box{
-            background:#f8fafc;border-radius:10px;padding:15px;margin-top:20px;border:1px solid var(--border)
-        }
-        .summary-row{
-            display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13px
-        }
-        .summary-row span{color:var(--muted)}
-        .summary-row strong{color:var(--dark)}
-        .summary-row.profit-row{border-top:1px dashed #cbd5e1;margin-top:7px;padding-top:13px}
-        .summary-row.profit-row span,.summary-row.profit-row strong{color:var(--success);font-weight:bold}
-        .summary-row.grand-total{border-top:1px solid var(--border);margin-top:8px;padding-top:13px}
-        .summary-row.grand-total span,.summary-row.grand-total strong{
-            color:var(--green-dark);font-size:17px;font-weight:bold
-        }
-        .profit-note{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.5}
+.summary-box{background:#f8fafc;border-radius:10px;padding:15px;margin-top:20px;border:1px solid var(--border)}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13px}
+.summary-row span{color:var(--muted)}.summary-row strong{color:var(--dark)}
+.summary-row.profit-row{border-top:1px dashed #cbd5e1;margin-top:7px;padding-top:13px}
+.summary-row.profit-row span,.summary-row.profit-row strong{color:var(--success)}
+.summary-row.grand-total{border-top:1px solid var(--border);margin-top:8px;padding-top:13px}
+.summary-row.grand-total span,.summary-row.grand-total strong{color:var(--green-dark);font-size:17px}
+.profit-note{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.5}
 
-        /* CREDIT */
-        .credit-box{
-            display:none;background:#fff8e8;border:1px solid #f5d48a;border-radius:10px;
-            padding:15px;margin-top:4px
-        }
-        .credit-box.show{display:block}
-        .credit-title{font-size:13px;font-weight:bold;color:#8a5a00;margin-bottom:12px}
-        .credit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        .balance-display{
-            background:white;border:1px solid #f0d99a;border-radius:8px;padding:11px 12px;
-            font-size:13px;font-weight:bold;color:#8a5a00
-        }
-        .credit-warning{
-            display:none;margin-top:10px;padding:9px;border-radius:7px;background:#fff0f1;
-            color:#9b1c2b;font-size:11px;border:1px solid #f4c5cb
-        }
-        .credit-warning.show{display:block}
-        .customer-balance-info{
-            display:none;margin-top:8px;font-size:11px;color:#8a5a00
-        }
-        .customer-balance-info.show{display:block}
+.credit-box{display:none;background:#fff8e8;border:1px solid #f5d48a;border-radius:10px;padding:15px;margin-top:4px}
+.credit-box.show{display:block}.credit-title{font-size:13px;font-weight:bold;color:#8a5a00;margin-bottom:12px}
+.credit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.balance-display{background:white;border:1px solid #f0d99a;border-radius:8px;padding:11px 12px;font-size:13px;font-weight:bold;color:#8a5a00}
+.credit-warning{display:none;margin-top:10px;padding:9px;border-radius:7px;background:#fff0f1;color:#9b1c2b;font-size:11px;border:1px solid #f4c5cb}
+.credit-warning.show{display:block}
+.customer-balance-info{display:none;margin-top:8px;font-size:11px;color:#8a5a00}
+.customer-balance-info.show{display:block}
 
-        .form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.quick-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.mini-stat{background:#f8fafc;border:1px solid var(--border);border-radius:9px;padding:12px;text-align:center}
+.mini-stat span{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}.mini-stat strong{font-size:15px;color:var(--dark)}
 
-        .quick-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-        .mini-stat{background:#f8fafc;border:1px solid var(--border);border-radius:9px;padding:12px;text-align:center}
-        .mini-stat span{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}
-        .mini-stat strong{font-size:15px;color:var(--dark)}
+.receipt-preview{background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.receipt{padding:20px;font-family:Arial,Helvetica,sans-serif}
+.receipt-head{text-align:center;border-bottom:1px dashed #aaa;padding-bottom:13px;margin-bottom:13px}
+.receipt-logo{width:65px;height:65px;object-fit:contain;margin-bottom:7px}
+.receipt-head h2{font-size:16px;color:#111827}.receipt-head p{font-size:10px;color:#666;margin-top:3px}
+.receipt-meta{font-size:10px;margin-bottom:13px}.receipt-meta div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.receipt-items{border-top:1px dashed #aaa;border-bottom:1px dashed #aaa;padding:8px 0}
+.receipt-item{display:grid;grid-template-columns:1fr auto;gap:8px;padding:5px 0;font-size:10px}
+.receipt-item-name strong{display:block;font-size:10px}.receipt-item-name small{color:#777}
+.receipt-total{padding-top:10px}.receipt-total-row{display:flex;justify-content:space-between;padding:4px 0;font-size:11px}
+.receipt-total-row.grand{border-top:1px solid #ddd;margin-top:5px;padding-top:8px;font-weight:bold;font-size:14px}
+.receipt-credit{display:none;background:#fff8e8;border:1px solid #e5c875;border-radius:5px;padding:8px;margin-top:8px;font-size:10px;color:#7a5100}
+.receipt-credit.show{display:block}
+.balance-due{color:#dc3545!important;font-weight:bold}
+.receipt-status{font-weight:bold}
+.receipt-footer{text-align:center;margin-top:15px;padding-top:12px;border-top:1px dashed #aaa;font-size:9px;color:#777;line-height:1.5}
+.receipt-actions{display:flex;gap:8px;margin-top:12px}.receipt-actions button{flex:1}
 
-        .receipt-preview{background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-        .receipt{padding:20px;font-family:Arial,Helvetica,sans-serif}
-        .receipt-head{text-align:center;border-bottom:1px dashed #aaa;padding-bottom:13px;margin-bottom:13px}
-        .receipt-logo{width:65px;height:65px;object-fit:contain;margin-bottom:7px}
-        .receipt-head h2{font-size:16px;color:#111827}
-        .receipt-head p{font-size:10px;color:#666;margin-top:3px}
-        .receipt-meta{font-size:10px;margin-bottom:13px}
-        .receipt-meta div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
-        .receipt-items{border-top:1px dashed #aaa;border-bottom:1px dashed #aaa;padding:8px 0}
-        .receipt-item{display:grid;grid-template-columns:1fr auto;gap:8px;padding:5px 0;font-size:10px}
-        .receipt-item-name{min-width:0}
-        .receipt-item-name strong{display:block;font-size:10px}
-        .receipt-item-name small{color:#777}
-        .receipt-total{padding-top:10px}
-        .receipt-total-row{display:flex;justify-content:space-between;padding:4px 0;font-size:11px}
-        .receipt-total-row.grand{
-            border-top:1px solid #ddd;margin-top:5px;padding-top:8px;font-weight:bold;font-size:14px
-        }
-        .receipt-credit{
-            display:none;background:#fff8e8;border:1px solid #e5c875;border-radius:5px;
-            padding:7px;margin-top:7px;font-size:10px;color:#7a5100
-        }
-        .receipt-credit.show{display:block}
-        .receipt-footer{
-            text-align:center;margin-top:15px;padding-top:12px;border-top:1px dashed #aaa;
-            font-size:9px;color:#777;line-height:1.5
-        }
-        .receipt-actions{display:flex;gap:8px;margin-top:12px}
-        .receipt-actions button{flex:1}
+.status-message{padding:12px 14px;border-radius:8px;margin-bottom:18px;font-size:13px;display:none}
+.status-message.success{display:block;background:#eaf8f0;color:#12633f;border:1px solid #bde8d1}
+.status-message.error{display:block;background:#fff0f1;color:#9b1c2b;border:1px solid #f4c5cb}
+.status-message.info{display:block;background:#eef5ff;color:#164c8c;border:1px solid #c9ddfa}
+.sidebar-overlay{display:none}
 
-        .status-message{padding:12px 14px;border-radius:8px;margin-bottom:18px;font-size:13px;display:none}
-        .status-message.success{display:block;background:#eaf8f0;color:#12633f;border:1px solid #bde8d1}
-        .status-message.error{display:block;background:#fff0f1;color:#9b1c2b;border:1px solid #f4c5cb}
-        .status-message.info{display:block;background:#eef5ff;color:#164c8c;border:1px solid #c9ddfa}
-
-        .sidebar-overlay{display:none}
-
-        @media print{
-            body{background:white}
-            .sidebar,.topbar,.content-header,.sales-form-card,.right-no-print,.receipt-actions,.status-message{display:none!important}
-            .main{margin-left:0}.content{padding:0}.sales-layout{display:block}
-            .receipt-preview{border:none;box-shadow:none}.receipt{width:80mm;margin:0 auto}
-        }
-
-        @media(max-width:1100px){.sales-layout{grid-template-columns:1fr}.right-card{max-width:500px}}
-        @media(max-width:850px){
-            .sidebar{transform:translateX(-100%);transition:transform .25s ease}
-            .sidebar.open{transform:translateX(0)}
-            .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:900}
-            .sidebar-overlay.show{display:block}
-            .main{margin-left:0}.menu-btn{display:block}.topbar{padding:0 15px}.user-info{display:none}
-        }
-        @media(max-width:700px){
-            .content{padding:15px}.content-header{align-items:flex-start;flex-direction:column}
-            .form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}
-            .items-header{display:none}
-            .sale-item{grid-template-columns:1fr 90px 110px 42px;gap:6px}
-            .card-body{padding:15px}.page-title h1{font-size:18px}
-            .quick-stat{grid-template-columns:repeat(3,1fr)}.credit-grid{grid-template-columns:1fr}
-        }
-        @media(max-width:520px){
-            .sale-item{grid-template-columns:1fr 75px 90px 40px}
-            .item-total{font-size:11px;padding:10px 5px}.remove-item{width:36px;height:36px}
-            .form-actions{flex-direction:column}.form-actions .btn{width:100%}
-            .header-actions{width:100%}.header-actions .btn{flex:1}
-        }
-    </style>
+@media print{
+body{background:white}.sidebar,.topbar,.content-header,.sales-form-card,.right-no-print,.status-message{display:none!important}
+.main{margin-left:0}.content{padding:0}.sales-layout{display:block}.receipt-preview{border:none;box-shadow:none}.receipt{width:80mm;margin:0 auto}
+}
+@media(max-width:1100px){.sales-layout{grid-template-columns:1fr}.right-card{max-width:500px}}
+@media(max-width:850px){
+.sidebar{transform:translateX(-100%);transition:transform .25s}.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:900}.sidebar-overlay.show{display:block}
+.main{margin-left:0}.menu-btn{display:block}.topbar{padding:0 15px}.user-info{display:none}
+}
+@media(max-width:700px){
+.content{padding:15px}.content-header{align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr}
+.form-group.full{grid-column:auto}.items-header{display:none}.sale-item{grid-template-columns:1fr 90px 110px 42px;gap:6px}
+.card-body{padding:15px}.page-title h1{font-size:18px}.credit-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+.sale-item{grid-template-columns:1fr 75px 90px 40px}.item-total{font-size:11px;padding:10px 5px}
+.remove-item{width:36px;height:36px}.form-actions{flex-direction:column}.form-actions .btn{width:100%}
+.header-actions{width:100%}.header-actions .btn{flex:1}
+}
+</style>
 </head>
 
 <body>
 
 <aside class="sidebar" id="sidebar">
-    <div class="brand">
-        <img src="assets/logo.png" alt="Nesi Medicals Logo">
-        <div class="brand-text">
-            <h2>Nesi Medicals</h2>
-            <p>& Minimart Enterprises</p>
-        </div>
-    </div>
+<div class="brand">
+<img src="assets/logo.png" alt="Nesi Medicals Logo">
+<div class="brand-text"><h2>Nesi Medicals</h2><p>& Minimart Enterprises</p></div>
+</div>
 
-    <div class="nav-section">
-        <div class="nav-title">Main</div>
-        <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span>Dashboard</a>
-        <a href="sales.html" class="nav-link active"><span class="nav-icon">🛒</span>Sales</a>
-        <a href="sales-history.html" class="nav-link"><span class="nav-icon">🧾</span>Sales History</a>
-        <a href="inventory.html" class="nav-link"><span class="nav-icon">📦</span>Inventory</a>
-        <a href="customers.html" class="nav-link"><span class="nav-icon">👥</span>Customers</a>
-        <a href="suppliers.html" class="nav-link"><span class="nav-icon">🚚</span>Suppliers</a>
-    </div>
+<div class="nav-section">
+<div class="nav-title">Main</div>
+<a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span>Dashboard</a>
+<a href="sales.html" class="nav-link active"><span class="nav-icon">🛒</span>Sales</a>
+<a href="sales-history.html" class="nav-link"><span class="nav-icon">🧾</span>Sales History</a>
+<a href="inventory.html" class="nav-link"><span class="nav-icon">📦</span>Inventory</a>
+<a href="customers.html" class="nav-link"><span class="nav-icon">👥</span>Customers</a>
+<a href="suppliers.html" class="nav-link"><span class="nav-icon">🚚</span>Suppliers</a>
+</div>
 
-    <div class="nav-section">
-        <div class="nav-title">Finance</div>
-        <a href="expenses.html" class="nav-link"><span class="nav-icon">💸</span>Expenses</a>
-        <a href="reports.html" class="nav-link"><span class="nav-icon">📈</span>Reports</a>
-    </div>
+<div class="nav-section">
+<div class="nav-title">Finance</div>
+<a href="expenses.html" class="nav-link"><span class="nav-icon">💸</span>Expenses</a>
+<a href="reports.html" class="nav-link"><span class="nav-icon">📈</span>Reports</a>
+</div>
 
-    <div class="nav-section">
-        <div class="nav-title">Management</div>
-        <a href="staff.html" class="nav-link"><span class="nav-icon">👨‍💼</span>Staff</a>
-        <a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span>Settings</a>
-        <a href="profile.html" class="nav-link"><span class="nav-icon">👤</span>Profile</a>
-    </div>
+<div class="nav-section">
+<div class="nav-title">Management</div>
+<a href="staff.html" class="nav-link"><span class="nav-icon">👨‍💼</span>Staff</a>
+<a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span>Settings</a>
+<a href="profile.html" class="nav-link"><span class="nav-icon">👤</span>Profile</a>
+</div>
 </aside>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -282,36 +175,25 @@
 <main class="main">
 
 <header class="topbar">
-    <div class="topbar-left">
-        <button class="menu-btn" id="menuBtn" type="button">☰</button>
-        <div class="page-title">
-            <h1>Sales</h1>
-            <p>Create and manage customer sales</p>
-        </div>
-    </div>
-
-    <div class="user-area">
-        <div class="user-info">
-            <strong id="userName">User</strong>
-            <span id="userEmail">Loading...</span>
-        </div>
-        <div class="user-avatar" id="userAvatar">U</div>
-        <button class="logout-btn" id="logoutBtn" type="button">Logout</button>
-    </div>
+<div class="topbar-left">
+<button class="menu-btn" id="menuBtn" type="button">☰</button>
+<div class="page-title"><h1>Sales</h1><p>Create and manage customer sales</p></div>
+</div>
+<div class="user-area">
+<div class="user-info"><strong id="userName">User</strong><span id="userEmail">Loading...</span></div>
+<div class="user-avatar" id="userAvatar">U</div>
+<button class="logout-btn" id="logoutBtn" type="button">Logout</button>
+</div>
 </header>
 
 <section class="content">
 
 <div class="content-header">
-    <div>
-        <h2>New Sale</h2>
-        <p>Add one or more products to create a complete customer sale.</p>
-    </div>
-
-    <div class="header-actions">
-        <a href="sales-history.html" class="btn btn-secondary">🧾 Sales History</a>
-        <button class="btn btn-orange" id="newSaleBtn" type="button">+ New Sale</button>
-    </div>
+<div><h2>New Sale</h2><p>Add one or more products to create a complete customer sale.</p></div>
+<div class="header-actions">
+<a href="sales-history.html" class="btn btn-secondary">🧾 Sales History</a>
+<button class="btn btn-orange" id="newSaleBtn" type="button">+ New Sale</button>
+</div>
 </div>
 
 <div class="status-message" id="statusMessage"></div>
@@ -319,70 +201,64 @@
 <div class="sales-layout">
 
 <div class="card sales-form-card">
-
-<div class="card-header">
-    <h3>Sale Information</h3>
-</div>
-
+<div class="card-header"><h3>Sale Information</h3></div>
 <div class="card-body">
 
 <div class="form-grid">
 
 <div class="form-group">
-    <label for="customer">Customer</label>
-    <select id="customer">
-        <option value="">Walk-in Customer</option>
-    </select>
-    <div class="customer-balance-info" id="customerBalanceInfo"></div>
+<label for="customer">Customer</label>
+<select id="customer"><option value="">Walk-in Customer</option></select>
+<div class="customer-balance-info" id="customerBalanceInfo"></div>
 </div>
 
 <div class="form-group">
-    <label for="paymentMethod">Payment Method</label>
-    <select id="paymentMethod">
-        <option value="Cash">Cash</option>
-        <option value="POS">POS</option>
-        <option value="Bank Transfer">Bank Transfer</option>
-        <option value="Credit">Credit</option>
-    </select>
+<label for="paymentMethod">Payment Method</label>
+<select id="paymentMethod">
+<option value="Cash">Cash</option>
+<option value="POS">POS</option>
+<option value="Bank Transfer">Bank Transfer</option>
+<option value="Credit">Credit</option>
+</select>
 </div>
 
 <div class="form-group full">
-    <div class="credit-box" id="creditBox">
+<div class="credit-box" id="creditBox">
 
-        <div class="credit-title">🧾 Credit / Partial Payment</div>
+<div class="credit-title">🧾 Credit / Partial Payment</div>
 
-        <div class="credit-grid">
+<div class="credit-grid">
 
-            <div>
-                <label for="amountPaid">Amount Paid Now</label>
-                <input
-                    type="number"
-                    id="amountPaid"
-                    min="0"
-                    step="0.01"
-                    value="0"
-                    placeholder="Enter amount paid"
-                >
-                <div class="helper-text">
-                    Enter 0 if the customer takes the full sale on credit.
-                </div>
-            </div>
+<div>
+<label for="amountPaid">Amount Paid Now</label>
+<input type="number" id="amountPaid" min="0" step="0.01" value="0" placeholder="Enter amount paid">
+<div class="helper-text">Enter 0 if the customer takes the full sale on credit.</div>
+</div>
 
-            <div>
-                <label>Outstanding After Sale</label>
-                <div class="balance-display" id="outstandingDisplay">₦0.00</div>
-            </div>
+<div>
+<label for="creditPaymentMethod">Payment Method for Amount Paid</label>
+<select id="creditPaymentMethod">
+<option value="Cash">Cash</option>
+<option value="POS">POS</option>
+<option value="Bank Transfer">Bank Transfer</option>
+</select>
+</div>
 
-        </div>
+</div>
 
-        <div class="credit-warning" id="creditWarning"></div>
+<div style="margin-top:12px">
+<label>Outstanding After Sale</label>
+<div class="balance-display" id="outstandingDisplay">₦0.00</div>
+</div>
 
-    </div>
+<div class="credit-warning" id="creditWarning"></div>
+
+</div>
 </div>
 
 <div class="form-group full">
-    <label for="notes">Notes</label>
-    <textarea id="notes" placeholder="Optional sale notes..."></textarea>
+<label for="notes">Notes</label>
+<textarea id="notes" placeholder="Optional sale notes..."></textarea>
 </div>
 
 </div>
@@ -390,76 +266,53 @@
 <div style="margin-top:8px">
 
 <div class="card-header" style="padding:0 0 15px;border-bottom:0">
-    <h3>Products</h3>
-    <span id="itemCountLabel" style="font-size:11px;color:var(--muted)">0 items</span>
+<h3>Products</h3>
+<span id="itemCountLabel" style="font-size:11px;color:var(--muted)">0 items</span>
 </div>
 
 <div class="items-header">
-    <div>Product</div>
-    <div>Quantity</div>
-    <div>Total</div>
-    <div></div>
+<div>Product</div><div>Quantity</div><div>Total</div><div></div>
 </div>
 
 <div id="saleItemsContainer">
-    <div class="empty-items">Add a product to start this sale.</div>
+<div class="empty-items">Add a product to start this sale.</div>
 </div>
 
 <div class="add-item-row">
-    <button type="button" class="add-item-btn" id="addItemBtn">+ Add Product</button>
+<button type="button" class="add-item-btn" id="addItemBtn">+ Add Product</button>
 </div>
 
 </div>
 
 <div class="summary-box">
 
-<div class="summary-row">
-    <span>Total Items</span>
-    <strong id="totalItems">0</strong>
-</div>
-
-<div class="summary-row">
-    <span>Subtotal</span>
-    <strong id="subtotal">₦0.00</strong>
-</div>
-
-<div class="summary-row profit-row">
-    <span>Gross Profit</span>
-    <strong id="grossProfit">₦0.00</strong>
-</div>
-
-<div class="summary-row grand-total">
-    <span>Grand Total</span>
-    <strong id="grandTotal">₦0.00</strong>
-</div>
+<div class="summary-row"><span>Total Items</span><strong id="totalItems">0</strong></div>
+<div class="summary-row"><span>Subtotal</span><strong id="subtotal">₦0.00</strong></div>
+<div class="summary-row profit-row"><span>Gross Profit</span><strong id="grossProfit">₦0.00</strong></div>
+<div class="summary-row grand-total"><span>Grand Total</span><strong id="grandTotal">₦0.00</strong></div>
 
 <div class="summary-row" id="paidSummaryRow" style="display:none">
-    <span>Amount Paid</span>
-    <strong id="paidSummary">₦0.00</strong>
+<span>Amount Paid</span><strong id="paidSummary">₦0.00</strong>
 </div>
 
 <div class="summary-row" id="outstandingSummaryRow" style="display:none">
-    <span>Outstanding</span>
-    <strong id="outstandingSummary" style="color:var(--danger)">₦0.00</strong>
+<span>Outstanding</span><strong id="outstandingSummary" style="color:var(--danger)">₦0.00</strong>
+</div>
+
+<div class="summary-row" id="paymentStatusSummaryRow" style="display:none">
+<span>Payment Status</span><strong id="paymentStatusSummary">Paid</strong>
 </div>
 
 <div class="profit-note">
-    Gross profit is calculated using the product's saved cost price and selling price.
-    The cost price is saved with the sale so future inventory price changes will not change historical profit.
+Gross profit is calculated using the product's saved cost price and selling price.
+The cost price is saved with the sale so future inventory price changes will not change historical profit.
 </div>
 
 </div>
 
 <div class="form-actions">
-
-<button type="button" class="btn btn-secondary" id="clearSaleBtn">
-    Clear
-</button>
-
-<button type="button" class="btn btn-primary" id="recordSaleBtn">
-    Record Sale
-</button>
-
+<button type="button" class="btn btn-secondary" id="clearSaleBtn">Clear</button>
+<button type="button" class="btn btn-primary" id="recordSaleBtn">Record Sale</button>
 </div>
 
 </div>
@@ -468,101 +321,66 @@
 <div class="right-card">
 
 <div class="quick-stat right-no-print">
-
-<div class="mini-stat">
-    <span>Today's Sales</span>
-    <strong id="todaySales">₦0.00</strong>
-</div>
-
-<div class="mini-stat">
-    <span>Transactions</span>
-    <strong id="todayTransactions">0</strong>
-</div>
-
-<div class="mini-stat">
-    <span>Last Sale</span>
-    <strong id="lastSaleNumber">—</strong>
-</div>
-
+<div class="mini-stat"><span>Today's Sales</span><strong id="todaySales">₦0.00</strong></div>
+<div class="mini-stat"><span>Transactions</span><strong id="todayTransactions">0</strong></div>
+<div class="mini-stat"><span>Last Sale</span><strong id="lastSaleNumber">—</strong></div>
 </div>
 
 <div class="card">
-
-<div class="card-header">
-    <h3>Receipt Preview</h3>
-</div>
-
+<div class="card-header"><h3>Receipt Preview</h3></div>
 <div class="card-body">
 
 <div class="receipt-preview" id="receiptPreview">
-
 <div class="receipt">
 
 <div class="receipt-head">
-
 <img src="assets/logo.png" alt="Nesi Medicals" class="receipt-logo">
-
 <h2>Nesi Medicals</h2>
 <p>& Minimart Enterprises</p>
 <p>Quality Care. Essential Products. Trusted Service.</p>
-
 </div>
 
 <div class="receipt-meta">
-
-<div>
-    <span>Sale No:</span>
-    <strong id="receiptSaleNumber">—</strong>
+<div><span>Sale No:</span><strong id="receiptSaleNumber">—</strong></div>
+<div><span>Date:</span><strong id="receiptDate">—</strong></div>
+<div><span>Customer:</span><strong id="receiptCustomer">Walk-in Customer</strong></div>
+<div><span>Payment:</span><strong id="receiptPayment">Cash</strong></div>
+<div id="receiptPaymentMethodRow" style="display:none">
+<span>Paid Via:</span><strong id="receiptCreditPaymentMethod">Cash</strong>
 </div>
-
-<div>
-    <span>Date:</span>
-    <strong id="receiptDate">—</strong>
-</div>
-
-<div>
-    <span>Customer:</span>
-    <strong id="receiptCustomer">Walk-in Customer</strong>
-</div>
-
-<div>
-    <span>Payment:</span>
-    <strong id="receiptPayment">Cash</strong>
-</div>
-
 </div>
 
 <div class="receipt-items" id="receiptItems">
-    <div style="text-align:center;color:#888;font-size:10px">No products added.</div>
+<div style="text-align:center;color:#888;font-size:10px">No products added.</div>
 </div>
 
 <div class="receipt-total">
 
 <div class="receipt-total-row">
-    <span>Items</span>
-    <strong id="receiptItemCount">0</strong>
+<span>Items</span><strong id="receiptItemCount">0</strong>
 </div>
 
 <div class="receipt-total-row">
-    <span>Subtotal</span>
-    <strong id="receiptSubtotal">₦0.00</strong>
+<span>Subtotal</span><strong id="receiptSubtotal">₦0.00</strong>
 </div>
 
 <div class="receipt-total-row grand">
-    <span>TOTAL</span>
-    <strong id="receiptTotal">₦0.00</strong>
+<span>TOTAL</span><strong id="receiptTotal">₦0.00</strong>
 </div>
 
 <div class="receipt-credit" id="receiptCredit">
 
 <div style="display:flex;justify-content:space-between">
-    <span>Amount Paid</span>
-    <strong id="receiptPaid">₦0.00</strong>
+<span>Amount Paid</span><strong id="receiptPaid">₦0.00</strong>
 </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:4px">
-    <span>Outstanding</span>
-    <strong id="receiptOutstanding">₦0.00</strong>
+<div style="display:flex;justify-content:space-between;margin-top:5px">
+<span class="balance-due">BALANCE DUE</span>
+<strong id="receiptOutstanding" class="balance-due">₦0.00</strong>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:5px">
+<span>Payment Status</span><strong id="receiptPaymentStatus" class="receipt-status">Credit</strong>
 </div>
 
 </div>
@@ -570,35 +388,22 @@
 </div>
 
 <div class="receipt-footer">
-
 <div>+2349067075444 • +2347087471639</div>
-
-<div style="margin-top:4px">
-    Thank you for your patronage.
-</div>
-
+<div style="margin-top:4px">Thank you for your patronage.</div>
 </div>
 
 </div>
 </div>
 
 <div class="receipt-actions right-no-print">
-
-<button type="button" class="btn btn-secondary" id="previewPrintBtn">
-    🖨️ Print
-</button>
-
-<button type="button" class="btn btn-primary" id="newSaleRightBtn">
-    + New Sale
-</button>
-
+<button type="button" class="btn btn-secondary" id="previewPrintBtn">🖨️ Print</button>
+<button type="button" class="btn btn-primary" id="newSaleRightBtn">+ New Sale</button>
 </div>
 
 </div>
 </div>
 
 </div>
-
 </div>
 </div>
 
@@ -610,1933 +415,1270 @@
 import { auth, db } from "./js/firebase.js";
 
 import {
-    onAuthStateChanged,
-    signOut
+onAuthStateChanged,
+signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
-    collection,
-    onSnapshot,
-    doc,
-    runTransaction,
-    serverTimestamp
+collection,
+onSnapshot,
+doc,
+runTransaction,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 let currentUser=null;
 let products=[];
 let customers=[];
 let saleItems=[];
 let lastSale=null;
-
 let productsUnsubscribe=null;
 let salesUnsubscribe=null;
 let customersUnsubscribe=null;
-
 let savingSale=false;
 
+const $=id=>document.getElementById(id);
 
-const sidebar=document.getElementById("sidebar");
-const sidebarOverlay=document.getElementById("sidebarOverlay");
-const menuBtn=document.getElementById("menuBtn");
-const logoutBtn=document.getElementById("logoutBtn");
+const sidebar=$("sidebar");
+const sidebarOverlay=$("sidebarOverlay");
+const menuBtn=$("menuBtn");
+const logoutBtn=$("logoutBtn");
 
-const userName=document.getElementById("userName");
-const userEmail=document.getElementById("userEmail");
-const userAvatar=document.getElementById("userAvatar");
+const userName=$("userName");
+const userEmail=$("userEmail");
+const userAvatar=$("userAvatar");
+const statusMessage=$("statusMessage");
 
-const statusMessage=document.getElementById("statusMessage");
+const customerInput=$("customer");
+const paymentMethod=$("paymentMethod");
+const amountPaidInput=$("amountPaid");
+const creditPaymentMethod=$("creditPaymentMethod");
+const notesInput=$("notes");
 
-const customerInput=document.getElementById("customer");
-const paymentMethod=document.getElementById("paymentMethod");
-const amountPaidInput=document.getElementById("amountPaid");
-const notesInput=document.getElementById("notes");
+const customerBalanceInfo=$("customerBalanceInfo");
+const creditBox=$("creditBox");
+const creditWarning=$("creditWarning");
+const outstandingDisplay=$("outstandingDisplay");
 
-const customerBalanceInfo=document.getElementById("customerBalanceInfo");
-const creditBox=document.getElementById("creditBox");
-const creditWarning=document.getElementById("creditWarning");
-const outstandingDisplay=document.getElementById("outstandingDisplay");
+const saleItemsContainer=$("saleItemsContainer");
+const addItemBtn=$("addItemBtn");
+const clearSaleBtn=$("clearSaleBtn");
+const recordSaleBtn=$("recordSaleBtn");
 
-const saleItemsContainer=document.getElementById("saleItemsContainer");
-const addItemBtn=document.getElementById("addItemBtn");
-const clearSaleBtn=document.getElementById("clearSaleBtn");
-const recordSaleBtn=document.getElementById("recordSaleBtn");
+const totalItems=$("totalItems");
+const subtotal=$("subtotal");
+const grossProfit=$("grossProfit");
+const grandTotal=$("grandTotal");
 
-const newSaleBtn=document.getElementById("newSaleBtn");
-const newSaleRightBtn=document.getElementById("newSaleRightBtn");
-const previewPrintBtn=document.getElementById("previewPrintBtn");
+const paidSummaryRow=$("paidSummaryRow");
+const outstandingSummaryRow=$("outstandingSummaryRow");
+const paymentStatusSummaryRow=$("paymentStatusSummaryRow");
+const paidSummary=$("paidSummary");
+const outstandingSummary=$("outstandingSummary");
+const paymentStatusSummary=$("paymentStatusSummary");
 
-const totalItems=document.getElementById("totalItems");
-const subtotal=document.getElementById("subtotal");
-const grossProfit=document.getElementById("grossProfit");
-const grandTotal=document.getElementById("grandTotal");
+const itemCountLabel=$("itemCountLabel");
 
-const paidSummaryRow=document.getElementById("paidSummaryRow");
-const outstandingSummaryRow=document.getElementById("outstandingSummaryRow");
-const paidSummary=document.getElementById("paidSummary");
-const outstandingSummary=document.getElementById("outstandingSummary");
+const todaySales=$("todaySales");
+const todayTransactions=$("todayTransactions");
+const lastSaleNumber=$("lastSaleNumber");
 
-const itemCountLabel=document.getElementById("itemCountLabel");
-
-const todaySales=document.getElementById("todaySales");
-const todayTransactions=document.getElementById("todayTransactions");
-const lastSaleNumber=document.getElementById("lastSaleNumber");
-
-const receiptSaleNumber=document.getElementById("receiptSaleNumber");
-const receiptDate=document.getElementById("receiptDate");
-const receiptCustomer=document.getElementById("receiptCustomer");
-const receiptPayment=document.getElementById("receiptPayment");
-const receiptItems=document.getElementById("receiptItems");
-const receiptItemCount=document.getElementById("receiptItemCount");
-const receiptSubtotal=document.getElementById("receiptSubtotal");
-const receiptTotal=document.getElementById("receiptTotal");
-const receiptCredit=document.getElementById("receiptCredit");
-const receiptPaid=document.getElementById("receiptPaid");
-const receiptOutstanding=document.getElementById("receiptOutstanding");
-
+const receiptSaleNumber=$("receiptSaleNumber");
+const receiptDate=$("receiptDate");
+const receiptCustomer=$("receiptCustomer");
+const receiptPayment=$("receiptPayment");
+const receiptPaymentMethodRow=$("receiptPaymentMethodRow");
+const receiptCreditPaymentMethod=$("receiptCreditPaymentMethod");
+const receiptItems=$("receiptItems");
+const receiptItemCount=$("receiptItemCount");
+const receiptSubtotal=$("receiptSubtotal");
+const receiptTotal=$("receiptTotal");
+const receiptCredit=$("receiptCredit");
+const receiptPaid=$("receiptPaid");
+const receiptOutstanding=$("receiptOutstanding");
+const receiptPaymentStatus=$("receiptPaymentStatus");
 
 function formatMoney(value){
-
-    return new Intl.NumberFormat(
-        "en-NG",
-        {
-            style:"currency",
-            currency:"NGN"
-        }
-    ).format(Number(value)||0);
-
+return new Intl.NumberFormat("en-NG",{style:"currency",currency:"NGN"}).format(Number(value)||0);
 }
-
 
 function showMessage(message,type="info"){
-
-    statusMessage.textContent=message;
-    statusMessage.className=`status-message ${type}`;
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+statusMessage.textContent=message;
+statusMessage.className=`status-message ${type}`;
+window.scrollTo({top:0,behavior:"smooth"});
 }
-
 
 function clearMessage(){
-
-    statusMessage.textContent="";
-    statusMessage.className="status-message";
-
+statusMessage.textContent="";
+statusMessage.className="status-message";
 }
-
 
 function getSelectedCustomer(){
 
-    const option=
-        customerInput.options[
-            customerInput.selectedIndex
-        ];
+const option=customerInput.options[customerInput.selectedIndex];
 
-    if(!option || !customerInput.value){
-
-        return {
-            id:"",
-            name:"Walk-in Customer",
-            phone:"",
-            email:"",
-            outstanding:0,
-            creditLimit:0
-        };
-
-    }
-
-    const customer=
-        customers.find(
-            customer=>customer.id===customerInput.value
-        );
-
-    return {
-
-        id:customerInput.value,
-
-        name:
-            option.dataset.customerName ||
-            customer?.name ||
-            "Walk-in Customer",
-
-        phone:
-            option.dataset.customerPhone ||
-            customer?.phone ||
-            "",
-
-        email:
-            option.dataset.customerEmail ||
-            customer?.email ||
-            "",
-
-        outstanding:
-            Number(customer?.outstandingBalance)||0,
-
-        creditLimit:
-            Number(customer?.creditLimit)||0
-
-    };
-
+if(!option || !customerInput.value){
+return {
+id:"",
+name:"Walk-in Customer",
+phone:"",
+email:"",
+outstanding:0,
+creditLimit:0
+};
 }
 
+const customer=customers.find(c=>c.id===customerInput.value);
+
+return {
+id:customerInput.value,
+name:option.dataset.customerName||customer?.name||"Walk-in Customer",
+phone:option.dataset.customerPhone||customer?.phone||"",
+email:option.dataset.customerEmail||customer?.email||"",
+outstanding:Number(customer?.outstandingBalance)||0,
+creditLimit:Number(customer?.creditLimit)||0
+};
+}
 
 function loadCustomers(){
 
-    if(customersUnsubscribe){
-        customersUnsubscribe();
-    }
+if(customersUnsubscribe)customersUnsubscribe();
 
-    customersUnsubscribe=
-        onSnapshot(
-            collection(db,"customers"),
-            snapshot=>{
+customersUnsubscribe=onSnapshot(
+collection(db,"customers"),
+snapshot=>{
 
-                const currentValue=customerInput.value;
+const currentValue=customerInput.value;
 
-                customers=
-                    snapshot.docs.map(
-                        customerDoc=>({
-                            id:customerDoc.id,
-                            ...customerDoc.data()
-                        })
-                    );
+customers=snapshot.docs.map(d=>({
+id:d.id,
+...d.data()
+}));
 
-                customerInput.innerHTML=`
-                    <option value="">
-                        Walk-in Customer
-                    </option>
-                `;
+customerInput.innerHTML=`<option value="">Walk-in Customer</option>`;
 
-                customers.forEach(customer=>{
+customers.forEach(customer=>{
 
-                    const option=document.createElement("option");
+const option=document.createElement("option");
 
-                    option.value=customer.id;
+option.value=customer.id;
+option.textContent=
+`${customer.name||"Unnamed Customer"}${customer.phone?" — "+customer.phone:""}`;
 
-                    option.textContent=
-                        `${customer.name||"Unnamed Customer"}${customer.phone ? " — "+customer.phone : ""}`;
+option.dataset.customerName=customer.name||"";
+option.dataset.customerPhone=customer.phone||"";
+option.dataset.customerEmail=customer.email||"";
 
-                    option.dataset.customerName=
-                        customer.name||"";
+customerInput.appendChild(option);
 
-                    option.dataset.customerPhone=
-                        customer.phone||"";
+});
 
-                    option.dataset.customerEmail=
-                        customer.email||"";
-
-                    customerInput.appendChild(option);
-
-                });
-
-                if(
-                    currentValue &&
-                    [...customerInput.options]
-                        .some(option=>option.value===currentValue)
-                ){
-
-                    customerInput.value=currentValue;
-
-                }
-
-                updateCustomerBalanceInfo();
-                updateSaleSummary();
-
-            },
-            error=>{
-
-                console.error("Customer loading error:",error);
-
-                showMessage(
-                    "Unable to load customers.",
-                    "error"
-                );
-
-            }
-        );
-
+if(currentValue && [...customerInput.options].some(o=>o.value===currentValue)){
+customerInput.value=currentValue;
 }
 
+updateCustomerBalanceInfo();
+updateSaleSummary();
+
+},
+error=>{
+console.error(error);
+showMessage("Unable to load customers.","error");
+}
+);
+}
 
 function getProductName(product){
-
-    return product.productName ||
-           product.name ||
-           "Unnamed Product";
-
+return product.productName||product.name||"Unnamed Product";
 }
-
 
 function getProductStock(product){
 
-    const quantity=Number(product.quantity);
+const quantity=Number(product.quantity);
 
-    if(
-        Number.isFinite(quantity) &&
-        product.quantity!==undefined
-    ){
+if(Number.isFinite(quantity)&&product.quantity!==undefined)return quantity;
 
-        return quantity;
+const stock=Number(product.stock);
 
-    }
+if(Number.isFinite(stock)&&product.stock!==undefined)return stock;
 
-    const stock=Number(product.stock);
-
-    if(
-        Number.isFinite(stock) &&
-        product.stock!==undefined
-    ){
-
-        return stock;
-
-    }
-
-    return 0;
-
+return 0;
 }
-
 
 function getProductPrice(product){
 
-    const sellingPrice=Number(product.sellingPrice);
+const sellingPrice=Number(product.sellingPrice);
 
-    if(
-        Number.isFinite(sellingPrice) &&
-        product.sellingPrice!==undefined
-    ){
+if(Number.isFinite(sellingPrice)&&product.sellingPrice!==undefined)return sellingPrice;
 
-        return sellingPrice;
+const price=Number(product.price);
 
-    }
+if(Number.isFinite(price)&&product.price!==undefined)return price;
 
-    const price=Number(product.price);
-
-    if(
-        Number.isFinite(price) &&
-        product.price!==undefined
-    ){
-
-        return price;
-
-    }
-
-    return 0;
-
+return 0;
 }
-
 
 function getProductCostPrice(product){
 
-    const rawCost=
-        product.costPrice ??
-        product.cost;
+const rawCost=product.costPrice??product.cost;
 
-    if(
-        rawCost===undefined ||
-        rawCost===null ||
-        rawCost===""
-    ){
+if(rawCost===undefined||rawCost===null||rawCost==="")return null;
 
-        return null;
+const cost=Number(rawCost);
 
-    }
+if(!Number.isFinite(cost)||cost<0)return null;
 
-    const cost=Number(rawCost);
-
-    if(
-        !Number.isFinite(cost) ||
-        cost<0
-    ){
-
-        return null;
-
-    }
-
-    return cost;
-
+return cost;
 }
-
 
 function getLowStockLevel(product){
 
-    const level=Number(product.lowStockLevel);
+const level=Number(product.lowStockLevel);
 
-    if(
-        Number.isFinite(level) &&
-        level>=0
-    ){
-
-        return level;
-
-    }
-
-    return 5;
-
+return Number.isFinite(level)&&level>=0?level:5;
 }
-
 
 function getProductStatus(stock,product){
 
-    const lowLevel=getLowStockLevel(product);
+const lowLevel=getLowStockLevel(product);
 
-    if(stock<=0)return "Out of Stock";
+if(stock<=0)return "Out of Stock";
+if(stock<=lowLevel)return "Low Stock";
 
-    if(stock<=lowLevel)return "Low Stock";
-
-    return "In Stock";
-
+return "In Stock";
 }
-
 
 function loadProducts(){
 
-    if(productsUnsubscribe){
-        productsUnsubscribe();
-    }
+if(productsUnsubscribe)productsUnsubscribe();
 
-    productsUnsubscribe=
-        onSnapshot(
-            collection(db,"products"),
-            snapshot=>{
+productsUnsubscribe=onSnapshot(
+collection(db,"products"),
+snapshot=>{
 
-                products=
-                    snapshot.docs.map(
-                        productDoc=>({
-                            id:productDoc.id,
-                            ...productDoc.data()
-                        })
-                    );
+products=snapshot.docs.map(d=>({
+id:d.id,
+...d.data()
+}));
 
-                renderSaleItems();
-                updateSaleSummary();
+renderSaleItems();
+updateSaleSummary();
 
-            },
-            error=>{
-
-                console.error("Product loading error:",error);
-
-                showMessage(
-                    "Unable to load products. Please refresh the page.",
-                    "error"
-                );
-
-            }
-        );
-
+},
+error=>{
+console.error(error);
+showMessage("Unable to load products. Please refresh the page.","error");
 }
-
+);
+}
 
 function addSaleItem(){
 
-    saleItems.push({
-        productId:"",
-        quantity:1
-    });
+saleItems.push({
+productId:"",
+quantity:1
+});
 
-    renderSaleItems();
-    updateSaleSummary();
-
+renderSaleItems();
+updateSaleSummary();
 }
-
 
 function renderSaleItems(){
 
-    if(saleItems.length===0){
+if(saleItems.length===0){
 
-        saleItemsContainer.innerHTML=`
-            <div class="empty-items">
-                Add a product to start this sale.
-            </div>
-        `;
+saleItemsContainer.innerHTML=
+`<div class="empty-items">Add a product to start this sale.</div>`;
 
-        itemCountLabel.textContent="0 items";
+itemCountLabel.textContent="0 items";
 
-        return;
-
-    }
-
-    saleItemsContainer.innerHTML="";
-
-    saleItems.forEach((item,index)=>{
-
-        const row=document.createElement("div");
-        row.className="sale-item";
-
-        const productDiv=document.createElement("div");
-        productDiv.className="item-product";
-
-        const select=document.createElement("select");
-        select.dataset.index=index;
-
-        const defaultOption=document.createElement("option");
-        defaultOption.value="";
-        defaultOption.textContent="Select product";
-        select.appendChild(defaultOption);
-
-        products.forEach(product=>{
-
-            const option=document.createElement("option");
-
-            option.value=product.id;
-
-            const stock=getProductStock(product);
-            const price=getProductPrice(product);
-
-            option.textContent=
-                `${getProductName(product)} — ${formatMoney(price)} — Stock: ${stock}`;
-
-            if(product.id===item.productId){
-                option.selected=true;
-            }
-
-            select.appendChild(option);
-
-        });
-
-        productDiv.appendChild(select);
-
-        const quantityDiv=document.createElement("div");
-        quantityDiv.className="item-quantity";
-
-        const quantityInput=document.createElement("input");
-
-        quantityInput.type="number";
-        quantityInput.min="1";
-        quantityInput.step="1";
-        quantityInput.value=item.quantity||1;
-        quantityInput.dataset.index=index;
-        quantityInput.className="quantity-input";
-
-        quantityDiv.appendChild(quantityInput);
-
-        const totalDiv=document.createElement("div");
-        totalDiv.className="item-total";
-
-        const product=
-            products.find(
-                p=>p.id===item.productId
-            );
-
-        const unitPrice=
-            product
-                ? getProductPrice(product)
-                : 0;
-
-        const lineTotal=
-            unitPrice*
-            (Number(item.quantity)||0);
-
-        totalDiv.textContent=formatMoney(lineTotal);
-
-        const removeBtn=document.createElement("button");
-
-        removeBtn.type="button";
-        removeBtn.className="remove-item";
-        removeBtn.textContent="×";
-        removeBtn.title="Remove product";
-        removeBtn.dataset.index=index;
-
-        row.appendChild(productDiv);
-        row.appendChild(quantityDiv);
-        row.appendChild(totalDiv);
-        row.appendChild(removeBtn);
-
-        saleItemsContainer.appendChild(row);
-
-    });
-
-    itemCountLabel.textContent=
-        `${saleItems.length} ${saleItems.length===1?"item":"items"}`;
-
-
-    saleItemsContainer
-        .querySelectorAll("select")
-        .forEach(select=>{
-
-            select.addEventListener(
-                "change",
-                event=>{
-
-                    const index=
-                        Number(
-                            event.target.dataset.index
-                        );
-
-                    saleItems[index].productId=
-                        event.target.value;
-
-                    updateSaleSummary();
-                    renderSaleItems();
-
-                }
-            );
-
-        });
-
-
-    saleItemsContainer
-        .querySelectorAll(".quantity-input")
-        .forEach(input=>{
-
-            input.addEventListener(
-                "input",
-                event=>{
-
-                    const index=
-                        Number(
-                            event.target.dataset.index
-                        );
-
-                    let quantity=
-                        Number(event.target.value);
-
-                    if(
-                        !Number.isFinite(quantity) ||
-                        quantity<1
-                    ){
-
-                        quantity=1;
-
-                    }
-
-                    saleItems[index].quantity=
-                        Math.floor(quantity);
-
-                    updateSaleSummary();
-
-                }
-            );
-
-        });
-
-
-    saleItemsContainer
-        .querySelectorAll(".remove-item")
-        .forEach(button=>{
-
-            button.addEventListener(
-                "click",
-                event=>{
-
-                    const index=
-                        Number(
-                            event.target.dataset.index
-                        );
-
-                    saleItems.splice(index,1);
-
-                    renderSaleItems();
-                    updateSaleSummary();
-
-                }
-            );
-
-        });
-
+return;
 }
 
+saleItemsContainer.innerHTML="";
+
+saleItems.forEach((item,index)=>{
+
+const row=document.createElement("div");
+row.className="sale-item";
+
+const productDiv=document.createElement("div");
+productDiv.className="item-product";
+
+const select=document.createElement("select");
+select.dataset.index=index;
+
+const defaultOption=document.createElement("option");
+defaultOption.value="";
+defaultOption.textContent="Select product";
+select.appendChild(defaultOption);
+
+products.forEach(product=>{
+
+const option=document.createElement("option");
+
+option.value=product.id;
+
+option.textContent=
+`${getProductName(product)} — ${formatMoney(getProductPrice(product))} — Stock: ${getProductStock(product)}`;
+
+if(product.id===item.productId)option.selected=true;
+
+select.appendChild(option);
+
+});
+
+productDiv.appendChild(select);
+
+const quantityDiv=document.createElement("div");
+quantityDiv.className="item-quantity";
+
+const quantityInput=document.createElement("input");
+
+quantityInput.type="number";
+quantityInput.min="1";
+quantityInput.step="1";
+quantityInput.value=item.quantity||1;
+quantityInput.dataset.index=index;
+quantityInput.className="quantity-input";
+
+quantityDiv.appendChild(quantityInput);
+
+const totalDiv=document.createElement("div");
+totalDiv.className="item-total";
+
+const product=products.find(p=>p.id===item.productId);
+
+const unitPrice=product?getProductPrice(product):0;
+const lineTotal=unitPrice*(Number(item.quantity)||0);
+
+totalDiv.textContent=formatMoney(lineTotal);
+
+const removeBtn=document.createElement("button");
+
+removeBtn.type="button";
+removeBtn.className="remove-item";
+removeBtn.textContent="×";
+removeBtn.title="Remove product";
+removeBtn.dataset.index=index;
+
+row.append(productDiv,quantityDiv,totalDiv,removeBtn);
+saleItemsContainer.appendChild(row);
+
+});
+
+itemCountLabel.textContent=
+`${saleItems.length} ${saleItems.length===1?"item":"items"}`;
+
+saleItemsContainer.querySelectorAll("select").forEach(select=>{
+
+select.addEventListener("change",event=>{
+
+const index=Number(event.target.dataset.index);
+
+saleItems[index].productId=event.target.value;
+
+renderSaleItems();
+updateSaleSummary();
+
+});
+
+});
+
+saleItemsContainer.querySelectorAll(".quantity-input").forEach(input=>{
+
+input.addEventListener("input",event=>{
+
+const index=Number(event.target.dataset.index);
+
+let quantity=Number(event.target.value);
+
+if(!Number.isFinite(quantity)||quantity<1)quantity=1;
+
+saleItems[index].quantity=Math.floor(quantity);
+
+updateSaleSummary();
+
+});
+
+});
+
+saleItemsContainer.querySelectorAll(".remove-item").forEach(button=>{
+
+button.addEventListener("click",event=>{
+
+const index=Number(event.target.dataset.index);
+
+saleItems.splice(index,1);
+
+renderSaleItems();
+updateSaleSummary();
+
+});
+
+});
+
+}
 
 function getCurrentSaleData(){
 
-    const items=[];
+const items=[];
+let subtotalValue=0;
+let costTotalValue=0;
+let grossProfitValue=0;
+let quantityTotal=0;
 
-    let subtotalValue=0;
-    let costTotalValue=0;
-    let grossProfitValue=0;
-    let quantityTotal=0;
+saleItems.forEach(saleItem=>{
 
-    saleItems.forEach(saleItem=>{
+if(!saleItem.productId)return;
 
-        if(!saleItem.productId)return;
+const product=products.find(p=>p.id===saleItem.productId);
 
-        const product=
-            products.find(
-                p=>p.id===saleItem.productId
-            );
+if(!product)return;
 
-        if(!product)return;
+const quantity=Math.max(1,Math.floor(Number(saleItem.quantity)||1));
+const unitPrice=getProductPrice(product);
+const costPrice=getProductCostPrice(product);
 
-        const quantity=
-            Math.max(
-                1,
-                Math.floor(
-                    Number(saleItem.quantity)||1
-                )
-            );
+const total=unitPrice*quantity;
+const costTotal=costPrice===null?0:costPrice*quantity;
+const profit=total-costTotal;
 
-        const unitPrice=getProductPrice(product);
-        const costPrice=getProductCostPrice(product);
+items.push({
+productId:product.id,
+productName:getProductName(product),
+quantity,
+unitPrice,
+costPrice,
+total,
+costTotal,
+profit
+});
 
-        const total=unitPrice*quantity;
+subtotalValue+=total;
+costTotalValue+=costTotal;
+grossProfitValue+=profit;
+quantityTotal+=quantity;
 
-        const costTotal=
-            costPrice===null
-                ? 0
-                : costPrice*quantity;
+});
 
-        const profit=total-costTotal;
-
-        items.push({
-
-            productId:product.id,
-            productName:getProductName(product),
-            quantity,
-            unitPrice,
-            costPrice,
-            total,
-            costTotal,
-            profit
-
-        });
-
-        subtotalValue+=total;
-        costTotalValue+=costTotal;
-        grossProfitValue+=profit;
-        quantityTotal+=quantity;
-
-    });
-
-    return {
-
-        items,
-        subtotal:subtotalValue,
-        total:subtotalValue,
-        costTotal:costTotalValue,
-        grossProfit:grossProfitValue,
-        quantityTotal
-
-    };
-
+return {
+items,
+subtotal:subtotalValue,
+total:subtotalValue,
+costTotal:costTotalValue,
+grossProfit:grossProfitValue,
+quantityTotal
+};
 }
-
 
 function getPaymentValues(total){
 
-    if(paymentMethod.value!=="Credit"){
-
-        return {
-            amountPaid:total,
-            outstandingBalance:0
-        };
-
-    }
-
-    let amountPaid=
-        Number(amountPaidInput.value);
-
-    if(!Number.isFinite(amountPaid) || amountPaid<0){
-        amountPaid=0;
-    }
-
-    if(amountPaid>total){
-        amountPaid=total;
-    }
-
-    return {
-
-        amountPaid,
-        outstandingBalance:
-            Math.max(0,total-amountPaid)
-
-    };
-
+if(paymentMethod.value!=="Credit"){
+return {
+amountPaid:total,
+outstandingBalance:0,
+paymentStatus:"Paid"
+};
 }
 
+let amountPaid=Number(amountPaidInput.value);
+
+if(!Number.isFinite(amountPaid)||amountPaid<0)amountPaid=0;
+
+if(amountPaid>total)amountPaid=total;
+
+const outstanding=Math.max(0,total-amountPaid);
+
+let status="Credit";
+
+if(outstanding===0)status="Paid";
+else if(amountPaid>0)status="Partially Paid";
+
+return {
+amountPaid,
+outstandingBalance:outstanding,
+paymentStatus:status
+};
+}
 
 function updateCustomerBalanceInfo(){
 
-    const customer=getSelectedCustomer();
+const customer=getSelectedCustomer();
 
-    if(!customer.id){
+if(!customer.id){
 
-        customerBalanceInfo.classList.remove("show");
-        customerBalanceInfo.textContent="";
-        return;
+customerBalanceInfo.classList.remove("show");
+customerBalanceInfo.textContent="";
 
-    }
-
-    const balance=customer.outstanding||0;
-
-    customerBalanceInfo.classList.add("show");
-
-    customerBalanceInfo.textContent=
-        `Current outstanding balance: ${formatMoney(balance)}`;
-
+return;
 }
 
+customerBalanceInfo.classList.add("show");
+
+customerBalanceInfo.textContent=
+`Current outstanding balance: ${formatMoney(customer.outstanding)}`;
+}
 
 function updateCreditUI(){
 
-    const isCredit=
-        paymentMethod.value==="Credit";
+const isCredit=paymentMethod.value==="Credit";
 
-    if(isCredit){
+creditBox.classList.toggle("show",isCredit);
 
-        creditBox.classList.add("show");
+if(!isCredit){
+creditWarning.classList.remove("show");
+}
 
-    }else{
+const data=getCurrentSaleData();
+const payment=getPaymentValues(data.total);
 
-        creditBox.classList.remove("show");
+outstandingDisplay.textContent=
+formatMoney(payment.outstandingBalance);
 
-        creditWarning.classList.remove("show");
+paidSummary.textContent=
+formatMoney(payment.amountPaid);
 
-    }
+outstandingSummary.textContent=
+formatMoney(payment.outstandingBalance);
 
-    const data=getCurrentSaleData();
+paymentStatusSummary.textContent=
+payment.paymentStatus;
 
-    const payment=getPaymentValues(data.total);
+paidSummaryRow.style.display=isCredit?"flex":"none";
+outstandingSummaryRow.style.display=isCredit?"flex":"none";
+paymentStatusSummaryRow.style.display=isCredit?"flex":"none";
 
-    outstandingDisplay.textContent=
-        formatMoney(payment.outstandingBalance);
+if(isCredit && !customerInput.value){
 
-    paidSummary.textContent=
-        formatMoney(payment.amountPaid);
+creditWarning.textContent=
+"A registered customer is required for a credit sale.";
 
-    outstandingSummary.textContent=
-        formatMoney(payment.outstandingBalance);
+creditWarning.classList.add("show");
 
-    if(isCredit){
+}else{
 
-        paidSummaryRow.style.display="flex";
-        outstandingSummaryRow.style.display="flex";
-
-    }else{
-
-        paidSummaryRow.style.display="none";
-        outstandingSummaryRow.style.display="none";
-
-    }
-
-    if(
-        isCredit &&
-        payment.amountPaid>data.total
-    ){
-
-        creditWarning.textContent=
-            "Amount paid cannot be greater than the sale total.";
-
-        creditWarning.classList.add("show");
-
-    }else{
-
-        creditWarning.classList.remove("show");
-
-    }
+creditWarning.classList.remove("show");
 
 }
 
+}
 
 function updateSaleSummary(){
 
-    const data=getCurrentSaleData();
+const data=getCurrentSaleData();
 
-    totalItems.textContent=data.quantityTotal;
+totalItems.textContent=data.quantityTotal;
+subtotal.textContent=formatMoney(data.subtotal);
+grossProfit.textContent=formatMoney(data.grossProfit);
+grandTotal.textContent=formatMoney(data.total);
 
-    subtotal.textContent=formatMoney(data.subtotal);
-
-    grossProfit.textContent=formatMoney(data.grossProfit);
-
-    grandTotal.textContent=formatMoney(data.total);
-
-    updateCreditUI();
-    updateReceiptPreview(data);
-
+updateCreditUI();
+updateReceiptPreview(data);
 }
-
 
 function updateReceiptPreview(saleData){
 
-    const customer=getSelectedCustomer();
+const customer=getSelectedCustomer();
+const payment=getPaymentValues(saleData.total);
+const isCredit=paymentMethod.value==="Credit";
 
-    const payment=getPaymentValues(saleData.total);
+receiptCustomer.textContent=customer.name;
+receiptPayment.textContent=paymentMethod.value||"Cash";
 
-    receiptCustomer.textContent=customer.name;
+receiptItemCount.textContent=saleData.quantityTotal;
+receiptSubtotal.textContent=formatMoney(saleData.subtotal);
+receiptTotal.textContent=formatMoney(saleData.total);
 
-    receiptPayment.textContent=
-        paymentMethod.value||"Cash";
+receiptPaid.textContent=formatMoney(payment.amountPaid);
+receiptOutstanding.textContent=formatMoney(payment.outstandingBalance);
+receiptPaymentStatus.textContent=payment.paymentStatus;
 
-    receiptItemCount.textContent=
-        saleData.quantityTotal;
+receiptCredit.classList.toggle("show",isCredit);
 
-    receiptSubtotal.textContent=
-        formatMoney(saleData.subtotal);
+if(isCredit){
 
-    receiptTotal.textContent=
-        formatMoney(saleData.total);
+receiptPaymentMethodRow.style.display="flex";
+receiptCreditPaymentMethod.textContent=creditPaymentMethod.value;
 
-    receiptPaid.textContent=
-        formatMoney(payment.amountPaid);
+}else{
 
-    receiptOutstanding.textContent=
-        formatMoney(payment.outstandingBalance);
-
-    if(paymentMethod.value==="Credit"){
-
-        receiptCredit.classList.add("show");
-
-    }else{
-
-        receiptCredit.classList.remove("show");
-
-    }
-
-    const now=new Date();
-
-    receiptDate.textContent=
-        now.toLocaleString(
-            "en-NG",
-            {
-                dateStyle:"medium",
-                timeStyle:"short"
-            }
-        );
-
-    receiptSaleNumber.textContent=
-        lastSale?.saleNumber||
-        "Pending";
-
-    if(saleData.items.length===0){
-
-        receiptItems.innerHTML=`
-            <div style="text-align:center;color:#888;font-size:10px">
-                No products added.
-            </div>
-        `;
-
-        return;
-
-    }
-
-    receiptItems.innerHTML=
-        saleData.items
-            .map(
-                item=>`
-                    <div class="receipt-item">
-
-                        <div class="receipt-item-name">
-
-                            <strong>
-                                ${escapeHtml(item.productName)}
-                            </strong>
-
-                            <small>
-                                ${item.quantity} × ${formatMoney(item.unitPrice)}
-                            </small>
-
-                        </div>
-
-                        <strong>
-                            ${formatMoney(item.total)}
-                        </strong>
-
-                    </div>
-                `
-            )
-            .join("");
+receiptPaymentMethodRow.style.display="none";
 
 }
 
+const now=new Date();
+
+receiptDate.textContent=
+now.toLocaleString("en-NG",{
+dateStyle:"medium",
+timeStyle:"short"
+});
+
+receiptSaleNumber.textContent=
+lastSale?.saleNumber||"Pending";
+
+if(saleData.items.length===0){
+
+receiptItems.innerHTML=
+`<div style="text-align:center;color:#888;font-size:10px">No products added.</div>`;
+
+return;
+}
+
+receiptItems.innerHTML=
+saleData.items.map(item=>`
+
+<div class="receipt-item">
+
+<div class="receipt-item-name">
+
+<strong>${escapeHtml(item.productName)}</strong>
+
+<small>
+${item.quantity} × ${formatMoney(item.unitPrice)}
+</small>
+
+</div>
+
+<strong>${formatMoney(item.total)}</strong>
+
+</div>
+
+`).join("");
+}
 
 function escapeHtml(value){
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 }
-
 
 function generateSaleNumber(){
 
-    const now=new Date();
+const now=new Date();
 
-    const year=now.getFullYear();
-
-    const month=
-        String(now.getMonth()+1)
-            .padStart(2,"0");
-
-    const day=
-        String(now.getDate())
-            .padStart(2,"0");
-
-    const time=
-        String(now.getHours())
-            .padStart(2,"0")+
-        String(now.getMinutes())
-            .padStart(2,"0")+
-        String(now.getSeconds())
-            .padStart(2,"0");
-
-    return `NM-${year}${month}${day}-${time}`;
-
+return `NM-${
+now.getFullYear()
+}${String(now.getMonth()+1).padStart(2,"0")
+}${String(now.getDate()).padStart(2,"0")
+}-${String(now.getHours()).padStart(2,"0")
+}${String(now.getMinutes()).padStart(2,"0")
+}${String(now.getSeconds()).padStart(2,"0")}`;
 }
-
 
 function validateSale(){
 
-    if(saleItems.length===0){
+if(saleItems.length===0){
+return "Please add at least one product.";
+}
 
-        return "Please add at least one product.";
+const selectedProductIds=new Set();
 
-    }
+for(let index=0;index<saleItems.length;index++){
 
-    const selectedProductIds=new Set();
+const item=saleItems[index];
 
-    for(
-        let index=0;
-        index<saleItems.length;
-        index++
-    ){
+if(!item.productId){
+return `Please select a product for item ${index+1}.`;
+}
 
-        const item=saleItems[index];
+if(selectedProductIds.has(item.productId)){
+return "The same product cannot be added twice. Increase its quantity instead.";
+}
 
-        if(!item.productId){
+selectedProductIds.add(item.productId);
 
-            return `Please select a product for item ${index+1}.`;
+const product=products.find(p=>p.id===item.productId);
 
-        }
+if(!product)return "One of the selected products could not be found.";
 
-        if(
-            selectedProductIds.has(item.productId)
-        ){
+const quantity=Number(item.quantity);
 
-            return "The same product cannot be added twice. Increase its quantity instead.";
+if(!Number.isInteger(quantity)||quantity<1){
+return `Quantity for ${getProductName(product)} must be at least 1.`;
+}
 
-        }
+if(quantity>getProductStock(product)){
+return `${getProductName(product)} has only ${getProductStock(product)} item(s) in stock.`;
+}
 
-        selectedProductIds.add(item.productId);
+if(getProductPrice(product)<0){
+return `${getProductName(product)} does not have a valid selling price.`;
+}
 
-        const product=
-            products.find(
-                p=>p.id===item.productId
-            );
-
-        if(!product){
-
-            return "One of the selected products could not be found.";
-
-        }
-
-        const quantity=Number(item.quantity);
-
-        if(
-            !Number.isInteger(quantity) ||
-            quantity<1
-        ){
-
-            return `Quantity for ${getProductName(product)} must be at least 1.`;
-
-        }
-
-        const stock=getProductStock(product);
-
-        if(quantity>stock){
-
-            return `${getProductName(product)} has only ${stock} item(s) in stock.`;
-
-        }
-
-        const price=getProductPrice(product);
-
-        if(
-            !Number.isFinite(price) ||
-            price<0
-        ){
-
-            return `${getProductName(product)} does not have a valid selling price.`;
-
-        }
-
-        const costPrice=
-            getProductCostPrice(product);
-
-        if(costPrice===null){
-
-            return `${getProductName(product)} does not have a valid cost price in Inventory. Please edit the product and enter its Cost Price before recording this sale.`;
-
-        }
-
-    }
-
-    const data=getCurrentSaleData();
-
-    if(paymentMethod.value==="Credit"){
-
-        const customer=getSelectedCustomer();
-
-        if(!customer.id){
-
-            return "A customer must be selected for a credit sale. Walk-in customers cannot have an outstanding balance.";
-
-        }
-
-        const amountPaid=
-            Number(amountPaidInput.value);
-
-        if(
-            !Number.isFinite(amountPaid) ||
-            amountPaid<0
-        ){
-
-            return "Please enter a valid amount paid.";
-
-        }
-
-        if(amountPaid>data.total){
-
-            return "Amount paid cannot be greater than the sale total.";
-
-        }
-
-    }
-
-    return "";
+if(getProductCostPrice(product)===null){
+return `${getProductName(product)} does not have a valid cost price in Inventory. Please edit the product and enter its Cost Price before recording this sale.`;
+}
 
 }
 
+const data=getCurrentSaleData();
+
+if(paymentMethod.value==="Credit"){
+
+if(!customerInput.value){
+return "A registered customer must be selected for a credit sale. Walk-in customers cannot have an outstanding balance.";
+}
+
+const amountPaid=Number(amountPaidInput.value);
+
+if(!Number.isFinite(amountPaid)||amountPaid<0){
+return "Please enter a valid amount paid.";
+}
+
+if(amountPaid>data.total){
+return "Amount paid cannot be greater than the sale total.";
+}
+
+}
+
+return "";
+}
 
 async function recordSale(){
 
-    if(savingSale)return;
+if(savingSale)return;
 
-    clearMessage();
+clearMessage();
 
-    const validationError=validateSale();
+const validationError=validateSale();
 
-    if(validationError){
+if(validationError){
+showMessage(validationError,"error");
+return;
+}
 
-        showMessage(
-            validationError,
-            "error"
-        );
+if(!currentUser){
+showMessage("You are not logged in.","error");
+return;
+}
 
-        return;
+const saleData=getCurrentSaleData();
+const selectedCustomer=getSelectedCustomer();
 
-    }
+const saleRef=doc(collection(db,"sales"));
 
-    if(!currentUser){
+const customerRef=selectedCustomer.id
+?doc(db,"customers",selectedCustomer.id)
+:null;
 
-        showMessage(
-            "You are not logged in.",
-            "error"
-        );
+savingSale=true;
 
-        return;
+recordSaleBtn.disabled=true;
+recordSaleBtn.textContent="Recording Sale...";
 
-    }
+let savedSaleData=null;
 
-    const saleData=getCurrentSaleData();
+try{
 
-    if(saleData.items.length===0){
+await runTransaction(db,async transaction=>{
 
-        showMessage(
-            "Please add at least one product.",
-            "error"
-        );
+/*
+IMPORTANT:
+All reads happen before any writes.
+*/
 
-        return;
+let customerSnapshot=null;
 
-    }
+if(customerRef){
 
-    const selectedCustomer=getSelectedCustomer();
+customerSnapshot=await transaction.get(customerRef);
 
-    const payment=getPaymentValues(saleData.total);
-
-    const saleNumber=generateSaleNumber();
-
-    const saleRef=
-        doc(
-            collection(db,"sales")
-        );
-
-    const customerRef=
-        selectedCustomer.id
-            ? doc(
-                db,
-                "customers",
-                selectedCustomer.id
-            )
-            : null;
-
-    savingSale=true;
-
-    recordSaleBtn.disabled=true;
-    recordSaleBtn.textContent="Recording Sale...";
-
-    let savedSaleData=null;
-
-    try{
-
-        await runTransaction(
-            db,
-            async transaction=>{
-
-                const productSnapshots=[];
-
-                for(
-                    const item
-                    of saleData.items
-                ){
-
-                    const productRef=
-                        doc(
-                            db,
-                            "products",
-                            item.productId
-                        );
-
-                    const productSnapshot=
-                        await transaction.get(
-                            productRef
-                        );
-
-                    productSnapshots.push({
-
-                        item,
-                        productRef,
-                        snapshot:productSnapshot
-
-                    });
-
-                }
-
-                let customerSnapshot=null;
-
-                /*
-                 * Read the customer before any writes.
-                 * This keeps the balance update atomic.
-                 */
-                if(customerRef){
-
-                    customerSnapshot=
-                        await transaction.get(
-                            customerRef
-                        );
-
-                }
-
-                const transactionItems=[];
-
-                let transactionSubtotal=0;
-                let transactionCostTotal=0;
-                let transactionQuantityTotal=0;
-
-                for(
-                    const entry
-                    of productSnapshots
-                ){
-
-                    const {
-                        item,
-                        productRef,
-                        snapshot
-                    }=entry;
-
-                    if(!snapshot.exists()){
-
-                        throw new Error(
-                            `Product ${item.productName} no longer exists.`
-                        );
-
-                    }
-
-                    const product=snapshot.data();
-
-                    const productName=
-                        getProductName(product);
-
-                    const currentStock=
-                        getProductStock(product);
-
-                    const quantity=
-                        Number(item.quantity);
-
-                    if(
-                        !Number.isInteger(quantity) ||
-                        quantity<1
-                    ){
-
-                        throw new Error(
-                            `Invalid quantity for ${productName}.`
-                        );
-
-                    }
-
-                    if(quantity>currentStock){
-
-                        throw new Error(
-                            `${productName} now has only ${currentStock} item(s) in stock.`
-                        );
-
-                    }
-
-                    const currentUnitPrice=
-                        getProductPrice(product);
-
-                    if(
-                        !Number.isFinite(currentUnitPrice) ||
-                        currentUnitPrice<0
-                    ){
-
-                        throw new Error(
-                            `${productName} does not have a valid selling price.`
-                        );
-
-                    }
-
-                    const currentCostPrice=
-                        getProductCostPrice(product);
-
-                    if(currentCostPrice===null){
-
-                        throw new Error(
-                            `${productName} does not have a valid cost price. Please update it in Inventory before completing this sale.`
-                        );
-
-                    }
-
-                    const lineTotal=
-                        currentUnitPrice*quantity;
-
-                    const lineCostTotal=
-                        currentCostPrice*quantity;
-
-                    const lineProfit=
-                        lineTotal-lineCostTotal;
-
-                    transactionItems.push({
-
-                        productId:snapshot.id,
-
-                        productName,
-
-                        quantity,
-
-                        unitPrice:currentUnitPrice,
-
-                        costPrice:currentCostPrice,
-
-                        total:lineTotal,
-
-                        costTotal:lineCostTotal,
-
-                        profit:lineProfit
-
-                    });
-
-                    transactionSubtotal+=lineTotal;
-
-                    transactionCostTotal+=lineCostTotal;
-
-                    transactionQuantityTotal+=quantity;
-
-                    const newStock=
-                        currentStock-quantity;
-
-                    const newStatus=
-                        getProductStatus(
-                            newStock,
-                            product
-                        );
-
-                    transaction.update(
-                        productRef,
-                        {
-
-                            quantity:newStock,
-
-                            stock:newStock,
-
-                            status:newStatus,
-
-                            updatedAt:serverTimestamp(),
-
-                            updatedBy:currentUser.uid
-
-                        }
-                    );
-
-                }
-
-                const transactionGrossProfit=
-                    transactionSubtotal-
-                    transactionCostTotal;
-
-                const finalTotal=
-                    transactionSubtotal;
-
-                /*
-                 * Recalculate payment using the final
-                 * transaction total.
-                 */
-                let finalAmountPaid=finalTotal;
-                let finalOutstanding=0;
-
-                if(paymentMethod.value==="Credit"){
-
-                    finalAmountPaid=
-                        Number(amountPaidInput.value);
-
-                    if(
-                        !Number.isFinite(finalAmountPaid) ||
-                        finalAmountPaid<0
-                    ){
-
-                        throw new Error(
-                            "Invalid amount paid."
-                        );
-
-                    }
-
-                    if(finalAmountPaid>finalTotal){
-
-                        throw new Error(
-                            "Amount paid cannot be greater than the sale total."
-                        );
-
-                    }
-
-                    finalOutstanding=
-                        finalTotal-finalAmountPaid;
-
-                }
-
-                let previousOutstanding=0;
-                let newOutstanding=0;
-
-                if(customerRef){
-
-                    if(
-                        !customerSnapshot ||
-                        !customerSnapshot.exists()
-                    ){
-
-                        throw new Error(
-                            "The selected customer no longer exists."
-                        );
-
-                    }
-
-                    const customerData=
-                        customerSnapshot.data();
-
-                    previousOutstanding=
-                        Number(
-                            customerData.outstandingBalance
-                        )||0;
-
-                    /*
-                     * Credit sale adds only the unpaid
-                     * portion to the customer's balance.
-                     */
-                    newOutstanding=
-                        previousOutstanding+
-                        finalOutstanding;
-
-                    const creditLimit=
-                        Number(
-                            customerData.creditLimit
-                        )||0;
-
-                    /*
-                     * A credit limit of 0 means no
-                     * specific limit has been configured.
-                     */
-                    if(
-                        paymentMethod.value==="Credit" &&
-                        creditLimit>0 &&
-                        newOutstanding>creditLimit
-                    ){
-
-                        throw new Error(
-                            `This sale would exceed the customer's credit limit of ${formatMoney(creditLimit)}. Current outstanding balance is ${formatMoney(previousOutstanding)}.`
-                        );
-
-                    }
-
-                    /*
-                     * Keep customer balance updated.
-                     */
-                    transaction.update(
-                        customerRef,
-                        {
-
-                            outstandingBalance:
-                                newOutstanding,
-
-                            updatedAt:
-                                serverTimestamp()
-
-                        }
-                    );
-
-                }
-
-                savedSaleData={
-
-                    saleNumber,
-
-                    customer:selectedCustomer.name,
-
-                    customerId:selectedCustomer.id,
-
-                    customerPhone:selectedCustomer.phone,
-
-                    customerEmail:selectedCustomer.email,
-
-                    paymentMethod:paymentMethod.value,
-
-                    /*
-                     * Financial breakdown.
-                     */
-                    amountPaid:
-                        finalAmountPaid,
-
-                    outstandingBalance:
-                        finalOutstanding,
-
-                    previousCustomerOutstanding:
-                        previousOutstanding,
-
-                    newCustomerOutstanding:
-                        newOutstanding,
-
-                    paymentStatus:
-                        finalOutstanding<=0
-                            ? "Paid"
-                            : finalAmountPaid<=0
-                                ? "Unpaid"
-                                : "Partially Paid",
-
-                    notes:
-                        notesInput.value.trim(),
-
-                    items:transactionItems,
-
-                    subtotal:transactionSubtotal,
-
-                    total:finalTotal,
-
-                    costTotal:transactionCostTotal,
-
-                    grossProfit:transactionGrossProfit,
-
-                    totalQuantity:
-                        transactionQuantityTotal,
-
-                    createdBy:currentUser.uid,
-
-                    createdByEmail:
-                        currentUser.email||"",
-
-                    createdAt:
-                        serverTimestamp()
-
-                };
-
-                transaction.set(
-                    saleRef,
-                    savedSaleData
-                );
-
-            }
-        );
-
-        lastSale={
-            id:saleRef.id,
-            ...savedSaleData
-        };
-
-        receiptSaleNumber.textContent=
-            lastSale.saleNumber;
-
-        updateSaleSummary();
-
-        if(lastSale.paymentMethod==="Credit"){
-
-            showMessage(
-                `Credit sale ${lastSale.saleNumber} recorded successfully. ${formatMoney(lastSale.outstandingBalance)} was added to ${lastSale.customer}'s outstanding balance and inventory was updated.`,
-                "success"
-            );
-
-        }else{
-
-            showMessage(
-                `Sale ${lastSale.saleNumber} recorded successfully. Inventory has been updated and gross profit has been saved.`,
-                "success"
-            );
-
-        }
-
-    }catch(error){
-
-        console.error(
-            "Record sale error:",
-            error
-        );
-
-        showMessage(
-            error.message ||
-            "Unable to record sale. Please try again.",
-            "error"
-        );
-
-    }finally{
-
-        savingSale=false;
-
-        recordSaleBtn.disabled=false;
-        recordSaleBtn.textContent="Record Sale";
-
-    }
+if(!customerSnapshot.exists()){
+throw new Error("The selected customer no longer exists.");
+}
 
 }
 
+const productSnapshots=[];
+
+for(const item of saleData.items){
+
+const productRef=doc(db,"products",item.productId);
+
+const snapshot=await transaction.get(productRef);
+
+productSnapshots.push({
+item,
+productRef,
+snapshot
+});
+
+}
+
+let transactionSubtotal=0;
+let transactionCostTotal=0;
+let transactionQuantityTotal=0;
+
+const transactionItems=[];
+
+for(const entry of productSnapshots){
+
+const {item,productRef,snapshot}=entry;
+
+if(!snapshot.exists()){
+throw new Error(`Product ${item.productName} no longer exists.`);
+}
+
+const product=snapshot.data();
+
+const productName=getProductName(product);
+const currentStock=getProductStock(product);
+const quantity=Number(item.quantity);
+
+if(quantity>currentStock){
+throw new Error(`${productName} now has only ${currentStock} item(s) in stock.`);
+}
+
+const currentUnitPrice=getProductPrice(product);
+const currentCostPrice=getProductCostPrice(product);
+
+if(currentCostPrice===null){
+throw new Error(`${productName} does not have a valid cost price.`);
+}
+
+const lineTotal=currentUnitPrice*quantity;
+const lineCostTotal=currentCostPrice*quantity;
+const lineProfit=lineTotal-lineCostTotal;
+
+transactionItems.push({
+productId:snapshot.id,
+productName,
+quantity,
+unitPrice:currentUnitPrice,
+costPrice:currentCostPrice,
+total:lineTotal,
+costTotal:lineCostTotal,
+profit:lineProfit
+});
+
+transactionSubtotal+=lineTotal;
+transactionCostTotal+=lineCostTotal;
+transactionQuantityTotal+=quantity;
+
+const newStock=currentStock-quantity;
+
+transaction.update(productRef,{
+quantity:newStock,
+stock:newStock,
+status:getProductStatus(newStock,product),
+updatedAt:serverTimestamp(),
+updatedBy:currentUser.uid
+});
+
+}
+
+const finalTotal=transactionSubtotal;
+const transactionGrossProfit=
+finalTotal-transactionCostTotal;
+
+let finalAmountPaid=finalTotal;
+let finalOutstanding=0;
+let paymentStatus="Paid";
+let creditSale=false;
+
+if(paymentMethod.value==="Credit"){
+
+creditSale=true;
+
+finalAmountPaid=Number(amountPaidInput.value)||0;
+
+if(finalAmountPaid>finalTotal){
+throw new Error("Amount paid cannot be greater than the sale total.");
+}
+
+finalOutstanding=
+Math.max(0,finalTotal-finalAmountPaid);
+
+if(finalOutstanding===0){
+paymentStatus="Paid";
+}else if(finalAmountPaid>0){
+paymentStatus="Partially Paid";
+}else{
+paymentStatus="Credit";
+}
+
+}
+
+/*
+Update the customer's outstanding balance
+ONLY by the unpaid amount from this sale.
+*/
+
+let previousOutstanding=0;
+let newCustomerOutstanding=0;
+
+if(customerRef){
+
+const customerData=customerSnapshot.data();
+
+previousOutstanding=
+Number(customerData.outstandingBalance)||0;
+
+newCustomerOutstanding=
+previousOutstanding+finalOutstanding;
+
+transaction.update(customerRef,{
+outstandingBalance:newCustomerOutstanding,
+updatedAt:serverTimestamp(),
+updatedBy:currentUser.uid
+});
+
+}
+
+const paymentRecord=
+finalAmountPaid>0
+?[
+{
+amount:finalAmountPaid,
+method:
+paymentMethod.value==="Credit"
+?creditPaymentMethod.value
+:paymentMethod.value,
+createdAt:new Date().toISOString(),
+createdBy:currentUser.uid,
+createdByEmail:currentUser.email||""
+}
+]
+:[ ];
+
+savedSaleData={
+
+saleNumber:generateSaleNumber(),
+
+customer:selectedCustomer.name,
+customerId:selectedCustomer.id,
+customerPhone:selectedCustomer.phone,
+customerEmail:selectedCustomer.email,
+
+paymentMethod:paymentMethod.value,
+
+creditSale,
+
+creditPaymentMethod:
+paymentMethod.value==="Credit"
+?creditPaymentMethod.value
+:"",
+
+paymentStatus,
+
+amountPaid:finalAmountPaid,
+
+outstandingAmount:finalOutstanding,
+
+outstandingBalance:finalOutstanding,
+
+previousCustomerOutstanding:previousOutstanding,
+
+newCustomerOutstanding,
+
+payments:paymentRecord,
+
+notes:notesInput.value.trim(),
+
+items:transactionItems,
+
+subtotal:transactionSubtotal,
+total:finalTotal,
+costTotal:transactionCostTotal,
+grossProfit:transactionGrossProfit,
+totalQuantity:transactionQuantityTotal,
+
+createdBy:currentUser.uid,
+createdByEmail:currentUser.email||"",
+createdAt:serverTimestamp()
+
+};
+
+transaction.set(saleRef,savedSaleData);
+
+});
+
+lastSale={
+id:saleRef.id,
+...savedSaleData
+};
+
+receiptSaleNumber.textContent=lastSale.saleNumber;
+
+updateSaleSummary();
+
+if(lastSale.creditSale){
+
+showMessage(
+`Credit sale ${lastSale.saleNumber} recorded successfully. ${formatMoney(lastSale.outstandingAmount)} was added to ${lastSale.customer}'s outstanding balance and inventory was updated.`,
+"success"
+);
+
+}else{
+
+showMessage(
+`Sale ${lastSale.saleNumber} recorded successfully. Inventory has been updated and gross profit has been saved.`,
+"success"
+);
+
+}
+
+}catch(error){
+
+console.error("Record sale error:",error);
+
+showMessage(
+error.message||"Unable to record sale. Please try again.",
+"error"
+);
+
+}finally{
+
+savingSale=false;
+
+recordSaleBtn.disabled=false;
+recordSaleBtn.textContent="Record Sale";
+
+}
+
+}
 
 function isToday(timestamp){
 
-    if(!timestamp)return false;
+if(!timestamp)return false;
 
-    let date;
+let date;
 
-    if(
-        typeof timestamp.toDate==="function"
-    ){
-
-        date=timestamp.toDate();
-
-    }else if(timestamp instanceof Date){
-
-        date=timestamp;
-
-    }else{
-
-        return false;
-
-    }
-
-    const now=new Date();
-
-    return(
-        date.getFullYear()===now.getFullYear() &&
-        date.getMonth()===now.getMonth() &&
-        date.getDate()===now.getDate()
-    );
-
+if(typeof timestamp.toDate==="function"){
+date=timestamp.toDate();
+}else if(timestamp instanceof Date){
+date=timestamp;
+}else{
+return false;
 }
 
+const now=new Date();
+
+return(
+date.getFullYear()===now.getFullYear() &&
+date.getMonth()===now.getMonth() &&
+date.getDate()===now.getDate()
+);
+}
 
 function loadSales(){
 
-    if(salesUnsubscribe){
-        salesUnsubscribe();
-    }
+if(salesUnsubscribe)salesUnsubscribe();
 
-    salesUnsubscribe=
-        onSnapshot(
-            collection(db,"sales"),
-            snapshot=>{
+salesUnsubscribe=onSnapshot(
+collection(db,"sales"),
+snapshot=>{
 
-                let todayTotal=0;
-                let transactionCount=0;
-                let latestSale=null;
+let todayTotal=0;
+let transactionCount=0;
+let latestSale=null;
 
-                snapshot.forEach(saleDoc=>{
+snapshot.forEach(saleDoc=>{
 
-                    const sale=saleDoc.data();
+const sale=saleDoc.data();
 
-                    if(
-                        isToday(sale.createdAt)
-                    ){
+if(isToday(sale.createdAt)){
 
-                        todayTotal+=
-                            Number(sale.total)||0;
-
-                        transactionCount++;
-
-                    }
-
-                    let saleDate=null;
-
-                    if(
-                        sale.createdAt &&
-                        typeof sale.createdAt.toDate==="function"
-                    ){
-
-                        saleDate=
-                            sale.createdAt.toDate();
-
-                    }
-
-                    if(
-                        saleDate &&
-                        (
-                            !latestSale ||
-                            saleDate>latestSale.date
-                        )
-                    ){
-
-                        latestSale={
-                            date:saleDate,
-                            sale
-                        };
-
-                    }
-
-                });
-
-                todaySales.textContent=
-                    formatMoney(todayTotal);
-
-                todayTransactions.textContent=
-                    transactionCount;
-
-                if(latestSale){
-
-                    lastSaleNumber.textContent=
-                        latestSale.sale.saleNumber||
-                        "—";
-
-                }else{
-
-                    lastSaleNumber.textContent="—";
-
-                }
-
-            },
-            error=>{
-
-                console.error(
-                    "Sales loading error:",
-                    error
-                );
-
-            }
-        );
+todayTotal+=Number(sale.total)||0;
+transactionCount++;
 
 }
 
+let saleDate=null;
+
+if(
+sale.createdAt &&
+typeof sale.createdAt.toDate==="function"
+){
+
+saleDate=sale.createdAt.toDate();
+
+}
+
+if(
+saleDate &&
+(!latestSale||saleDate>latestSale.date)
+){
+
+latestSale={
+date:saleDate,
+sale
+};
+
+}
+
+});
+
+todaySales.textContent=formatMoney(todayTotal);
+todayTransactions.textContent=transactionCount;
+
+if(latestSale){
+
+lastSaleNumber.textContent=
+latestSale.sale.saleNumber||"—";
+
+}else{
+
+lastSaleNumber.textContent="—";
+
+}
+
+},
+error=>console.error("Sales loading error:",error)
+);
+}
 
 function clearSale(){
 
-    saleItems=[];
+saleItems=[];
+lastSale=null;
 
-    lastSale=null;
+customerInput.value="";
+paymentMethod.value="Cash";
+amountPaidInput.value="0";
+creditPaymentMethod.value="Cash";
+notesInput.value="";
 
-    customerInput.value="";
+receiptSaleNumber.textContent="Pending";
 
-    paymentMethod.value="Cash";
+clearMessage();
 
-    amountPaidInput.value="0";
-
-    notesInput.value="";
-
-    receiptSaleNumber.textContent="Pending";
-
-    clearMessage();
-
-    updateCustomerBalanceInfo();
-
-    renderSaleItems();
-
-    updateSaleSummary();
+updateCustomerBalanceInfo();
+renderSaleItems();
+updateSaleSummary();
 
 }
-
 
 function startNewSale(){
 
-    clearSale();
+clearSale();
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
-
 
 function printReceipt(){
 
-    const data=getCurrentSaleData();
+const data=getCurrentSaleData();
 
-    if(data.items.length===0){
+if(data.items.length===0){
 
-        showMessage(
-            "Please add at least one product before printing a receipt.",
-            "error"
-        );
+showMessage(
+"Please add at least one product before printing a receipt.",
+"error"
+);
 
-        return;
-
-    }
-
-    window.print();
+return;
 
 }
 
+window.print();
+
+}
 
 function openMenu(){
 
-    sidebar.classList.add("open");
-    sidebarOverlay.classList.add("show");
+sidebar.classList.add("open");
+sidebarOverlay.classList.add("show");
 
 }
-
 
 function closeMenu(){
 
-    sidebar.classList.remove("open");
-    sidebarOverlay.classList.remove("show");
+sidebar.classList.remove("open");
+sidebarOverlay.classList.remove("show");
 
 }
-
 
 async function logout(){
 
-    try{
+try{
 
-        await signOut(auth);
+await signOut(auth);
 
-        window.location.href="login.html";
+window.location.href="login.html";
 
-    }catch(error){
+}catch(error){
 
-        console.error(error);
+console.error(error);
 
-        showMessage(
-            "Unable to log out.",
-            "error"
-        );
-
-    }
+showMessage("Unable to log out.","error");
 
 }
 
+}
 
 /* EVENTS */
 
-addItemBtn.addEventListener(
-    "click",
-    addSaleItem
-);
+$("addItemBtn").addEventListener("click",addSaleItem);
+$("clearSaleBtn").addEventListener("click",clearSale);
+$("newSaleBtn").addEventListener("click",startNewSale);
+$("newSaleRightBtn").addEventListener("click",startNewSale);
+$("recordSaleBtn").addEventListener("click",recordSale);
+$("previewPrintBtn").addEventListener("click",printReceipt);
 
-clearSaleBtn.addEventListener(
-    "click",
-    clearSale
-);
+customerInput.addEventListener("change",()=>{
+updateCustomerBalanceInfo();
+updateSaleSummary();
+});
 
-newSaleBtn.addEventListener(
-    "click",
-    startNewSale
-);
+paymentMethod.addEventListener("change",()=>{
 
-newSaleRightBtn.addEventListener(
-    "click",
-    startNewSale
-);
+if(paymentMethod.value!=="Credit"){
+amountPaidInput.value="0";
+}
 
-recordSaleBtn.addEventListener(
-    "click",
-    recordSale
-);
+updateSaleSummary();
 
-previewPrintBtn.addEventListener(
-    "click",
-    printReceipt
-);
+});
 
-customerInput.addEventListener(
-    "change",
-    ()=>{
+creditPaymentMethod.addEventListener("change",updateSaleSummary);
+amountPaidInput.addEventListener("input",updateSaleSummary);
 
-        updateCustomerBalanceInfo();
-        updateSaleSummary();
-
-    }
-);
-
-paymentMethod.addEventListener(
-    "change",
-    ()=>{
-
-        if(paymentMethod.value!=="Credit"){
-
-            amountPaidInput.value="0";
-
-        }
-
-        updateSaleSummary();
-
-    }
-);
-
-amountPaidInput.addEventListener(
-    "input",
-    updateSaleSummary
-);
-
-menuBtn.addEventListener(
-    "click",
-    openMenu
-);
-
-sidebarOverlay.addEventListener(
-    "click",
-    closeMenu
-);
-
-logoutBtn.addEventListener(
-    "click",
-    logout
-);
-
+menuBtn.addEventListener("click",openMenu);
+sidebarOverlay.addEventListener("click",closeMenu);
+logoutBtn.addEventListener("click",logout);
 
 /* AUTH */
 
-onAuthStateChanged(
-    auth,
-    user=>{
+onAuthStateChanged(auth,user=>{
 
-        if(!user){
+if(!user){
 
-            window.location.href="login.html";
-            return;
+window.location.href="login.html";
+return;
 
-        }
+}
 
-        currentUser=user;
+currentUser=user;
 
-        const displayName=
-            user.displayName ||
-            user.email?.split("@")[0] ||
-            "User";
+const displayName=
+user.displayName||
+user.email?.split("@")[0]||
+"User";
 
-        userName.textContent=displayName;
-        userEmail.textContent=user.email||"";
+userName.textContent=displayName;
+userEmail.textContent=user.email||"";
 
-        userAvatar.textContent=
-            displayName
-                .charAt(0)
-                .toUpperCase();
+userAvatar.textContent=
+displayName.charAt(0).toUpperCase();
 
-        loadProducts();
-        loadSales();
-        loadCustomers();
+loadProducts();
+loadSales();
+loadCustomers();
 
-    }
-);
+});
 
-
-/* INITIAL STATE */
+/* INITIAL */
 
 renderSaleItems();
 updateSaleSummary();
@@ -2544,4 +1686,4 @@ updateSaleSummary();
 </script>
 
 </body>
-            </html>
+    </html>
