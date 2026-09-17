@@ -35,8 +35,10 @@ onAuthStateChanged(auth, (user) => {
         return;
     }
 
-    userEmail.textContent =
-        user.email || "Nesi Medicals Administrator";
+    if (userEmail) {
+        userEmail.textContent =
+            user.email || "Nesi Medicals Administrator";
+    }
 
     loadSales();
 });
@@ -64,17 +66,22 @@ function loadSales() {
 
             });
 
+
             /*
              * Newest sales first.
              */
             allSales.sort((a, b) => {
 
-                const aTime = getTimestampMilliseconds(a.createdAt);
-                const bTime = getTimestampMilliseconds(b.createdAt);
+                const aTime =
+                    getTimestampMilliseconds(a.createdAt);
+
+                const bTime =
+                    getTimestampMilliseconds(b.createdAt);
 
                 return bTime - aTime;
 
             });
+
 
             renderSales(allSales);
 
@@ -82,7 +89,10 @@ function loadSales() {
 
         (error) => {
 
-            console.error("Sales history error:", error);
+            console.error(
+                "Sales history error:",
+                error
+            );
 
             salesTable.innerHTML = `
                 <tr>
@@ -139,13 +149,6 @@ function renderSales(sales) {
                 : [];
 
 
-        /*
-         * Count the total quantity sold.
-         * Example:
-         * Paracetamol × 2
-         * Diclofenac × 3
-         * = 5 items
-         */
         const itemCount = items.reduce(
             (total, item) =>
                 total + Number(item.quantity || 0),
@@ -278,67 +281,74 @@ function renderSales(sales) {
    SEARCH SALES
 ========================= */
 
-searchInput.addEventListener("input", () => {
+if (searchInput) {
 
-    const term =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+    searchInput.addEventListener("input", () => {
 
-
-    if (!term) {
-
-        renderSales(allSales);
-
-        return;
-
-    }
+        const term =
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
 
-    const filtered =
-        allSales.filter(sale => {
+        if (!term) {
 
-            const saleNumber =
-                String(
-                    sale.saleNumber ||
-                    sale.id ||
-                    ""
-                ).toLowerCase();
+            renderSales(allSales);
+
+            return;
+
+        }
 
 
-            const customer =
-                String(
-                    sale.customer ||
-                    ""
-                ).toLowerCase();
+        const filtered =
+            allSales.filter(sale => {
+
+                const saleNumber =
+                    String(
+                        sale.saleNumber ||
+                        sale.id ||
+                        ""
+                    ).toLowerCase();
 
 
-            const customerPhone =
-                String(
-                    sale.customerPhone ||
-                    ""
-                ).toLowerCase();
+                const customer =
+                    String(
+                        sale.customer ||
+                        ""
+                    ).toLowerCase();
 
 
-            return (
-                saleNumber.includes(term) ||
-                customer.includes(term) ||
-                customerPhone.includes(term)
-            );
-
-        });
+                const customerPhone =
+                    String(
+                        sale.customerPhone ||
+                        ""
+                    ).toLowerCase();
 
 
-    renderSales(filtered);
+                return (
+                    saleNumber.includes(term) ||
+                    customer.includes(term) ||
+                    customerPhone.includes(term)
+                );
 
-});
+            });
+
+
+        renderSales(filtered);
+
+    });
+
+}
 
 
 /* =========================
    OPEN RECEIPT
 ========================= */
 
-function openReceipt(sale, autoPrint = false) {
+function openReceipt(
+    sale,
+    autoPrint = false
+) {
 
     selectedSale = sale;
 
@@ -384,6 +394,132 @@ function openReceipt(sale, autoPrint = false) {
             sale.grandTotal ??
             subtotal
         );
+
+
+    /*
+     * CREDIT SALE INFORMATION
+     *
+     * New sales.html saves:
+     *
+     * amountPaid
+     * outstandingBalance
+     * paymentStatus
+     *
+     * Older normal sales may not have these fields.
+     */
+
+
+    let amountPaid = 0;
+
+    let outstandingBalance = 0;
+
+
+    if (
+        payment.toLowerCase() === "credit"
+    ) {
+
+        amountPaid =
+            Number(
+                sale.amountPaid ?? 0
+            );
+
+
+        /*
+         * If outstandingBalance exists,
+         * use it directly.
+         *
+         * Otherwise calculate:
+         *
+         * Total - Amount Paid
+         */
+        outstandingBalance =
+            Number(
+                sale.outstandingBalance ??
+                Math.max(
+                    0,
+                    total - amountPaid
+                )
+            );
+
+
+        /*
+         * Protect against negative values.
+         */
+        amountPaid =
+            Math.max(
+                0,
+                Math.min(
+                    amountPaid,
+                    total
+                )
+            );
+
+
+        outstandingBalance =
+            Math.max(
+                0,
+                outstandingBalance
+            );
+
+    }
+
+    else {
+
+        /*
+         * For Cash / POS / Bank Transfer,
+         * the full amount is considered paid.
+         */
+        amountPaid = total;
+
+        outstandingBalance = 0;
+
+    }
+
+
+    /*
+     * Determine payment status.
+     *
+     * Credit + ₦0 paid = Credit
+     * Credit + partial payment = Partially Paid
+     * Credit + full payment = Paid
+     *
+     * Non-credit = Paid
+     */
+
+    let paymentStatus;
+
+
+    if (
+        payment.toLowerCase() === "credit"
+    ) {
+
+        if (outstandingBalance <= 0) {
+
+            paymentStatus = "Paid";
+
+        }
+
+        else if (amountPaid <= 0) {
+
+            paymentStatus = "Credit";
+
+        }
+
+        else {
+
+            paymentStatus = "Partially Paid";
+
+        }
+
+    }
+
+    else {
+
+        paymentStatus =
+            sale.paymentStatus ||
+            "Paid";
+
+    }
 
 
     const date =
@@ -503,17 +639,6 @@ function openReceipt(sale, autoPrint = false) {
                             );
 
 
-                        /*
-                         * IMPORTANT:
-                         *
-                         * The upgraded sales.html
-                         * saves the selling price as
-                         * unitPrice.
-                         *
-                         * Older sales may use:
-                         * sellingPrice
-                         * price
-                         */
                         const price =
                             Number(
                                 item.unitPrice ??
@@ -523,13 +648,6 @@ function openReceipt(sale, autoPrint = false) {
                             );
 
 
-                        /*
-                         * The upgraded sales.html
-                         * saves the line total as total.
-                         *
-                         * Older records may use:
-                         * lineTotal
-                         */
                         const lineTotal =
                             Number(
                                 item.total ??
@@ -598,6 +716,53 @@ function openReceipt(sale, autoPrint = false) {
 
 
         ${
+            payment.toLowerCase() === "credit"
+            ?
+            `
+            <div class="credit-summary"
+                style="
+                    margin-top:15px;
+                    padding:12px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                ">
+
+                <p>
+                    <strong>Payment Status:</strong>
+                    ${escapeHtml(paymentStatus)}
+                </p>
+
+                <p>
+                    <strong>Amount Paid:</strong>
+                    ₦${formatMoney(amountPaid)}
+                </p>
+
+                <p>
+                    <strong>Outstanding Balance:</strong>
+                    ₦${formatMoney(outstandingBalance)}
+                </p>
+
+                <p
+                    style="
+                        font-size:15px;
+                        margin-top:8px;
+                    "
+                >
+                    <strong>
+                        BALANCE DUE:
+                    </strong>
+
+                    ₦${formatMoney(outstandingBalance)}
+                </p>
+
+            </div>
+            `
+            :
+            ""
+        }
+
+
+        ${
             sale.notes
             ?
             `
@@ -641,9 +806,10 @@ function openReceipt(sale, autoPrint = false) {
 
 
     /*
-     * Allow the modal to appear before
-     * starting the print dialog.
+     * Allow modal to appear before
+     * opening print dialog.
      */
+
     if (autoPrint) {
 
         setTimeout(() => {
@@ -661,15 +827,24 @@ function openReceipt(sale, autoPrint = false) {
    PRINT CURRENT RECEIPT
 ========================= */
 
-document
-    .getElementById("printReceipt")
-    .addEventListener("click", () => {
+const printReceiptButton =
+    document.getElementById("printReceipt");
 
-        if (!selectedSale) return;
 
-        window.print();
+if (printReceiptButton) {
 
-    });
+    printReceiptButton.addEventListener(
+        "click",
+        () => {
+
+            if (!selectedSale) return;
+
+            window.print();
+
+        }
+    );
+
+}
 
 
 /* =========================
@@ -685,27 +860,41 @@ function closeModal() {
 }
 
 
-document
-    .getElementById("closeModal")
-    .addEventListener(
+const closeModalButton =
+    document.getElementById("closeModal");
+
+
+if (closeModalButton) {
+
+    closeModalButton.addEventListener(
         "click",
         closeModal
     );
 
+}
 
-document
-    .getElementById("closeModal2")
-    .addEventListener(
+
+const closeModalButton2 =
+    document.getElementById("closeModal2");
+
+
+if (closeModalButton2) {
+
+    closeModalButton2.addEventListener(
         "click",
         closeModal
     );
+
+}
 
 
 receiptModal.addEventListener(
     "click",
     (event) => {
 
-        if (event.target === receiptModal) {
+        if (
+            event.target === receiptModal
+        ) {
 
             closeModal();
 
@@ -719,9 +908,13 @@ receiptModal.addEventListener(
    LOGOUT
 ========================= */
 
-document
-    .getElementById("logoutBtn")
-    .addEventListener(
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener(
         "click",
         async (event) => {
 
@@ -734,7 +927,9 @@ document
                 window.location.href =
                     "login.html";
 
-            } catch (error) {
+            }
+
+            catch (error) {
 
                 alert(
                     "Logout failed: " +
@@ -746,23 +941,39 @@ document
         }
     );
 
+}
+
 
 /* =========================
    MOBILE MENU
 ========================= */
 
-document
-    .getElementById("mobileMenu")
-    .addEventListener(
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+
+if (mobileMenu) {
+
+    mobileMenu.addEventListener(
         "click",
         () => {
 
-            document
-                .getElementById("sidebar")
-                .classList.toggle("open");
+            const sidebar =
+                document.getElementById("sidebar");
+
+
+            if (sidebar) {
+
+                sidebar.classList.toggle(
+                    "open"
+                );
+
+            }
 
         }
     );
+
+}
 
 
 /* =========================
@@ -816,7 +1027,7 @@ function formatDate(timestamp) {
 
             date =
                 new Date(
-                    timestamp.seconds * 1000
+                    Number(timestamp.seconds) * 1000
                 );
 
         }
@@ -855,7 +1066,9 @@ function formatDate(timestamp) {
    TIMESTAMP → MILLISECONDS
 ========================= */
 
-function getTimestampMilliseconds(timestamp) {
+function getTimestampMilliseconds(
+    timestamp
+) {
 
     if (!timestamp) return 0;
 
@@ -874,7 +1087,9 @@ function getTimestampMilliseconds(timestamp) {
 
         if (timestamp.seconds) {
 
-            return Number(timestamp.seconds) * 1000;
+            return (
+                Number(timestamp.seconds) * 1000
+            );
 
         }
 
@@ -927,3 +1142,6 @@ function escapeHtml(value) {
         );
 
 }
+
+
+
