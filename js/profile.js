@@ -1,4 +1,3 @@
-```javascript
 import {
     auth,
     db
