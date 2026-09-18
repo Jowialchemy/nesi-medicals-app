@@ -1,1280 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Reports | Nesi Medicals</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f5f7fb;
-    color:#1f2937;
-}
-
-.layout{
-    display:flex;
-    min-height:100vh;
-}
-
-/* ================= SIDEBAR ================= */
-
-.sidebar{
-    width:250px;
-    background:#111827;
-    color:#fff;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    overflow-y:auto;
-    z-index:1000;
-}
-
-.brand{
-    padding:20px 16px;
-    border-bottom:1px solid rgba(255,255,255,.08);
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.brand img{
-    width:45px;
-    height:45px;
-    object-fit:contain;
-    border-radius:8px;
-}
-
-.brand-title{
-    font-size:17px;
-    font-weight:700;
-}
-
-.brand-subtitle{
-    font-size:11px;
-    color:#9ca3af;
-    margin-top:3px;
-}
-
-.nav{
-    padding:15px 10px;
-}
-
-.nav-section{
-    font-size:10px;
-    text-transform:uppercase;
-    color:#6b7280;
-    padding:12px 12px 7px;
-    font-weight:700;
-    letter-spacing:.7px;
-}
-
-.nav a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    color:#d1d5db;
-    text-decoration:none;
-    padding:12px;
-    margin-bottom:3px;
-    border-radius:8px;
-    font-size:14px;
-}
-
-.nav a:hover{
-    background:#1f2937;
-    color:#fff;
-}
-
-.nav a.active{
-    background:#0A5FFF;
-    color:#fff;
-}
-
-.nav-icon{
-    width:20px;
-    text-align:center;
-}
-
-.sidebar-bottom{
-    padding:15px 10px;
-    border-top:1px solid rgba(255,255,255,.08);
-}
-
-.logout-btn{
-    width:100%;
-    border:0;
-    background:#dc2626;
-    color:#fff;
-    padding:11px;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:14px;
-}
-
-/* ================= MAIN ================= */
-
-.main{
-    margin-left:250px;
-    width:calc(100% - 250px);
-    min-height:100vh;
-}
-
-.topbar{
-    background:#fff;
-    border-bottom:1px solid #e5e7eb;
-    padding:16px 25px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-}
-
-.topbar-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.page-title h1{
-    font-size:23px;
-    color:#111827;
-}
-
-.page-title p{
-    font-size:13px;
-    color:#6b7280;
-    margin-top:4px;
-}
-
-.top-actions{
-    display:flex;
-    gap:8px;
-}
-
-.btn{
-    border:0;
-    padding:10px 14px;
-    border-radius:7px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:600;
-}
-
-.btn-primary{
-    background:#0A5FFF;
-    color:#fff;
-}
-
-.btn-primary:hover{
-    background:#0049d8;
-}
-
-.btn-secondary{
-    background:#e5e7eb;
-    color:#111827;
-}
-
-.content{
-    padding:25px;
-}
-
-/* ================= FILTER ================= */
-
-.filter-card{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:12px;
-    padding:18px;
-    margin-bottom:20px;
-}
-
-.filter-title{
-    font-size:15px;
-    font-weight:700;
-    margin-bottom:14px;
-}
-
-.filters{
-    display:grid;
-    grid-template-columns:1fr 1fr auto;
-    gap:14px;
-    align-items:end;
-}
-
-.field label{
-    display:block;
-    font-size:12px;
-    font-weight:600;
-    color:#4b5563;
-    margin-bottom:6px;
-}
-
-.field input{
-    width:100%;
-    border:1px solid #d1d5db;
-    border-radius:7px;
-    padding:10px;
-    font-size:13px;
-    outline:none;
-}
-
-.field input:focus{
-    border-color:#0A5FFF;
-}
-
-/* ================= STATS ================= */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.stat-card{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:12px;
-    padding:18px;
-    border-left:4px solid #6b7280;
-}
-
-.sales-card{border-left-color:#0A5FFF;}
-.cost-card{border-left-color:#f59e0b;}
-.gross-card{border-left-color:#16a34a;}
-.expense-card{border-left-color:#dc2626;}
-.net-card{border-left-color:#7c3aed;}
-
-.stat-label{
-    color:#6b7280;
-    font-size:12px;
-    font-weight:600;
-    margin-bottom:8px;
-}
-
-.stat-value{
-    font-size:23px;
-    font-weight:800;
-    color:#111827;
-}
-
-.stat-note{
-    font-size:11px;
-    color:#9ca3af;
-    margin-top:6px;
-}
-
-.positive{
-    color:#15803d !important;
-}
-
-.negative{
-    color:#dc2626 !important;
-}
-
-/* ================= PANELS ================= */
-
-.panel{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:12px;
-    overflow:hidden;
-    margin-bottom:20px;
-}
-
-.panel-header{
-    padding:16px 18px;
-    border-bottom:1px solid #e5e7eb;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.panel-header h2{
-    font-size:15px;
-    color:#111827;
-}
-
-.panel-body{
-    padding:18px;
-}
-
-/* ================= PROFIT FLOW ================= */
-
-.profit-flow{
-    display:grid;
-    grid-template-columns:1fr 35px 1fr 35px 1fr;
-    gap:10px;
-    align-items:center;
-}
-
-.flow-box{
-    background:#f9fafb;
-    border:1px solid #e5e7eb;
-    border-radius:10px;
-    padding:16px;
-    text-align:center;
-}
-
-.flow-label{
-    display:block;
-    font-size:11px;
-    color:#6b7280;
-}
-
-.flow-value{
-    display:block;
-    margin-top:6px;
-    font-size:18px;
-    font-weight:800;
-}
-
-.flow-symbol{
-    text-align:center;
-    font-size:22px;
-    color:#9ca3af;
-}
-
-/* ================= TWO COLUMN ================= */
-
-.two-column{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-}
-
-/* ================= BREAKDOWN ================= */
-
-.breakdown-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:12px 0;
-    border-bottom:1px solid #f0f0f0;
-    font-size:13px;
-}
-
-.breakdown-row:last-child{
-    border-bottom:0;
-}
-
-.breakdown-name{
-    color:#4b5563;
-}
-
-.breakdown-value{
-    font-weight:700;
-    color:#111827;
-}
-
-/* ================= EXPENSE ================= */
-
-.expense-row{
-    padding:10px 0;
-    border-bottom:1px solid #f0f0f0;
-}
-
-.expense-row:last-child{
-    border-bottom:0;
-}
-
-.expense-top{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:6px;
-    font-size:13px;
-}
-
-.expense-amount{
-    font-weight:700;
-}
-
-.bar{
-    height:7px;
-    background:#f3f4f6;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.bar-inner{
-    height:100%;
-    background:#dc2626;
-    border-radius:20px;
-}
-
-/* ================= WARNING ================= */
-
-.warning{
-    display:none;
-    background:#fff7ed;
-    border:1px solid #fed7aa;
-    color:#9a3412;
-    padding:13px 15px;
-    border-radius:10px;
-    margin-bottom:20px;
-    font-size:12px;
-    line-height:1.6;
-}
-
-/* ================= TABLE ================= */
-
-.table-wrapper{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
-
-th,td{
-    padding:12px 14px;
-    border-bottom:1px solid #eef0f3;
-    text-align:left;
-    font-size:12px;
-    white-space:nowrap;
-}
-
-th{
-    background:#f9fafb;
-    color:#4b5563;
-    font-weight:700;
-}
-
-td{
-    color:#374151;
-}
-
-.badge{
-    display:inline-block;
-    padding:5px 8px;
-    border-radius:20px;
-    font-size:10px;
-    font-weight:700;
-}
-
-.badge-complete{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.badge-old{
-    background:#fef3c7;
-    color:#92400e;
-}
-
-.profit{
-    color:#15803d;
-    font-weight:700;
-}
-
-.loading,
-.empty{
-    text-align:center;
-    padding:30px;
-    color:#9ca3af;
-    font-size:13px;
-}
-
-/* ================= MOBILE ================= */
-
-.mobile-menu{
-    display:none;
-    background:#111827;
-    color:#fff;
-    border:0;
-    padding:9px 12px;
-    border-radius:7px;
-    cursor:pointer;
-    font-size:18px;
-}
-
-@media(max-width:1100px){
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .two-column{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:700px){
-
-    .sidebar{
-        transform:translateX(-100%);
-        transition:.25s;
-    }
-
-    .sidebar.open{
-        transform:translateX(0);
-    }
-
-    .main{
-        margin-left:0;
-        width:100%;
-    }
-
-    .mobile-menu{
-        display:block;
-    }
-
-    .topbar{
-        padding:14px;
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .topbar-left{
-        width:100%;
-    }
-
-    .top-actions{
-        width:100%;
-    }
-
-    .top-actions button{
-        flex:1;
-    }
-
-    .content{
-        padding:14px;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-    }
-
-    .stat-card{
-        padding:14px;
-    }
-
-    .stat-value{
-        font-size:18px;
-    }
-
-    .filters{
-        grid-template-columns:1fr;
-    }
-
-    .profit-flow{
-        grid-template-columns:1fr;
-    }
-
-    .flow-symbol{
-        transform:none;
-    }
-}
-
-/* ================= PRINT ================= */
-
-@media print{
-
-    .sidebar,
-    .top-actions,
-    .filter-card,
-    .mobile-menu{
-        display:none !important;
-    }
-
-    .main{
-        margin:0;
-        width:100%;
-    }
-
-    .content{
-        padding:0;
-    }
-
-    .panel{
-        break-inside:avoid;
-    }
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="layout">
-
-<!-- ================= SIDEBAR ================= -->
-
-<aside class="sidebar" id="sidebar">
-
-<div class="brand">
-
-    <img
-        src="assets/logo.png"
-        alt="Nesi Medicals Logo"
-    >
-
-    <div>
-        <div class="brand-title">
-            Nesi Medicals
-        </div>
-
-        <div class="brand-subtitle">
-            & Minimart Enterprises
-        </div>
-    </div>
-
-</div>
-
-<nav class="nav">
-
-    <div class="nav-section">
-        Main
-    </div>
-
-    <a href="dashboard.html">
-        <span class="nav-icon">📊</span>
-        Dashboard
-    </a>
-
-    <a href="sales.html">
-        <span class="nav-icon">💰</span>
-        Sales
-    </a>
-
-    <a href="sales-history.html">
-        <span class="nav-icon">🧾</span>
-        Sales History
-    </a>
-
-    <a href="inventory.html">
-        <span class="nav-icon">📦</span>
-        Inventory
-    </a>
-
-    <a href="products.html">
-        <span class="nav-icon">💊</span>
-        Products
-    </a>
-
-    <a href="customers.html">
-        <span class="nav-icon">👥</span>
-        Customers
-    </a>
-
-    <a href="suppliers.html">
-        <span class="nav-icon">🚚</span>
-        Suppliers
-    </a>
-
-    <div class="nav-section">
-        Finance
-    </div>
-
-    <a href="expenses.html">
-        <span class="nav-icon">💳</span>
-        Expenses
-    </a>
-
-    <a
-        href="reports.html"
-        class="active"
-    >
-        <span class="nav-icon">📈</span>
-        Reports
-    </a>
-
-    <div class="nav-section">
-        Management
-    </div>
-
-    <a href="staff.html">
-        <span class="nav-icon">👨‍⚕️</span>
-        Staff
-    </a>
-
-    <a href="settings.html">
-        <span class="nav-icon">⚙️</span>
-        Settings
-    </a>
-
-    <a href="profile.html">
-        <span class="nav-icon">👤</span>
-        Profile
-    </a>
-
-</nav>
-
-<div class="sidebar-bottom">
-
-    <button
-        class="logout-btn"
-        id="logoutBtn"
-    >
-        Logout
-    </button>
-
-</div>
-
-
-</aside>
-
-<!-- ================= MAIN ================= -->
-
-<main class="main">
-<div class="topbar">
-
-    <div class="topbar-left">
-
-        <button
-            class="mobile-menu"
-            id="mobileMenu"
-        >
-            ☰
-        </button>
-
-        <div class="page-title">
-
-            <h1>
-                Business Reports
-            </h1>
-
-            <p>
-                Sales, profit and expense overview
-            </p>
-
-        </div>
-
-    </div>
-
-    <div class="top-actions">
-
-        <button
-            class="btn btn-secondary"
-            id="refreshBtn"
-        >
-            🔄 Refresh
-        </button>
-
-        <button
-            class="btn btn-primary"
-            id="printBtn"
-        >
-            🖨️ Print Report
-        </button>
-
-    </div>
-
-</div>
-
-<div class="content">
-
-    <!-- FILTER -->
-
-    <div class="filter-card">
-
-        <div class="filter-title">
-            Report Period
-        </div>
-
-        <div class="filters">
-
-            <div class="field">
-
-                <label>
-                    Start Date
-                </label>
-
-                <input
-                    type="date"
-                    id="startDate"
-                >
-
-            </div>
-
-            <div class="field">
-
-                <label>
-                    End Date
-                </label>
-
-                <input
-                    type="date"
-                    id="endDate"
-                >
-
-            </div>
-
-            <button
-                class="btn btn-primary"
-                id="applyFilterBtn"
-            >
-                Apply Filter
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- WARNING -->
-
-    <div
-        class="warning"
-        id="dataWarning"
-    ></div>
-
-    <!-- STATS -->
-
-    <div class="stats">
-
-        <div class="stat-card sales-card">
-
-            <div class="stat-label">
-                Total Sales
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalSales"
-            >
-                ₦0.00
-            </div>
-
-            <div class="stat-note">
-                Revenue recorded
-            </div>
-
-        </div>
-
-        <div class="stat-card cost-card">
-
-            <div class="stat-label">
-                Cost of Goods Sold
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalCost"
-            >
-                ₦0.00
-            </div>
-
-            <div class="stat-note">
-                Product cost
-            </div>
-
-        </div>
-
-        <div class="stat-card gross-card">
-
-            <div class="stat-label">
-                Gross Profit
-            </div>
-
-            <div
-                class="stat-value positive"
-                id="grossProfit"
-            >
-                ₦0.00
-            </div>
-
-            <div class="stat-note">
-                Sales minus cost
-            </div>
-
-        </div>
-
-        <div class="stat-card expense-card">
-
-            <div class="stat-label">
-                Total Expenses
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalExpenses"
-            >
-                ₦0.00
-            </div>
-
-            <div class="stat-note">
-                Business expenses
-            </div>
-
-        </div>
-
-        <div class="stat-card net-card">
-
-            <div class="stat-label">
-                Net Profit
-            </div>
-
-            <div
-                class="stat-value"
-                id="netProfit"
-            >
-                ₦0.00
-            </div>
-
-            <div class="stat-note">
-                Gross profit minus expenses
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-                Number of Sales
-            </div>
-
-            <div
-                class="stat-value"
-                id="salesCount"
-            >
-                0
-            </div>
-
-            <div class="stat-note">
-                Transactions
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-                Items Sold
-            </div>
-
-            <div
-                class="stat-value"
-                id="itemsSold"
-            >
-                0
-            </div>
-
-            <div class="stat-note">
-                Total units
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-                Average Sale
-            </div>
-
-            <div
-                class="stat-value"
-                id="averageSale"
-            >
-                ₦0.00
-            </div>
-
-            <div class="stat-note">
-                Average transaction
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- PROFIT FLOW -->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <h2>
-                Profit Calculation
-            </h2>
-
-        </div>
-
-        <div class="panel-body">
-
-            <div class="profit-flow">
-
-                <div class="flow-box">
-
-                    <span class="flow-label">
-                        Total Sales
-                    </span>
-
-                    <strong
-                        class="flow-value"
-                        id="flowSales"
-                    >
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-                <div class="flow-symbol">
-                    −
-                </div>
-
-                <div class="flow-box">
-
-                    <span class="flow-label">
-                        Cost of Goods
-                    </span>
-
-                    <strong
-                        class="flow-value"
-                        id="flowCost"
-                    >
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-                <div class="flow-symbol">
-                    =
-                </div>
-
-                <div class="flow-box">
-
-                    <span class="flow-label">
-                        Gross Profit
-                    </span>
-
-                    <strong
-                        class="flow-value positive"
-                        id="flowGross"
-                    >
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-            </div>
-
-            <div style="
-                text-align:center;
-                padding:14px;
-                color:#9ca3af;
-                font-size:20px;
-            ">
-                ↓
-            </div>
-
-            <div
-                class="profit-flow"
-                style="grid-template-columns:1fr 35px 1fr;"
-            >
-
-                <div class="flow-box">
-
-                    <span class="flow-label">
-                        Gross Profit
-                    </span>
-
-                    <strong
-                        class="flow-value"
-                        id="flowGross2"
-                    >
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-                <div class="flow-symbol">
-                    −
-                </div>
-
-                <div class="flow-box">
-
-                    <span class="flow-label">
-                        Expenses
-                    </span>
-
-                    <strong
-                        class="flow-value"
-                        id="flowExpenses"
-                    >
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-            </div>
-
-            <div style="
-                text-align:center;
-                padding:14px;
-                color:#9ca3af;
-                font-size:20px;
-            ">
-                ↓
-            </div>
-
-            <div
-                class="flow-box"
-                style="
-                    max-width:350px;
-                    margin:auto;
-                    background:#f5f3ff;
-                "
-            >
-
-                <span class="flow-label">
-                    NET PROFIT
-                </span>
-
-                <strong
-                    class="flow-value positive"
-                    id="flowNet"
-                    style="font-size:23px;"
-                >
-                    ₦0.00
-                </strong>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- BREAKDOWNS -->
-
-    <div class="two-column">
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <h2>
-                    Payment Method Breakdown
-                </h2>
-
-            </div>
-
-            <div
-                class="panel-body"
-                id="paymentBreakdown"
-            >
-
-                <div class="loading">
-                    Loading...
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <h2>
-                    Expenses by Category
-                </h2>
-
-            </div>
-
-            <div
-                class="panel-body"
-                id="expenseBreakdown"
-            >
-
-                <div class="loading">
-                    Loading...
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- SALES TABLE -->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <h2>
-                Sales Report
-            </h2>
-
-            <span
-                id="salesTableCount"
-                style="font-size:11px;color:#6b7280;"
-            >
-                0 sales
-            </span>
-
-        </div>
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>Sale Number</th>
-                        <th>Date</th>
-                        <th>Customer</th>
-                        <th>Items</th>
-                        <th>Payment</th>
-                        <th>Sales</th>
-                        <th>Cost</th>
-                        <th>Gross Profit</th>
-                        <th>Status</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="salesTableBody">
-
-                    <tr>
-
-                        <td
-                            colspan="9"
-                            class="loading"
-                        >
-                            Loading sales...
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-</main>
-
-</div>
-
-<!-- ================= FIREBASE ================= -->
-
-<script type="module">
-
 import {
     auth,
     db
-} from "./js/firebase.js";
+} from "./firebase.js";
 
 import {
     onAuthStateChanged,
@@ -1283,1249 +10,1835 @@ import {
 
 import {
     collection,
-    getDocs
+    getDocs,
+    query,
+    orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* ================= ELEMENTS ================= */
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-const startDate =
-    document.getElementById("startDate");
+const salesTableBody =
+    document.getElementById("salesTableBody");
 
-const endDate =
-    document.getElementById("endDate");
-
-const applyFilterBtn =
-    document.getElementById("applyFilterBtn");
-
-const refreshBtn =
-    document.getElementById("refreshBtn");
-
-const printBtn =
-    document.getElementById("printBtn");
+const searchInput =
+    document.getElementById("searchInput");
 
 const logoutBtn =
     document.getElementById("logoutBtn");
 
-const mobileMenu =
-    document.getElementById("mobileMenu");
+const mobileMenuBtn =
+    document.getElementById("mobileMenuBtn");
 
 const sidebar =
     document.getElementById("sidebar");
 
+const receiptModal =
+    document.getElementById("receiptModal");
 
-/* ================= STATE ================= */
+const receiptContent =
+    document.getElementById("receiptContent");
+
+const closeReceiptBtn =
+    document.getElementById("closeReceiptBtn");
+
+const printReceiptBtn =
+    document.getElementById("printReceiptBtn");
+
+
+/* =========================================================
+   DATA
+========================================================= */
 
 let allSales = [];
-let allExpenses = [];
+let allCreditPayments = [];
+let currentReceiptSale = null;
 
 
-/* ================= MONEY ================= */
+/* =========================================================
+   HELPERS
+========================================================= */
 
-function money(value){
+function safeNumber(value) {
+
+    const number = Number(value);
+
+    return Number.isFinite(number)
+        ? number
+        : 0;
+}
+
+
+function money(value) {
 
     return new Intl.NumberFormat(
         "en-NG",
         {
-            style:"currency",
-            currency:"NGN"
+            style: "currency",
+            currency: "NGN",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         }
-    ).format(
-        Number(value) || 0
-    );
-
+    ).format(safeNumber(value));
 }
 
 
-/* ================= DATE ================= */
+function escapeHtml(value) {
 
-function pad(number){
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
 
-    return String(number).padStart(2,"0");
-
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
-function dateString(date){
+function getDateValue(value) {
 
-    return (
-        date.getFullYear() +
-        "-" +
-        pad(date.getMonth()+1) +
-        "-" +
-        pad(date.getDate())
-    );
-
-}
-
-
-function today(){
-
-    return dateString(new Date());
-
-}
-
-
-function monthStart(){
-
-    const d = new Date();
-
-    d.setDate(1);
-
-    return dateString(d);
-
-}
-
-
-function convertDate(value){
-
-    if(!value){
+    if (!value) {
         return null;
     }
 
-    if(
+    if (
         typeof value.toDate === "function"
-    ){
+    ) {
         return value.toDate();
     }
 
-    if(value instanceof Date){
+    if (
+        value instanceof Date
+    ) {
         return value;
     }
 
-    if(
-        typeof value === "string" ||
+    if (
         typeof value === "number"
-    ){
+    ) {
+        const date = new Date(value);
 
-        const d = new Date(value);
-
-        if(!Number.isNaN(d.getTime())){
-            return d;
-        }
-
+        return Number.isNaN(date.getTime())
+            ? null
+            : date;
     }
 
-    return null;
+    if (
+        typeof value === "string"
+    ) {
+        const date = new Date(value);
 
-}
+        return Number.isNaN(date.getTime())
+            ? null
+            : date;
+    }
 
-
-/* ================= SALE DATE ================= */
-
-function saleDate(sale){
-
-    const created =
-        convertDate(
-            sale.createdAt
+    if (
+        typeof value === "object" &&
+        value.seconds
+    ) {
+        const date = new Date(
+            value.seconds * 1000
         );
 
-    if(created){
-        return created;
-    }
-
-    if(sale.date){
-
-        const d =
-            new Date(
-                sale.date
-            );
-
-        if(!Number.isNaN(d.getTime())){
-            return d;
-        }
-
+        return Number.isNaN(date.getTime())
+            ? null
+            : date;
     }
 
     return null;
-
 }
 
 
-/* ================= EXPENSE DATE ================= */
+function formatDate(value) {
 
-function expenseDate(expense){
+    const date = getDateValue(value);
 
-    if(expense.date){
-
-        const d =
-            new Date(
-                expense.date +
-                "T00:00:00"
-            );
-
-        if(!Number.isNaN(d.getTime())){
-            return d;
-        }
-
+    if (!date) {
+        return "—";
     }
 
-    return convertDate(
-        expense.createdAt
+    return date.toLocaleString(
+        "en-NG",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
     );
-
 }
 
 
-/* ================= HTML ESCAPE ================= */
+function formatShortDate(value) {
 
-function escapeHtml(value){
+    const date = getDateValue(value);
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    if (!date) {
+        return "—";
+    }
 
+    return date.toLocaleDateString(
+        "en-NG",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
 }
 
 
-/* ================= LOAD DATA ================= */
+/* =========================================================
+   SALE DATE
+========================================================= */
 
-async function loadData(){
-
-    showLoading();
-
-    try{
-
-        const salesSnapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "sales"
-                )
-            );
-
-        allSales =
-            salesSnapshot.docs.map(
-                item => ({
-                    id:item.id,
-                    ...item.data()
-                })
-            );
-
-    }catch(error){
-
-        console.error(
-            "Sales error:",
-            error
-        );
-
-        allSales = [];
-
-    }
-
-
-    try{
-
-        const expensesSnapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "expenses"
-                )
-            );
-
-        allExpenses =
-            expensesSnapshot.docs.map(
-                item => ({
-                    id:item.id,
-                    ...item.data()
-                })
-            );
-
-    }catch(error){
-
-        console.error(
-            "Expenses error:",
-            error
-        );
-
-        allExpenses = [];
-
-    }
-
-
-    renderReport();
-
-}
-
-
-/* ================= FILTER ================= */
-
-function inRange(
-    date,
-    start,
-    end
-){
-
-    if(!date){
-        return false;
-    }
-
-    const value =
-        dateString(date);
+function getSaleDate(sale) {
 
     return (
-        value >= start &&
-        value <= end
+        sale.createdAt ||
+        sale.date ||
+        sale.saleDate ||
+        sale.timestamp ||
+        null
     );
-
 }
 
 
-function filteredData(){
+/* =========================================================
+   SALE ITEMS
+========================================================= */
 
-    const start =
-        startDate.value;
+function getSaleItems(sale) {
 
-    const end =
-        endDate.value;
+    if (
+        Array.isArray(sale.items)
+    ) {
+        return sale.items;
+    }
 
+    if (
+        Array.isArray(sale.products)
+    ) {
+        return sale.products;
+    }
+
+    return [];
+}
+
+
+function getItemQuantity(item) {
+
+    return safeNumber(
+        item.quantity ??
+        item.qty ??
+        0
+    );
+}
+
+
+function getItemPrice(item) {
+
+    return safeNumber(
+        item.sellingPrice ??
+        item.price ??
+        item.unitPrice ??
+        0
+    );
+}
+
+
+function getSaleItemCount(sale) {
+
+    const items = getSaleItems(sale);
+
+    return items.reduce(
+        (total, item) => {
+
+            return total +
+                getItemQuantity(item);
+
+        },
+        0
+    );
+}
+
+
+/* =========================================================
+   CREDIT PAYMENT HELPERS
+========================================================= */
+
+function getPaymentAmount(payment) {
+
+    return safeNumber(
+        payment.amount ??
+        payment.amountPaid ??
+        payment.paymentAmount ??
+        payment.paidAmount ??
+        0
+    );
+}
+
+
+function getCreditPaymentSaleId(payment) {
+
+    return (
+        payment.saleId ||
+        payment.saleID ||
+        payment.originalSaleId ||
+        payment.originalSaleID ||
+        ""
+    );
+}
+
+
+function getCreditPaymentSaleNumber(payment) {
+
+    return (
+        payment.saleNumber ||
+        payment.saleNo ||
+        payment.invoiceNumber ||
+        payment.invoiceNo ||
+        ""
+    );
+}
+
+
+function getCreditPaymentCustomerId(payment) {
+
+    return (
+        payment.customerId ||
+        payment.customerID ||
+        ""
+    );
+}
+
+
+/*
+ * Find all payments belonging to a particular sale.
+ *
+ * We support several possible field names so this works
+ * with the credit-payment records already created.
+ */
+function getPaymentsForSale(sale) {
+
+    const saleId =
+        sale.id ||
+        sale.saleId ||
+        "";
+
+    const saleNumber =
+        sale.saleNumber ||
+        sale.saleNo ||
+        sale.invoiceNumber ||
+        sale.invoiceNo ||
+        "";
+
+    const customerId =
+        sale.customerId ||
+        sale.customerID ||
+        "";
+
+    return allCreditPayments.filter(
+        payment => {
+
+            const paymentSaleId =
+                getCreditPaymentSaleId(payment);
+
+            const paymentSaleNumber =
+                getCreditPaymentSaleNumber(payment);
+
+            const paymentCustomerId =
+                getCreditPaymentCustomerId(payment);
+
+            /*
+             * Strong match: sale ID
+             */
+            if (
+                saleId &&
+                paymentSaleId &&
+                paymentSaleId === saleId
+            ) {
+                return true;
+            }
+
+            /*
+             * Strong match: sale number
+             */
+            if (
+                saleNumber &&
+                paymentSaleNumber &&
+                paymentSaleNumber === saleNumber
+            ) {
+                return true;
+            }
+
+            /*
+             * Some older payment records may only have
+             * customer information. We deliberately do NOT
+             * automatically attach those payments to every
+             * credit sale because that could produce a wrong
+             * balance.
+             */
+            if (
+                customerId &&
+                paymentCustomerId &&
+                paymentCustomerId === customerId
+            ) {
+
+                /*
+                 * Only use the customer match when the payment
+                 * explicitly has no sale reference.
+                 */
+                if (
+                    !paymentSaleId &&
+                    !paymentSaleNumber
+                ) {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+    );
+}
+
+
+/* =========================================================
+   CURRENT CREDIT BALANCE
+========================================================= */
+
+function getOriginalOutstanding(sale) {
+
+    return safeNumber(
+        sale.outstandingBalance ??
+        sale.balanceDue ??
+        sale.amountOutstanding ??
+        0
+    );
+}
+
+
+function getOriginalAmountPaid(sale) {
+
+    return safeNumber(
+        sale.amountPaid ??
+        sale.paidAmount ??
+        0
+    );
+}
+
+
+function getSaleTotal(sale) {
+
+    return safeNumber(
+        sale.total ??
+        sale.grandTotal ??
+        sale.amount ??
+        sale.totalAmount ??
+        0
+    );
+}
+
+
+/*
+ * IMPORTANT:
+ *
+ * The original sale may still contain:
+ *
+ * outstandingBalance = 50
+ *
+ * even after the customer pays the ₦50 later.
+ *
+ * This function subtracts later credit payments from
+ * that original outstanding amount.
+ */
+function getCreditStatus(sale) {
+
+    const total =
+        getSaleTotal(sale);
+
+    const originalAmountPaid =
+        getOriginalAmountPaid(sale);
+
+    const originalOutstanding =
+        getOriginalOutstanding(sale);
+
+    const payments =
+        getPaymentsForSale(sale);
+
+    const laterPayments =
+        payments.reduce(
+            (sum, payment) => {
+
+                return sum +
+                    getPaymentAmount(payment);
+
+            },
+            0
+        );
+
+    /*
+     * If the original sale has an outstanding balance,
+     * use it as the starting point.
+     *
+     * Otherwise calculate it from total - amount paid.
+     */
+    let startingOutstanding =
+        originalOutstanding;
+
+    if (
+        startingOutstanding <= 0 &&
+        total > 0 &&
+        originalAmountPaid < total
+    ) {
+        startingOutstanding =
+            total - originalAmountPaid;
+    }
+
+    let currentOutstanding =
+        startingOutstanding -
+        laterPayments;
+
+    /*
+     * Prevent tiny negative floating-point values.
+     */
+    if (
+        currentOutstanding < 0.01
+    ) {
+        currentOutstanding = 0;
+    }
+
+    /*
+     * Total amount paid across the original
+     * transaction plus later credit payments.
+     */
+    const totalPaid =
+        originalAmountPaid +
+        laterPayments;
+
+    let status = "Paid";
+
+    if (
+        currentOutstanding > 0
+    ) {
+
+        if (
+            totalPaid <= 0
+        ) {
+            status = "Unpaid";
+        } else {
+            status = "Partially Paid";
+        }
+    }
+
+    /*
+     * If this is a credit sale with no later payment
+     * and the original balance is positive, status is
+     * correctly shown as Unpaid/Partially Paid.
+     */
     return {
-
-        sales:
-            allSales.filter(
-                sale =>
-                    inRange(
-                        saleDate(sale),
-                        start,
-                        end
-                    )
-            ),
-
-        expenses:
-            allExpenses.filter(
-                expense =>
-                    inRange(
-                        expenseDate(expense),
-                        start,
-                        end
-                    )
-            )
-
+        total,
+        originalAmountPaid,
+        originalOutstanding,
+        laterPayments,
+        totalPaid,
+        currentOutstanding,
+        status,
+        payments
     };
-
 }
 
 
-/* ================= COST CHECK ================= */
+/* =========================================================
+   PAYMENT METHOD
+========================================================= */
 
-function hasCost(sale){
+function getPaymentMethod(sale) {
 
     return (
-        sale &&
-        sale.costTotal !== undefined &&
-        sale.costTotal !== null &&
-        sale.grossProfit !== undefined &&
-        sale.grossProfit !== null
+        sale.paymentMethod ||
+        sale.payment ||
+        "Cash"
     );
-
 }
 
 
-/* ================= RENDER REPORT ================= */
+/* =========================================================
+   LOAD SALES
+========================================================= */
 
-function renderReport(){
+async function loadSales() {
 
-    const data =
-        filteredData();
+    const salesSnapshot =
+        await getDocs(
+            collection(db, "sales")
+        );
 
-    const sales =
-        data.sales;
+    allSales = [];
 
-    const expenses =
-        data.expenses;
+    salesSnapshot.forEach(
+        doc => {
 
-
-    let totalSales = 0;
-    let totalCost = 0;
-    let grossProfit = 0;
-    let itemsSold = 0;
-    let oldSales = 0;
-
-
-    sales.forEach(sale => {
-
-        const total =
-            Number(
-                sale.total ??
-                sale.subtotal ??
-                0
-            ) || 0;
-
-        totalSales += total;
-
-
-        const items =
-            Array.isArray(
-                sale.items
-            )
-            ? sale.items
-            : [];
-
-
-        items.forEach(item => {
-
-            itemsSold +=
-                Number(
-                    item.quantity
-                ) || 0;
-
-        });
-
-
-        if(hasCost(sale)){
-
-            totalCost +=
-                Number(
-                    sale.costTotal
-                ) || 0;
-
-            grossProfit +=
-                Number(
-                    sale.grossProfit
-                ) || 0;
-
-        }else{
-
-            oldSales++;
+            allSales.push({
+                id: doc.id,
+                ...doc.data()
+            });
 
         }
-
-    });
-
-
-    let totalExpenses = 0;
-
-
-    expenses.forEach(expense => {
-
-        totalExpenses +=
-            Number(
-                expense.amount
-            ) || 0;
-
-    });
-
-
-    const netProfit =
-        grossProfit -
-        totalExpenses;
-
-
-    const averageSale =
-        sales.length
-        ? totalSales / sales.length
-        : 0;
-
-
-    /* CARDS */
-
-    document.getElementById(
-        "totalSales"
-    ).textContent =
-        money(totalSales);
-
-
-    document.getElementById(
-        "totalCost"
-    ).textContent =
-        money(totalCost);
-
-
-    document.getElementById(
-        "grossProfit"
-    ).textContent =
-        money(grossProfit);
-
-
-    document.getElementById(
-        "totalExpenses"
-    ).textContent =
-        money(totalExpenses);
-
-
-    document.getElementById(
-        "netProfit"
-    ).textContent =
-        money(netProfit);
-
-
-    document.getElementById(
-        "salesCount"
-    ).textContent =
-        sales.length;
-
-
-    document.getElementById(
-        "itemsSold"
-    ).textContent =
-        itemsSold;
-
-
-    document.getElementById(
-        "averageSale"
-    ).textContent =
-        money(averageSale);
-
-
-    /* FLOW */
-
-    document.getElementById(
-        "flowSales"
-    ).textContent =
-        money(totalSales);
-
-
-    document.getElementById(
-        "flowCost"
-    ).textContent =
-        money(totalCost);
-
-
-    document.getElementById(
-        "flowGross"
-    ).textContent =
-        money(grossProfit);
-
-
-    document.getElementById(
-        "flowGross2"
-    ).textContent =
-        money(grossProfit);
-
-
-    document.getElementById(
-        "flowExpenses"
-    ).textContent =
-        money(totalExpenses);
-
-
-    document.getElementById(
-        "flowNet"
-    ).textContent =
-        money(netProfit);
-
-
-    setColor(
-        document.getElementById(
-            "grossProfit"
-        ),
-        grossProfit
     );
 
+    allSales.sort(
+        (a, b) => {
 
-    setColor(
-        document.getElementById(
-            "netProfit"
-        ),
-        netProfit
-    );
+            const dateA =
+                getDateValue(
+                    getSaleDate(a)
+                )?.getTime() || 0;
 
+            const dateB =
+                getDateValue(
+                    getSaleDate(b)
+                )?.getTime() || 0;
 
-    setColor(
-        document.getElementById(
-            "flowGross"
-        ),
-        grossProfit
-    );
-
-
-    setColor(
-        document.getElementById(
-            "flowNet"
-        ),
-        netProfit
-    );
-
-
-    /* WARNING */
-
-    const warning =
-        document.getElementById(
-            "dataWarning"
-        );
-
-
-    if(oldSales > 0){
-
-        warning.style.display =
-            "block";
-
-        warning.innerHTML =
-            "⚠️ <strong>" +
-            oldSales +
-            " older sale(s)</strong> in this period do not contain cost price information. " +
-            "They are included in sales and item totals, but not in cost or gross profit.";
-
-    }else{
-
-        warning.style.display =
-            "none";
-
-    }
-
-
-    renderPayments(sales);
-
-    renderExpenses(expenses);
-
-    renderSalesTable(sales);
-
-}
-
-
-/* ================= COLOR ================= */
-
-function setColor(
-    element,
-    value
-){
-
-    element.classList.remove(
-        "positive",
-        "negative"
-    );
-
-    if(
-        Number(value) < 0
-    ){
-
-        element.classList.add(
-            "negative"
-        );
-
-    }else{
-
-        element.classList.add(
-            "positive"
-        );
-
-    }
-
-}
-
-
-/* ================= PAYMENT BREAKDOWN ================= */
-
-function renderPayments(sales){
-
-    const container =
-        document.getElementById(
-            "paymentBreakdown"
-        );
-
-
-    if(!sales.length){
-
-        container.innerHTML =
-            `<div class="empty">
-                No sales found for this period.
-            </div>`;
-
-        return;
-
-    }
-
-
-    const totals = {
-        Cash:0,
-        POS:0,
-        "Bank Transfer":0,
-        Credit:0,
-        Other:0
-    };
-
-
-    sales.forEach(sale => {
-
-        const amount =
-            Number(
-                sale.total ??
-                sale.subtotal ??
-                0
-            ) || 0;
-
-
-        const method =
-            String(
-                sale.paymentMethod ||
-                "Other"
-            ).toLowerCase();
-
-
-        if(method === "cash"){
-
-            totals.Cash += amount;
-
-        }else if(method === "pos"){
-
-            totals.POS += amount;
-
-        }else if(
-            method.includes("bank") ||
-            method.includes("transfer")
-        ){
-
-            totals[
-                "Bank Transfer"
-            ] += amount;
-
-        }else if(
-            method.includes("credit")
-        ){
-
-            totals.Credit += amount;
-
-        }else{
-
-            totals.Other += amount;
-
+            return dateB - dateA;
         }
-
-    });
-
-
-    container.innerHTML = `
-
-        <div class="breakdown-row">
-            <span class="breakdown-name">
-                💵 Cash
-            </span>
-            <span class="breakdown-value">
-                ${money(totals.Cash)}
-            </span>
-        </div>
-
-        <div class="breakdown-row">
-            <span class="breakdown-name">
-                💳 POS
-            </span>
-            <span class="breakdown-value">
-                ${money(totals.POS)}
-            </span>
-        </div>
-
-        <div class="breakdown-row">
-            <span class="breakdown-name">
-                🏦 Bank Transfer
-            </span>
-            <span class="breakdown-value">
-                ${money(totals["Bank Transfer"])}
-            </span>
-        </div>
-
-        <div class="breakdown-row">
-            <span class="breakdown-name">
-                📒 Credit
-            </span>
-            <span class="breakdown-value">
-                ${money(totals.Credit)}
-            </span>
-        </div>
-
-        <div class="breakdown-row">
-            <span class="breakdown-name">
-                Other
-            </span>
-            <span class="breakdown-value">
-                ${money(totals.Other)}
-            </span>
-        </div>
-
-    `;
-
+    );
 }
 
 
-/* ================= EXPENSE BREAKDOWN ================= */
+/* =========================================================
+   LOAD CREDIT PAYMENTS
+========================================================= */
 
-function renderExpenses(expenses){
+async function loadCreditPayments() {
 
-    const container =
-        document.getElementById(
-            "expenseBreakdown"
-        );
+    /*
+     * If the collection does not exist yet, getDocs simply
+     * returns an empty result.
+     */
+    try {
 
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "creditPayments"
+                )
+            );
 
-    if(!expenses.length){
+        allCreditPayments = [];
 
-        container.innerHTML =
-            `<div class="empty">
-                No expenses found for this period.
-            </div>`;
+        snapshot.forEach(
+            doc => {
 
-        return;
-
-    }
-
-
-    const categories = {};
-
-
-    expenses.forEach(expense => {
-
-        const category =
-            String(
-                expense.category ||
-                "Other"
-            ).trim();
-
-
-        const amount =
-            Number(
-                expense.amount
-            ) || 0;
-
-
-        categories[category] =
-            (
-                categories[category] ||
-                0
-            ) + amount;
-
-    });
-
-
-    const sorted =
-        Object.entries(
-            categories
-        ).sort(
-            (a,b) =>
-                b[1] - a[1]
-        );
-
-
-    const max =
-        sorted.length
-        ? sorted[0][1]
-        : 1;
-
-
-    container.innerHTML =
-        sorted.map(
-            ([category,amount]) => {
-
-                const percent =
-                    max > 0
-                    ? (
-                        amount / max
-                    ) * 100
-                    : 0;
-
-
-                return `
-
-                    <div class="expense-row">
-
-                        <div class="expense-top">
-
-                            <span>
-                                ${escapeHtml(category)}
-                            </span>
-
-                            <span class="expense-amount">
-                                ${money(amount)}
-                            </span>
-
-                        </div>
-
-                        <div class="bar">
-
-                            <div
-                                class="bar-inner"
-                                style="width:${percent}%"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-                `;
+                allCreditPayments.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
 
             }
-        ).join("");
+        );
 
+    } catch (error) {
+
+        console.warn(
+            "Credit payments collection could not be loaded:",
+            error
+        );
+
+        allCreditPayments = [];
+    }
 }
 
 
-/* ================= SALES TABLE ================= */
+/* =========================================================
+   RENDER SALES TABLE
+========================================================= */
 
-function renderSalesTable(sales){
+function renderSales(
+    sales = allSales
+) {
 
-    const tbody =
-        document.getElementById(
-            "salesTableBody"
-        );
+    if (!salesTableBody) {
+        return;
+    }
 
-    const count =
-        document.getElementById(
-            "salesTableCount"
-        );
+    if (
+        sales.length === 0
+    ) {
 
-
-    count.textContent =
-        `${sales.length} ${
-            sales.length === 1
-            ? "sale"
-            : "sales"
-        }`;
-
-
-    if(!sales.length){
-
-        tbody.innerHTML = `
+        salesTableBody.innerHTML = `
             <tr>
                 <td
-                    colspan="9"
-                    class="empty"
+                    colspan="8"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                        color:#777;
+                    "
                 >
-                    No sales found for this period.
+                    No sales found.
                 </td>
             </tr>
         `;
 
         return;
-
     }
 
+    salesTableBody.innerHTML =
+        sales.map(
+            sale => {
 
-    const sorted =
-        [...sales].sort(
-            (a,b) => {
+                const saleNumber =
+                    sale.saleNumber ||
+                    sale.saleNo ||
+                    sale.invoiceNumber ||
+                    sale.invoiceNo ||
+                    "—";
 
-                const dateA =
-                    saleDate(a);
+                const customer =
+                    sale.customerName ||
+                    sale.customer ||
+                    "Walk-in Customer";
 
-                const dateB =
-                    saleDate(b);
+                const itemCount =
+                    getSaleItemCount(sale);
 
-                return (
-                    (dateB?.getTime() || 0) -
-                    (dateA?.getTime() || 0)
+                const total =
+                    getSaleTotal(sale);
+
+                const paymentMethod =
+                    getPaymentMethod(sale);
+
+                const isCredit =
+                    paymentMethod
+                        .toLowerCase()
+                        .includes("credit");
+
+                let statusText =
+                    sale.paymentStatus ||
+                    "";
+
+                if (isCredit) {
+
+                    const credit =
+                        getCreditStatus(sale);
+
+                    statusText =
+                        credit.status;
+
+                } else {
+
+                    statusText =
+                        "Paid";
+                }
+
+                return `
+                    <tr>
+
+                        <td>
+                            <strong>
+                                ${escapeHtml(saleNumber)}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                formatDate(
+                                    getSaleDate(sale)
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(customer)}
+                        </td>
+
+                        <td>
+                            ${itemCount}
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${money(total)}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                paymentMethod
+                            )}
+                        </td>
+
+                        <td>
+                            ${
+                                isCredit
+                                    ? `
+                                        <span
+                                            style="
+                                                font-weight:600;
+                                                color:${
+                                                    statusText === "Paid"
+                                                        ? "#198754"
+                                                        : "#d97706"
+                                                };
+                                            "
+                                        >
+                                            ${escapeHtml(statusText)}
+                                        </span>
+                                      `
+                                    : `
+                                        <span
+                                            style="
+                                                color:#198754;
+                                                font-weight:600;
+                                            "
+                                        >
+                                            Paid
+                                        </span>
+                                      `
+                            }
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="view-receipt-btn"
+                                data-sale-id="${escapeHtml(
+                                    sale.id
+                                )}"
+                                style="
+                                    border:none;
+                                    background:#0a5fff;
+                                    color:white;
+                                    padding:7px 10px;
+                                    border-radius:6px;
+                                    cursor:pointer;
+                                    margin-right:5px;
+                                "
+                            >
+                                View
+                            </button>
+
+                            <button
+                                type="button"
+                                class="print-receipt-btn"
+                                data-sale-id="${escapeHtml(
+                                    sale.id
+                                )}"
+                                style="
+                                    border:none;
+                                    background:#ff8a00;
+                                    color:white;
+                                    padding:7px 10px;
+                                    border-radius:6px;
+                                    cursor:pointer;
+                                "
+                            >
+                                Print
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }
+        ).join("");
+
+    attachReceiptButtons();
+}
+
+
+/* =========================================================
+   RECEIPT BUTTONS
+========================================================= */
+
+function attachReceiptButtons() {
+
+    document
+        .querySelectorAll(
+            ".view-receipt-btn"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const sale =
+                            allSales.find(
+                                item =>
+                                    item.id ===
+                                    button.dataset.saleId
+                            );
+
+                        if (sale) {
+                            openReceipt(sale);
+                        }
+
+                    }
                 );
 
             }
         );
 
 
-    tbody.innerHTML =
-        sorted.map(sale => {
+    document
+        .querySelectorAll(
+            ".print-receipt-btn"
+        )
+        .forEach(
+            button => {
 
-            const date =
-                saleDate(sale);
+                button.addEventListener(
+                    "click",
+                    () => {
 
+                        const sale =
+                            allSales.find(
+                                item =>
+                                    item.id ===
+                                    button.dataset.saleId
+                            );
 
-            const dateText =
-                date
-                ? date.toLocaleString(
-                    "en-NG",
-                    {
-                        day:"2-digit",
-                        month:"short",
-                        year:"numeric",
-                        hour:"2-digit",
-                        minute:"2-digit"
+                        if (sale) {
+
+                            currentReceiptSale =
+                                sale;
+
+                            printReceipt(
+                                sale
+                            );
+                        }
+
                     }
-                )
-                : "Unknown";
-
-
-            const items =
-                Array.isArray(
-                    sale.items
-                )
-                ? sale.items
-                : [];
-
-
-            const itemCount =
-                items.reduce(
-                    (sum,item) =>
-                        sum +
-                        (
-                            Number(
-                                item.quantity
-                            ) || 0
-                        ),
-                    0
                 );
 
-
-            const total =
-                Number(
-                    sale.total ??
-                    sale.subtotal ??
-                    0
-                ) || 0;
+            }
+        );
+}
 
 
-            const costAvailable =
-                hasCost(sale);
+/* =========================================================
+   RECEIPT HTML
+========================================================= */
+
+function buildReceiptHtml(sale) {
+
+    const saleNumber =
+        sale.saleNumber ||
+        sale.saleNo ||
+        sale.invoiceNumber ||
+        sale.invoiceNo ||
+        "—";
+
+    const customer =
+        sale.customerName ||
+        sale.customer ||
+        "Walk-in Customer";
+
+    const customerPhone =
+        sale.customerPhone ||
+        sale.phone ||
+        sale.customerPhoneNumber ||
+        "—";
+
+    const paymentMethod =
+        getPaymentMethod(sale);
+
+    const total =
+        getSaleTotal(sale);
+
+    const items =
+        getSaleItems(sale);
+
+    const isCredit =
+        paymentMethod
+            .toLowerCase()
+            .includes("credit");
+
+    const credit =
+        isCredit
+            ? getCreditStatus(sale)
+            : null;
 
 
-            const cost =
-                Number(
-                    sale.costTotal
-                ) || 0;
+    const itemsHtml =
+        items.length > 0
 
+            ? items.map(
+                item => {
 
-            const profit =
-                Number(
-                    sale.grossProfit
-                ) || 0;
+                    const name =
+                        item.productName ||
+                        item.name ||
+                        item.product ||
+                        "Product";
 
+                    const quantity =
+                        getItemQuantity(item);
 
-            const status =
-                costAvailable
-                ? `
-                    <span class="badge badge-complete">
-                        Cost Data
-                    </span>
-                `
-                : `
-                    <span class="badge badge-old">
-                        Older Sale
-                    </span>
-                `;
+                    const price =
+                        getItemPrice(item);
 
+                    const lineTotal =
+                        safeNumber(
+                            item.lineTotal ??
+                            item.total ??
+                            (quantity * price)
+                        );
 
-            return `
+                    return `
+                        <tr>
 
+                            <td>
+                                ${escapeHtml(name)}
+                            </td>
+
+                            <td
+                                style="
+                                    text-align:center;
+                                "
+                            >
+                                ${quantity}
+                            </td>
+
+                            <td
+                                style="
+                                    text-align:right;
+                                "
+                            >
+                                ${money(price)}
+                            </td>
+
+                            <td
+                                style="
+                                    text-align:right;
+                                "
+                            >
+                                ${money(lineTotal)}
+                            </td>
+
+                        </tr>
+                    `;
+
+                }
+            ).join("")
+
+            : `
                 <tr>
-
-                    <td>
-                        ${escapeHtml(
-                            sale.saleNumber ||
-                            "N/A"
-                        )}
+                    <td colspan="4">
+                        No item details available.
                     </td>
-
-                    <td>
-                        ${dateText}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            sale.customer ||
-                            "Walk-in Customer"
-                        )}
-                    </td>
-
-                    <td>
-                        ${itemCount}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            sale.paymentMethod ||
-                            "Cash"
-                        )}
-                    </td>
-
-                    <td>
-                        ${money(total)}
-                    </td>
-
-                    <td>
-
-                        ${
-                            costAvailable
-                            ? money(cost)
-                            : `<span style="color:#9ca3af">
-                                Not recorded
-                              </span>`
-                        }
-
-                    </td>
-
-                    <td>
-
-                        ${
-                            costAvailable
-                            ? `
-                                <span class="profit">
-                                    ${money(profit)}
-                                </span>
-                              `
-                            : `<span style="color:#9ca3af">
-                                Not available
-                              </span>`
-                        }
-
-                    </td>
-
-                    <td>
-                        ${status}
-                    </td>
-
                 </tr>
-
             `;
 
-        }).join("");
 
-}
+    let creditHtml = "";
 
+    if (isCredit) {
 
-/* ================= LOADING ================= */
+        creditHtml = `
 
-function showLoading(){
-
-    document.getElementById(
-        "paymentBreakdown"
-    ).innerHTML =
-        `<div class="loading">
-            Loading...
-        </div>`;
-
-
-    document.getElementById(
-        "expenseBreakdown"
-    ).innerHTML =
-        `<div class="loading">
-            Loading...
-        </div>`;
-
-
-    document.getElementById(
-        "salesTableBody"
-    ).innerHTML = `
-        <tr>
-            <td
-                colspan="9"
-                class="loading"
+            <div
+                style="
+                    margin-top:20px;
+                    padding:15px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                "
             >
-                Loading sales...
-            </td>
-        </tr>
+
+                <h3
+                    style="
+                        margin:0 0 12px;
+                        font-size:16px;
+                    "
+                >
+                    Credit Payment Details
+                </h3>
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        margin:6px 0;
+                    "
+                >
+                    <span>
+                        Payment Status
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            credit.status
+                        )}
+                    </strong>
+                </div>
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        margin:6px 0;
+                    "
+                >
+                    <span>
+                        Original Amount Paid
+                    </span>
+
+                    <strong>
+                        ${money(
+                            credit.originalAmountPaid
+                        )}
+                    </strong>
+                </div>
+
+                ${
+                    credit.laterPayments > 0
+                        ? `
+                            <div
+                                style="
+                                    display:flex;
+                                    justify-content:space-between;
+                                    margin:6px 0;
+                                "
+                            >
+                                <span>
+                                    Credit Payments Received
+                                </span>
+
+                                <strong>
+                                    ${money(
+                                        credit.laterPayments
+                                    )}
+                                </strong>
+                            </div>
+                          `
+                        : ""
+                }
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        margin:6px 0;
+                        padding-top:8px;
+                        border-top:1px solid #eee;
+                    "
+                >
+                    <span>
+                        Total Paid
+                    </span>
+
+                    <strong>
+                        ${money(
+                            credit.totalPaid
+                        )}
+                    </strong>
+                </div>
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        margin-top:10px;
+                        padding-top:10px;
+                        border-top:2px solid #222;
+                        font-size:18px;
+                    "
+                >
+                    <span>
+                        BALANCE DUE
+                    </span>
+
+                    <strong>
+                        ${money(
+                            credit.currentOutstanding
+                        )}
+                    </strong>
+                </div>
+
+            </div>
+
+        `;
+    }
+
+
+    const notes =
+        sale.notes ||
+        sale.note ||
+        "";
+
+
+    return `
+
+        <div
+            style="
+                font-family:Arial,Helvetica,sans-serif;
+                color:#222;
+                max-width:700px;
+                margin:0 auto;
+                background:#fff;
+            "
+        >
+
+            <div
+                style="
+                    text-align:center;
+                    border-bottom:2px solid #0a5fff;
+                    padding-bottom:15px;
+                    margin-bottom:20px;
+                "
+            >
+
+                <img
+                    src="assets/logo.png"
+                    alt="Nesi Medicals"
+                    style="
+                        width:80px;
+                        height:80px;
+                        object-fit:contain;
+                    "
+                >
+
+                <h1
+                    style="
+                        margin:8px 0 3px;
+                        font-size:24px;
+                    "
+                >
+                    Nesi Medicals
+                </h1>
+
+                <div
+                    style="
+                        font-size:14px;
+                    "
+                >
+                    & Minimart Enterprises
+                </div>
+
+                <div
+                    style="
+                        margin-top:7px;
+                        font-size:13px;
+                    "
+                >
+                    Quality Care. Essential Products.
+                    Trusted Service.
+                </div>
+
+                <div
+                    style="
+                        margin-top:8px;
+                        font-size:13px;
+                    "
+                >
+                    +2349067075444 • +2347087471639
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:1fr 1fr;
+                    gap:8px;
+                    margin-bottom:20px;
+                    font-size:14px;
+                "
+            >
+
+                <div>
+                    <strong>
+                        Sale No:
+                    </strong>
+                    ${escapeHtml(saleNumber)}
+                </div>
+
+                <div>
+                    <strong>
+                        Date:
+                    </strong>
+                    ${escapeHtml(
+                        formatDate(
+                            getSaleDate(sale)
+                        )
+                    )}
+                </div>
+
+                <div>
+                    <strong>
+                        Customer:
+                    </strong>
+                    ${escapeHtml(customer)}
+                </div>
+
+                <div>
+                    <strong>
+                        Phone:
+                    </strong>
+                    ${escapeHtml(customerPhone)}
+                </div>
+
+                <div>
+                    <strong>
+                        Payment:
+                    </strong>
+                    ${escapeHtml(paymentMethod)}
+                </div>
+
+            </div>
+
+
+            <table
+                style="
+                    width:100%;
+                    border-collapse:collapse;
+                    margin-bottom:20px;
+                    font-size:14px;
+                "
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th
+                            style="
+                                text-align:left;
+                                border-bottom:1px solid #222;
+                                padding:8px 5px;
+                            "
+                        >
+                            Product
+                        </th>
+
+                        <th
+                            style="
+                                text-align:center;
+                                border-bottom:1px solid #222;
+                                padding:8px 5px;
+                            "
+                        >
+                            Qty
+                        </th>
+
+                        <th
+                            style="
+                                text-align:right;
+                                border-bottom:1px solid #222;
+                                padding:8px 5px;
+                            "
+                        >
+                            Price
+                        </th>
+
+                        <th
+                            style="
+                                text-align:right;
+                                border-bottom:1px solid #222;
+                                padding:8px 5px;
+                            "
+                        >
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${itemsHtml}
+
+                </tbody>
+
+            </table>
+
+
+            <div
+                style="
+                    text-align:right;
+                    font-size:18px;
+                    font-weight:bold;
+                    padding-top:10px;
+                    border-top:2px solid #222;
+                "
+            >
+                TOTAL:
+                ${money(total)}
+            </div>
+
+
+            ${creditHtml}
+
+
+            ${
+                notes
+                    ? `
+                        <div
+                            style="
+                                margin-top:20px;
+                                padding:12px;
+                                background:#f6f6f6;
+                                border-radius:6px;
+                                font-size:13px;
+                            "
+                        >
+                            <strong>
+                                Notes:
+                            </strong>
+
+                            ${escapeHtml(notes)}
+                        </div>
+                      `
+                    : ""
+            }
+
+
+            <div
+                style="
+                    margin-top:30px;
+                    padding-top:15px;
+                    border-top:1px solid #ddd;
+                    text-align:center;
+                    font-size:12px;
+                    color:#666;
+                "
+            >
+                Thank you for your patronage.
+                <br>
+                Nesi Medicals & Minimart Enterprises
+            </div>
+
+        </div>
+
     `;
-
 }
 
 
-/* ================= DEFAULT DATES ================= */
+/* =========================================================
+   OPEN RECEIPT
+========================================================= */
 
-function setDefaultDates(){
+function openReceipt(sale) {
 
-    startDate.value =
-        monthStart();
+    currentReceiptSale =
+        sale;
 
-    endDate.value =
-        today();
+    if (!receiptModal) {
+        return;
+    }
 
+    if (receiptContent) {
+
+        receiptContent.innerHTML =
+            buildReceiptHtml(
+                sale
+            );
+    }
+
+    receiptModal.style.display =
+        "flex";
 }
 
 
-/* ================= EVENTS ================= */
+/* =========================================================
+   PRINT RECEIPT
+========================================================= */
 
-applyFilterBtn.addEventListener(
-    "click",
-    () => {
+function printReceipt(sale) {
 
-        if(
-            startDate.value &&
-            endDate.value &&
-            startDate.value >
-            endDate.value
-        ){
-
-            alert(
-                "Start date cannot be after end date."
-            );
-
-            return;
-
-        }
-
-        renderReport();
-
-    }
-);
-
-
-refreshBtn.addEventListener(
-    "click",
-    async () => {
-
-        await loadData();
-
-    }
-);
-
-
-printBtn.addEventListener(
-    "click",
-    () => {
-
-        window.print();
-
-    }
-);
-
-
-logoutBtn.addEventListener(
-    "click",
-    async () => {
-
-        try{
-
-            await signOut(auth);
-
-            window.location.href =
-                "login.html";
-
-        }catch(error){
-
-            console.error(error);
-
-            alert(
-                "Unable to logout."
-            );
-
-        }
-
-    }
-);
-
-
-mobileMenu.addEventListener(
-    "click",
-    () => {
-
-        sidebar.classList.toggle(
-            "open"
+    const receiptHtml =
+        buildReceiptHtml(
+            sale
         );
 
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=800,height=900"
+        );
+
+    if (!printWindow) {
+
+        alert(
+            "Please allow pop-ups to print the receipt."
+        );
+
+        return;
     }
-);
+
+    printWindow.document.open();
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+            <meta charset="UTF-8">
+
+            <title>
+                Receipt ${
+                    escapeHtml(
+                        sale.saleNumber ||
+                        sale.saleNo ||
+                        ""
+                    )
+                }
+            </title>
+
+            <style>
+
+                body {
+                    margin: 0;
+                    padding: 20px;
+                    background: white;
+                }
+
+                @media print {
+
+                    body {
+                        padding: 0;
+                    }
+
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            ${receiptHtml}
+
+            <script>
+
+                window.onload = function() {
+
+                    window.print();
+
+                };
+
+            <\/script>
+
+        </body>
+
+        </html>
+    `);
+
+    printWindow.document.close();
+}
 
 
-/* ================= AUTH ================= */
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchSales() {
+
+    const search =
+        String(
+            searchInput?.value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    if (!search) {
+
+        renderSales(
+            allSales
+        );
+
+        return;
+    }
+
+    const filtered =
+        allSales.filter(
+            sale => {
+
+                const saleNumber =
+                    String(
+                        sale.saleNumber ||
+                        sale.saleNo ||
+                        sale.invoiceNumber ||
+                        sale.invoiceNo ||
+                        ""
+                    )
+                    .toLowerCase();
+
+                const customer =
+                    String(
+                        sale.customerName ||
+                        sale.customer ||
+                        ""
+                    )
+                    .toLowerCase();
+
+                const phone =
+                    String(
+                        sale.customerPhone ||
+                        sale.phone ||
+                        ""
+                    )
+                    .toLowerCase();
+
+                const payment =
+                    String(
+                        getPaymentMethod(sale)
+                    )
+                    .toLowerCase();
+
+                return (
+                    saleNumber.includes(search) ||
+                    customer.includes(search) ||
+                    phone.includes(search) ||
+                    payment.includes(search)
+                );
+            }
+        );
+
+    renderSales(
+        filtered
+    );
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await signOut(
+                    auth
+                );
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+                alert(
+                    "Unable to log out. Please try again."
+                );
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+if (mobileMenuBtn) {
+
+    mobileMenuBtn.addEventListener(
+        "click",
+        () => {
+
+            if (sidebar) {
+
+                sidebar.classList.toggle(
+                    "open"
+                );
+
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   CLOSE RECEIPT
+========================================================= */
+
+if (closeReceiptBtn) {
+
+    closeReceiptBtn.addEventListener(
+        "click",
+        () => {
+
+            if (receiptModal) {
+
+                receiptModal.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+}
+
+
+if (receiptModal) {
+
+    receiptModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                receiptModal
+            ) {
+
+                receiptModal.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   PRINT BUTTON IN MODAL
+========================================================= */
+
+if (printReceiptBtn) {
+
+    printReceiptBtn.addEventListener(
+        "click",
+        () => {
+
+            if (
+                currentReceiptSale
+            ) {
+
+                printReceipt(
+                    currentReceiptSale
+                );
+
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   SEARCH EVENT
+========================================================= */
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        searchSales
+    );
+}
+
+
+/* =========================================================
+   AUTH + INITIAL LOAD
+========================================================= */
 
 onAuthStateChanged(
     auth,
     async user => {
 
-        if(!user){
+        if (!user) {
 
             window.location.href =
                 "login.html";
 
             return;
+        }
+
+        try {
+
+            if (salesTableBody) {
+
+                salesTableBody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="8"
+                            style="
+                                text-align:center;
+                                padding:30px;
+                            "
+                        >
+                            Loading sales...
+                        </td>
+                    </tr>
+                `;
+
+            }
+
+            /*
+             * Load both sales and credit payments.
+             */
+            await Promise.all([
+                loadSales(),
+                loadCreditPayments()
+            ]);
+
+            renderSales(
+                allSales
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Sales History loading error:",
+                error
+            );
+
+            if (salesTableBody) {
+
+                salesTableBody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="8"
+                            style="
+                                text-align:center;
+                                padding:30px;
+                                color:#c62828;
+                            "
+                        >
+                            Unable to load sales.
+                            Please refresh the page.
+                        </td>
+                    </tr>
+                `;
+
+            }
 
         }
 
-        setDefaultDates();
-
-        await loadData();
-
     }
 );
-
-</script>
-
-</body>
-</html>
