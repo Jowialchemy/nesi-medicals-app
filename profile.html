@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Profile | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="User profile for Nesi Medicals & Minimart Enterprises"
+    >
 
     <style>
         * {
@@ -15,333 +21,247 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: #f5f7fb;
+            background: #f4f7fb;
             color: #172033;
-        }
-
-        .layout {
-            display: flex;
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
-        .sidebar {
-            width: 250px;
-            background: #101828;
+        .topbar {
+            background: linear-gradient(135deg, #0a5fff, #0848c7);
             color: white;
-            padding: 22px 14px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            overflow-y: auto;
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 10px 25px;
+            gap: 12px;
         }
 
         .brand img {
             width: 45px;
             height: 45px;
             object-fit: contain;
+            background: white;
             border-radius: 10px;
+            padding: 4px;
         }
 
-        .brand-text {
-            font-size: 15px;
-            font-weight: bold;
-            line-height: 1.3;
+        .brand h1 {
+            font-size: 20px;
         }
 
-        .brand-text small {
-            display: block;
-            color: #98a2b3;
-            font-size: 11px;
+        .brand p {
+            font-size: 12px;
+            opacity: 0.9;
             margin-top: 3px;
         }
 
-        .nav-title {
-            color: #667085;
-            font-size: 11px;
-            text-transform: uppercase;
-            padding: 10px 12px;
-        }
-
-        .nav-menu a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #d0d5dd;
-            text-decoration: none;
-            padding: 12px;
-            margin: 3px 0;
+        .logout-btn {
+            border: none;
+            background: #ff8a00;
+            color: white;
+            padding: 10px 16px;
             border-radius: 8px;
-            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
-        .nav-menu a:hover {
-            background: #1d2939;
-            color: white;
+        .logout-btn:hover {
+            opacity: 0.9;
         }
 
-        .nav-menu a.active {
-            background: #0a5fff;
-            color: white;
-        }
-
-        .nav-icon {
-            width: 22px;
-            text-align: center;
-            font-size: 17px;
-        }
-
-        .logout {
-            margin-top: 20px;
-            border-top: 1px solid #344054;
-            padding-top: 15px;
-        }
-
-        /* MAIN */
-        .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            min-height: 100vh;
-        }
-
-        .topbar {
-            background: white;
-            border-bottom: 1px solid #eaecf0;
-            padding: 18px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .topbar h1 {
-            font-size: 22px;
-        }
-
-        .topbar p {
-            color: #667085;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        .user-email {
-            color: #667085;
-            font-size: 13px;
-        }
-
-        .content {
-            padding: 28px;
+        .page {
             max-width: 1000px;
+            margin: 35px auto;
+            padding: 0 20px 40px;
         }
 
-        /* PROFILE CARD */
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h2 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .page-heading p {
+            color: #687386;
+        }
+
         .profile-card {
             background: white;
-            border: 1px solid #eaecf0;
-            border-radius: 14px;
-            padding: 25px;
-            margin-bottom: 22px;
-            box-shadow: 0 3px 12px rgba(16, 24, 40, 0.04);
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(21, 40, 70, 0.08);
+            overflow: hidden;
         }
 
         .profile-header {
+            background: linear-gradient(135deg, #0a5fff, #0b72ff);
+            padding: 35px;
+            color: white;
             display: flex;
             align-items: center;
-            gap: 18px;
-            margin-bottom: 28px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eaecf0;
+            gap: 22px;
         }
 
         .avatar {
-            width: 70px;
-            height: 70px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: #0a5fff;
-            color: white;
+            background: white;
+            color: #0a5fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 34px;
             font-weight: bold;
+            flex-shrink: 0;
         }
 
-        .profile-header h2 {
-            font-size: 20px;
-            margin-bottom: 5px;
+        .profile-header h3 {
+            font-size: 25px;
+            margin-bottom: 6px;
         }
 
         .profile-header p {
-            color: #667085;
-            font-size: 13px;
+            opacity: 0.9;
         }
 
-        .form-grid {
+        .profile-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .info-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 18px;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
+        .info-box {
+            border: 1px solid #e4e9f1;
+            border-radius: 12px;
+            padding: 18px;
+            background: #fbfcfe;
         }
 
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
-
-        label {
-            font-size: 13px;
+        .info-label {
+            display: block;
+            font-size: 12px;
+            color: #7b8494;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
             font-weight: bold;
-            color: #344054;
         }
 
-        input {
-            width: 100%;
-            padding: 12px 13px;
-            border: 1px solid #d0d5dd;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #172033;
+            word-break: break-word;
         }
 
-        input:focus {
-            border-color: #0a5fff;
-            box-shadow: 0 0 0 3px rgba(10, 95, 255, 0.1);
-        }
-
-        input:disabled {
-            background: #f2f4f7;
-            color: #667085;
-        }
-
-        .help-text {
-            font-size: 11px;
-            color: #667085;
-        }
-
-        /* BUTTON */
-        .button-row {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 22px;
-        }
-
-        .save-btn {
-            border: none;
-            background: #0a5fff;
-            color: white;
-            padding: 13px 23px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .save-btn:hover {
-            background: #0048d8;
-        }
-
-        .save-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* PASSWORD */
-        .password-card h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .password-card > p {
-            color: #667085;
-            font-size: 13px;
+        .status {
             margin-bottom: 20px;
-        }
-
-        .password-btn {
-            border: none;
-            background: #101828;
-            color: white;
-            padding: 13px 23px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .password-btn:hover {
-            background: #1d2939;
-        }
-
-        /* MESSAGE */
-        .message {
-            display: none;
             padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            border-radius: 9px;
+            background: #eef6ff;
+            color: #0a5fff;
             font-size: 14px;
         }
 
-        .message.success {
-            display: block;
-            background: #ecfdf3;
-            color: #027a48;
-            border: 1px solid #abefc6;
+        .status.error {
+            background: #fff0f0;
+            color: #c62828;
         }
 
-        .message.error {
-            display: block;
-            background: #fef3f2;
-            color: #b42318;
-            border: 1px solid #fecdca;
+        .status.success {
+            background: #eefaf1;
+            color: #218838;
         }
 
-        /* MOBILE */
-        @media (max-width: 800px) {
+        .actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
 
-            .layout {
-                display: block;
-            }
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #172033;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
 
-            .sidebar {
-                position: relative;
-                width: 100%;
-                min-height: auto;
-            }
+        .back-btn:hover {
+            opacity: 0.9;
+        }
 
-            .main {
-                margin-left: 0;
-                width: 100%;
-            }
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #687386;
+        }
 
+        @media (max-width: 700px) {
             .topbar {
-                padding: 16px 18px;
+                padding: 15px;
             }
 
-            .content {
-                padding: 18px;
+            .brand h1 {
+                font-size: 17px;
             }
 
-            .form-grid {
+            .brand p {
+                font-size: 11px;
+            }
+
+            .logout-btn {
+                padding: 8px 11px;
+                font-size: 12px;
+            }
+
+            .page {
+                margin: 25px auto;
+                padding: 0 14px 30px;
+            }
+
+            .page-heading h2 {
+                font-size: 23px;
+            }
+
+            .profile-header {
+                padding: 25px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-header h3 {
+                font-size: 22px;
+            }
+
+            .profile-body {
+                padding: 20px;
+            }
+
+            .info-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .form-group.full {
-                grid-column: auto;
-            }
-
-            .user-email {
-                display: none;
             }
         }
     </style>
@@ -349,283 +269,107 @@
 
 <body>
 
-<div class="layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
+    <header class="topbar">
         <div class="brand">
-
-            <img
-                src="assets/logo.png"
-                alt="Nesi Medicals Logo"
-            >
-
-            <div class="brand-text">
-                Nesi Medicals
-                <small>& Minimart Enterprises</small>
-            </div>
-
-        </div>
-
-        <div class="nav-title">
-            Main Menu
-        </div>
-
-        <nav class="nav-menu">
-
-            <a href="dashboard.html">
-                <span class="nav-icon">📊</span>
-                Dashboard
-            </a>
-
-            <a href="sales.html">
-                <span class="nav-icon">💰</span>
-                Sales
-            </a>
-
-            <a href="inventory.html">
-                <span class="nav-icon">📦</span>
-                Inventory
-            </a>
-
-            <a href="products.html">
-                <span class="nav-icon">🛍️</span>
-                Products
-            </a>
-
-            <a href="customers.html">
-                <span class="nav-icon">👥</span>
-                Customers
-            </a>
-
-            <a href="suppliers.html">
-                <span class="nav-icon">🚚</span>
-                Suppliers
-            </a>
-
-            <a href="expenses.html">
-                <span class="nav-icon">💳</span>
-                Expenses
-            </a>
-
-            <a href="reports.html">
-                <span class="nav-icon">📈</span>
-                Reports
-            </a>
-
-            <a href="staff.html">
-                <span class="nav-icon">👨‍💼</span>
-                Staff
-            </a>
-
-            <a href="settings.html">
-                <span class="nav-icon">⚙️</span>
-                Settings
-            </a>
-
-            <a
-                href="profile.html"
-                class="active"
-            >
-                <span class="nav-icon">👤</span>
-                Profile
-            </a>
-
-        </nav>
-
-        <div class="logout">
-
-            <a href="#" id="logoutBtn">
-
-                <span class="nav-icon">🚪</span>
-                Logout
-
-            </a>
-
-        </div>
-
-    </aside>
-
-
-    <!-- MAIN -->
-    <main class="main">
-
-        <header class="topbar">
+            <img src="assets/logo.png" alt="Nesi Medicals Logo">
 
             <div>
-
-                <h1>Profile</h1>
-
-                <p>
-                    Manage your account information
-                </p>
-
+                <h1>Nesi Medicals</h1>
+                <p>& Minimart Enterprises</p>
             </div>
+        </div>
 
-            <div
-                class="user-email"
-                id="topEmail"
-            >
-                Loading...
-            </div>
+        <button class="logout-btn" id="logoutBtn">
+            Logout
+        </button>
+    </header>
 
-        </header>
+    <main class="page">
 
+        <div class="page-heading">
+            <h2>My Profile</h2>
+            <p>View your account information and staff details.</p>
+        </div>
 
-        <section class="content">
+        <div id="statusMessage" class="status">
+            Loading your profile...
+        </div>
 
-            <div
-                id="message"
-                class="message"
-            ></div>
+        <section class="profile-card">
 
+            <div class="profile-header">
 
-            <!-- PROFILE -->
-            <div class="profile-card">
-
-                <div class="profile-header">
-
-                    <div
-                        class="avatar"
-                        id="avatar"
-                    >
-                        U
-                    </div>
-
-                    <div>
-
-                        <h2 id="profileName">
-                            User Profile
-                        </h2>
-
-                        <p id="profileEmail">
-                            Loading...
-                        </p>
-
-                    </div>
-
+                <div class="avatar" id="avatar">
+                    --
                 </div>
 
+                <div>
+                    <h3 id="profileName">
+                        Loading...
+                    </h3>
 
-                <div class="form-grid">
+                    <p id="profileRole">
+                        Loading role...
+                    </p>
+                </div>
 
-                    <div class="form-group">
+            </div>
 
-                        <label for="displayName">
-                            Display Name
-                        </label>
+            <div class="profile-body">
 
-                        <input
-                            type="text"
-                            id="displayName"
-                            placeholder="Enter your name"
-                        >
+                <div class="section-title">
+                    Account Information
+                </div>
 
-                    </div>
+                <div class="info-grid">
 
-
-                    <div class="form-group">
-
-                        <label for="phone">
-                            Phone Number
-                        </label>
-
-                        <input
-                            type="text"
-                            id="phone"
-                            placeholder="Enter your phone number"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group full">
-
-                        <label for="email">
-                            Email Address
-                        </label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            disabled
-                        >
-
-                        <span class="help-text">
-                            Your login email cannot be changed here.
+                    <div class="info-box">
+                        <span class="info-label">
+                            Full Name
                         </span>
 
+                        <div class="info-value" id="fullName">
+                            Loading...
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <span class="info-label">
+                            Email
+                        </span>
+
+                        <div class="info-value" id="email">
+                            Loading...
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <span class="info-label">
+                            Phone Number
+                        </span>
+
+                        <div class="info-value" id="phone">
+                            Loading...
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <span class="info-label">
+                            Role
+                        </span>
+
+                        <div class="info-value" id="role">
+                            Loading...
+                        </div>
                     </div>
 
                 </div>
 
+                <div class="actions">
 
-                <div class="button-row">
-
-                    <button
-                        class="save-btn"
-                        id="saveProfileBtn"
-                    >
-                        💾 Save Profile
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- PASSWORD -->
-            <div class="profile-card password-card">
-
-                <h2>🔐 Password</h2>
-
-                <p>
-                    Change your account password.
-                </p>
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="newPassword">
-                            New Password
-                        </label>
-
-                        <input
-                            type="password"
-                            id="newPassword"
-                            placeholder="Enter new password"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="confirmPassword">
-                            Confirm New Password
-                        </label>
-
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            placeholder="Confirm new password"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="button-row">
-
-                    <button
-                        class="password-btn"
-                        id="changePasswordBtn"
-                    >
-                        🔑 Change Password
-                    </button>
+                    <a href="dashboard.html" class="back-btn">
+                        ← Back to Dashboard
+                    </a>
 
                 </div>
 
@@ -635,423 +379,7 @@
 
     </main>
 
-</div>
-
-
-<script type="module">
-
-    import {
-        auth,
-        db
-    } from "./js/firebase.js";
-
-    import {
-        doc,
-        getDoc,
-        setDoc,
-        serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    import {
-        onAuthStateChanged,
-        updateProfile,
-        updatePassword,
-        signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-    const topEmail =
-        document.getElementById("topEmail");
-
-    const profileEmail =
-        document.getElementById("profileEmail");
-
-    const emailInput =
-        document.getElementById("email");
-
-    const displayNameInput =
-        document.getElementById("displayName");
-
-    const phoneInput =
-        document.getElementById("phone");
-
-    const avatar =
-        document.getElementById("avatar");
-
-    const profileName =
-        document.getElementById("profileName");
-
-    const saveProfileBtn =
-        document.getElementById("saveProfileBtn");
-
-    const changePasswordBtn =
-        document.getElementById("changePasswordBtn");
-
-    const newPasswordInput =
-        document.getElementById("newPassword");
-
-    const confirmPasswordInput =
-        document.getElementById("confirmPassword");
-
-    const logoutBtn =
-        document.getElementById("logoutBtn");
-
-    const message =
-        document.getElementById("message");
-
-
-    let currentUser = null;
-
-
-    function showMessage(text, type) {
-
-        message.textContent = text;
-
-        message.className =
-            "message " + type;
-
-        setTimeout(() => {
-
-            message.className =
-                "message";
-
-        }, 4000);
-
-    }
-
-
-    function updateAvatar(name, email) {
-
-        const source =
-            name ||
-            email ||
-            "User";
-
-        avatar.textContent =
-            source.charAt(0).toUpperCase();
-
-    }
-
-
-    async function loadUserProfile(user) {
-
-        try {
-
-            const profileRef =
-                doc(
-                    db,
-                    "profiles",
-                    user.uid
-                );
-
-            const snapshot =
-                await getDoc(profileRef);
-
-            let data = {};
-
-            if (snapshot.exists()) {
-
-                data =
-                    snapshot.data();
-
-            }
-
-
-            const name =
-                data.displayName ||
-                user.displayName ||
-                "";
-
-
-            displayNameInput.value =
-                name;
-
-            phoneInput.value =
-                data.phone || "";
-
-            emailInput.value =
-                user.email || "";
-
-            topEmail.textContent =
-                user.email || "";
-
-            profileEmail.textContent =
-                user.email || "No email";
-
-
-            profileName.textContent =
-                name ||
-                "User Profile";
-
-
-            updateAvatar(
-                name,
-                user.email
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            showMessage(
-                "Unable to load profile.",
-                "error"
-            );
-
-        }
-
-    }
-
-
-    saveProfileBtn.addEventListener(
-        "click",
-        async () => {
-
-            if (!currentUser) {
-                return;
-            }
-
-            try {
-
-                saveProfileBtn.disabled =
-                    true;
-
-                saveProfileBtn.textContent =
-                    "Saving...";
-
-
-                const displayName =
-                    displayNameInput.value.trim();
-
-                const phone =
-                    phoneInput.value.trim();
-
-
-                await setDoc(
-                    doc(
-                        db,
-                        "profiles",
-                        currentUser.uid
-                    ),
-                    {
-                        displayName,
-                        phone,
-                        email:
-                            currentUser.email || "",
-                        updatedAt:
-                            serverTimestamp()
-                    },
-                    {
-                        merge: true
-                    }
-                );
-
-
-                await updateProfile(
-                    currentUser,
-                    {
-                        displayName
-                    }
-                );
-
-
-                profileName.textContent =
-                    displayName ||
-                    "User Profile";
-
-
-                updateAvatar(
-                    displayName,
-                    currentUser.email
-                );
-
-
-                showMessage(
-                    "Profile saved successfully.",
-                    "success"
-                );
-
-            } catch (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "Unable to save profile.",
-                    "error"
-                );
-
-            } finally {
-
-                saveProfileBtn.disabled =
-                    false;
-
-                saveProfileBtn.textContent =
-                    "💾 Save Profile";
-
-            }
-
-        }
-    );
-
-
-    changePasswordBtn.addEventListener(
-        "click",
-        async () => {
-
-            if (!currentUser) {
-                return;
-            }
-
-
-            const newPassword =
-                newPasswordInput.value;
-
-            const confirmPassword =
-                confirmPasswordInput.value;
-
-
-            if (newPassword.length < 6) {
-
-                showMessage(
-                    "Password must be at least 6 characters.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                newPassword !==
-                confirmPassword
-            ) {
-
-                showMessage(
-                    "Passwords do not match.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            try {
-
-                changePasswordBtn.disabled =
-                    true;
-
-                changePasswordBtn.textContent =
-                    "Changing...";
-
-
-                await updatePassword(
-                    currentUser,
-                    newPassword
-                );
-
-
-                newPasswordInput.value =
-                    "";
-
-                confirmPasswordInput.value =
-                    "";
-
-
-                showMessage(
-                    "Password changed successfully.",
-                    "success"
-                );
-
-            } catch (error) {
-
-                console.error(error);
-
-                if (
-                    error.code ===
-                    "auth/requires-recent-login"
-                ) {
-
-                    showMessage(
-                        "For security, please log out and log in again before changing your password.",
-                        "error"
-                    );
-
-                } else {
-
-                    showMessage(
-                        "Unable to change password.",
-                        "error"
-                    );
-
-                }
-
-            } finally {
-
-                changePasswordBtn.disabled =
-                    false;
-
-                changePasswordBtn.textContent =
-                    "🔑 Change Password";
-
-            }
-
-        }
-    );
-
-
-    logoutBtn.addEventListener(
-        "click",
-        async (event) => {
-
-            event.preventDefault();
-
-            try {
-
-                await signOut(auth);
-
-                window.location.href =
-                    "login.html";
-
-            } catch (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "Unable to logout.",
-                    "error"
-                );
-
-            }
-
-        }
-    );
-
-
-    onAuthStateChanged(
-        auth,
-        async (user) => {
-
-            if (!user) {
-
-                window.location.href =
-                    "login.html";
-
-                return;
-
-            }
-
-
-            currentUser =
-                user;
-
-            await loadUserProfile(user);
-
-        }
-    );
-
-</script>
+    <script type="module" src="./js/profile.js"></script>
 
 </body>
 </html>
