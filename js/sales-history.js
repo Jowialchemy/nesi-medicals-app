@@ -13,6 +13,7 @@ import {
     getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
 /* =========================================================
    ELEMENTS
 ========================================================= */
@@ -55,7 +56,7 @@ let currentReceiptSale = null;
 
 
 /* =========================================================
-   HELPERS
+   BASIC HELPERS
 ========================================================= */
 
 function safeNumber(value) {
@@ -100,6 +101,10 @@ function escapeHtml(value) {
 }
 
 
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
 function getDateValue(value) {
 
     if (!value) {
@@ -121,9 +126,13 @@ function getDateValue(value) {
     if (
         typeof value === "number"
     ) {
-        const date = new Date(value);
 
-        return Number.isNaN(date.getTime())
+        const date =
+            new Date(value);
+
+        return Number.isNaN(
+            date.getTime()
+        )
             ? null
             : date;
     }
@@ -131,22 +140,30 @@ function getDateValue(value) {
     if (
         typeof value === "string"
     ) {
-        const date = new Date(value);
 
-        return Number.isNaN(date.getTime())
+        const date =
+            new Date(value);
+
+        return Number.isNaN(
+            date.getTime()
+        )
             ? null
             : date;
     }
 
     if (
         typeof value === "object" &&
-        value.seconds
+        value.seconds !== undefined
     ) {
-        const date = new Date(
-            value.seconds * 1000
-        );
 
-        return Number.isNaN(date.getTime())
+        const date =
+            new Date(
+                value.seconds * 1000
+            );
+
+        return Number.isNaN(
+            date.getTime()
+        )
             ? null
             : date;
     }
@@ -157,7 +174,8 @@ function getDateValue(value) {
 
 function formatDate(value) {
 
-    const date = getDateValue(value);
+    const date =
+        getDateValue(value);
 
     if (!date) {
         return "—";
@@ -171,25 +189,6 @@ function formatDate(value) {
             year: "numeric",
             hour: "2-digit",
             minute: "2-digit"
-        }
-    );
-}
-
-
-function formatShortDate(value) {
-
-    const date = getDateValue(value);
-
-    if (!date) {
-        return "—";
-    }
-
-    return date.toLocaleDateString(
-        "en-NG",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
         }
     );
 }
@@ -256,7 +255,8 @@ function getItemPrice(item) {
 
 function getSaleItemCount(sale) {
 
-    const items = getSaleItems(sale);
+    const items =
+        getSaleItems(sale);
 
     return items.reduce(
         (total, item) => {
@@ -266,6 +266,36 @@ function getSaleItemCount(sale) {
 
         },
         0
+    );
+}
+
+
+/* =========================================================
+   SALE TOTAL
+========================================================= */
+
+function getSaleTotal(sale) {
+
+    return safeNumber(
+        sale.total ??
+        sale.grandTotal ??
+        sale.amount ??
+        sale.totalAmount ??
+        0
+    );
+}
+
+
+/* =========================================================
+   PAYMENT METHOD
+========================================================= */
+
+function getPaymentMethod(sale) {
+
+    return (
+        sale.paymentMethod ||
+        sale.payment ||
+        "Cash"
     );
 }
 
@@ -310,22 +340,10 @@ function getCreditPaymentSaleNumber(payment) {
 }
 
 
-function getCreditPaymentCustomerId(payment) {
+/* =========================================================
+   FIND PAYMENTS FOR SALE
+========================================================= */
 
-    return (
-        payment.customerId ||
-        payment.customerID ||
-        ""
-    );
-}
-
-
-/*
- * Find all payments belonging to a particular sale.
- *
- * We support several possible field names so this works
- * with the credit-payment records already created.
- */
 function getPaymentsForSale(sale) {
 
     const saleId =
@@ -340,68 +358,35 @@ function getPaymentsForSale(sale) {
         sale.invoiceNo ||
         "";
 
-    const customerId =
-        sale.customerId ||
-        sale.customerID ||
-        "";
-
     return allCreditPayments.filter(
         payment => {
 
             const paymentSaleId =
-                getCreditPaymentSaleId(payment);
+                getCreditPaymentSaleId(
+                    payment
+                );
 
             const paymentSaleNumber =
-                getCreditPaymentSaleNumber(payment);
+                getCreditPaymentSaleNumber(
+                    payment
+                );
 
-            const paymentCustomerId =
-                getCreditPaymentCustomerId(payment);
-
-            /*
-             * Strong match: sale ID
-             */
             if (
                 saleId &&
                 paymentSaleId &&
-                paymentSaleId === saleId
+                String(paymentSaleId) ===
+                String(saleId)
             ) {
                 return true;
             }
 
-            /*
-             * Strong match: sale number
-             */
             if (
                 saleNumber &&
                 paymentSaleNumber &&
-                paymentSaleNumber === saleNumber
+                String(paymentSaleNumber) ===
+                String(saleNumber)
             ) {
                 return true;
-            }
-
-            /*
-             * Some older payment records may only have
-             * customer information. We deliberately do NOT
-             * automatically attach those payments to every
-             * credit sale because that could produce a wrong
-             * balance.
-             */
-            if (
-                customerId &&
-                paymentCustomerId &&
-                paymentCustomerId === customerId
-            ) {
-
-                /*
-                 * Only use the customer match when the payment
-                 * explicitly has no sale reference.
-                 */
-                if (
-                    !paymentSaleId &&
-                    !paymentSaleNumber
-                ) {
-                    return false;
-                }
             }
 
             return false;
@@ -411,64 +396,28 @@ function getPaymentsForSale(sale) {
 
 
 /* =========================================================
-   CURRENT CREDIT BALANCE
+   CREDIT STATUS
 ========================================================= */
 
-function getOriginalOutstanding(sale) {
-
-    return safeNumber(
-        sale.outstandingBalance ??
-        sale.balanceDue ??
-        sale.amountOutstanding ??
-        0
-    );
-}
-
-
-function getOriginalAmountPaid(sale) {
-
-    return safeNumber(
-        sale.amountPaid ??
-        sale.paidAmount ??
-        0
-    );
-}
-
-
-function getSaleTotal(sale) {
-
-    return safeNumber(
-        sale.total ??
-        sale.grandTotal ??
-        sale.amount ??
-        sale.totalAmount ??
-        0
-    );
-}
-
-
-/*
- * IMPORTANT:
- *
- * The original sale may still contain:
- *
- * outstandingBalance = 50
- *
- * even after the customer pays the ₦50 later.
- *
- * This function subtracts later credit payments from
- * that original outstanding amount.
- */
 function getCreditStatus(sale) {
 
     const total =
         getSaleTotal(sale);
 
     const originalAmountPaid =
-        getOriginalAmountPaid(sale);
+        safeNumber(
+            sale.amountPaid ??
+            sale.paidAmount ??
+            0
+        );
 
     const originalOutstanding =
-        getOriginalOutstanding(sale);
+        safeNumber(
+            sale.outstandingBalance ??
+            sale.balanceDue ??
+            sale.amountOutstanding ??
+            0
+        );
 
     const payments =
         getPaymentsForSale(sale);
@@ -478,18 +427,14 @@ function getCreditStatus(sale) {
             (sum, payment) => {
 
                 return sum +
-                    getPaymentAmount(payment);
+                    getPaymentAmount(
+                        payment
+                    );
 
             },
             0
         );
 
-    /*
-     * If the original sale has an outstanding balance,
-     * use it as the starting point.
-     *
-     * Otherwise calculate it from total - amount paid.
-     */
     let startingOutstanding =
         originalOutstanding;
 
@@ -498,27 +443,22 @@ function getCreditStatus(sale) {
         total > 0 &&
         originalAmountPaid < total
     ) {
+
         startingOutstanding =
-            total - originalAmountPaid;
+            total -
+            originalAmountPaid;
     }
 
     let currentOutstanding =
         startingOutstanding -
         laterPayments;
 
-    /*
-     * Prevent tiny negative floating-point values.
-     */
     if (
         currentOutstanding < 0.01
     ) {
         currentOutstanding = 0;
     }
 
-    /*
-     * Total amount paid across the original
-     * transaction plus later credit payments.
-     */
     const totalPaid =
         originalAmountPaid +
         laterPayments;
@@ -538,11 +478,6 @@ function getCreditStatus(sale) {
         }
     }
 
-    /*
-     * If this is a credit sale with no later payment
-     * and the original balance is positive, status is
-     * correctly shown as Unpaid/Partially Paid.
-     */
     return {
         total,
         originalAmountPaid,
@@ -557,90 +492,26 @@ function getCreditStatus(sale) {
 
 
 /* =========================================================
-   PAYMENT METHOD
-========================================================= */
-
-function getPaymentMethod(sale) {
-
-    return (
-        sale.paymentMethod ||
-        sale.payment ||
-        "Cash"
-    );
-}
-
-
-/* =========================================================
    LOAD SALES
 ========================================================= */
 
 async function loadSales() {
 
-    try {
+    console.log(
+        "Sales History: loading sales..."
+    );
 
-        console.log("Sales History: starting sales load...");
-
-        const salesSnapshot = await getDocs(
-            collection(db, "sales")
-        );
-
-        console.log(
-            "Sales History: sales received:",
-            salesSnapshot.size
-        );
-
-        allSales = [];
-
-        salesSnapshot.forEach(doc => {
-
-            allSales.push({
-                id: doc.id,
-                ...doc.data()
-            });
-
-        });
-
-        allSales.sort((a, b) => {
-
-            const dateA =
-                getDateValue(
-                    getSaleDate(a)
-                )?.getTime() || 0;
-
-            const dateB =
-                getDateValue(
-                    getSaleDate(b)
-                )?.getTime() || 0;
-
-            return dateB - dateA;
-        });
-
-        console.log(
-            "Sales History: sales loaded successfully:",
-            allSales.length
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.error(
-            "SALES LOAD ERROR:",
-            error
-        );
-
-        throw error;
-    }
-}
-
-    const salesSnapshot =
+    const snapshot =
         await getDocs(
-            collection(db, "sales")
+            collection(
+                db,
+                "sales"
+            )
         );
 
     allSales = [];
 
-    salesSnapshot.forEach(
+    snapshot.forEach(
         doc => {
 
             allSales.push({
@@ -667,6 +538,12 @@ async function loadSales() {
             return dateB - dateA;
         }
     );
+
+    console.log(
+        "Sales History:",
+        allSales.length,
+        "sales loaded."
+    );
 }
 
 
@@ -676,10 +553,6 @@ async function loadSales() {
 
 async function loadCreditPayments() {
 
-    /*
-     * If the collection does not exist yet, getDocs simply
-     * returns an empty result.
-     */
     try {
 
         const snapshot =
@@ -703,10 +576,15 @@ async function loadCreditPayments() {
             }
         );
 
+        console.log(
+            "Credit payments loaded:",
+            allCreditPayments.length
+        );
+
     } catch (error) {
 
         console.warn(
-            "Credit payments collection could not be loaded:",
+            "Credit payment collection unavailable:",
             error
         );
 
@@ -716,7 +594,7 @@ async function loadCreditPayments() {
 
 
 /* =========================================================
-   RENDER SALES TABLE
+   RENDER SALES
 ========================================================= */
 
 function renderSales(
@@ -766,35 +644,40 @@ function renderSales(
                     "Walk-in Customer";
 
                 const itemCount =
-                    getSaleItemCount(sale);
+                    getSaleItemCount(
+                        sale
+                    );
 
                 const total =
-                    getSaleTotal(sale);
+                    getSaleTotal(
+                        sale
+                    );
 
                 const paymentMethod =
-                    getPaymentMethod(sale);
+                    getPaymentMethod(
+                        sale
+                    );
 
                 const isCredit =
-                    paymentMethod
-                        .toLowerCase()
-                        .includes("credit");
+                    String(
+                        paymentMethod
+                    )
+                    .toLowerCase()
+                    .includes("credit");
 
                 let statusText =
                     sale.paymentStatus ||
-                    "";
+                    "Paid";
 
                 if (isCredit) {
 
                     const credit =
-                        getCreditStatus(sale);
+                        getCreditStatus(
+                            sale
+                        );
 
                     statusText =
                         credit.status;
-
-                } else {
-
-                    statusText =
-                        "Paid";
                 }
 
                 return `
@@ -802,20 +685,26 @@ function renderSales(
 
                         <td>
                             <strong>
-                                ${escapeHtml(saleNumber)}
+                                ${escapeHtml(
+                                    saleNumber
+                                )}
                             </strong>
                         </td>
 
                         <td>
                             ${escapeHtml(
                                 formatDate(
-                                    getSaleDate(sale)
+                                    getSaleDate(
+                                        sale
+                                    )
                                 )
                             )}
                         </td>
 
                         <td>
-                            ${escapeHtml(customer)}
+                            ${escapeHtml(
+                                customer
+                            )}
                         </td>
 
                         <td>
@@ -824,7 +713,9 @@ function renderSales(
 
                         <td>
                             <strong>
-                                ${money(total)}
+                                ${money(
+                                    total
+                                )}
                             </strong>
                         </td>
 
@@ -835,6 +726,7 @@ function renderSales(
                         </td>
 
                         <td>
+
                             ${
                                 isCredit
                                     ? `
@@ -842,13 +734,16 @@ function renderSales(
                                             style="
                                                 font-weight:600;
                                                 color:${
-                                                    statusText === "Paid"
+                                                    statusText ===
+                                                    "Paid"
                                                         ? "#198754"
                                                         : "#d97706"
                                                 };
                                             "
                                         >
-                                            ${escapeHtml(statusText)}
+                                            ${escapeHtml(
+                                                statusText
+                                            )}
                                         </span>
                                       `
                                     : `
@@ -862,6 +757,7 @@ function renderSales(
                                         </span>
                                       `
                             }
+
                         </td>
 
                         <td>
@@ -907,9 +803,9 @@ function renderSales(
 
                     </tr>
                 `;
-
             }
-        ).join("");
+        )
+        .join("");
 
     attachReceiptButtons();
 }
@@ -940,12 +836,12 @@ function attachReceiptButtons() {
                             );
 
                         if (sale) {
-                            openReceipt(sale);
+                            openReceipt(
+                                sale
+                            );
                         }
-
                     }
                 );
-
             }
         );
 
@@ -977,17 +873,15 @@ function attachReceiptButtons() {
                                 sale
                             );
                         }
-
                     }
                 );
-
             }
         );
 }
 
 
 /* =========================================================
-   RECEIPT HTML
+   BUILD RECEIPT
 ========================================================= */
 
 function buildReceiptHtml(sale) {
@@ -1011,22 +905,32 @@ function buildReceiptHtml(sale) {
         "—";
 
     const paymentMethod =
-        getPaymentMethod(sale);
+        getPaymentMethod(
+            sale
+        );
 
     const total =
-        getSaleTotal(sale);
+        getSaleTotal(
+            sale
+        );
 
     const items =
-        getSaleItems(sale);
+        getSaleItems(
+            sale
+        );
 
     const isCredit =
-        paymentMethod
-            .toLowerCase()
-            .includes("credit");
+        String(
+            paymentMethod
+        )
+        .toLowerCase()
+        .includes("credit");
 
     const credit =
         isCredit
-            ? getCreditStatus(sale)
+            ? getCreditStatus(
+                sale
+            )
             : null;
 
 
@@ -1043,23 +947,32 @@ function buildReceiptHtml(sale) {
                         "Product";
 
                     const quantity =
-                        getItemQuantity(item);
+                        getItemQuantity(
+                            item
+                        );
 
                     const price =
-                        getItemPrice(item);
+                        getItemPrice(
+                            item
+                        );
 
                     const lineTotal =
                         safeNumber(
                             item.lineTotal ??
                             item.total ??
-                            (quantity * price)
+                            (
+                                quantity *
+                                price
+                            )
                         );
 
                     return `
                         <tr>
 
                             <td>
-                                ${escapeHtml(name)}
+                                ${escapeHtml(
+                                    name
+                                )}
                             </td>
 
                             <td
@@ -1075,7 +988,9 @@ function buildReceiptHtml(sale) {
                                     text-align:right;
                                 "
                             >
-                                ${money(price)}
+                                ${money(
+                                    price
+                                )}
                             </td>
 
                             <td
@@ -1083,12 +998,13 @@ function buildReceiptHtml(sale) {
                                     text-align:right;
                                 "
                             >
-                                ${money(lineTotal)}
+                                ${money(
+                                    lineTotal
+                                )}
                             </td>
 
                         </tr>
                     `;
-
                 }
             ).join("")
 
@@ -1172,7 +1088,7 @@ function buildReceiptHtml(sale) {
                                 "
                             >
                                 <span>
-                                    Credit Payments Received
+                                    Later Credit Payments
                                 </span>
 
                                 <strong>
@@ -1227,7 +1143,6 @@ function buildReceiptHtml(sale) {
                 </div>
 
             </div>
-
         `;
     }
 
@@ -1322,16 +1237,22 @@ function buildReceiptHtml(sale) {
                     <strong>
                         Sale No:
                     </strong>
-                    ${escapeHtml(saleNumber)}
+
+                    ${escapeHtml(
+                        saleNumber
+                    )}
                 </div>
 
                 <div>
                     <strong>
                         Date:
                     </strong>
+
                     ${escapeHtml(
                         formatDate(
-                            getSaleDate(sale)
+                            getSaleDate(
+                                sale
+                            )
                         )
                     )}
                 </div>
@@ -1340,21 +1261,30 @@ function buildReceiptHtml(sale) {
                     <strong>
                         Customer:
                     </strong>
-                    ${escapeHtml(customer)}
+
+                    ${escapeHtml(
+                        customer
+                    )}
                 </div>
 
                 <div>
                     <strong>
                         Phone:
                     </strong>
-                    ${escapeHtml(customerPhone)}
+
+                    ${escapeHtml(
+                        customerPhone
+                    )}
                 </div>
 
                 <div>
                     <strong>
                         Payment:
                     </strong>
-                    ${escapeHtml(paymentMethod)}
+
+                    ${escapeHtml(
+                        paymentMethod
+                    )}
                 </div>
 
             </div>
@@ -1459,7 +1389,9 @@ function buildReceiptHtml(sale) {
                                 Notes:
                             </strong>
 
-                            ${escapeHtml(notes)}
+                            ${escapeHtml(
+                                notes
+                            )}
                         </div>
                       `
                     : ""
@@ -1588,9 +1520,7 @@ function printReceipt(sale) {
             <script>
 
                 window.onload = function() {
-
                     window.print();
-
                 };
 
             <\/script>
@@ -1658,15 +1588,25 @@ function searchSales() {
 
                 const payment =
                     String(
-                        getPaymentMethod(sale)
+                        getPaymentMethod(
+                            sale
+                        )
                     )
                     .toLowerCase();
 
                 return (
-                    saleNumber.includes(search) ||
-                    customer.includes(search) ||
-                    phone.includes(search) ||
-                    payment.includes(search)
+                    saleNumber.includes(
+                        search
+                    ) ||
+                    customer.includes(
+                        search
+                    ) ||
+                    phone.includes(
+                        search
+                    ) ||
+                    payment.includes(
+                        search
+                    )
                 );
             }
         );
@@ -1707,7 +1647,6 @@ if (logoutBtn) {
                     "Unable to log out. Please try again."
                 );
             }
-
         }
     );
 }
@@ -1730,7 +1669,6 @@ if (mobileMenuBtn) {
                 );
 
             }
-
         }
     );
 }
@@ -1750,9 +1688,7 @@ if (closeReceiptBtn) {
 
                 receiptModal.style.display =
                     "none";
-
             }
-
         }
     );
 }
@@ -1771,16 +1707,14 @@ if (receiptModal) {
 
                 receiptModal.style.display =
                     "none";
-
             }
-
         }
     );
 }
 
 
 /* =========================================================
-   PRINT BUTTON IN MODAL
+   PRINT FROM MODAL
 ========================================================= */
 
 if (printReceiptBtn) {
@@ -1796,9 +1730,7 @@ if (printReceiptBtn) {
                 printReceipt(
                     currentReceiptSale
                 );
-
             }
-
         }
     );
 }
@@ -1826,8 +1758,10 @@ onAuthStateChanged(
     async user => {
 
         console.log(
-            "Sales History: Auth state:",
-            user ? user.email : "No user"
+            "Sales History auth:",
+            user
+                ? user.email
+                : "No user"
         );
 
         if (!user) {
@@ -1853,57 +1787,36 @@ onAuthStateChanged(
                     </td>
                 </tr>
             `;
-
         }
 
         try {
 
-            /*
-             * STEP 1
-             * Load the actual sales.
-             */
+            /* Load sales first */
             await loadSales();
 
-            /*
-             * STEP 2
-             * Display sales immediately.
-             */
-            renderSales(allSales);
+            /* Show sales immediately */
+            renderSales(
+                allSales
+            );
 
             /*
-             * STEP 3
-             * Load credit payments separately.
-             *
-             * This cannot block the Sales History page.
+             * Load credit payments after sales
+             * have already appeared.
              */
-            loadCreditPayments()
-                .then(() => {
+            await loadCreditPayments();
 
-                    console.log(
-                        "Credit payments loaded:",
-                        allCreditPayments.length
-                    );
-
-                    /*
-                     * Refresh credit statuses after
-                     * payment records are available.
-                     */
-                    renderSales(allSales);
-
-                })
-                .catch(error => {
-
-                    console.warn(
-                        "Credit payments skipped:",
-                        error
-                    );
-
-                });
+            /*
+             * Refresh the table so credit
+             * statuses are updated.
+             */
+            renderSales(
+                allSales
+            );
 
         } catch (error) {
 
             console.error(
-                "Sales History failed:",
+                "Sales History loading error:",
                 error
             );
 
@@ -1928,13 +1841,19 @@ onAuthStateChanged(
 
                             Please refresh the page.
 
+                            <br><br>
+
+                            <small>
+                                ${escapeHtml(
+                                    error.message ||
+                                    "Unknown error"
+                                )}
+                            </small>
+
                         </td>
                     </tr>
                 `;
-
             }
-
         }
-
     }
 );
