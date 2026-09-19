@@ -10,11 +10,8 @@ import {
 
 import {
     collection,
-    getDocs,
-    query,
-    orderBy
+    getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 /* =========================================================
    ELEMENTS
@@ -578,6 +575,63 @@ function getPaymentMethod(sale) {
 ========================================================= */
 
 async function loadSales() {
+
+    try {
+
+        console.log("Sales History: starting sales load...");
+
+        const salesSnapshot = await getDocs(
+            collection(db, "sales")
+        );
+
+        console.log(
+            "Sales History: sales received:",
+            salesSnapshot.size
+        );
+
+        allSales = [];
+
+        salesSnapshot.forEach(doc => {
+
+            allSales.push({
+                id: doc.id,
+                ...doc.data()
+            });
+
+        });
+
+        allSales.sort((a, b) => {
+
+            const dateA =
+                getDateValue(
+                    getSaleDate(a)
+                )?.getTime() || 0;
+
+            const dateB =
+                getDateValue(
+                    getSaleDate(b)
+                )?.getTime() || 0;
+
+            return dateB - dateA;
+        });
+
+        console.log(
+            "Sales History: sales loaded successfully:",
+            allSales.length
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "SALES LOAD ERROR:",
+            error
+        );
+
+        throw error;
+    }
+}
 
     const salesSnapshot =
         await getDocs(
@@ -1771,6 +1825,11 @@ onAuthStateChanged(
     auth,
     async user => {
 
+        console.log(
+            "Sales History: Auth state:",
+            user ? user.email : "No user"
+        );
+
         if (!user) {
 
             window.location.href =
@@ -1779,71 +1838,72 @@ onAuthStateChanged(
             return;
         }
 
+        if (salesTableBody) {
+
+            salesTableBody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="8"
+                        style="
+                            text-align:center;
+                            padding:30px;
+                        "
+                    >
+                        Loading sales...
+                    </td>
+                </tr>
+            `;
+
+        }
+
         try {
 
-            if (salesTableBody) {
-
-                salesTableBody.innerHTML = `
-                    <tr>
-                        <td
-                            colspan="8"
-                            style="
-                                text-align:center;
-                                padding:30px;
-                            "
-                        >
-                            Loading sales...
-                        </td>
-                    </tr>
-                `;
-
-            }
+            /*
+             * STEP 1
+             * Load the actual sales.
+             */
+            await loadSales();
 
             /*
- * Load SALES first.
- *
- * Sales History must not wait for the optional
- * credit-payment collection before displaying sales.
- */
-await loadSales();
+             * STEP 2
+             * Display sales immediately.
+             */
+            renderSales(allSales);
 
-/*
- * Show the sales immediately.
- */
-renderSales(
-    allSales
-);
+            /*
+             * STEP 3
+             * Load credit payments separately.
+             *
+             * This cannot block the Sales History page.
+             */
+            loadCreditPayments()
+                .then(() => {
 
-/*
- * Load credit payments in the background.
- *
- * This must NEVER prevent Sales History from opening.
- */
-loadCreditPayments()
-    .then(() => {
+                    console.log(
+                        "Credit payments loaded:",
+                        allCreditPayments.length
+                    );
 
-        /*
-         * Re-render after credit payments are available
-         * so credit receipts can show updated balances.
-         */
-        renderSales(
-            allSales
-        );
+                    /*
+                     * Refresh credit statuses after
+                     * payment records are available.
+                     */
+                    renderSales(allSales);
 
-    })
-    .catch(error => {
+                })
+                .catch(error => {
 
-        console.warn(
-            "Credit payment loading skipped:",
-            error
-        );
+                    console.warn(
+                        "Credit payments skipped:",
+                        error
+                    );
 
-    });
+                });
 
         } catch (error) {
 
             console.error(
-                "Sales History loading error:",
+                "Sales History failed:",
                 error
             );
 
@@ -1859,8 +1919,15 @@ loadCreditPayments()
                                 color:#c62828;
                             "
                         >
-                            Unable to load sales.
+
+                            <strong>
+                                Unable to load sales.
+                            </strong>
+
+                            <br><br>
+
                             Please refresh the page.
+
                         </td>
                     </tr>
                 `;
