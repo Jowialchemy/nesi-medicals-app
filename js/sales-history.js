@@ -18,8 +18,8 @@ import {
    ELEMENTS
 ========================================================= */
 
-const salesTableBody =
-    document.getElementById("salesTableBody");
+const salesTable =
+    document.getElementById("salesTable");
 
 const searchInput =
     document.getElementById("searchInput");
@@ -27,23 +27,29 @@ const searchInput =
 const logoutBtn =
     document.getElementById("logoutBtn");
 
-const mobileMenuBtn =
-    document.getElementById("mobileMenuBtn");
+const mobileMenu =
+    document.getElementById("mobileMenu");
 
 const sidebar =
     document.getElementById("sidebar");
 
+const userEmail =
+    document.getElementById("userEmail");
+
 const receiptModal =
     document.getElementById("receiptModal");
 
-const receiptContent =
-    document.getElementById("receiptContent");
+const printArea =
+    document.getElementById("printArea");
 
-const closeReceiptBtn =
-    document.getElementById("closeReceiptBtn");
+const closeModal =
+    document.getElementById("closeModal");
+
+const closeModal2 =
+    document.getElementById("closeModal2");
 
 const printReceiptBtn =
-    document.getElementById("printReceiptBtn");
+    document.getElementById("printReceipt");
 
 
 /* =========================================================
@@ -51,17 +57,20 @@ const printReceiptBtn =
 ========================================================= */
 
 let allSales = [];
+
 let allCreditPayments = [];
+
 let currentReceiptSale = null;
 
 
 /* =========================================================
-   BASIC HELPERS
+   HELPERS
 ========================================================= */
 
 function safeNumber(value) {
 
-    const number = Number(value);
+    const number =
+        Number(value);
 
     return Number.isFinite(number)
         ? number
@@ -79,7 +88,9 @@ function money(value) {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         }
-    ).format(safeNumber(value));
+    ).format(
+        safeNumber(value)
+    );
 }
 
 
@@ -102,7 +113,7 @@ function escapeHtml(value) {
 
 
 /* =========================================================
-   DATE HELPERS
+   DATE
 ========================================================= */
 
 function getDateValue(value) {
@@ -114,12 +125,14 @@ function getDateValue(value) {
     if (
         typeof value.toDate === "function"
     ) {
+
         return value.toDate();
     }
 
     if (
         value instanceof Date
     ) {
+
         return value;
     }
 
@@ -219,12 +232,14 @@ function getSaleItems(sale) {
     if (
         Array.isArray(sale.items)
     ) {
+
         return sale.items;
     }
 
     if (
         Array.isArray(sale.products)
     ) {
+
         return sale.products;
     }
 
@@ -261,8 +276,10 @@ function getSaleItemCount(sale) {
     return items.reduce(
         (total, item) => {
 
-            return total +
-                getItemQuantity(item);
+            return (
+                total +
+                getItemQuantity(item)
+            );
 
         },
         0
@@ -316,7 +333,17 @@ function getPaymentAmount(payment) {
 }
 
 
-function getCreditPaymentSaleId(payment) {
+function getPaymentCustomerId(payment) {
+
+    return (
+        payment.customerId ||
+        payment.customerID ||
+        ""
+    );
+}
+
+
+function getPaymentSaleId(payment) {
 
     return (
         payment.saleId ||
@@ -328,7 +355,7 @@ function getCreditPaymentSaleId(payment) {
 }
 
 
-function getCreditPaymentSaleNumber(payment) {
+function getPaymentSaleNumber(payment) {
 
     return (
         payment.saleNumber ||
@@ -341,7 +368,7 @@ function getCreditPaymentSaleNumber(payment) {
 
 
 /* =========================================================
-   FIND PAYMENTS FOR SALE
+   FIND CREDIT PAYMENTS
 ========================================================= */
 
 function getPaymentsForSale(sale) {
@@ -358,40 +385,193 @@ function getPaymentsForSale(sale) {
         sale.invoiceNo ||
         "";
 
-    return allCreditPayments.filter(
-        payment => {
+    const customerId =
+        sale.customerId ||
+        sale.customerID ||
+        "";
 
-            const paymentSaleId =
-                getCreditPaymentSaleId(
-                    payment
+    const saleCustomerName =
+        String(
+            sale.customerName ||
+            sale.customer ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    /*
+     * First: exact sale ID / sale number
+     */
+    const exactMatches =
+        allCreditPayments.filter(
+            payment => {
+
+                const paymentSaleId =
+                    getPaymentSaleId(
+                        payment
+                    );
+
+                const paymentSaleNumber =
+                    getPaymentSaleNumber(
+                        payment
+                    );
+
+                return (
+                    (
+                        saleId &&
+                        paymentSaleId &&
+                        String(
+                            paymentSaleId
+                        ) ===
+                        String(saleId)
+                    ) ||
+                    (
+                        saleNumber &&
+                        paymentSaleNumber &&
+                        String(
+                            paymentSaleNumber
+                        ) ===
+                        String(saleNumber)
+                    )
                 );
-
-            const paymentSaleNumber =
-                getCreditPaymentSaleNumber(
-                    payment
-                );
-
-            if (
-                saleId &&
-                paymentSaleId &&
-                String(paymentSaleId) ===
-                String(saleId)
-            ) {
-                return true;
             }
+        );
 
-            if (
-                saleNumber &&
-                paymentSaleNumber &&
-                String(paymentSaleNumber) ===
-                String(saleNumber)
-            ) {
-                return true;
-            }
+    if (
+        exactMatches.length > 0
+    ) {
 
-            return false;
+        return exactMatches;
+    }
+
+
+    /*
+     * Your current Customer page creates
+     * creditPayments using customerId only.
+     *
+     * Therefore, if this customer has only ONE
+     * credit sale, it is safe to attach the
+     * payment to that sale.
+     */
+    if (customerId) {
+
+        const customerPayments =
+            allCreditPayments.filter(
+                payment =>
+                    String(
+                        getPaymentCustomerId(
+                            payment
+                        )
+                    ) ===
+                    String(customerId)
+            );
+
+        const customerCreditSales =
+            allSales.filter(
+                item => {
+
+                    const method =
+                        String(
+                            getPaymentMethod(
+                                item
+                            )
+                        )
+                        .toLowerCase();
+
+                    const itemCustomerId =
+                        item.customerId ||
+                        item.customerID ||
+                        "";
+
+                    return (
+                        method.includes(
+                            "credit"
+                        ) &&
+                        String(
+                            itemCustomerId
+                        ) ===
+                        String(customerId)
+                    );
+                }
+            );
+
+        if (
+            customerCreditSales.length === 1
+        ) {
+
+            return customerPayments;
         }
-    );
+    }
+
+
+    /*
+     * Fallback for older sales where customerId
+     * may not have been stored.
+     */
+    if (saleCustomerName) {
+
+        const customerPayments =
+            allCreditPayments.filter(
+                payment => {
+
+                    const paymentName =
+                        String(
+                            payment.customerName ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+                    return (
+                        paymentName &&
+                        paymentName ===
+                        saleCustomerName
+                    );
+                }
+            );
+
+        const customerCreditSales =
+            allSales.filter(
+                item => {
+
+                    const method =
+                        String(
+                            getPaymentMethod(
+                                item
+                            )
+                        )
+                        .toLowerCase();
+
+                    const itemCustomer =
+                        String(
+                            item.customerName ||
+                            item.customer ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+                    return (
+                        method.includes(
+                            "credit"
+                        ) &&
+                        itemCustomer ===
+                        saleCustomerName
+                    );
+                }
+            );
+
+        if (
+            customerCreditSales.length === 1
+        ) {
+
+            return customerPayments;
+        }
+    }
+
+
+    return [];
 }
 
 
@@ -404,7 +584,7 @@ function getCreditStatus(sale) {
     const total =
         getSaleTotal(sale);
 
-    const originalAmountPaid =
+    const originalPaid =
         safeNumber(
             sale.amountPaid ??
             sale.paidAmount ??
@@ -420,50 +600,63 @@ function getCreditStatus(sale) {
         );
 
     const payments =
-        getPaymentsForSale(sale);
+        getPaymentsForSale(
+            sale
+        );
 
     const laterPayments =
         payments.reduce(
             (sum, payment) => {
 
-                return sum +
+                return (
+                    sum +
                     getPaymentAmount(
                         payment
-                    );
+                    )
+                );
 
             },
             0
         );
 
+
     let startingOutstanding =
         originalOutstanding;
+
 
     if (
         startingOutstanding <= 0 &&
         total > 0 &&
-        originalAmountPaid < total
+        originalPaid < total
     ) {
 
         startingOutstanding =
             total -
-            originalAmountPaid;
+            originalPaid;
     }
+
 
     let currentOutstanding =
         startingOutstanding -
         laterPayments;
 
+
     if (
         currentOutstanding < 0.01
     ) {
+
         currentOutstanding = 0;
     }
 
+
     const totalPaid =
-        originalAmountPaid +
+        originalPaid +
         laterPayments;
 
-    let status = "Paid";
+
+    let status =
+        "Paid";
+
 
     if (
         currentOutstanding > 0
@@ -472,21 +665,36 @@ function getCreditStatus(sale) {
         if (
             totalPaid <= 0
         ) {
-            status = "Unpaid";
+
+            status =
+                "Unpaid";
+
         } else {
-            status = "Partially Paid";
+
+            status =
+                "Partially Paid";
         }
     }
 
+
     return {
+
         total,
-        originalAmountPaid,
+
+        originalPaid,
+
         originalOutstanding,
+
         laterPayments,
+
         totalPaid,
+
         currentOutstanding,
+
         status,
+
         payments
+
     };
 }
 
@@ -501,6 +709,7 @@ async function loadSales() {
         "Sales History: loading sales..."
     );
 
+
     const snapshot =
         await getDocs(
             collection(
@@ -509,18 +718,25 @@ async function loadSales() {
             )
         );
 
+
     allSales = [];
+
 
     snapshot.forEach(
         doc => {
 
             allSales.push({
-                id: doc.id,
+
+                id:
+                    doc.id,
+
                 ...doc.data()
+
             });
 
         }
     );
+
 
     allSales.sort(
         (a, b) => {
@@ -530,19 +746,25 @@ async function loadSales() {
                     getSaleDate(a)
                 )?.getTime() || 0;
 
+
             const dateB =
                 getDateValue(
                     getSaleDate(b)
                 )?.getTime() || 0;
 
-            return dateB - dateA;
+
+            return (
+                dateB -
+                dateA
+            );
         }
     );
+
 
     console.log(
         "Sales History:",
         allSales.length,
-        "sales loaded."
+        "sales loaded"
     );
 }
 
@@ -563,28 +785,35 @@ async function loadCreditPayments() {
                 )
             );
 
+
         allCreditPayments = [];
+
 
         snapshot.forEach(
             doc => {
 
                 allCreditPayments.push({
-                    id: doc.id,
+
+                    id:
+                        doc.id,
+
                     ...doc.data()
+
                 });
 
             }
         );
 
+
         console.log(
-            "Credit payments loaded:",
+            "Credit payments:",
             allCreditPayments.length
         );
 
     } catch (error) {
 
         console.warn(
-            "Credit payment collection unavailable:",
+            "Credit payments could not be loaded:",
             error
         );
 
@@ -594,29 +823,35 @@ async function loadCreditPayments() {
 
 
 /* =========================================================
-   RENDER SALES
+   RENDER SALES TABLE
 ========================================================= */
 
 function renderSales(
     sales = allSales
 ) {
 
-    if (!salesTableBody) {
+    if (!salesTable) {
+
+        console.error(
+            "ERROR: #salesTable was not found."
+        );
+
         return;
     }
+
 
     if (
         sales.length === 0
     ) {
 
-        salesTableBody.innerHTML = `
+        salesTable.innerHTML = `
             <tr>
                 <td
-                    colspan="8"
+                    colspan="7"
+                    class="empty"
                     style="
                         text-align:center;
-                        padding:30px;
-                        color:#777;
+                        padding:40px;
                     "
                 >
                     No sales found.
@@ -627,7 +862,8 @@ function renderSales(
         return;
     }
 
-    salesTableBody.innerHTML =
+
+    salesTable.innerHTML =
         sales.map(
             sale => {
 
@@ -638,36 +874,44 @@ function renderSales(
                     sale.invoiceNo ||
                     "—";
 
+
                 const customer =
                     sale.customerName ||
                     sale.customer ||
                     "Walk-in Customer";
+
 
                 const itemCount =
                     getSaleItemCount(
                         sale
                     );
 
+
                 const total =
                     getSaleTotal(
                         sale
                     );
+
 
                 const paymentMethod =
                     getPaymentMethod(
                         sale
                     );
 
+
                 const isCredit =
                     String(
                         paymentMethod
                     )
                     .toLowerCase()
-                    .includes("credit");
+                    .includes(
+                        "credit"
+                    );
 
-                let statusText =
-                    sale.paymentStatus ||
-                    "Paid";
+
+                let paymentDisplay =
+                    paymentMethod;
+
 
                 if (isCredit) {
 
@@ -676,11 +920,45 @@ function renderSales(
                             sale
                         );
 
-                    statusText =
-                        credit.status;
+
+                    paymentDisplay = `
+
+                        <div>
+                            <span
+                                class="payment"
+                                style="
+                                    background:#fff7ed;
+                                    color:#9a3412;
+                                "
+                            >
+                                Credit
+                            </span>
+                        </div>
+
+                        <small
+                            style="
+                                display:block;
+                                margin-top:5px;
+                                font-weight:bold;
+                                color:${
+                                    credit.status ===
+                                    "Paid"
+                                        ? "#15803d"
+                                        : "#d97706"
+                                };
+                            "
+                        >
+                            ${escapeHtml(
+                                credit.status
+                            )}
+                        </small>
+
+                    `;
                 }
 
+
                 return `
+
                     <tr>
 
                         <td>
@@ -690,6 +968,7 @@ function renderSales(
                                 )}
                             </strong>
                         </td>
+
 
                         <td>
                             ${escapeHtml(
@@ -701,100 +980,54 @@ function renderSales(
                             )}
                         </td>
 
+
                         <td>
                             ${escapeHtml(
                                 customer
                             )}
                         </td>
 
+
                         <td>
                             ${itemCount}
                         </td>
 
+
                         <td>
-                            <strong>
+                            <strong
+                                class="amount"
+                            >
                                 ${money(
                                     total
                                 )}
                             </strong>
                         </td>
 
-                        <td>
-                            ${escapeHtml(
-                                paymentMethod
-                            )}
-                        </td>
 
                         <td>
-
-                            ${
-                                isCredit
-                                    ? `
-                                        <span
-                                            style="
-                                                font-weight:600;
-                                                color:${
-                                                    statusText ===
-                                                    "Paid"
-                                                        ? "#198754"
-                                                        : "#d97706"
-                                                };
-                                            "
-                                        >
-                                            ${escapeHtml(
-                                                statusText
-                                            )}
-                                        </span>
-                                      `
-                                    : `
-                                        <span
-                                            style="
-                                                color:#198754;
-                                                font-weight:600;
-                                            "
-                                        >
-                                            Paid
-                                        </span>
-                                      `
-                            }
-
+                            ${paymentDisplay}
                         </td>
+
 
                         <td>
 
                             <button
                                 type="button"
-                                class="view-receipt-btn"
+                                class="btn btn-view view-receipt-btn"
                                 data-sale-id="${escapeHtml(
                                     sale.id
                                 )}"
-                                style="
-                                    border:none;
-                                    background:#0a5fff;
-                                    color:white;
-                                    padding:7px 10px;
-                                    border-radius:6px;
-                                    cursor:pointer;
-                                    margin-right:5px;
-                                "
                             >
                                 View
                             </button>
 
+
                             <button
                                 type="button"
-                                class="print-receipt-btn"
+                                class="btn btn-print print-receipt-btn"
                                 data-sale-id="${escapeHtml(
                                     sale.id
                                 )}"
-                                style="
-                                    border:none;
-                                    background:#ff8a00;
-                                    color:white;
-                                    padding:7px 10px;
-                                    border-radius:6px;
-                                    cursor:pointer;
-                                "
                             >
                                 Print
                             </button>
@@ -802,10 +1035,12 @@ function renderSales(
                         </td>
 
                     </tr>
+
                 `;
             }
         )
         .join("");
+
 
     attachReceiptButtons();
 }
@@ -835,7 +1070,9 @@ function attachReceiptButtons() {
                                     button.dataset.saleId
                             );
 
+
                         if (sale) {
+
                             openReceipt(
                                 sale
                             );
@@ -864,10 +1101,8 @@ function attachReceiptButtons() {
                                     button.dataset.saleId
                             );
 
-                        if (sale) {
 
-                            currentReceiptSale =
-                                sale;
+                        if (sale) {
 
                             printReceipt(
                                 sale
@@ -893,10 +1128,12 @@ function buildReceiptHtml(sale) {
         sale.invoiceNo ||
         "—";
 
+
     const customer =
         sale.customerName ||
         sale.customer ||
         "Walk-in Customer";
+
 
     const customerPhone =
         sale.customerPhone ||
@@ -904,27 +1141,34 @@ function buildReceiptHtml(sale) {
         sale.customerPhoneNumber ||
         "—";
 
+
     const paymentMethod =
         getPaymentMethod(
             sale
         );
+
 
     const total =
         getSaleTotal(
             sale
         );
 
+
     const items =
         getSaleItems(
             sale
         );
+
 
     const isCredit =
         String(
             paymentMethod
         )
         .toLowerCase()
-        .includes("credit");
+        .includes(
+            "credit"
+        );
+
 
     const credit =
         isCredit
@@ -935,7 +1179,7 @@ function buildReceiptHtml(sale) {
 
 
     const itemsHtml =
-        items.length > 0
+        items.length
 
             ? items.map(
                 item => {
@@ -946,15 +1190,18 @@ function buildReceiptHtml(sale) {
                         item.product ||
                         "Product";
 
+
                     const quantity =
                         getItemQuantity(
                             item
                         );
 
+
                     const price =
                         getItemPrice(
                             item
                         );
+
 
                     const lineTotal =
                         safeNumber(
@@ -966,7 +1213,9 @@ function buildReceiptHtml(sale) {
                             )
                         );
 
+
                     return `
+
                         <tr>
 
                             <td>
@@ -1004,20 +1253,27 @@ function buildReceiptHtml(sale) {
                             </td>
 
                         </tr>
+
                     `;
                 }
             ).join("")
 
             : `
+
                 <tr>
+
                     <td colspan="4">
                         No item details available.
                     </td>
+
                 </tr>
+
             `;
 
 
-    let creditHtml = "";
+    let creditHtml =
+        "";
+
 
     if (isCredit) {
 
@@ -1041,6 +1297,7 @@ function buildReceiptHtml(sale) {
                     Credit Payment Details
                 </h3>
 
+
                 <div
                     style="
                         display:flex;
@@ -1048,16 +1305,28 @@ function buildReceiptHtml(sale) {
                         margin:6px 0;
                     "
                 >
+
                     <span>
                         Payment Status
                     </span>
 
-                    <strong>
+                    <strong
+                        style="
+                            color:${
+                                credit.status ===
+                                "Paid"
+                                    ? "#15803d"
+                                    : "#d97706"
+                            };
+                        "
+                    >
                         ${escapeHtml(
                             credit.status
                         )}
                     </strong>
+
                 </div>
+
 
                 <div
                     style="
@@ -1066,20 +1335,24 @@ function buildReceiptHtml(sale) {
                         margin:6px 0;
                     "
                 >
+
                     <span>
                         Original Amount Paid
                     </span>
 
                     <strong>
                         ${money(
-                            credit.originalAmountPaid
+                            credit.originalPaid
                         )}
                     </strong>
+
                 </div>
+
 
                 ${
                     credit.laterPayments > 0
                         ? `
+
                             <div
                                 style="
                                     display:flex;
@@ -1087,6 +1360,7 @@ function buildReceiptHtml(sale) {
                                     margin:6px 0;
                                 "
                             >
+
                                 <span>
                                     Later Credit Payments
                                 </span>
@@ -1096,10 +1370,13 @@ function buildReceiptHtml(sale) {
                                         credit.laterPayments
                                     )}
                                 </strong>
+
                             </div>
+
                           `
                         : ""
                 }
+
 
                 <div
                     style="
@@ -1110,6 +1387,7 @@ function buildReceiptHtml(sale) {
                         border-top:1px solid #eee;
                     "
                 >
+
                     <span>
                         Total Paid
                     </span>
@@ -1119,7 +1397,9 @@ function buildReceiptHtml(sale) {
                             credit.totalPaid
                         )}
                     </strong>
+
                 </div>
+
 
                 <div
                     style="
@@ -1131,6 +1411,7 @@ function buildReceiptHtml(sale) {
                         font-size:18px;
                     "
                 >
+
                     <span>
                         BALANCE DUE
                     </span>
@@ -1140,9 +1421,11 @@ function buildReceiptHtml(sale) {
                             credit.currentOutstanding
                         )}
                     </strong>
+
                 </div>
 
             </div>
+
         `;
     }
 
@@ -1175,7 +1458,7 @@ function buildReceiptHtml(sale) {
             >
 
                 <img
-                    src="assets/logo.png"
+                    src="./assets/logo.png"
                     alt="Nesi Medicals"
                     style="
                         width:80px;
@@ -1183,6 +1466,7 @@ function buildReceiptHtml(sale) {
                         object-fit:contain;
                     "
                 >
+
 
                 <h1
                     style="
@@ -1193,6 +1477,7 @@ function buildReceiptHtml(sale) {
                     Nesi Medicals
                 </h1>
 
+
                 <div
                     style="
                         font-size:14px;
@@ -1200,6 +1485,7 @@ function buildReceiptHtml(sale) {
                 >
                     & Minimart Enterprises
                 </div>
+
 
                 <div
                     style="
@@ -1210,6 +1496,7 @@ function buildReceiptHtml(sale) {
                     Quality Care. Essential Products.
                     Trusted Service.
                 </div>
+
 
                 <div
                     style="
@@ -1243,6 +1530,7 @@ function buildReceiptHtml(sale) {
                     )}
                 </div>
 
+
                 <div>
                     <strong>
                         Date:
@@ -1257,6 +1545,7 @@ function buildReceiptHtml(sale) {
                     )}
                 </div>
 
+
                 <div>
                     <strong>
                         Customer:
@@ -1267,6 +1556,7 @@ function buildReceiptHtml(sale) {
                     )}
                 </div>
 
+
                 <div>
                     <strong>
                         Phone:
@@ -1276,6 +1566,7 @@ function buildReceiptHtml(sale) {
                         customerPhone
                     )}
                 </div>
+
 
                 <div>
                     <strong>
@@ -1313,6 +1604,7 @@ function buildReceiptHtml(sale) {
                             Product
                         </th>
 
+
                         <th
                             style="
                                 text-align:center;
@@ -1323,6 +1615,7 @@ function buildReceiptHtml(sale) {
                             Qty
                         </th>
 
+
                         <th
                             style="
                                 text-align:right;
@@ -1332,6 +1625,7 @@ function buildReceiptHtml(sale) {
                         >
                             Price
                         </th>
+
 
                         <th
                             style="
@@ -1346,6 +1640,7 @@ function buildReceiptHtml(sale) {
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -1376,6 +1671,7 @@ function buildReceiptHtml(sale) {
             ${
                 notes
                     ? `
+
                         <div
                             style="
                                 margin-top:20px;
@@ -1385,6 +1681,7 @@ function buildReceiptHtml(sale) {
                                 font-size:13px;
                             "
                         >
+
                             <strong>
                                 Notes:
                             </strong>
@@ -1392,7 +1689,9 @@ function buildReceiptHtml(sale) {
                             ${escapeHtml(
                                 notes
                             )}
+
                         </div>
+
                       `
                     : ""
             }
@@ -1408,9 +1707,13 @@ function buildReceiptHtml(sale) {
                     color:#666;
                 "
             >
+
                 Thank you for your patronage.
+
                 <br>
+
                 Nesi Medicals & Minimart Enterprises
+
             </div>
 
         </div>
@@ -1428,20 +1731,39 @@ function openReceipt(sale) {
     currentReceiptSale =
         sale;
 
+
     if (!receiptModal) {
         return;
     }
 
-    if (receiptContent) {
 
-        receiptContent.innerHTML =
+    if (printArea) {
+
+        printArea.innerHTML =
             buildReceiptHtml(
                 sale
             );
     }
 
-    receiptModal.style.display =
-        "flex";
+
+    receiptModal.classList.add(
+        "show"
+    );
+}
+
+
+/* =========================================================
+   CLOSE RECEIPT
+========================================================= */
+
+function closeReceipt() {
+
+    if (receiptModal) {
+
+        receiptModal.classList.remove(
+            "show"
+        );
+    }
 }
 
 
@@ -1451,10 +1773,16 @@ function openReceipt(sale) {
 
 function printReceipt(sale) {
 
+    if (!sale) {
+        return;
+    }
+
+
     const receiptHtml =
         buildReceiptHtml(
             sale
         );
+
 
     const printWindow =
         window.open(
@@ -1462,6 +1790,7 @@ function printReceipt(sale) {
             "_blank",
             "width=800,height=900"
         );
+
 
     if (!printWindow) {
 
@@ -1472,9 +1801,12 @@ function printReceipt(sale) {
         return;
     }
 
+
     printWindow.document.open();
 
+
     printWindow.document.write(`
+
         <!DOCTYPE html>
 
         <html>
@@ -1484,13 +1816,7 @@ function printReceipt(sale) {
             <meta charset="UTF-8">
 
             <title>
-                Receipt ${
-                    escapeHtml(
-                        sale.saleNumber ||
-                        sale.saleNo ||
-                        ""
-                    )
-                }
+                Nesi Medicals Receipt
             </title>
 
             <style>
@@ -1513,14 +1839,18 @@ function printReceipt(sale) {
 
         </head>
 
+
         <body>
 
             ${receiptHtml}
 
+
             <script>
 
                 window.onload = function() {
+
                     window.print();
+
                 };
 
             <\/script>
@@ -1528,7 +1858,9 @@ function printReceipt(sale) {
         </body>
 
         </html>
+
     `);
+
 
     printWindow.document.close();
 }
@@ -1547,6 +1879,7 @@ function searchSales() {
         .trim()
         .toLowerCase();
 
+
     if (!search) {
 
         renderSales(
@@ -1555,6 +1888,7 @@ function searchSales() {
 
         return;
     }
+
 
     const filtered =
         allSales.filter(
@@ -1570,6 +1904,7 @@ function searchSales() {
                     )
                     .toLowerCase();
 
+
                 const customer =
                     String(
                         sale.customerName ||
@@ -1577,6 +1912,7 @@ function searchSales() {
                         ""
                     )
                     .toLowerCase();
+
 
                 const phone =
                     String(
@@ -1586,6 +1922,7 @@ function searchSales() {
                     )
                     .toLowerCase();
 
+
                 const payment =
                     String(
                         getPaymentMethod(
@@ -1594,22 +1931,29 @@ function searchSales() {
                     )
                     .toLowerCase();
 
+
                 return (
+
                     saleNumber.includes(
                         search
                     ) ||
+
                     customer.includes(
                         search
                     ) ||
+
                     phone.includes(
                         search
                     ) ||
+
                     payment.includes(
                         search
                     )
+
                 );
             }
         );
+
 
     renderSales(
         filtered
@@ -1625,7 +1969,9 @@ if (logoutBtn) {
 
     logoutBtn.addEventListener(
         "click",
-        async () => {
+        async event => {
+
+            event.preventDefault();
 
             try {
 
@@ -1634,7 +1980,7 @@ if (logoutBtn) {
                 );
 
                 window.location.href =
-                    "login.html";
+                    "./login.html";
 
             } catch (error) {
 
@@ -1656,9 +2002,9 @@ if (logoutBtn) {
    MOBILE MENU
 ========================================================= */
 
-if (mobileMenuBtn) {
+if (mobileMenu) {
 
-    mobileMenuBtn.addEventListener(
+    mobileMenu.addEventListener(
         "click",
         () => {
 
@@ -1667,7 +2013,6 @@ if (mobileMenuBtn) {
                 sidebar.classList.toggle(
                     "open"
                 );
-
             }
         }
     );
@@ -1675,21 +2020,23 @@ if (mobileMenuBtn) {
 
 
 /* =========================================================
-   CLOSE RECEIPT
+   RECEIPT CLOSE BUTTONS
 ========================================================= */
 
-if (closeReceiptBtn) {
+if (closeModal) {
 
-    closeReceiptBtn.addEventListener(
+    closeModal.addEventListener(
         "click",
-        () => {
+        closeReceipt
+    );
+}
 
-            if (receiptModal) {
 
-                receiptModal.style.display =
-                    "none";
-            }
-        }
+if (closeModal2) {
+
+    closeModal2.addEventListener(
+        "click",
+        closeReceipt
     );
 }
 
@@ -1705,8 +2052,7 @@ if (receiptModal) {
                 receiptModal
             ) {
 
-                receiptModal.style.display =
-                    "none";
+                closeReceipt();
             }
         }
     );
@@ -1714,7 +2060,7 @@ if (receiptModal) {
 
 
 /* =========================================================
-   PRINT FROM MODAL
+   PRINT BUTTON
 ========================================================= */
 
 if (printReceiptBtn) {
@@ -1737,7 +2083,7 @@ if (printReceiptBtn) {
 
 
 /* =========================================================
-   SEARCH EVENT
+   SEARCH
 ========================================================= */
 
 if (searchInput) {
@@ -1764,71 +2110,103 @@ onAuthStateChanged(
                 : "No user"
         );
 
+
         if (!user) {
 
             window.location.href =
-                "login.html";
+                "./login.html";
 
             return;
         }
 
-        if (salesTableBody) {
 
-            salesTableBody.innerHTML = `
+        /* Show logged-in email */
+        if (userEmail) {
+
+            userEmail.textContent =
+                user.email ||
+                "Logged in";
+        }
+
+
+        /* Show loading */
+        if (salesTable) {
+
+            salesTable.innerHTML = `
+
                 <tr>
+
                     <td
-                        colspan="8"
-                        style="
-                            text-align:center;
-                            padding:30px;
-                        "
+                        colspan="7"
+                        class="loading"
                     >
                         Loading sales...
                     </td>
+
                 </tr>
+
             `;
         }
 
+
         try {
 
-            /* Load sales first */
+            /*
+             * STEP 1:
+             * Load sales.
+             */
             await loadSales();
 
-            /* Show sales immediately */
+
+            /*
+             * STEP 2:
+             * Display sales immediately.
+             */
             renderSales(
                 allSales
             );
 
+
             /*
-             * Load credit payments after sales
-             * have already appeared.
+             * STEP 3:
+             * Load credit payments.
              */
             await loadCreditPayments();
 
+
             /*
-             * Refresh the table so credit
-             * statuses are updated.
+             * STEP 4:
+             * Refresh credit statuses.
              */
             renderSales(
                 allSales
             );
+
+
+            console.log(
+                "Sales History ready."
+            );
+
 
         } catch (error) {
 
             console.error(
-                "Sales History loading error:",
+                "Sales History error:",
                 error
             );
 
-            if (salesTableBody) {
 
-                salesTableBody.innerHTML = `
+            if (salesTable) {
+
+                salesTable.innerHTML = `
+
                     <tr>
+
                         <td
-                            colspan="8"
+                            colspan="7"
                             style="
                                 text-align:center;
-                                padding:30px;
+                                padding:40px;
                                 color:#c62828;
                             "
                         >
@@ -1839,21 +2217,18 @@ onAuthStateChanged(
 
                             <br><br>
 
-                            Please refresh the page.
-
-                            <br><br>
-
-                            <small>
-                                ${escapeHtml(
-                                    error.message ||
-                                    "Unknown error"
-                                )}
-                            </small>
+                            ${escapeHtml(
+                                error.message ||
+                                "Please refresh the page."
+                            )}
 
                         </td>
+
                     </tr>
+
                 `;
             }
         }
+
     }
 );
