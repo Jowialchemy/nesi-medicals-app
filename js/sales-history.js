@@ -1800,16 +1800,45 @@ onAuthStateChanged(
             }
 
             /*
-             * Load both sales and credit payments.
-             */
-            await Promise.all([
-                loadSales(),
-                loadCreditPayments()
-            ]);
+ * Load SALES first.
+ *
+ * Sales History must not wait for the optional
+ * credit-payment collection before displaying sales.
+ */
+await loadSales();
 
-            renderSales(
-                allSales
-            );
+/*
+ * Show the sales immediately.
+ */
+renderSales(
+    allSales
+);
+
+/*
+ * Load credit payments in the background.
+ *
+ * This must NEVER prevent Sales History from opening.
+ */
+loadCreditPayments()
+    .then(() => {
+
+        /*
+         * Re-render after credit payments are available
+         * so credit receipts can show updated balances.
+         */
+        renderSales(
+            allSales
+        );
+
+    })
+    .catch(error => {
+
+        console.warn(
+            "Credit payment loading skipped:",
+            error
+        );
+
+    });
 
         } catch (error) {
 
