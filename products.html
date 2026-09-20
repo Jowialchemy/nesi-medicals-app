@@ -197,7 +197,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 950px;
+            min-width: 1100px;
         }
 
         th {
@@ -216,6 +216,22 @@
 
         tr:hover td {
             background: #fafcff;
+        }
+
+        .barcode-text {
+            font-family: monospace;
+            font-size: 12px;
+            color: #334155;
+            background: #f8fafc;
+            padding: 4px 6px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .barcode-missing {
+            color: #dc2626;
+            font-size: 11px;
+            font-weight: bold;
         }
 
         .status {
@@ -328,6 +344,12 @@
             color: #334155;
         }
 
+        .field-help {
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
         input,
         select,
         textarea {
@@ -343,6 +365,11 @@
         textarea {
             min-height: 80px;
             resize: vertical;
+        }
+
+        .barcode-input {
+            font-family: monospace;
+            letter-spacing: 1px;
         }
 
         .form-buttons {
@@ -422,107 +449,252 @@
 
 <header>
     <div class="brand">
-        <img src="assets/logo.png" alt="Nesi Medicals Logo">
+
+        <img
+            src="assets/logo.png"
+            alt="Nesi Medicals Logo"
+        >
 
         <div>
             <h1>Nesi Medicals</h1>
             <p>& Minimart Enterprises</p>
         </div>
+
     </div>
 
     <div class="header-actions">
-        <a href="dashboard.html" class="button-link btn-light">Dashboard</a>
-        <button class="btn-orange" id="logoutBtn">Logout</button>
+
+        <a
+            href="dashboard.html"
+            class="button-link btn-light"
+        >
+            Dashboard
+        </a>
+
+        <button
+            class="btn-orange"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
     </div>
 </header>
+
 
 <div class="container">
 
     <div class="page-top">
+
         <div>
-            <h2>Products</h2>
-            <p>Manage your products and stock records.</p>
+
+            <h2>
+                Products
+            </h2>
+
+            <p>
+                Manage your products, barcodes and stock records.
+            </p>
+
         </div>
 
-        <button class="btn-orange" id="addProductBtn">
+        <button
+            class="btn-orange"
+            id="addProductBtn"
+        >
             + Add Product
         </button>
+
     </div>
+
 
     <div class="stats">
 
         <div class="stat-card">
-            <div class="stat-title">Total Products</div>
-            <div class="stat-value" id="totalProducts">0</div>
+
+            <div class="stat-title">
+                Total Products
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalProducts"
+            >
+                0
+            </div>
+
         </div>
+
 
         <div class="stat-card orange">
-            <div class="stat-title">Low Stock</div>
-            <div class="stat-value" id="lowStockProducts">0</div>
+
+            <div class="stat-title">
+                Low Stock
+            </div>
+
+            <div
+                class="stat-value"
+                id="lowStockProducts"
+            >
+                0
+            </div>
+
         </div>
+
 
         <div class="stat-card green">
-            <div class="stat-title">In Stock</div>
-            <div class="stat-value" id="inStockProducts">0</div>
+
+            <div class="stat-title">
+                In Stock
+            </div>
+
+            <div
+                class="stat-value"
+                id="inStockProducts"
+            >
+                0
+            </div>
+
         </div>
 
+
         <div class="stat-card red">
-            <div class="stat-title">Out of Stock</div>
-            <div class="stat-value" id="outStockProducts">0</div>
+
+            <div class="stat-title">
+                Out of Stock
+            </div>
+
+            <div
+                class="stat-value"
+                id="outStockProducts"
+            >
+                0
+            </div>
+
         </div>
 
     </div>
 
+
     <div class="toolbar">
+
         <input
             type="text"
             id="searchInput"
             class="search"
-            placeholder="Search products by name, category, brand or SKU..."
+            placeholder="Search by name, category, brand, SKU or barcode..."
         >
 
-        <button class="btn-secondary" id="refreshBtn">
+        <button
+            class="btn-secondary"
+            id="refreshBtn"
+        >
             Refresh
         </button>
+
     </div>
+
 
     <div class="table-card">
 
-        <div id="loadingMessage" class="loading">
+        <div
+            id="loadingMessage"
+            class="loading"
+        >
             Loading products...
         </div>
 
-        <div id="errorMessage" class="error-box" style="display:none;"></div>
 
-        <div id="emptyMessage" class="empty" style="display:none;">
+        <div
+            id="errorMessage"
+            class="error-box"
+            style="display:none;"
+        ></div>
+
+
+        <div
+            id="emptyMessage"
+            class="empty"
+            style="display:none;"
+        >
             No products found.
             <br><br>
-            <button class="btn-orange" id="emptyAddBtn">
+
+            <button
+                class="btn-orange"
+                id="emptyAddBtn"
+            >
                 + Add First Product
             </button>
+
         </div>
 
-        <div class="table-wrapper" id="tableContainer" style="display:none;">
+
+        <div
+            class="table-wrapper"
+            id="tableContainer"
+            style="display:none;"
+        >
 
             <table>
+
                 <thead>
+
                     <tr>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th>SKU</th>
-                        <th>Qty</th>
-                        <th>Cost Price</th>
-                        <th>Selling Price</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Brand
+                        </th>
+
+                        <th>
+                            SKU
+                        </th>
+
+                        <th>
+                            Barcode
+                        </th>
+
+                        <th>
+                            Qty
+                        </th>
+
+                        <th>
+                            Cost Price
+                        </th>
+
+                        <th>
+                            Selling Price
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
                     </tr>
+
                 </thead>
 
-                <tbody id="productsTableBody"></tbody>
+
+                <tbody
+                    id="productsTableBody"
+                ></tbody>
+
             </table>
 
         </div>
+
     </div>
 
 </div>
@@ -530,105 +702,349 @@
 
 <!-- PRODUCT MODAL -->
 
-<div class="modal" id="productModal">
+<div
+    class="modal"
+    id="productModal"
+>
 
     <div class="modal-content">
 
         <div class="modal-header">
 
             <div>
-                <h2 id="modalTitle">Add Product</h2>
-                <p style="color:#64748b;font-size:13px;margin-top:4px;">
+
+                <h2 id="modalTitle">
+                    Add Product
+                </h2>
+
+                <p
+                    style="
+                        color:#64748b;
+                        font-size:13px;
+                        margin-top:4px;
+                    "
+                >
                     Enter the product information below.
                 </p>
+
             </div>
 
-            <button class="close" id="closeModalBtn">×</button>
+
+            <button
+                class="close"
+                id="closeModalBtn"
+            >
+                ×
+            </button>
 
         </div>
 
-        <div id="formMessage" class="message"></div>
+
+        <div
+            id="formMessage"
+            class="message"
+        ></div>
+
 
         <form id="productForm">
 
             <div class="form-grid">
 
+
+                <!-- PRODUCT NAME -->
+
                 <div class="form-group">
-                    <label>Product Name *</label>
-                    <input type="text" id="productName" required>
+
+                    <label>
+                        Product Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        required
+                    >
+
                 </div>
 
-                <div class="form-group">
-                    <label>Category *</label>
 
-                    <select id="category" required>
-                        <option value="">Select category</option>
-                        <option value="Medicine">Medicine</option>
-                        <option value="Toiletries">Toiletries</option>
-                        <option value="Cosmetics">Cosmetics</option>
-                        <option value="Creams">Creams</option>
-                        <option value="Soaps">Soaps</option>
-                        <option value="Perfumes">Perfumes</option>
-                        <option value="Drinks">Drinks</option>
-                        <option value="Baby Products">Baby Products</option>
-                        <option value="Medical Supplies">Medical Supplies</option>
-                        <option value="Personal Care">Personal Care</option>
-                        <option value="Household">Household</option>
-                        <option value="Other">Other</option>
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label>
+                        Category *
+                    </label>
+
+                    <select
+                        id="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select category
+                        </option>
+
+                        <option value="Medicine">
+                            Medicine
+                        </option>
+
+                        <option value="Toiletries">
+                            Toiletries
+                        </option>
+
+                        <option value="Cosmetics">
+                            Cosmetics
+                        </option>
+
+                        <option value="Creams">
+                            Creams
+                        </option>
+
+                        <option value="Soaps">
+                            Soaps
+                        </option>
+
+                        <option value="Perfumes">
+                            Perfumes
+                        </option>
+
+                        <option value="Drinks">
+                            Drinks
+                        </option>
+
+                        <option value="Baby Products">
+                            Baby Products
+                        </option>
+
+                        <option value="Medical Supplies">
+                            Medical Supplies
+                        </option>
+
+                        <option value="Personal Care">
+                            Personal Care
+                        </option>
+
+                        <option value="Household">
+                            Household
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
                     </select>
+
                 </div>
 
-                <div class="form-group">
-                    <label>Brand</label>
-                    <input type="text" id="brand">
-                </div>
+
+                <!-- BRAND -->
 
                 <div class="form-group">
-                    <label>SKU / Product Code</label>
-                    <input type="text" id="sku">
+
+                    <label>
+                        Brand
+                    </label>
+
+                    <input
+                        type="text"
+                        id="brand"
+                    >
+
                 </div>
 
-                <div class="form-group">
-                    <label>Quantity *</label>
-                    <input type="number" id="quantity" min="0" step="1" required>
-                </div>
+
+                <!-- SKU -->
 
                 <div class="form-group">
-                    <label>Low Stock Level *</label>
-                    <input type="number" id="lowStockLevel" min="0" step="1" value="5" required>
+
+                    <label>
+                        SKU / Product Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sku"
+                    >
+
                 </div>
 
-                <div class="form-group">
-                    <label>Cost Price (₦) *</label>
-                    <input type="number" id="costPrice" min="0" step="0.01" required>
+
+                <!-- BARCODE -->
+
+                <div
+                    class="form-group full"
+                    style="
+                        background:#f8fbff;
+                        padding:14px;
+                        border:1px solid #dbeafe;
+                        border-radius:9px;
+                    "
+                >
+
+                    <label>
+                        Barcode / EAN / UPC
+                    </label>
+
+                    <input
+                        type="text"
+                        id="barcode"
+                        class="barcode-input"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        placeholder="Enter or scan the product barcode"
+                    >
+
+                    <div class="field-help">
+                        Enter the barcode printed on the product.
+                        This barcode will be used by the Sales scanner to find this product automatically.
+                    </div>
+
                 </div>
 
-                <div class="form-group">
-                    <label>Selling Price (₦) *</label>
-                    <input type="number" id="sellingPrice" min="0" step="0.01" required>
-                </div>
+
+                <!-- QUANTITY -->
 
                 <div class="form-group">
-                    <label>Batch Number</label>
-                    <input type="text" id="batchNumber">
+
+                    <label>
+                        Quantity *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        min="0"
+                        step="1"
+                        required
+                    >
+
                 </div>
 
+
+                <!-- LOW STOCK -->
+
                 <div class="form-group">
-                    <label>Expiry Date</label>
-                    <input type="date" id="expiryDate">
+
+                    <label>
+                        Low Stock Level *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="lowStockLevel"
+                        min="0"
+                        step="1"
+                        value="5"
+                        required
+                    >
+
                 </div>
+
+
+                <!-- COST -->
+
+                <div class="form-group">
+
+                    <label>
+                        Cost Price (₦) *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="costPrice"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SELLING -->
+
+                <div class="form-group">
+
+                    <label>
+                        Selling Price (₦) *
+                    </label>
+
+                    <input
+                        type="number"
+                        id="sellingPrice"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BATCH -->
+
+                <div class="form-group">
+
+                    <label>
+                        Batch Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="batchNumber"
+                    >
+
+                </div>
+
+
+                <!-- EXPIRY -->
+
+                <div class="form-group">
+
+                    <label>
+                        Expiry Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="expiryDate"
+                    >
+
+                </div>
+
+
+                <!-- SUPPLIER -->
 
                 <div class="form-group full">
-                    <label>Supplier</label>
-                    <input type="text" id="supplier">
+
+                    <label>
+                        Supplier
+                    </label>
+
+                    <input
+                        type="text"
+                        id="supplier"
+                    >
+
                 </div>
 
+
+                <!-- NOTES -->
+
                 <div class="form-group full">
-                    <label>Notes</label>
-                    <textarea id="notes"></textarea>
+
+                    <label>
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="notes"
+                    ></textarea>
+
                 </div>
+
 
             </div>
+
 
             <div class="form-buttons">
 
@@ -639,6 +1055,7 @@
                 >
                     Cancel
                 </button>
+
 
                 <button
                     type="submit"
@@ -653,17 +1070,23 @@
         </form>
 
     </div>
+
 </div>
 
 
 <script type="module">
 
-    import { auth, db } from "./js/firebase.js";
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
+
 
     import {
         onAuthStateChanged,
         signOut
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
     import {
         collection,
@@ -677,68 +1100,144 @@
 
 
     let products = [];
+
     let currentUser = null;
+
     let editingProductId = null;
 
 
     const loadingMessage =
-        document.getElementById("loadingMessage");
+        document.getElementById(
+            "loadingMessage"
+        );
+
 
     const errorMessage =
-        document.getElementById("errorMessage");
+        document.getElementById(
+            "errorMessage"
+        );
+
 
     const emptyMessage =
-        document.getElementById("emptyMessage");
+        document.getElementById(
+            "emptyMessage"
+        );
+
 
     const tableContainer =
-        document.getElementById("tableContainer");
+        document.getElementById(
+            "tableContainer"
+        );
+
 
     const productsTableBody =
-        document.getElementById("productsTableBody");
+        document.getElementById(
+            "productsTableBody"
+        );
+
 
     const searchInput =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
+
 
     const productModal =
-        document.getElementById("productModal");
+        document.getElementById(
+            "productModal"
+        );
+
 
     const productForm =
-        document.getElementById("productForm");
+        document.getElementById(
+            "productForm"
+        );
+
 
     const formMessage =
-        document.getElementById("formMessage");
+        document.getElementById(
+            "formMessage"
+        );
 
+
+    /* =========================
+       UI HELPERS
+    ========================= */
 
     function showLoading() {
 
-        loadingMessage.style.display = "block";
-        errorMessage.style.display = "none";
-        emptyMessage.style.display = "none";
-        tableContainer.style.display = "none";
+        loadingMessage.style.display =
+            "block";
+
+        errorMessage.style.display =
+            "none";
+
+        emptyMessage.style.display =
+            "none";
+
+        tableContainer.style.display =
+            "none";
 
     }
 
 
     function showError(message) {
 
-        loadingMessage.style.display = "none";
-        emptyMessage.style.display = "none";
-        tableContainer.style.display = "none";
+        loadingMessage.style.display =
+            "none";
 
-        errorMessage.style.display = "block";
+        emptyMessage.style.display =
+            "none";
+
+        tableContainer.style.display =
+            "none";
+
+        errorMessage.style.display =
+            "block";
 
         errorMessage.innerHTML = `
-            <strong>Unable to load products.</strong>
+
+            <strong>
+                Unable to load products.
+            </strong>
+
             <br><br>
-            ${message}
+
+            ${escapeHTML(message)}
+
             <br><br>
-            <button class="btn-orange" onclick="location.reload()">
+
+            <button
+                class="btn-orange"
+                onclick="location.reload()"
+            >
                 Try Again
             </button>
+
         `;
 
     }
 
+
+    /* =========================
+       BARCODE NORMALIZATION
+    ========================= */
+
+    function normalizeBarcode(value) {
+
+        return String(
+            value || ""
+        )
+        .trim()
+        .replace(/[\s-]/g, "")
+        .toUpperCase();
+
+    }
+
+
+    /* =========================
+       QUANTITY
+    ========================= */
 
     function getQuantity(product) {
 
@@ -747,19 +1246,38 @@
                 ? Number(product.quantity)
                 : Number(product.stock);
 
-        return Number.isFinite(quantity) ? quantity : 0;
+        return Number.isFinite(
+            quantity
+        )
+            ? quantity
+            : 0;
 
     }
 
+
+    /* =========================
+       LOW STOCK
+    ========================= */
 
     function getLowStockLevel(product) {
 
-        const level = Number(product.lowStockLevel);
+        const level =
+            Number(
+                product.lowStockLevel
+            );
 
-        return Number.isFinite(level) ? level : 5;
+        return Number.isFinite(
+            level
+        )
+            ? level
+            : 5;
 
     }
 
+
+    /* =========================
+       SELLING PRICE
+    ========================= */
 
     function getSellingPrice(product) {
 
@@ -768,10 +1286,18 @@
                 ? Number(product.sellingPrice)
                 : Number(product.price);
 
-        return Number.isFinite(price) ? price : 0;
+        return Number.isFinite(
+            price
+        )
+            ? price
+            : 0;
 
     }
 
+
+    /* =========================
+       COST PRICE
+    ========================= */
 
     function getCostPrice(product) {
 
@@ -780,23 +1306,45 @@
                 ? Number(product.costPrice)
                 : Number(product.cost);
 
-        return Number.isFinite(price) ? price : 0;
+        return Number.isFinite(
+            price
+        )
+            ? price
+            : 0;
 
     }
 
 
+    /* =========================
+       STATUS
+    ========================= */
+
     function getStatus(product) {
 
-        const quantity = getQuantity(product);
-        const lowLevel = getLowStockLevel(product);
+        const quantity =
+            getQuantity(product);
 
-        if (quantity <= 0) {
+        const lowLevel =
+            getLowStockLevel(product);
+
+
+        if (
+            quantity <= 0
+        ) {
+
             return "Out of Stock";
+
         }
 
-        if (quantity <= lowLevel) {
+
+        if (
+            quantity <= lowLevel
+        ) {
+
             return "Low Stock";
+
         }
+
 
         return "In Stock";
 
@@ -805,76 +1353,119 @@
 
     function statusHTML(status) {
 
-        if (status === "Out of Stock") {
+        if (
+            status === "Out of Stock"
+        ) {
 
             return `
+
                 <span class="status status-out">
                     Out of Stock
                 </span>
+
             `;
 
         }
 
-        if (status === "Low Stock") {
+
+        if (
+            status === "Low Stock"
+        ) {
 
             return `
+
                 <span class="status status-low">
                     Low Stock
                 </span>
+
             `;
 
         }
 
+
         return `
+
             <span class="status status-in">
                 In Stock
             </span>
+
         `;
 
     }
 
 
+    /* =========================
+       MONEY
+    ========================= */
+
     function money(value) {
 
-        return "₦" + Number(value || 0).toLocaleString(
-            "en-NG",
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }
-        );
+        return "₦" +
+            Number(
+                value || 0
+            ).toLocaleString(
+                "en-NG",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
 
     }
 
+
+    /* =========================
+       LOAD PRODUCTS
+    ========================= */
 
     async function loadProducts() {
 
         showLoading();
 
+
         try {
 
-            console.log("Loading products from Firestore...");
+            console.log(
+                "Loading products from Firestore..."
+            );
+
 
             const snapshot =
-                await getDocs(collection(db, "products"));
+                await getDocs(
+                    collection(
+                        db,
+                        "products"
+                    )
+                );
 
-            products = snapshot.docs.map(item => {
 
-                return {
-                    id: item.id,
-                    ...item.data()
-                };
+            products =
+                snapshot.docs.map(
+                    item => {
 
-            });
+                        return {
+
+                            id:
+                                item.id,
+
+                            ...item.data()
+
+                        };
+
+                    }
+                );
+
 
             console.log(
                 "Products loaded:",
                 products.length
             );
 
+
             updateStats();
 
             renderProducts();
+
 
         } catch (error) {
 
@@ -882,6 +1473,7 @@
                 "Product loading error:",
                 error
             );
+
 
             showError(
                 error.message ||
@@ -893,107 +1485,189 @@
     }
 
 
+    /* =========================
+       STATS
+    ========================= */
+
     function updateStats() {
 
         const total =
             products.length;
 
+
         const low =
             products.filter(
-                product => getStatus(product) === "Low Stock"
+                product =>
+                    getStatus(product) ===
+                    "Low Stock"
             ).length;
+
 
         const inStock =
             products.filter(
-                product => getStatus(product) === "In Stock"
+                product =>
+                    getStatus(product) ===
+                    "In Stock"
             ).length;
+
 
         const outStock =
             products.filter(
-                product => getStatus(product) === "Out of Stock"
+                product =>
+                    getStatus(product) ===
+                    "Out of Stock"
             ).length;
 
 
         document.getElementById(
             "totalProducts"
-        ).textContent = total;
+        ).textContent =
+            total;
+
 
         document.getElementById(
             "lowStockProducts"
-        ).textContent = low;
+        ).textContent =
+            low;
+
 
         document.getElementById(
             "inStockProducts"
-        ).textContent = inStock;
+        ).textContent =
+            inStock;
+
 
         document.getElementById(
             "outStockProducts"
-        ).textContent = outStock;
+        ).textContent =
+            outStock;
 
     }
 
 
+    /* =========================
+       RENDER PRODUCTS
+    ========================= */
+
     function renderProducts() {
 
         const search =
-            searchInput.value.trim().toLowerCase();
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
 
         const filtered =
-            products.filter(product => {
+            products.filter(
+                product => {
 
-                const text = [
+                    const text = [
 
-                    product.productName,
-                    product.category,
-                    product.brand,
-                    product.sku,
-                    product.supplier
+                        product.productName,
 
-                ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
+                        product.category,
 
-                return text.includes(search);
+                        product.brand,
 
-            });
+                        product.sku,
 
+                        product.barcode,
 
-        loadingMessage.style.display = "none";
-        errorMessage.style.display = "none";
+                        product.supplier
+
+                    ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
 
 
-        if (filtered.length === 0) {
+                    return text.includes(
+                        search
+                    );
 
-            tableContainer.style.display = "none";
-            emptyMessage.style.display = "block";
+                }
+            );
 
-            if (products.length > 0 && search) {
+
+        loadingMessage.style.display =
+            "none";
+
+        errorMessage.style.display =
+            "none";
+
+
+        if (
+            filtered.length === 0
+        ) {
+
+            tableContainer.style.display =
+                "none";
+
+            emptyMessage.style.display =
+                "block";
+
+
+            if (
+                products.length > 0 &&
+                search
+            ) {
 
                 emptyMessage.innerHTML = `
-                    No products match "${searchInput.value}".
+
+                    No products match
+                    "${escapeHTML(searchInput.value)}".
+
                     <br><br>
-                    <button class="btn-secondary" onclick="
-                        document.getElementById('searchInput').value='';
-                        document.getElementById('searchInput').dispatchEvent(new Event('input'));
-                    ">
+
+                    <button
+                        class="btn-secondary"
+                        id="clearSearchBtn"
+                    >
                         Clear Search
                     </button>
+
                 `;
+
+
+                document
+                    .getElementById(
+                        "clearSearchBtn"
+                    )
+                    .addEventListener(
+                        "click",
+                        () => {
+
+                            searchInput.value =
+                                "";
+
+                            renderProducts();
+
+                        }
+                    );
+
 
             } else {
 
                 emptyMessage.innerHTML = `
+
                     No products found.
+
                     <br><br>
-                    <button class="btn-orange" id="emptyAddBtn">
+
+                    <button
+                        class="btn-orange"
+                        id="emptyAddBtn"
+                    >
                         + Add First Product
                     </button>
+
                 `;
 
+
                 document
-                    .getElementById("emptyAddBtn")
+                    .getElementById(
+                        "emptyAddBtn"
+                    )
                     .addEventListener(
                         "click",
                         openAddModal
@@ -1001,198 +1675,355 @@
 
             }
 
+
             return;
 
         }
 
 
-        emptyMessage.style.display = "none";
-        tableContainer.style.display = "block";
+        emptyMessage.style.display =
+            "none";
+
+        tableContainer.style.display =
+            "block";
 
 
         productsTableBody.innerHTML =
-            filtered.map(product => {
+            filtered.map(
+                product => {
 
-                const quantity =
-                    getQuantity(product);
+                    const quantity =
+                        getQuantity(
+                            product
+                        );
 
-                const status =
-                    getStatus(product);
+
+                    const status =
+                        getStatus(
+                            product
+                        );
 
 
-                return `
+                    const barcode =
+                        normalizeBarcode(
+                            product.barcode
+                        );
 
-                    <tr>
 
-                        <td>
-                            <strong>
+                    return `
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        product.productName ||
+                                        "Unnamed Product"
+                                    )}
+                                </strong>
+
+
+                                ${
+                                    product.batchNumber
+                                    ? `
+
+                                        <br>
+
+                                        <small
+                                            style="
+                                                color:#64748b;
+                                            "
+                                        >
+                                            Batch:
+                                            ${escapeHTML(
+                                                product.batchNumber
+                                            )}
+                                        </small>
+
+                                    `
+                                    : ""
+                                }
+
+                            </td>
+
+
+                            <td>
+
                                 ${escapeHTML(
-                                    product.productName || "Unnamed Product"
+                                    product.category ||
+                                    "-"
                                 )}
-                            </strong>
 
-                            ${
-                                product.batchNumber
-                                ? `
-                                    <br>
-                                    <small style="color:#64748b;">
-                                        Batch:
-                                        ${escapeHTML(product.batchNumber)}
-                                    </small>
-                                  `
-                                : ""
-                            }
+                            </td>
 
-                        </td>
 
-                        <td>
-                            ${escapeHTML(
-                                product.category || "-"
-                            )}
-                        </td>
+                            <td>
 
-                        <td>
-                            ${escapeHTML(
-                                product.brand || "-"
-                            )}
-                        </td>
+                                ${escapeHTML(
+                                    product.brand ||
+                                    "-"
+                                )}
 
-                        <td>
-                            ${escapeHTML(
-                                product.sku || "-"
-                            )}
-                        </td>
+                            </td>
 
-                        <td>
-                            <strong>${quantity}</strong>
-                        </td>
 
-                        <td>
-                            ${money(
-                                getCostPrice(product)
-                            )}
-                        </td>
+                            <td>
 
-                        <td>
-                            ${money(
-                                getSellingPrice(product)
-                            )}
-                        </td>
+                                ${escapeHTML(
+                                    product.sku ||
+                                    "-"
+                                )}
 
-                        <td>
-                            ${statusHTML(status)}
-                        </td>
+                            </td>
 
-                        <td>
 
-                            <div class="actions">
+                            <td>
 
-                                <button
-                                    class="btn-secondary small-btn"
-                                    data-edit="${product.id}"
-                                >
-                                    Edit
-                                </button>
+                                ${
+                                    barcode
+                                    ? `
 
-                                <button
-                                    class="btn-danger small-btn"
-                                    data-delete="${product.id}"
-                                >
-                                    Delete
-                                </button>
+                                        <span
+                                            class="barcode-text"
+                                        >
+                                            ${escapeHTML(
+                                                barcode
+                                            )}
+                                        </span>
 
-                            </div>
+                                    `
+                                    : `
 
-                        </td>
+                                        <span
+                                            class="barcode-missing"
+                                        >
+                                            Not registered
+                                        </span>
 
-                    </tr>
+                                    `
+                                }
 
-                `;
+                            </td>
 
-            }).join("");
+
+                            <td>
+
+                                <strong>
+                                    ${quantity}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                ${money(
+                                    getCostPrice(
+                                        product
+                                    )
+                                )}
+
+                            </td>
+
+
+                            <td>
+
+                                ${money(
+                                    getSellingPrice(
+                                        product
+                                    )
+                                )}
+
+                            </td>
+
+
+                            <td>
+
+                                ${statusHTML(
+                                    status
+                                )}
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+                                    <button
+                                        class="btn-secondary small-btn"
+                                        data-edit="${product.id}"
+                                    >
+                                        Edit
+                                    </button>
+
+
+                                    <button
+                                        class="btn-danger small-btn"
+                                        data-delete="${product.id}"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            ).join("");
 
 
         document
-            .querySelectorAll("[data-edit]")
-            .forEach(button => {
+            .querySelectorAll(
+                "[data-edit]"
+            )
+            .forEach(
+                button => {
 
-                button.addEventListener(
-                    "click",
-                    () => editProduct(
-                        button.dataset.edit
-                    )
-                );
+                    button.addEventListener(
+                        "click",
+                        () =>
+                            editProduct(
+                                button.dataset.edit
+                            )
+                    );
 
-            });
+                }
+            );
 
 
         document
-            .querySelectorAll("[data-delete]")
-            .forEach(button => {
+            .querySelectorAll(
+                "[data-delete]"
+            )
+            .forEach(
+                button => {
 
-                button.addEventListener(
-                    "click",
-                    () => deleteProduct(
-                        button.dataset.delete
-                    )
-                );
+                    button.addEventListener(
+                        "click",
+                        () =>
+                            deleteProduct(
+                                button.dataset.delete
+                            )
+                    );
 
-            });
+                }
+            );
 
     }
 
+
+    /* =========================
+       ESCAPE HTML
+    ========================= */
 
     function escapeHTML(value) {
 
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+        return String(
+            value ?? ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
     }
 
+
+    /* =========================
+       OPEN ADD MODAL
+    ========================= */
 
     function openAddModal() {
 
-        editingProductId = null;
+        editingProductId =
+            null;
+
 
         document.getElementById(
             "modalTitle"
-        ).textContent = "Add Product";
+        ).textContent =
+            "Add Product";
+
 
         document.getElementById(
             "saveBtn"
-        ).textContent = "Save Product";
+        ).textContent =
+            "Save Product";
+
 
         productForm.reset();
+
 
         document.getElementById(
             "lowStockLevel"
-        ).value = 5;
+        ).value =
+            5;
+
 
         clearFormMessage();
 
-        productModal.style.display = "block";
+
+        productModal.style.display =
+            "block";
 
     }
 
+
+    /* =========================
+       CLOSE MODAL
+    ========================= */
 
     function closeModal() {
 
-        productModal.style.display = "none";
+        productModal.style.display =
+            "none";
+
+
         productForm.reset();
-        editingProductId = null;
+
+
+        editingProductId =
+            null;
+
+
         clearFormMessage();
 
     }
 
 
+    /* =========================
+       FORM MESSAGE
+    ========================= */
+
     function clearFormMessage() {
 
-        formMessage.className = "message";
-        formMessage.textContent = "";
+        formMessage.className =
+            "message";
+
+        formMessage.textContent =
+            "";
 
     }
 
@@ -1205,118 +2036,210 @@
         formMessage.className =
             "message " + type;
 
+
         formMessage.textContent =
             message;
 
     }
 
 
+    /* =========================
+       EDIT PRODUCT
+    ========================= */
+
     function editProduct(id) {
 
         const product =
             products.find(
-                item => item.id === id
+                item =>
+                    item.id === id
             );
 
+
         if (!product) {
+
             return;
+
         }
 
 
-        editingProductId = id;
+        editingProductId =
+            id;
 
 
         document.getElementById(
             "modalTitle"
-        ).textContent = "Edit Product";
+        ).textContent =
+            "Edit Product";
+
 
         document.getElementById(
             "saveBtn"
-        ).textContent = "Update Product";
+        ).textContent =
+            "Update Product";
 
 
         document.getElementById(
             "productName"
         ).value =
-            product.productName || "";
+            product.productName ||
+            "";
 
 
         document.getElementById(
             "category"
         ).value =
-            product.category || "";
+            product.category ||
+            "";
 
 
         document.getElementById(
             "brand"
         ).value =
-            product.brand || "";
+            product.brand ||
+            "";
 
 
         document.getElementById(
             "sku"
         ).value =
-            product.sku || "";
+            product.sku ||
+            "";
+
+
+        document.getElementById(
+            "barcode"
+        ).value =
+            normalizeBarcode(
+                product.barcode
+            );
 
 
         document.getElementById(
             "quantity"
         ).value =
-            getQuantity(product);
+            getQuantity(
+                product
+            );
 
 
         document.getElementById(
             "lowStockLevel"
         ).value =
-            getLowStockLevel(product);
+            getLowStockLevel(
+                product
+            );
 
 
         document.getElementById(
             "costPrice"
         ).value =
-            getCostPrice(product);
+            getCostPrice(
+                product
+            );
 
 
         document.getElementById(
             "sellingPrice"
         ).value =
-            getSellingPrice(product);
+            getSellingPrice(
+                product
+            );
 
 
         document.getElementById(
             "batchNumber"
         ).value =
-            product.batchNumber || "";
+            product.batchNumber ||
+            "";
 
 
         document.getElementById(
             "expiryDate"
         ).value =
-            product.expiryDate || "";
+            product.expiryDate ||
+            "";
 
 
         document.getElementById(
             "supplier"
         ).value =
-            product.supplier || "";
+            product.supplier ||
+            "";
 
 
         document.getElementById(
             "notes"
         ).value =
-            product.notes || "";
+            product.notes ||
+            "";
 
 
         clearFormMessage();
 
-        productModal.style.display = "block";
+
+        productModal.style.display =
+            "block";
 
     }
 
 
-    async function saveProduct(event) {
+    /* =========================
+       CHECK DUPLICATE BARCODE
+    ========================= */
+
+    function barcodeAlreadyUsed(
+        barcode,
+        currentId = null
+    ) {
+
+        if (!barcode) {
+
+            return false;
+
+        }
+
+
+        return products.some(
+            product => {
+
+                if (
+                    currentId &&
+                    product.id === currentId
+                ) {
+
+                    return false;
+
+                }
+
+
+                const existingBarcode =
+                    normalizeBarcode(
+                        product.barcode
+                    );
+
+
+                return (
+                    existingBarcode ===
+                    barcode
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       SAVE PRODUCT
+    ========================= */
+
+    async function saveProduct(
+        event
+    ) {
 
         event.preventDefault();
+
 
         if (!currentUser) {
 
@@ -1335,20 +2258,32 @@
                 "productName"
             ).value.trim();
 
+
         const category =
             document.getElementById(
                 "category"
             ).value;
+
 
         const brand =
             document.getElementById(
                 "brand"
             ).value.trim();
 
+
         const sku =
             document.getElementById(
                 "sku"
             ).value.trim();
+
+
+        const barcode =
+            normalizeBarcode(
+                document.getElementById(
+                    "barcode"
+                ).value
+            );
+
 
         const quantity =
             Number(
@@ -1357,12 +2292,14 @@
                 ).value
             );
 
+
         const lowStockLevel =
             Number(
                 document.getElementById(
                     "lowStockLevel"
                 ).value
             );
+
 
         const costPrice =
             Number(
@@ -1371,6 +2308,7 @@
                 ).value
             );
 
+
         const sellingPrice =
             Number(
                 document.getElementById(
@@ -1378,26 +2316,34 @@
                 ).value
             );
 
+
         const batchNumber =
             document.getElementById(
                 "batchNumber"
             ).value.trim();
+
 
         const expiryDate =
             document.getElementById(
                 "expiryDate"
             ).value;
 
+
         const supplier =
             document.getElementById(
                 "supplier"
             ).value.trim();
+
 
         const notes =
             document.getElementById(
                 "notes"
             ).value.trim();
 
+
+        /* =========================
+           VALIDATION
+        ========================= */
 
         if (!productName) {
 
@@ -1424,7 +2370,9 @@
 
 
         if (
-            !Number.isFinite(quantity) ||
+            !Number.isFinite(
+                quantity
+            ) ||
             quantity < 0
         ) {
 
@@ -1439,7 +2387,26 @@
 
 
         if (
-            !Number.isFinite(costPrice) ||
+            !Number.isFinite(
+                lowStockLevel
+            ) ||
+            lowStockLevel < 0
+        ) {
+
+            showFormMessage(
+                "Please enter a valid low stock level.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !Number.isFinite(
+                costPrice
+            ) ||
             costPrice < 0
         ) {
 
@@ -1454,12 +2421,36 @@
 
 
         if (
-            !Number.isFinite(sellingPrice) ||
+            !Number.isFinite(
+                sellingPrice
+            ) ||
             sellingPrice < 0
         ) {
 
             showFormMessage(
                 "Please enter a valid selling price.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           DUPLICATE BARCODE
+        ========================= */
+
+        if (
+            barcode &&
+            barcodeAlreadyUsed(
+                barcode,
+                editingProductId
+            )
+        ) {
+
+            showFormMessage(
+                "This barcode is already registered to another product. Please use a different barcode.",
                 "error"
             );
 
@@ -1476,38 +2467,62 @@
                     : "In Stock";
 
 
+        /* =========================
+           PRODUCT DATA
+        ========================= */
+
         const productData = {
 
             productName,
+
             category,
+
             brand,
+
             sku,
+
+            /*
+             * BARCODE
+             *
+             * This is the field used by
+             * the Sales barcode scanner.
+             */
+            barcode,
 
             quantity,
 
-            // Keep stock for compatibility
-            // with older inventory records.
-            stock: quantity,
+            /*
+             * Keep stock for compatibility
+             * with older inventory records.
+             */
+            stock:
+                quantity,
 
             lowStockLevel,
 
             batchNumber,
+
             expiryDate,
 
             costPrice,
+
             sellingPrice,
 
             supplier,
+
             notes,
 
             status,
 
-            updatedAt: serverTimestamp(),
+            updatedAt:
+                serverTimestamp(),
 
-            updatedBy: currentUser.uid,
+            updatedBy:
+                currentUser.uid,
 
             updatedByEmail:
-                currentUser.email || ""
+                currentUser.email ||
+                ""
 
         };
 
@@ -1518,21 +2533,32 @@
             );
 
 
-        saveButton.disabled = true;
-        saveButton.textContent = "Saving...";
+        saveButton.disabled =
+            true;
+
+
+        saveButton.textContent =
+            editingProductId
+                ? "Updating..."
+                : "Saving...";
 
 
         try {
 
-            if (editingProductId) {
+            if (
+                editingProductId
+            ) {
 
                 await updateDoc(
+
                     doc(
                         db,
                         "products",
                         editingProductId
                     ),
+
                     productData
+
                 );
 
             } else {
@@ -1540,16 +2566,25 @@
                 productData.createdAt =
                     serverTimestamp();
 
+
                 productData.createdBy =
                     currentUser.uid;
 
+
                 productData.createdByEmail =
-                    currentUser.email || "";
+                    currentUser.email ||
+                    "";
 
 
                 await addDoc(
-                    collection(db, "products"),
+
+                    collection(
+                        db,
+                        "products"
+                    ),
+
                     productData
+
                 );
 
             }
@@ -1557,7 +2592,9 @@
 
             await loadProducts();
 
+
             closeModal();
+
 
         } catch (error) {
 
@@ -1565,6 +2602,7 @@
                 "Save product error:",
                 error
             );
+
 
             showFormMessage(
                 error.message ||
@@ -1574,7 +2612,9 @@
 
         } finally {
 
-            saveButton.disabled = false;
+            saveButton.disabled =
+                false;
+
 
             saveButton.textContent =
                 editingProductId
@@ -1586,37 +2626,53 @@
     }
 
 
-    async function deleteProduct(id) {
+    /* =========================
+       DELETE PRODUCT
+    ========================= */
+
+    async function deleteProduct(
+        id
+    ) {
 
         const product =
             products.find(
-                item => item.id === id
+                item =>
+                    item.id === id
             );
 
+
         if (!product) {
+
             return;
+
         }
 
 
         const confirmed =
             confirm(
+
                 `Are you sure you want to delete "${product.productName || "this product"}"?`
+
             );
 
 
         if (!confirmed) {
+
             return;
+
         }
 
 
         try {
 
             await deleteDoc(
+
                 doc(
                     db,
                     "products",
                     id
                 )
+
             );
 
 
@@ -1630,6 +2686,7 @@
                 error
             );
 
+
             alert(
                 error.message ||
                 "Unable to delete product."
@@ -1640,8 +2697,14 @@
     }
 
 
+    /* =========================
+       BUTTON EVENTS
+    ========================= */
+
     document
-        .getElementById("addProductBtn")
+        .getElementById(
+            "addProductBtn"
+        )
         .addEventListener(
             "click",
             openAddModal
@@ -1649,7 +2712,9 @@
 
 
     document
-        .getElementById("closeModalBtn")
+        .getElementById(
+            "closeModalBtn"
+        )
         .addEventListener(
             "click",
             closeModal
@@ -1657,7 +2722,9 @@
 
 
     document
-        .getElementById("cancelBtn")
+        .getElementById(
+            "cancelBtn"
+        )
         .addEventListener(
             "click",
             closeModal
@@ -1665,7 +2732,9 @@
 
 
     document
-        .getElementById("refreshBtn")
+        .getElementById(
+            "refreshBtn"
+        )
         .addEventListener(
             "click",
             loadProducts
@@ -1684,18 +2753,28 @@
     );
 
 
+    /* =========================
+       LOGOUT
+    ========================= */
+
     document
-        .getElementById("logoutBtn")
+        .getElementById(
+            "logoutBtn"
+        )
         .addEventListener(
             "click",
             async () => {
 
                 try {
 
-                    await signOut(auth);
+                    await signOut(
+                        auth
+                    );
+
 
                     window.location.href =
                         "login.html";
+
 
                 } catch (error) {
 
@@ -1709,6 +2788,10 @@
             }
         );
 
+
+    /* =========================
+       CLOSE MODAL BY BACKDROP
+    ========================= */
 
     productModal.addEventListener(
         "click",
@@ -1727,11 +2810,9 @@
     );
 
 
-    /*
-     * IMPORTANT:
-     * Wait for Firebase Authentication first.
-     * Then load the existing products.
-     */
+    /* =========================
+       FIREBASE AUTH
+    ========================= */
 
     onAuthStateChanged(
         auth,
@@ -1755,7 +2836,8 @@
             }
 
 
-            currentUser = user;
+            currentUser =
+                user;
 
 
             await loadProducts();
@@ -1766,4 +2848,4 @@
 </script>
 
 </body>
-    </html>
+</html>
