@@ -15,12 +15,12 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7fb;
+            background: #f3f6fa;
             color: #172033;
         }
 
         header {
-            background: linear-gradient(135deg, #0a5fff, #0648c7);
+            background: #111827;
             color: white;
             padding: 15px 20px;
             display: flex;
@@ -29,13 +29,13 @@
             gap: 15px;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 100;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .brand img {
@@ -43,63 +43,49 @@
             height: 45px;
             object-fit: contain;
             border-radius: 8px;
-            background: white;
         }
 
-        .brand h1 {
-            font-size: 20px;
+        .brand-text strong {
+            display: block;
+            font-size: 18px;
         }
 
-        .brand p {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 3px;
+        .brand-text span {
+            font-size: 11px;
+            opacity: .75;
         }
 
         .header-actions {
             display: flex;
             gap: 8px;
-            align-items: center;
         }
 
         button,
-        .button-link {
+        .btn {
             border: none;
-            cursor: pointer;
+            border-radius: 8px;
             padding: 10px 15px;
-            border-radius: 7px;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
+            cursor: pointer;
+            font-weight: 600;
         }
 
-        .btn-light {
-            background: white;
-            color: #0a5fff;
-        }
-
-        .btn-orange {
-            background: #ff8a00;
+        .dashboard-btn {
+            background: #2563eb;
             color: white;
         }
 
-        .btn-danger {
-            background: #dc3545;
+        .logout-btn {
+            background: #dc2626;
             color: white;
         }
 
-        .btn-secondary {
-            background: #64748b;
-            color: white;
-        }
-
-        .container {
+        main {
             max-width: 1400px;
             margin: auto;
             padding: 25px;
         }
 
-        .page-top {
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -108,13 +94,19 @@
             flex-wrap: wrap;
         }
 
-        .page-top h2 {
-            font-size: 26px;
+        .page-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
         }
 
-        .page-top p {
+        .page-header p {
             color: #64748b;
-            margin-top: 5px;
+        }
+
+        .add-btn {
+            background: #16a34a;
+            color: white;
+            font-size: 15px;
         }
 
         .stats {
@@ -126,72 +118,50 @@
 
         .stat-card {
             background: white;
-            border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-            border-left: 5px solid #0a5fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
         }
 
-        .stat-card.orange {
-            border-left-color: #ff8a00;
-        }
-
-        .stat-card.green {
-            border-left-color: #16a34a;
-        }
-
-        .stat-card.red {
-            border-left-color: #dc3545;
-        }
-
-        .stat-title {
+        .stat-card span {
             color: #64748b;
             font-size: 13px;
-            margin-bottom: 8px;
         }
 
-        .stat-value {
+        .stat-card strong {
+            display: block;
+            margin-top: 8px;
             font-size: 25px;
-            font-weight: bold;
         }
 
         .toolbar {
             background: white;
             padding: 15px;
             border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            margin-bottom: 15px;
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        .search {
+        .toolbar input {
             flex: 1;
             min-width: 220px;
-            padding: 12px;
-            border: 1px solid #d7deea;
-            border-radius: 7px;
-            outline: none;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
         }
 
-        .search:focus,
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #0a5fff;
+        .refresh-btn {
+            background: #e5e7eb;
+            color: #111827;
         }
 
-        .table-card {
+        .table-container {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-            overflow: hidden;
-        }
-
-        .table-wrapper {
-            width: 100%;
             overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
         }
 
         table {
@@ -200,108 +170,84 @@
             min-width: 1100px;
         }
 
-        th {
-            background: #eef4ff;
-            color: #1e3a8a;
-            padding: 13px;
-            text-align: left;
-            font-size: 13px;
-        }
-
+        th,
         td {
             padding: 13px;
-            border-bottom: 1px solid #edf0f5;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
             font-size: 14px;
         }
 
-        tr:hover td {
-            background: #fafcff;
-        }
-
-        .barcode-text {
-            font-family: monospace;
-            font-size: 12px;
-            color: #334155;
+        th {
             background: #f8fafc;
-            padding: 4px 6px;
-            border-radius: 5px;
-            display: inline-block;
-        }
-
-        .barcode-missing {
-            color: #dc2626;
-            font-size: 11px;
-            font-weight: bold;
+            color: #475569;
         }
 
         .status {
+            display: inline-block;
             padding: 5px 9px;
             border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
         }
 
-        .status-in {
+        .status.in-stock {
             background: #dcfce7;
             color: #166534;
         }
 
-        .status-low {
-            background: #fff7ed;
-            color: #c2410c;
+        .status.low {
+            background: #fef3c7;
+            color: #92400e;
         }
 
-        .status-out {
+        .status.out {
             background: #fee2e2;
             color: #991b1b;
         }
 
-        .actions {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
+        .action-btn {
+            padding: 7px 10px;
+            font-size: 12px;
+            margin-right: 4px;
         }
 
-        .small-btn {
-            padding: 7px 9px;
-            font-size: 11px;
+        .edit-btn {
+            background: #dbeafe;
+            color: #1d4ed8;
         }
 
-        .loading,
-        .empty,
-        .error-box {
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .loading {
-            color: #0a5fff;
+        .delete-btn {
+            background: #fee2e2;
+            color: #b91c1c;
         }
 
         .empty {
+            padding: 40px;
+            text-align: center;
             color: #64748b;
         }
 
-        .error-box {
-            color: #991b1b;
-            background: #fff1f2;
-        }
+        /* MODAL */
 
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.55);
-            z-index: 100;
+            background: rgba(0,0,0,.55);
+            z-index: 1000;
             padding: 20px;
             overflow-y: auto;
         }
 
+        .modal.show {
+            display: block;
+        }
+
         .modal-content {
-            background: white;
-            max-width: 750px;
+            max-width: 800px;
             margin: 30px auto;
+            background: white;
             border-radius: 14px;
             padding: 25px;
         }
@@ -313,13 +259,10 @@
             margin-bottom: 20px;
         }
 
-        .close {
-            background: #f1f5f9;
-            color: #334155;
-            font-size: 18px;
-            width: 38px;
-            height: 38px;
-            padding: 0;
+        .close-btn {
+            background: #e5e7eb;
+            font-size: 20px;
+            padding: 5px 11px;
         }
 
         .form-grid {
@@ -339,15 +282,8 @@
         }
 
         label {
+            font-weight: 600;
             font-size: 13px;
-            font-weight: bold;
-            color: #334155;
-        }
-
-        .field-help {
-            font-size: 11px;
-            color: #64748b;
-            line-height: 1.4;
         }
 
         input,
@@ -355,48 +291,159 @@
         textarea {
             width: 100%;
             padding: 11px;
-            border: 1px solid #d7deea;
-            border-radius: 7px;
-            outline: none;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
             font-size: 14px;
-            background: white;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
         }
 
         textarea {
-            min-height: 80px;
+            min-height: 90px;
             resize: vertical;
         }
 
-        .barcode-input {
-            font-family: monospace;
-            letter-spacing: 1px;
+        .barcode-box {
+            border: 1px solid #dbe3ec;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
         }
 
-        .form-buttons {
+        .barcode-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .barcode-help {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .barcode-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .scan-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .image-btn {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .clear-barcode-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        #barcodeImageInput {
+            display: none;
+        }
+
+        .barcode-result {
+            margin-top: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
             margin-top: 20px;
         }
 
-        .message {
-            margin-bottom: 15px;
-            padding: 11px;
-            border-radius: 7px;
+        .cancel-btn {
+            background: #e5e7eb;
+        }
+
+        .save-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        /* SCANNER MODAL */
+
+        .scanner-modal {
             display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.85);
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .scanner-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scanner-box {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .scanner-box h2 {
+            margin-bottom: 8px;
+        }
+
+        .scanner-box p {
+            color: #64748b;
             font-size: 13px;
+            margin-bottom: 15px;
         }
 
-        .message.success {
-            display: block;
-            background: #dcfce7;
-            color: #166534;
+        #scannerVideo {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            background: #000;
+            border-radius: 10px;
         }
 
-        .message.error {
-            display: block;
-            background: #fee2e2;
-            color: #991b1b;
+        .scanner-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .start-camera {
+            background: #2563eb;
+            color: white;
+        }
+
+        .stop-camera {
+            background: #dc2626;
+            color: white;
+        }
+
+        .scanner-close {
+            background: #e5e7eb;
+        }
+
+        .scanner-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            font-size: 13px;
         }
 
         @media (max-width: 800px) {
@@ -411,35 +458,36 @@
             .form-group.full {
                 grid-column: auto;
             }
+        }
 
-            .container {
+        @media (max-width: 600px) {
+            header {
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                flex-direction: column;
+            }
+
+            main {
                 padding: 15px;
             }
 
-            header {
-                padding: 12px 15px;
-            }
-
-            .brand h1 {
-                font-size: 17px;
-            }
-
-            .header-actions .button-link {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
             .stats {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
-            .page-top h2 {
-                font-size: 22px;
+            .page-header h1 {
+                font-size: 23px;
             }
 
-            .btn-orange {
-                width: 100%;
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                margin: 10px auto;
+                padding: 18px;
             }
         }
     </style>
@@ -449,486 +497,264 @@
 
 <header>
     <div class="brand">
-
-        <img
-            src="assets/logo.png"
-            alt="Nesi Medicals Logo"
-        >
-
-        <div>
-            <h1>Nesi Medicals</h1>
-            <p>& Minimart Enterprises</p>
+        <img src="assets/logo.png" alt="Nesi Medicals">
+        <div class="brand-text">
+            <strong>Nesi Medicals</strong>
+            <span>& Minimart Enterprises</span>
         </div>
-
     </div>
 
     <div class="header-actions">
-
-        <a
-            href="dashboard.html"
-            class="button-link btn-light"
-        >
+        <button class="dashboard-btn" onclick="location.href='dashboard.html'">
             Dashboard
-        </a>
-
-        <button
-            class="btn-orange"
-            id="logoutBtn"
-        >
-            Logout
         </button>
 
+        <button class="logout-btn" id="logoutBtn">
+            Logout
+        </button>
     </div>
 </header>
 
+<main>
 
-<div class="container">
-
-    <div class="page-top">
-
+    <div class="page-header">
         <div>
-
-            <h2>
-                Products
-            </h2>
-
-            <p>
-                Manage your products, barcodes and stock records.
-            </p>
-
+            <h1>Products</h1>
+            <p>Manage medicines, toiletries, cosmetics and other products.</p>
         </div>
 
-        <button
-            class="btn-orange"
-            id="addProductBtn"
-        >
+        <button class="add-btn" id="addProductBtn">
             + Add Product
         </button>
-
     </div>
 
-
-    <div class="stats">
+    <section class="stats">
 
         <div class="stat-card">
-
-            <div class="stat-title">
-                Total Products
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalProducts"
-            >
-                0
-            </div>
-
+            <span>Total Products</span>
+            <strong id="totalProducts">0</strong>
         </div>
 
-
-        <div class="stat-card orange">
-
-            <div class="stat-title">
-                Low Stock
-            </div>
-
-            <div
-                class="stat-value"
-                id="lowStockProducts"
-            >
-                0
-            </div>
-
+        <div class="stat-card">
+            <span>Total Stock Units</span>
+            <strong id="totalStock">0</strong>
         </div>
 
-
-        <div class="stat-card green">
-
-            <div class="stat-title">
-                In Stock
-            </div>
-
-            <div
-                class="stat-value"
-                id="inStockProducts"
-            >
-                0
-            </div>
-
+        <div class="stat-card">
+            <span>Low Stock</span>
+            <strong id="lowStock">0</strong>
         </div>
 
-
-        <div class="stat-card red">
-
-            <div class="stat-title">
-                Out of Stock
-            </div>
-
-            <div
-                class="stat-value"
-                id="outStockProducts"
-            >
-                0
-            </div>
-
+        <div class="stat-card">
+            <span>Out of Stock</span>
+            <strong id="outOfStock">0</strong>
         </div>
 
-    </div>
-
+    </section>
 
     <div class="toolbar">
 
         <input
-            type="text"
+            type="search"
             id="searchInput"
-            class="search"
-            placeholder="Search by name, category, brand, SKU or barcode..."
+            placeholder="Search product, category, brand, SKU or barcode..."
         >
 
-        <button
-            class="btn-secondary"
-            id="refreshBtn"
-        >
-            Refresh
+        <button class="refresh-btn" id="refreshBtn">
+            ↻ Refresh
         </button>
 
     </div>
 
+    <div class="table-container">
 
-    <div class="table-card">
+        <table>
 
-        <div
-            id="loadingMessage"
-            class="loading"
-        >
-            Loading products...
-        </div>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>SKU</th>
+                    <th>Barcode</th>
+                    <th>Stock</th>
+                    <th>Cost Price</th>
+                    <th>Selling Price</th>
+                    <th>Batch</th>
+                    <th>Expiry</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
+            <tbody id="productsTableBody">
+                <tr>
+                    <td colspan="12" class="empty">
+                        Loading products...
+                    </td>
+                </tr>
+            </tbody>
 
-        <div
-            id="errorMessage"
-            class="error-box"
-            style="display:none;"
-        ></div>
-
-
-        <div
-            id="emptyMessage"
-            class="empty"
-            style="display:none;"
-        >
-            No products found.
-            <br><br>
-
-            <button
-                class="btn-orange"
-                id="emptyAddBtn"
-            >
-                + Add First Product
-            </button>
-
-        </div>
-
-
-        <div
-            class="table-wrapper"
-            id="tableContainer"
-            style="display:none;"
-        >
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Product
-                        </th>
-
-                        <th>
-                            Category
-                        </th>
-
-                        <th>
-                            Brand
-                        </th>
-
-                        <th>
-                            SKU
-                        </th>
-
-                        <th>
-                            Barcode
-                        </th>
-
-                        <th>
-                            Qty
-                        </th>
-
-                        <th>
-                            Cost Price
-                        </th>
-
-                        <th>
-                            Selling Price
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Actions
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody
-                    id="productsTableBody"
-                ></tbody>
-
-            </table>
-
-        </div>
+        </table>
 
     </div>
 
-</div>
+</main>
 
 
-<!-- PRODUCT MODAL -->
+<!-- ADD / EDIT PRODUCT MODAL -->
 
-<div
-    class="modal"
-    id="productModal"
->
+<div class="modal" id="productModal">
 
     <div class="modal-content">
 
         <div class="modal-header">
 
-            <div>
-
-                <h2 id="modalTitle">
-                    Add Product
-                </h2>
-
-                <p
-                    style="
-                        color:#64748b;
-                        font-size:13px;
-                        margin-top:4px;
-                    "
-                >
-                    Enter the product information below.
-                </p>
-
-            </div>
-
+            <h2 id="modalTitle">
+                Add Product
+            </h2>
 
             <button
-                class="close"
+                class="close-btn"
                 id="closeModalBtn"
+                type="button"
             >
                 ×
             </button>
 
         </div>
 
-
-        <div
-            id="formMessage"
-            class="message"
-        ></div>
-
-
         <form id="productForm">
 
             <div class="form-grid">
 
-
-                <!-- PRODUCT NAME -->
-
                 <div class="form-group">
-
-                    <label>
-                        Product Name *
-                    </label>
+                    <label>Product Name *</label>
 
                     <input
                         type="text"
                         id="productName"
                         required
                     >
-
                 </div>
 
 
-                <!-- CATEGORY -->
-
                 <div class="form-group">
+                    <label>Category *</label>
 
-                    <label>
-                        Category *
-                    </label>
-
-                    <select
+                    <input
+                        type="text"
                         id="category"
+                        placeholder="Medicine, Toiletries, Cosmetics..."
                         required
                     >
-
-                        <option value="">
-                            Select category
-                        </option>
-
-                        <option value="Medicine">
-                            Medicine
-                        </option>
-
-                        <option value="Toiletries">
-                            Toiletries
-                        </option>
-
-                        <option value="Cosmetics">
-                            Cosmetics
-                        </option>
-
-                        <option value="Creams">
-                            Creams
-                        </option>
-
-                        <option value="Soaps">
-                            Soaps
-                        </option>
-
-                        <option value="Perfumes">
-                            Perfumes
-                        </option>
-
-                        <option value="Drinks">
-                            Drinks
-                        </option>
-
-                        <option value="Baby Products">
-                            Baby Products
-                        </option>
-
-                        <option value="Medical Supplies">
-                            Medical Supplies
-                        </option>
-
-                        <option value="Personal Care">
-                            Personal Care
-                        </option>
-
-                        <option value="Household">
-                            Household
-                        </option>
-
-                        <option value="Other">
-                            Other
-                        </option>
-
-                    </select>
-
                 </div>
 
 
-                <!-- BRAND -->
-
                 <div class="form-group">
-
-                    <label>
-                        Brand
-                    </label>
+                    <label>Brand</label>
 
                     <input
                         type="text"
                         id="brand"
                     >
-
                 </div>
 
 
-                <!-- SKU -->
-
                 <div class="form-group">
-
-                    <label>
-                        SKU / Product Code
-                    </label>
+                    <label>SKU / Product Code</label>
 
                     <input
                         type="text"
                         id="sku"
+                        placeholder="Optional"
                     >
-
                 </div>
 
 
                 <!-- BARCODE -->
 
-                <div
-                    class="form-group full"
-                    style="
-                        background:#f8fbff;
-                        padding:14px;
-                        border:1px solid #dbeafe;
-                        border-radius:9px;
-                    "
-                >
+                <div class="form-group full">
 
-                    <label>
-                        Barcode / EAN / UPC
-                    </label>
+                    <div class="barcode-box">
 
-                    <input
-                        type="text"
-                        id="barcode"
-                        class="barcode-input"
-                        inputmode="numeric"
-                        autocomplete="off"
-                        placeholder="Enter or scan the product barcode"
-                    >
+                        <div class="barcode-title">
+                            Barcode / EAN / UPC
+                        </div>
 
-                    <div class="field-help">
-                        Enter the barcode printed on the product.
-                        This barcode will be used by the Sales scanner to find this product automatically.
+                        <div class="barcode-help">
+                            Enter the barcode number manually, scan the barcode
+                            with your camera, or choose a clear photo of the
+                            barcode from your phone gallery.
+                        </div>
+
+                        <input
+                            type="text"
+                            id="barcode"
+                            placeholder="Enter barcode number"
+                            autocomplete="off"
+                        >
+
+                        <div class="barcode-actions">
+
+                            <button
+                                type="button"
+                                class="scan-btn"
+                                id="scanBarcodeBtn"
+                            >
+                                📷 Scan Barcode
+                            </button>
+
+                            <button
+                                type="button"
+                                class="image-btn"
+                                id="scanImageBtn"
+                            >
+                                🖼️ Scan From Photo
+                            </button>
+
+                            <button
+                                type="button"
+                                class="clear-barcode-btn"
+                                id="clearBarcodeBtn"
+                            >
+                                Clear
+                            </button>
+
+                        </div>
+
+                        <input
+                            type="file"
+                            id="barcodeImageInput"
+                            accept="image/*"
+                        >
+
+                        <div
+                            class="barcode-result"
+                            id="barcodeResult"
+                        ></div>
+
                     </div>
 
                 </div>
 
 
-                <!-- QUANTITY -->
-
                 <div class="form-group">
-
-                    <label>
-                        Quantity *
-                    </label>
+                    <label>Quantity *</label>
 
                     <input
                         type="number"
                         id="quantity"
                         min="0"
                         step="1"
+                        value="0"
                         required
                     >
-
                 </div>
 
 
-                <!-- LOW STOCK -->
-
                 <div class="form-group">
-
-                    <label>
-                        Low Stock Level *
-                    </label>
+                    <label>Low Stock Level</label>
 
                     <input
                         type="number"
@@ -936,19 +762,12 @@
                         min="0"
                         step="1"
                         value="5"
-                        required
                     >
-
                 </div>
 
 
-                <!-- COST -->
-
                 <div class="form-group">
-
-                    <label>
-                        Cost Price (₦) *
-                    </label>
+                    <label>Cost Price *</label>
 
                     <input
                         type="number"
@@ -957,17 +776,11 @@
                         step="0.01"
                         required
                     >
-
                 </div>
 
 
-                <!-- SELLING -->
-
                 <div class="form-group">
-
-                    <label>
-                        Selling Price (₦) *
-                    </label>
+                    <label>Selling Price *</label>
 
                     <input
                         type="number"
@@ -976,91 +789,64 @@
                         step="0.01"
                         required
                     >
-
                 </div>
 
 
-                <!-- BATCH -->
-
                 <div class="form-group">
-
-                    <label>
-                        Batch Number
-                    </label>
+                    <label>Batch Number</label>
 
                     <input
                         type="text"
                         id="batchNumber"
                     >
-
                 </div>
 
 
-                <!-- EXPIRY -->
-
                 <div class="form-group">
-
-                    <label>
-                        Expiry Date
-                    </label>
+                    <label>Expiry Date</label>
 
                     <input
                         type="date"
                         id="expiryDate"
                     >
-
                 </div>
 
 
-                <!-- SUPPLIER -->
-
-                <div class="form-group full">
-
-                    <label>
-                        Supplier
-                    </label>
+                <div class="form-group">
+                    <label>Supplier</label>
 
                     <input
                         type="text"
                         id="supplier"
                     >
-
                 </div>
 
 
-                <!-- NOTES -->
-
                 <div class="form-group full">
-
-                    <label>
-                        Notes
-                    </label>
+                    <label>Notes</label>
 
                     <textarea
                         id="notes"
+                        placeholder="Optional notes..."
                     ></textarea>
-
                 </div>
-
 
             </div>
 
 
-            <div class="form-buttons">
+            <div class="modal-footer">
 
                 <button
                     type="button"
-                    class="btn-secondary"
+                    class="cancel-btn"
                     id="cancelBtn"
                 >
                     Cancel
                 </button>
 
-
                 <button
                     type="submit"
-                    class="btn-orange"
-                    id="saveBtn"
+                    class="save-btn"
                 >
                     Save Product
                 </button>
@@ -1074,6 +860,65 @@
 </div>
 
 
+<!-- CAMERA SCANNER -->
+
+<div class="scanner-modal" id="scannerModal">
+
+    <div class="scanner-box">
+
+        <h2>Scan Product Barcode</h2>
+
+        <p>
+            Point your camera at the barcode on the product.
+        </p>
+
+        <video
+            id="scannerVideo"
+            autoplay
+            muted
+            playsinline
+        ></video>
+
+        <div class="scanner-actions">
+
+            <button
+                type="button"
+                class="start-camera"
+                id="startCameraBtn"
+            >
+                Start Camera
+            </button>
+
+            <button
+                type="button"
+                class="stop-camera"
+                id="stopCameraBtn"
+            >
+                Stop Camera
+            </button>
+
+            <button
+                type="button"
+                class="scanner-close"
+                id="closeScannerBtn"
+            >
+                Close
+            </button>
+
+        </div>
+
+        <div
+            class="scanner-status"
+            id="scannerStatus"
+        >
+            Camera is ready.
+        </div>
+
+    </div>
+
+</div>
+
+
 <script type="module">
 
     import {
@@ -1081,12 +926,10 @@
         db
     } from "./js/firebase.js";
 
-
     import {
         onAuthStateChanged,
         signOut
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 
     import {
         collection,
@@ -1095,1692 +938,1414 @@
         updateDoc,
         deleteDoc,
         doc,
-        serverTimestamp
+        serverTimestamp,
+        query,
+        orderBy
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-    let products = [];
+    /*
+    ==========================================================
+    Zxing Barcode Scanner
+    ==========================================================
+    */
 
-    let currentUser = null;
+    let BrowserMultiFormatReader = null;
+
+    let barcodeReader = null;
+
+    let scannerRunning = false;
+
+    let scannerStream = null;
 
     let editingProductId = null;
 
-
-    const loadingMessage =
-        document.getElementById(
-            "loadingMessage"
-        );
+    let allProducts = [];
 
 
-    const errorMessage =
-        document.getElementById(
-            "errorMessage"
-        );
-
-
-    const emptyMessage =
-        document.getElementById(
-            "emptyMessage"
-        );
-
-
-    const tableContainer =
-        document.getElementById(
-            "tableContainer"
-        );
-
-
-    const productsTableBody =
-        document.getElementById(
-            "productsTableBody"
-        );
-
-
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
-
+    /*
+    ==========================================================
+    ELEMENTS
+    ==========================================================
+    */
 
     const productModal =
-        document.getElementById(
-            "productModal"
-        );
+        document.getElementById("productModal");
 
+    const scannerModal =
+        document.getElementById("scannerModal");
 
     const productForm =
-        document.getElementById(
-            "productForm"
-        );
+        document.getElementById("productForm");
+
+    const productsTableBody =
+        document.getElementById("productsTableBody");
+
+    const barcodeInput =
+        document.getElementById("barcode");
+
+    const barcodeResult =
+        document.getElementById("barcodeResult");
+
+    const scannerVideo =
+        document.getElementById("scannerVideo");
+
+    const scannerStatus =
+        document.getElementById("scannerStatus");
 
 
-    const formMessage =
-        document.getElementById(
-            "formMessage"
-        );
+    /*
+    ==========================================================
+    AUTH
+    ==========================================================
+    */
 
+    onAuthStateChanged(auth, async (user) => {
 
-    /* =========================
-       UI HELPERS
-    ========================= */
+        if (!user) {
 
-    function showLoading() {
+            window.location.href = "login.html";
 
-        loadingMessage.style.display =
-            "block";
-
-        errorMessage.style.display =
-            "none";
-
-        emptyMessage.style.display =
-            "none";
-
-        tableContainer.style.display =
-            "none";
-
-    }
-
-
-    function showError(message) {
-
-        loadingMessage.style.display =
-            "none";
-
-        emptyMessage.style.display =
-            "none";
-
-        tableContainer.style.display =
-            "none";
-
-        errorMessage.style.display =
-            "block";
-
-        errorMessage.innerHTML = `
-
-            <strong>
-                Unable to load products.
-            </strong>
-
-            <br><br>
-
-            ${escapeHTML(message)}
-
-            <br><br>
-
-            <button
-                class="btn-orange"
-                onclick="location.reload()"
-            >
-                Try Again
-            </button>
-
-        `;
-
-    }
-
-
-    /* =========================
-       BARCODE NORMALIZATION
-    ========================= */
-
-    function normalizeBarcode(value) {
-
-        return String(
-            value || ""
-        )
-        .trim()
-        .replace(/[\s-]/g, "")
-        .toUpperCase();
-
-    }
-
-
-    /* =========================
-       QUANTITY
-    ========================= */
-
-    function getQuantity(product) {
-
-        const quantity =
-            product.quantity !== undefined
-                ? Number(product.quantity)
-                : Number(product.stock);
-
-        return Number.isFinite(
-            quantity
-        )
-            ? quantity
-            : 0;
-
-    }
-
-
-    /* =========================
-       LOW STOCK
-    ========================= */
-
-    function getLowStockLevel(product) {
-
-        const level =
-            Number(
-                product.lowStockLevel
-            );
-
-        return Number.isFinite(
-            level
-        )
-            ? level
-            : 5;
-
-    }
-
-
-    /* =========================
-       SELLING PRICE
-    ========================= */
-
-    function getSellingPrice(product) {
-
-        const price =
-            product.sellingPrice !== undefined
-                ? Number(product.sellingPrice)
-                : Number(product.price);
-
-        return Number.isFinite(
-            price
-        )
-            ? price
-            : 0;
-
-    }
-
-
-    /* =========================
-       COST PRICE
-    ========================= */
-
-    function getCostPrice(product) {
-
-        const price =
-            product.costPrice !== undefined
-                ? Number(product.costPrice)
-                : Number(product.cost);
-
-        return Number.isFinite(
-            price
-        )
-            ? price
-            : 0;
-
-    }
-
-
-    /* =========================
-       STATUS
-    ========================= */
-
-    function getStatus(product) {
-
-        const quantity =
-            getQuantity(product);
-
-        const lowLevel =
-            getLowStockLevel(product);
-
-
-        if (
-            quantity <= 0
-        ) {
-
-            return "Out of Stock";
-
+            return;
         }
 
+        await loadProducts();
 
-        if (
-            quantity <= lowLevel
-        ) {
+    });
 
-            return "Low Stock";
 
+    /*
+    ==========================================================
+    LOAD ZXING
+    ==========================================================
+    */
+
+    async function loadZXing() {
+
+        if (BrowserMultiFormatReader) {
+            return true;
         }
-
-
-        return "In Stock";
-
-    }
-
-
-    function statusHTML(status) {
-
-        if (
-            status === "Out of Stock"
-        ) {
-
-            return `
-
-                <span class="status status-out">
-                    Out of Stock
-                </span>
-
-            `;
-
-        }
-
-
-        if (
-            status === "Low Stock"
-        ) {
-
-            return `
-
-                <span class="status status-low">
-                    Low Stock
-                </span>
-
-            `;
-
-        }
-
-
-        return `
-
-            <span class="status status-in">
-                In Stock
-            </span>
-
-        `;
-
-    }
-
-
-    /* =========================
-       MONEY
-    ========================= */
-
-    function money(value) {
-
-        return "₦" +
-            Number(
-                value || 0
-            ).toLocaleString(
-                "en-NG",
-                {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }
-            );
-
-    }
-
-
-    /* =========================
-       LOAD PRODUCTS
-    ========================= */
-
-    async function loadProducts() {
-
-        showLoading();
-
 
         try {
 
-            console.log(
-                "Loading products from Firestore..."
+            const module =
+                await import(
+                    "https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm"
+                );
+
+            BrowserMultiFormatReader =
+                module.BrowserMultiFormatReader;
+
+            barcodeReader =
+                new BrowserMultiFormatReader();
+
+            return true;
+
+        } catch (error) {
+
+            console.error(
+                "Could not load barcode scanner:",
+                error
             );
 
+            alert(
+                "Barcode scanner could not be loaded. Please check your internet connection."
+            );
+
+            return false;
+        }
+    }
+
+
+    /*
+    ==========================================================
+    NORMALIZE BARCODE
+    ==========================================================
+    */
+
+    function normalizeBarcode(value) {
+
+        return String(value || "")
+            .trim()
+            .replace(/[\s-]/g, "")
+            .toUpperCase();
+
+    }
+
+
+    /*
+    ==========================================================
+    OPEN ADD PRODUCT
+    ==========================================================
+    */
+
+    document
+        .getElementById("addProductBtn")
+        .addEventListener("click", () => {
+
+            editingProductId = null;
+
+            document.getElementById("modalTitle")
+                .textContent = "Add Product";
+
+            productForm.reset();
+
+            document.getElementById("quantity")
+                .value = 0;
+
+            document.getElementById("lowStockLevel")
+                .value = 5;
+
+            barcodeResult.textContent = "";
+
+            productModal.classList.add("show");
+
+        });
+
+
+    /*
+    ==========================================================
+    EDIT PRODUCT
+    ==========================================================
+    */
+
+    window.editProduct = function(productId) {
+
+        const product =
+            allProducts.find(
+                item => item.id === productId
+            );
+
+        if (!product) {
+            return;
+        }
+
+        editingProductId = productId;
+
+        document.getElementById("modalTitle")
+            .textContent = "Edit Product";
+
+        document.getElementById("productName")
+            .value = product.productName || "";
+
+        document.getElementById("category")
+            .value = product.category || "";
+
+        document.getElementById("brand")
+            .value = product.brand || "";
+
+        document.getElementById("sku")
+            .value = product.sku || "";
+
+        document.getElementById("barcode")
+            .value =
+                product.barcode ||
+                product.barCode ||
+                product.ean ||
+                product.upc ||
+                "";
+
+        document.getElementById("quantity")
+            .value =
+                product.quantity ??
+                product.stock ??
+                0;
+
+        document.getElementById("lowStockLevel")
+            .value =
+                product.lowStockLevel ??
+                5;
+
+        document.getElementById("costPrice")
+            .value =
+                product.costPrice ??
+                0;
+
+        document.getElementById("sellingPrice")
+            .value =
+                product.sellingPrice ??
+                0;
+
+        document.getElementById("batchNumber")
+            .value =
+                product.batchNumber || "";
+
+        document.getElementById("expiryDate")
+            .value =
+                product.expiryDate || "";
+
+        document.getElementById("supplier")
+            .value =
+                product.supplier || "";
+
+        document.getElementById("notes")
+            .value =
+                product.notes || "";
+
+        barcodeResult.textContent =
+            document.getElementById("barcode").value
+                ? "✓ Barcode loaded"
+                : "No barcode saved for this product.";
+
+        productModal.classList.add("show");
+
+    };
+
+
+    /*
+    ==========================================================
+    CLOSE PRODUCT MODAL
+    ==========================================================
+    */
+
+    function closeProductModal() {
+
+        productModal.classList.remove("show");
+
+        editingProductId = null;
+
+    }
+
+    document
+        .getElementById("closeModalBtn")
+        .addEventListener("click", closeProductModal);
+
+    document
+        .getElementById("cancelBtn")
+        .addEventListener("click", closeProductModal);
+
+
+    /*
+    ==========================================================
+    CLEAR BARCODE
+    ==========================================================
+    */
+
+    document
+        .getElementById("clearBarcodeBtn")
+        .addEventListener("click", () => {
+
+            barcodeInput.value = "";
+
+            barcodeResult.textContent =
+                "Barcode cleared. Product can still be saved without a barcode.";
+
+        });
+
+
+    /*
+    ==========================================================
+    MANUAL BARCODE INPUT
+    ==========================================================
+    */
+
+    barcodeInput.addEventListener("input", () => {
+
+        barcodeInput.value =
+            normalizeBarcode(
+                barcodeInput.value
+            );
+
+        if (barcodeInput.value) {
+
+            barcodeResult.textContent =
+                "✓ Barcode entered.";
+
+        } else {
+
+            barcodeResult.textContent = "";
+
+        }
+
+    });
+
+
+    /*
+    ==========================================================
+    OPEN CAMERA SCANNER
+    ==========================================================
+    */
+
+    document
+        .getElementById("scanBarcodeBtn")
+        .addEventListener("click", async () => {
+
+            const loaded =
+                await loadZXing();
+
+            if (!loaded) {
+                return;
+            }
+
+            scannerModal.classList.add("show");
+
+            scannerStatus.textContent =
+                "Tap Start Camera and allow camera permission.";
+
+        });
+
+
+    /*
+    ==========================================================
+    START CAMERA
+    ==========================================================
+    */
+
+    document
+        .getElementById("startCameraBtn")
+        .addEventListener("click", async () => {
+
+            await startCameraScanner();
+
+        });
+
+
+    async function startCameraScanner() {
+
+        const loaded =
+            await loadZXing();
+
+        if (!loaded) {
+            return;
+        }
+
+        try {
+
+            stopCameraScanner();
+
+            scannerStatus.textContent =
+                "Starting camera...";
+
+            scannerRunning = true;
+
+            await barcodeReader.decodeFromVideoDevice(
+                undefined,
+                scannerVideo,
+                (result, error) => {
+
+                    if (result && scannerRunning) {
+
+                        const code =
+                            normalizeBarcode(
+                                result.getText()
+                            );
+
+                        if (code) {
+
+                            barcodeInput.value =
+                                code;
+
+                            barcodeResult.textContent =
+                                "✓ Barcode scanned: " + code;
+
+                            scannerStatus.textContent =
+                                "Barcode found successfully.";
+
+                            stopCameraScanner();
+
+                            setTimeout(() => {
+
+                                scannerModal.classList.remove(
+                                    "show"
+                                );
+
+                            }, 500);
+
+                        }
+
+                    }
+
+                }
+            );
+
+            scannerStatus.textContent =
+                "Scanning... Point the camera at the barcode.";
+
+        } catch (error) {
+
+            console.error(error);
+
+            scannerRunning = false;
+
+            scannerStatus.textContent =
+                "Could not start the camera. Please allow camera permission and try again.";
+
+        }
+
+    }
+
+
+    /*
+    ==========================================================
+    STOP CAMERA
+    ==========================================================
+    */
+
+    function stopCameraScanner() {
+
+        scannerRunning = false;
+
+        try {
+
+            if (barcodeReader) {
+
+                barcodeReader.reset();
+
+            }
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+        if (scannerVideo.srcObject) {
+
+            const tracks =
+                scannerVideo.srcObject.getTracks();
+
+            tracks.forEach(
+                track => track.stop()
+            );
+
+            scannerVideo.srcObject = null;
+
+        }
+
+        scannerStream = null;
+
+    }
+
+
+    document
+        .getElementById("stopCameraBtn")
+        .addEventListener("click", () => {
+
+            stopCameraScanner();
+
+            scannerStatus.textContent =
+                "Camera stopped.";
+
+        });
+
+
+    document
+        .getElementById("closeScannerBtn")
+        .addEventListener("click", () => {
+
+            stopCameraScanner();
+
+            scannerModal.classList.remove("show");
+
+        });
+
+
+    /*
+    ==========================================================
+    SCAN BARCODE FROM PHOTO
+    ==========================================================
+    */
+
+    document
+        .getElementById("scanImageBtn")
+        .addEventListener("click", () => {
+
+            document
+                .getElementById("barcodeImageInput")
+                .click();
+
+        });
+
+
+    document
+        .getElementById("barcodeImageInput")
+        .addEventListener("change", async (event) => {
+
+            const file =
+                event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            const loaded =
+                await loadZXing();
+
+            if (!loaded) {
+                event.target.value = "";
+                return;
+            }
+
+            barcodeResult.textContent =
+                "Reading barcode from photo...";
+
+            try {
+
+                const imageUrl =
+                    URL.createObjectURL(file);
+
+                let result = null;
+
+                /*
+                Try ZXing's image decoder.
+                */
+
+                try {
+
+                    result =
+                        await barcodeReader.decodeFromImageUrl(
+                            imageUrl
+                        );
+
+                } catch (firstError) {
+
+                    /*
+                    Some browser versions work better
+                    when the image is loaded into an
+                    HTMLImageElement.
+                    */
+
+                    const image =
+                        new Image();
+
+                    image.src = imageUrl;
+
+                    await new Promise(
+                        (resolve, reject) => {
+
+                            image.onload = resolve;
+                            image.onerror = reject;
+
+                        }
+                    );
+
+                    result =
+                        await barcodeReader.decodeFromImageElement(
+                            image
+                        );
+
+                }
+
+                URL.revokeObjectURL(imageUrl);
+
+                if (result) {
+
+                    const code =
+                        normalizeBarcode(
+                            result.getText()
+                        );
+
+                    barcodeInput.value =
+                        code;
+
+                    barcodeResult.textContent =
+                        "✓ Barcode found from photo: " +
+                        code;
+
+                } else {
+
+                    barcodeResult.textContent =
+                        "No barcode could be detected in this photo. Try a clearer, straight-on photo.";
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Image barcode error:",
+                    error
+                );
+
+                barcodeResult.textContent =
+                    "Could not read the barcode from this image. Make sure the barcode is clear, well lit and not cropped.";
+
+            }
+
+            event.target.value = "";
+
+        });
+
+
+    /*
+    ==========================================================
+    CHECK DUPLICATE BARCODE
+    ==========================================================
+    */
+
+    function barcodeAlreadyUsed(
+        barcode,
+        ignoreProductId = null
+    ) {
+
+        if (!barcode) {
+            return false;
+        }
+
+        return allProducts.some(product => {
+
+            if (
+                ignoreProductId &&
+                product.id === ignoreProductId
+            ) {
+                return false;
+            }
+
+            const existing =
+                normalizeBarcode(
+                    product.barcode ||
+                    product.barCode ||
+                    product.ean ||
+                    product.upc ||
+                    ""
+                );
+
+            return existing === barcode;
+
+        });
+
+    }
+
+
+    /*
+    ==========================================================
+    SAVE PRODUCT
+    ==========================================================
+    */
+
+    productForm.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+            const user = auth.currentUser;
+
+            if (!user) {
+
+                alert("Please login again.");
+
+                return;
+            }
+
+            const productName =
+                document.getElementById("productName")
+                    .value.trim();
+
+            const category =
+                document.getElementById("category")
+                    .value.trim();
+
+            const brand =
+                document.getElementById("brand")
+                    .value.trim();
+
+            const sku =
+                document.getElementById("sku")
+                    .value.trim();
+
+            const barcode =
+                normalizeBarcode(
+                    document.getElementById("barcode")
+                        .value
+                );
+
+            const quantity =
+                Number(
+                    document.getElementById("quantity")
+                        .value
+                ) || 0;
+
+            const lowStockLevel =
+                Number(
+                    document.getElementById("lowStockLevel")
+                        .value
+                ) || 0;
+
+            const costPrice =
+                Number(
+                    document.getElementById("costPrice")
+                        .value
+                ) || 0;
+
+            const sellingPrice =
+                Number(
+                    document.getElementById("sellingPrice")
+                        .value
+                ) || 0;
+
+            const batchNumber =
+                document.getElementById("batchNumber")
+                    .value.trim();
+
+            const expiryDate =
+                document.getElementById("expiryDate")
+                    .value;
+
+            const supplier =
+                document.getElementById("supplier")
+                    .value.trim();
+
+            const notes =
+                document.getElementById("notes")
+                    .value.trim();
+
+
+            if (!productName || !category) {
+
+                alert(
+                    "Please enter the product name and category."
+                );
+
+                return;
+            }
+
+
+            /*
+            Prevent duplicate barcode.
+            */
+
+            if (
+                barcode &&
+                barcodeAlreadyUsed(
+                    barcode,
+                    editingProductId
+                )
+            ) {
+
+                alert(
+                    "This barcode is already assigned to another product."
+                );
+
+                return;
+            }
+
+
+            const status =
+                quantity <= 0
+                    ? "Out of Stock"
+                    : quantity <= lowStockLevel
+                        ? "Low Stock"
+                        : "In Stock";
+
+
+            const productData = {
+
+                productName,
+
+                category,
+
+                brand,
+
+                sku,
+
+                /*
+                New dedicated barcode field.
+                */
+
+                barcode,
+
+                /*
+                Compatibility fields.
+                */
+
+                quantity,
+
+                stock: quantity,
+
+                lowStockLevel,
+
+                costPrice,
+
+                sellingPrice,
+
+                batchNumber,
+
+                expiryDate,
+
+                supplier,
+
+                notes,
+
+                status,
+
+                updatedAt: serverTimestamp(),
+
+                updatedBy: user.uid,
+
+                updatedByEmail:
+                    user.email || ""
+
+            };
+
+
+            try {
+
+                if (editingProductId) {
+
+                    await updateDoc(
+                        doc(
+                            db,
+                            "products",
+                            editingProductId
+                        ),
+                        productData
+                    );
+
+                    alert(
+                        "Product updated successfully."
+                    );
+
+                } else {
+
+                    productData.createdAt =
+                        serverTimestamp();
+
+                    productData.createdBy =
+                        user.uid;
+
+                    productData.createdByEmail =
+                        user.email || "";
+
+                    await addDoc(
+                        collection(
+                            db,
+                            "products"
+                        ),
+                        productData
+                    );
+
+                    alert(
+                        "Product added successfully."
+                    );
+
+                }
+
+
+                closeProductModal();
+
+                await loadProducts();
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Could not save product: " +
+                    error.message
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+    ==========================================================
+    LOAD PRODUCTS
+    ==========================================================
+    */
+
+    async function loadProducts() {
+
+        try {
+
+            productsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="12" class="empty">
+                        Loading products...
+                    </td>
+                </tr>
+            `;
+
+            const productsRef =
+                collection(
+                    db,
+                    "products"
+                );
 
             const snapshot =
                 await getDocs(
-                    collection(
-                        db,
-                        "products"
+                    query(
+                        productsRef,
+                        orderBy(
+                            "productName"
+                        )
                     )
                 );
 
+            allProducts = [];
 
-            products =
-                snapshot.docs.map(
-                    item => {
+            snapshot.forEach(docSnap => {
 
-                        return {
+                allProducts.push({
 
-                            id:
-                                item.id,
+                    id: docSnap.id,
 
-                            ...item.data()
+                    ...docSnap.data()
 
-                        };
+                });
 
-                    }
-                );
-
-
-            console.log(
-                "Products loaded:",
-                products.length
-            );
-
+            });
 
             updateStats();
 
             renderProducts();
 
-
         } catch (error) {
 
-            console.error(
-                "Product loading error:",
-                error
-            );
+            console.error(error);
 
+            /*
+            Fallback without orderBy in case
+            old records cause an index/order issue.
+            */
 
-            showError(
-                error.message ||
-                "There was a problem connecting to Firestore."
-            );
+            try {
+
+                const snapshot =
+                    await getDocs(
+                        collection(
+                            db,
+                            "products"
+                        )
+                    );
+
+                allProducts = [];
+
+                snapshot.forEach(docSnap => {
+
+                    allProducts.push({
+
+                        id: docSnap.id,
+
+                        ...docSnap.data()
+
+                    });
+
+                });
+
+                updateStats();
+
+                renderProducts();
+
+            } catch (secondError) {
+
+                console.error(
+                    secondError
+                );
+
+                productsTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="12" class="empty">
+                            Could not load products.
+                        </td>
+                    </tr>
+                `;
+
+            }
 
         }
 
     }
 
 
-    /* =========================
-       STATS
-    ========================= */
+    /*
+    ==========================================================
+    STATS
+    ==========================================================
+    */
 
     function updateStats() {
 
-        const total =
-            products.length;
+        const totalProducts =
+            allProducts.length;
+
+        let totalStock = 0;
+
+        let lowStock = 0;
+
+        let outOfStock = 0;
 
 
-        const low =
-            products.filter(
-                product =>
-                    getStatus(product) ===
-                    "Low Stock"
-            ).length;
+        allProducts.forEach(product => {
 
+            const quantity =
+                Number(
+                    product.quantity ??
+                    product.stock ??
+                    0
+                );
 
-        const inStock =
-            products.filter(
-                product =>
-                    getStatus(product) ===
-                    "In Stock"
-            ).length;
+            const lowLevel =
+                Number(
+                    product.lowStockLevel ??
+                    0
+                );
 
+            totalStock += quantity;
 
-        const outStock =
-            products.filter(
-                product =>
-                    getStatus(product) ===
-                    "Out of Stock"
-            ).length;
+            if (quantity <= 0) {
+
+                outOfStock++;
+
+            } else if (
+                quantity <= lowLevel
+            ) {
+
+                lowStock++;
+
+            }
+
+        });
 
 
         document.getElementById(
             "totalProducts"
         ).textContent =
-            total;
-
-
-        document.getElementById(
-            "lowStockProducts"
-        ).textContent =
-            low;
-
+            totalProducts;
 
         document.getElementById(
-            "inStockProducts"
+            "totalStock"
         ).textContent =
-            inStock;
-
+            totalStock;
 
         document.getElementById(
-            "outStockProducts"
+            "lowStock"
         ).textContent =
-            outStock;
+            lowStock;
+
+        document.getElementById(
+            "outOfStock"
+        ).textContent =
+            outOfStock;
 
     }
 
 
-    /* =========================
-       RENDER PRODUCTS
-    ========================= */
+    /*
+    ==========================================================
+    RENDER PRODUCTS
+    ==========================================================
+    */
 
     function renderProducts() {
 
         const search =
-            searchInput.value
+            document.getElementById(
+                "searchInput"
+            ).value
                 .trim()
                 .toLowerCase();
 
 
         const filtered =
-            products.filter(
-                product => {
+            allProducts.filter(product => {
 
-                    const text = [
+                const text = [
 
-                        product.productName,
+                    product.productName,
 
-                        product.category,
+                    product.category,
 
-                        product.brand,
+                    product.brand,
 
-                        product.sku,
+                    product.sku,
 
-                        product.barcode,
+                    product.barcode,
 
-                        product.supplier
+                    product.batchNumber,
 
-                    ]
+                    product.supplier
+
+                ]
                     .filter(Boolean)
                     .join(" ")
                     .toLowerCase();
 
+                return text.includes(search);
 
-                    return text.includes(
-                        search
-                    );
-
-                }
-            );
+            });
 
 
-        loadingMessage.style.display =
-            "none";
+        if (!filtered.length) {
 
-        errorMessage.style.display =
-            "none";
-
-
-        if (
-            filtered.length === 0
-        ) {
-
-            tableContainer.style.display =
-                "none";
-
-            emptyMessage.style.display =
-                "block";
-
-
-            if (
-                products.length > 0 &&
-                search
-            ) {
-
-                emptyMessage.innerHTML = `
-
-                    No products match
-                    "${escapeHTML(searchInput.value)}".
-
-                    <br><br>
-
-                    <button
-                        class="btn-secondary"
-                        id="clearSearchBtn"
-                    >
-                        Clear Search
-                    </button>
-
-                `;
-
-
-                document
-                    .getElementById(
-                        "clearSearchBtn"
-                    )
-                    .addEventListener(
-                        "click",
-                        () => {
-
-                            searchInput.value =
-                                "";
-
-                            renderProducts();
-
-                        }
-                    );
-
-
-            } else {
-
-                emptyMessage.innerHTML = `
-
-                    No products found.
-
-                    <br><br>
-
-                    <button
-                        class="btn-orange"
-                        id="emptyAddBtn"
-                    >
-                        + Add First Product
-                    </button>
-
-                `;
-
-
-                document
-                    .getElementById(
-                        "emptyAddBtn"
-                    )
-                    .addEventListener(
-                        "click",
-                        openAddModal
-                    );
-
-            }
-
+            productsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="12" class="empty">
+                        No products found.
+                    </td>
+                </tr>
+            `;
 
             return;
 
         }
-
-
-        emptyMessage.style.display =
-            "none";
-
-        tableContainer.style.display =
-            "block";
 
 
         productsTableBody.innerHTML =
-            filtered.map(
-                product => {
-
-                    const quantity =
-                        getQuantity(
-                            product
-                        );
-
-
-                    const status =
-                        getStatus(
-                            product
-                        );
-
-
-                    const barcode =
-                        normalizeBarcode(
-                            product.barcode
-                        );
-
-
-                    return `
-
-                        <tr>
-
-                            <td>
-
-                                <strong>
-                                    ${escapeHTML(
-                                        product.productName ||
-                                        "Unnamed Product"
-                                    )}
-                                </strong>
-
-
-                                ${
-                                    product.batchNumber
-                                    ? `
-
-                                        <br>
-
-                                        <small
-                                            style="
-                                                color:#64748b;
-                                            "
-                                        >
-                                            Batch:
-                                            ${escapeHTML(
-                                                product.batchNumber
-                                            )}
-                                        </small>
-
-                                    `
-                                    : ""
-                                }
-
-                            </td>
-
-
-                            <td>
-
-                                ${escapeHTML(
-                                    product.category ||
-                                    "-"
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                ${escapeHTML(
-                                    product.brand ||
-                                    "-"
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                ${escapeHTML(
-                                    product.sku ||
-                                    "-"
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                ${
-                                    barcode
-                                    ? `
-
-                                        <span
-                                            class="barcode-text"
-                                        >
-                                            ${escapeHTML(
-                                                barcode
-                                            )}
-                                        </span>
-
-                                    `
-                                    : `
-
-                                        <span
-                                            class="barcode-missing"
-                                        >
-                                            Not registered
-                                        </span>
-
-                                    `
-                                }
-
-                            </td>
-
-
-                            <td>
-
-                                <strong>
-                                    ${quantity}
-                                </strong>
-
-                            </td>
-
-
-                            <td>
-
-                                ${money(
-                                    getCostPrice(
-                                        product
-                                    )
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                ${money(
-                                    getSellingPrice(
-                                        product
-                                    )
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                ${statusHTML(
-                                    status
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                <div class="actions">
-
-                                    <button
-                                        class="btn-secondary small-btn"
-                                        data-edit="${product.id}"
-                                    >
-                                        Edit
-                                    </button>
-
-
-                                    <button
-                                        class="btn-danger small-btn"
-                                        data-delete="${product.id}"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                }
-            ).join("");
-
-
-        document
-            .querySelectorAll(
-                "[data-edit]"
-            )
-            .forEach(
-                button => {
-
-                    button.addEventListener(
-                        "click",
-                        () =>
-                            editProduct(
-                                button.dataset.edit
-                            )
+            filtered.map(product => {
+
+                const quantity =
+                    Number(
+                        product.quantity ??
+                        product.stock ??
+                        0
                     );
 
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                "[data-delete]"
-            )
-            .forEach(
-                button => {
-
-                    button.addEventListener(
-                        "click",
-                        () =>
-                            deleteProduct(
-                                button.dataset.delete
-                            )
+                const lowLevel =
+                    Number(
+                        product.lowStockLevel ??
+                        0
                     );
 
-                }
-            );
 
-    }
+                let statusClass =
+                    "in-stock";
 
+                let statusText =
+                    "In Stock";
 
-    /* =========================
-       ESCAPE HTML
-    ========================= */
 
-    function escapeHTML(value) {
+                if (quantity <= 0) {
 
-        return String(
-            value ?? ""
-        )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+                    statusClass =
+                        "out";
 
-    }
+                    statusText =
+                        "Out of Stock";
 
-
-    /* =========================
-       OPEN ADD MODAL
-    ========================= */
-
-    function openAddModal() {
-
-        editingProductId =
-            null;
-
-
-        document.getElementById(
-            "modalTitle"
-        ).textContent =
-            "Add Product";
-
-
-        document.getElementById(
-            "saveBtn"
-        ).textContent =
-            "Save Product";
-
-
-        productForm.reset();
-
-
-        document.getElementById(
-            "lowStockLevel"
-        ).value =
-            5;
-
-
-        clearFormMessage();
-
-
-        productModal.style.display =
-            "block";
-
-    }
-
-
-    /* =========================
-       CLOSE MODAL
-    ========================= */
-
-    function closeModal() {
-
-        productModal.style.display =
-            "none";
-
-
-        productForm.reset();
-
-
-        editingProductId =
-            null;
-
-
-        clearFormMessage();
-
-    }
-
-
-    /* =========================
-       FORM MESSAGE
-    ========================= */
-
-    function clearFormMessage() {
-
-        formMessage.className =
-            "message";
-
-        formMessage.textContent =
-            "";
-
-    }
-
-
-    function showFormMessage(
-        message,
-        type
-    ) {
-
-        formMessage.className =
-            "message " + type;
-
-
-        formMessage.textContent =
-            message;
-
-    }
-
-
-    /* =========================
-       EDIT PRODUCT
-    ========================= */
-
-    function editProduct(id) {
-
-        const product =
-            products.find(
-                item =>
-                    item.id === id
-            );
-
-
-        if (!product) {
-
-            return;
-
-        }
-
-
-        editingProductId =
-            id;
-
-
-        document.getElementById(
-            "modalTitle"
-        ).textContent =
-            "Edit Product";
-
-
-        document.getElementById(
-            "saveBtn"
-        ).textContent =
-            "Update Product";
-
-
-        document.getElementById(
-            "productName"
-        ).value =
-            product.productName ||
-            "";
-
-
-        document.getElementById(
-            "category"
-        ).value =
-            product.category ||
-            "";
-
-
-        document.getElementById(
-            "brand"
-        ).value =
-            product.brand ||
-            "";
-
-
-        document.getElementById(
-            "sku"
-        ).value =
-            product.sku ||
-            "";
-
-
-        document.getElementById(
-            "barcode"
-        ).value =
-            normalizeBarcode(
-                product.barcode
-            );
-
-
-        document.getElementById(
-            "quantity"
-        ).value =
-            getQuantity(
-                product
-            );
-
-
-        document.getElementById(
-            "lowStockLevel"
-        ).value =
-            getLowStockLevel(
-                product
-            );
-
-
-        document.getElementById(
-            "costPrice"
-        ).value =
-            getCostPrice(
-                product
-            );
-
-
-        document.getElementById(
-            "sellingPrice"
-        ).value =
-            getSellingPrice(
-                product
-            );
-
-
-        document.getElementById(
-            "batchNumber"
-        ).value =
-            product.batchNumber ||
-            "";
-
-
-        document.getElementById(
-            "expiryDate"
-        ).value =
-            product.expiryDate ||
-            "";
-
-
-        document.getElementById(
-            "supplier"
-        ).value =
-            product.supplier ||
-            "";
-
-
-        document.getElementById(
-            "notes"
-        ).value =
-            product.notes ||
-            "";
-
-
-        clearFormMessage();
-
-
-        productModal.style.display =
-            "block";
-
-    }
-
-
-    /* =========================
-       CHECK DUPLICATE BARCODE
-    ========================= */
-
-    function barcodeAlreadyUsed(
-        barcode,
-        currentId = null
-    ) {
-
-        if (!barcode) {
-
-            return false;
-
-        }
-
-
-        return products.some(
-            product => {
-
-                if (
-                    currentId &&
-                    product.id === currentId
+                } else if (
+                    quantity <= lowLevel
                 ) {
 
-                    return false;
+                    statusClass =
+                        "low";
+
+                    statusText =
+                        "Low Stock";
 
                 }
 
 
-                const existingBarcode =
-                    normalizeBarcode(
-                        product.barcode
-                    );
-
-
-                return (
-                    existingBarcode ===
-                    barcode
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =========================
-       SAVE PRODUCT
-    ========================= */
-
-    async function saveProduct(
-        event
-    ) {
-
-        event.preventDefault();
-
-
-        if (!currentUser) {
-
-            showFormMessage(
-                "You must be logged in.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const productName =
-            document.getElementById(
-                "productName"
-            ).value.trim();
-
-
-        const category =
-            document.getElementById(
-                "category"
-            ).value;
-
-
-        const brand =
-            document.getElementById(
-                "brand"
-            ).value.trim();
-
-
-        const sku =
-            document.getElementById(
-                "sku"
-            ).value.trim();
-
-
-        const barcode =
-            normalizeBarcode(
-                document.getElementById(
-                    "barcode"
-                ).value
-            );
-
-
-        const quantity =
-            Number(
-                document.getElementById(
-                    "quantity"
-                ).value
-            );
-
-
-        const lowStockLevel =
-            Number(
-                document.getElementById(
-                    "lowStockLevel"
-                ).value
-            );
-
-
-        const costPrice =
-            Number(
-                document.getElementById(
-                    "costPrice"
-                ).value
-            );
-
-
-        const sellingPrice =
-            Number(
-                document.getElementById(
-                    "sellingPrice"
-                ).value
-            );
-
-
-        const batchNumber =
-            document.getElementById(
-                "batchNumber"
-            ).value.trim();
-
-
-        const expiryDate =
-            document.getElementById(
-                "expiryDate"
-            ).value;
-
-
-        const supplier =
-            document.getElementById(
-                "supplier"
-            ).value.trim();
-
-
-        const notes =
-            document.getElementById(
-                "notes"
-            ).value.trim();
-
-
-        /* =========================
-           VALIDATION
-        ========================= */
-
-        if (!productName) {
-
-            showFormMessage(
-                "Product name is required.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!category) {
-
-            showFormMessage(
-                "Please select a category.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(
-                quantity
-            ) ||
-            quantity < 0
-        ) {
-
-            showFormMessage(
-                "Please enter a valid quantity.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(
-                lowStockLevel
-            ) ||
-            lowStockLevel < 0
-        ) {
-
-            showFormMessage(
-                "Please enter a valid low stock level.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(
-                costPrice
-            ) ||
-            costPrice < 0
-        ) {
-
-            showFormMessage(
-                "Please enter a valid cost price.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !Number.isFinite(
-                sellingPrice
-            ) ||
-            sellingPrice < 0
-        ) {
-
-            showFormMessage(
-                "Please enter a valid selling price.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        /* =========================
-           DUPLICATE BARCODE
-        ========================= */
-
-        if (
-            barcode &&
-            barcodeAlreadyUsed(
-                barcode,
-                editingProductId
-            )
-        ) {
-
-            showFormMessage(
-                "This barcode is already registered to another product. Please use a different barcode.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const status =
-            quantity <= 0
-                ? "Out of Stock"
-                : quantity <= lowStockLevel
-                    ? "Low Stock"
-                    : "In Stock";
-
-
-        /* =========================
-           PRODUCT DATA
-        ========================= */
-
-        const productData = {
-
-            productName,
-
-            category,
-
-            brand,
-
-            sku,
-
-            /*
-             * BARCODE
-             *
-             * This is the field used by
-             * the Sales barcode scanner.
-             */
-            barcode,
-
-            quantity,
-
-            /*
-             * Keep stock for compatibility
-             * with older inventory records.
-             */
-            stock:
-                quantity,
-
-            lowStockLevel,
-
-            batchNumber,
-
-            expiryDate,
-
-            costPrice,
-
-            sellingPrice,
-
-            supplier,
-
-            notes,
-
-            status,
-
-            updatedAt:
-                serverTimestamp(),
-
-            updatedBy:
-                currentUser.uid,
-
-            updatedByEmail:
-                currentUser.email ||
-                ""
-
-        };
-
-
-        const saveButton =
-            document.getElementById(
-                "saveBtn"
-            );
-
-
-        saveButton.disabled =
-            true;
-
-
-        saveButton.textContent =
-            editingProductId
-                ? "Updating..."
-                : "Saving...";
-
-
-        try {
-
-            if (
-                editingProductId
-            ) {
-
-                await updateDoc(
-
-                    doc(
-                        db,
-                        "products",
-                        editingProductId
-                    ),
-
-                    productData
-
-                );
-
-            } else {
-
-                productData.createdAt =
-                    serverTimestamp();
-
-
-                productData.createdBy =
-                    currentUser.uid;
-
-
-                productData.createdByEmail =
-                    currentUser.email ||
+                const barcode =
+                    product.barcode ||
+                    product.barCode ||
+                    product.ean ||
+                    product.upc ||
                     "";
 
 
-                await addDoc(
+                return `
 
-                    collection(
-                        db,
-                        "products"
-                    ),
+                    <tr>
 
-                    productData
+                        <td>
+                            <strong>
+                                ${escapeHtml(
+                                    product.productName || ""
+                                )}
+                            </strong>
+                        </td>
 
-                );
+                        <td>
+                            ${escapeHtml(
+                                product.category || ""
+                            )}
+                        </td>
 
-            }
+                        <td>
+                            ${escapeHtml(
+                                product.brand || "-"
+                            )}
+                        </td>
 
+                        <td>
+                            ${escapeHtml(
+                                product.sku || "-"
+                            )}
+                        </td>
 
-            await loadProducts();
+                        <td>
+                            ${
+                                barcode
+                                    ? escapeHtml(barcode)
+                                    : '<span style="color:#94a3b8;">No barcode</span>'
+                            }
+                        </td>
 
+                        <td>
+                            ${quantity}
+                        </td>
 
-            closeModal();
+                        <td>
+                            ₦${formatMoney(
+                                product.costPrice
+                            )}
+                        </td>
 
+                        <td>
+                            ₦${formatMoney(
+                                product.sellingPrice
+                            )}
+                        </td>
 
-        } catch (error) {
+                        <td>
+                            ${escapeHtml(
+                                product.batchNumber || "-"
+                            )}
+                        </td>
 
-            console.error(
-                "Save product error:",
-                error
-            );
+                        <td>
+                            ${escapeHtml(
+                                product.expiryDate || "-"
+                            )}
+                        </td>
 
+                        <td>
+                            <span class="status ${statusClass}">
+                                ${statusText}
+                            </span>
+                        </td>
 
-            showFormMessage(
-                error.message ||
-                "Unable to save product.",
-                "error"
-            );
+                        <td>
 
-        } finally {
+                            <button
+                                class="action-btn edit-btn"
+                                onclick="editProduct('${product.id}')"
+                            >
+                                Edit
+                            </button>
 
-            saveButton.disabled =
-                false;
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteProduct('${product.id}')"
+                            >
+                                Delete
+                            </button>
 
+                        </td>
 
-            saveButton.textContent =
-                editingProductId
-                    ? "Update Product"
-                    : "Save Product";
+                    </tr>
 
-        }
+                `;
+
+            }).join("");
 
     }
 
 
-    /* =========================
-       DELETE PRODUCT
-    ========================= */
+    /*
+    ==========================================================
+    DELETE PRODUCT
+    ==========================================================
+    */
 
-    async function deleteProduct(
-        id
-    ) {
+    window.deleteProduct = async function(productId) {
 
         const product =
-            products.find(
-                item =>
-                    item.id === id
+            allProducts.find(
+                item => item.id === productId
             );
 
-
         if (!product) {
-
             return;
-
         }
 
 
         const confirmed =
             confirm(
-
-                `Are you sure you want to delete "${product.productName || "this product"}"?`
-
+                `Delete "${product.productName}"?\n\nThis will remove the product from the Products database.`
             );
 
 
         if (!confirmed) {
-
             return;
-
         }
 
 
         try {
 
             await deleteDoc(
-
                 doc(
                     db,
                     "products",
-                    id
+                    productId
                 )
-
             );
 
+            alert(
+                "Product deleted successfully."
+            );
 
             await loadProducts();
 
-
         } catch (error) {
 
-            console.error(
-                "Delete product error:",
-                error
-            );
-
+            console.error(error);
 
             alert(
-                error.message ||
-                "Unable to delete product."
+                "Could not delete product: " +
+                error.message
             );
 
         }
 
-    }
+    };
 
 
-    /* =========================
-       BUTTON EVENTS
-    ========================= */
+    /*
+    ==========================================================
+    SEARCH
+    ==========================================================
+    */
 
     document
-        .getElementById(
-            "addProductBtn"
-        )
+        .getElementById("searchInput")
         .addEventListener(
-            "click",
-            openAddModal
+            "input",
+            renderProducts
         );
 
 
-    document
-        .getElementById(
-            "closeModalBtn"
-        )
-        .addEventListener(
-            "click",
-            closeModal
-        );
-
+    /*
+    ==========================================================
+    REFRESH
+    ==========================================================
+    */
 
     document
-        .getElementById(
-            "cancelBtn"
-        )
-        .addEventListener(
-            "click",
-            closeModal
-        );
-
-
-    document
-        .getElementById(
-            "refreshBtn"
-        )
+        .getElementById("refreshBtn")
         .addEventListener(
             "click",
             loadProducts
         );
 
 
-    searchInput.addEventListener(
-        "input",
-        renderProducts
-    );
-
-
-    productForm.addEventListener(
-        "submit",
-        saveProduct
-    );
-
-
-    /* =========================
-       LOGOUT
-    ========================= */
+    /*
+    ==========================================================
+    LOGOUT
+    ==========================================================
+    */
 
     document
-        .getElementById(
-            "logoutBtn"
-        )
+        .getElementById("logoutBtn")
         .addEventListener(
             "click",
             async () => {
 
                 try {
 
-                    await signOut(
-                        auth
-                    );
-
+                    await signOut(auth);
 
                     window.location.href =
                         "login.html";
 
-
                 } catch (error) {
 
                     alert(
-                        error.message ||
-                        "Unable to log out."
+                        "Logout failed: " +
+                        error.message
                     );
 
                 }
@@ -2789,58 +2354,57 @@
         );
 
 
-    /* =========================
-       CLOSE MODAL BY BACKDROP
-    ========================= */
+    /*
+    ==========================================================
+    FORMAT MONEY
+    ==========================================================
+    */
 
-    productModal.addEventListener(
-        "click",
-        event => {
+    function formatMoney(value) {
 
-            if (
-                event.target ===
-                productModal
-            ) {
+        const number =
+            Number(value) || 0;
 
-                closeModal();
-
+        return number.toLocaleString(
+            "en-NG",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }
+        );
 
-        }
-    );
-
-
-    /* =========================
-       FIREBASE AUTH
-    ========================= */
-
-    onAuthStateChanged(
-        auth,
-        async user => {
-
-            console.log(
-                "Auth state:",
-                user
-                    ? user.email
-                    : "No user"
-            );
+    }
 
 
-            if (!user) {
+    /*
+    ==========================================================
+    ESCAPE HTML
+    ==========================================================
+    */
 
-                window.location.href =
-                    "login.html";
+    function escapeHtml(value) {
 
-                return;
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
-            }
+    }
 
 
-            currentUser =
-                user;
+    /*
+    ==========================================================
+    CLEANUP
+    ==========================================================
+    */
 
+    window.addEventListener(
+        "beforeunload",
+        () => {
 
-            await loadProducts();
+            stopCameraScanner();
 
         }
     );
