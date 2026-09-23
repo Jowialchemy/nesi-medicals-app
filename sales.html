@@ -1413,6 +1413,12 @@ class="receipt-logo">
 <strong id="receiptCreditPaymentMethod">Cash</strong>
 </div>
 
+<!-- STAFF ID -->
+<div>
+<span>Staff ID:</span>
+<strong id="receiptStaffId">—</strong>
+</div>
+
 </div>
 
 <div class="receipt-items" id="receiptItems">
@@ -1719,6 +1725,9 @@ const receiptPayment=$("receiptPayment");
 const receiptPaymentMethodRow=$("receiptPaymentMethodRow");
 const receiptCreditPaymentMethod=$("receiptCreditPaymentMethod");
 
+/* STAFF ID RECEIPT ELEMENT */
+const receiptStaffId=$("receiptStaffId");
+
 const receiptItems=$("receiptItems");
 const receiptItemCount=$("receiptItemCount");
 const receiptSubtotal=$("receiptSubtotal");
@@ -1790,6 +1799,71 @@ function clearMessage(){
 
 statusMessage.textContent="";
 statusMessage.className="status-message";
+
+}
+
+
+/* STAFF ID */
+
+function getCurrentStaffId(){
+
+try{
+
+const savedStaff=
+localStorage.getItem("nesiStaff");
+
+if(savedStaff){
+
+const staff=
+JSON.parse(savedStaff);
+
+if(
+staff &&
+staff.staffId &&
+String(staff.staffId).trim()
+){
+
+return String(
+staff.staffId
+).trim();
+
+}
+
+}
+
+}catch(error){
+
+console.error(
+"Unable to read staff ID:",
+error
+);
+
+}
+
+
+/*
+permission.js also places the
+current staff profile on window.
+*/
+
+if(
+window.nesiStaff &&
+window.nesiStaff.staffId
+){
+
+return String(
+window.nesiStaff.staffId
+).trim();
+
+}
+
+
+/*
+If the logged-in user is the
+administrator, use ADMIN.
+*/
+
+return "ADMIN";
 
 }
 
@@ -2058,18 +2132,7 @@ return "In Stock";
 }
 
 
-/*
-Normalize a barcode.
-
-Example:
-
-012 345-678
-becomes
-012345678
-
-This helps camera scanners and
-manual scanners match correctly.
-*/
+/* BARCODE */
 
 function normalizeBarcode(value){
 
@@ -2080,14 +2143,6 @@ return String(value||"")
 
 }
 
-
-/*
-Get every possible barcode field
-from the product.
-
-SKU is included so existing SKUs
-can also be scanned.
-*/
 
 function getProductBarcodes(product){
 
@@ -2115,10 +2170,6 @@ String(value).trim()!==""
 
 }
 
-
-/*
-Find a product by barcode/SKU.
-*/
 
 function findProductByBarcode(code){
 
@@ -2768,6 +2819,17 @@ const isCredit=
 paymentMethod.value==="Credit";
 
 
+/*
+Display Staff ID on customer receipt.
+
+Only the Staff ID is shown.
+No staff name, phone or email.
+*/
+
+receiptStaffId.textContent=
+getCurrentStaffId();
+
+
 receiptCustomer.textContent=
 customer.name;
 
@@ -3052,6 +3114,17 @@ showMessage(
 return;
 
 }
+
+
+/*
+Get Staff ID once at the moment
+the sale is actually recorded.
+
+This is the value saved with the sale.
+*/
+
+const currentStaffId=
+getCurrentStaffId();
 
 
 const saleData=
@@ -3352,6 +3425,19 @@ createdByEmail:currentUser.email||""
 :[];
 
 
+/*
+IMPORTANT:
+
+Staff ID is saved internally with
+the sale.
+
+Staff name is also saved internally
+for administrator accountability.
+
+Only Staff ID is printed on the
+customer receipt.
+*/
+
 savedSaleData={
 
 saleNumber:generateSaleNumber(),
@@ -3401,6 +3487,17 @@ grossProfit:transactionGrossProfit,
 
 totalQuantity:transactionQuantityTotal,
 
+/* STAFF ACCOUNTABILITY */
+staffId:currentStaffId,
+
+staffName:
+window.nesiStaff?.name||
+localStorage.getItem("nesiStaff")
+?getStoredStaffName()
+:"Administrator",
+
+staffUid:currentUser.uid,
+
 createdBy:currentUser.uid,
 
 createdByEmail:currentUser.email||"",
@@ -3427,6 +3524,14 @@ id:saleRef.id,
 
 receiptSaleNumber.textContent=
 lastSale.saleNumber;
+
+/*
+Make sure the receipt shows the
+same Staff ID that was saved.
+*/
+
+receiptStaffId.textContent=
+currentStaffId;
 
 updateSaleSummary();
 
@@ -3471,6 +3576,53 @@ recordSaleBtn.textContent=
 "Record Sale";
 
 }
+
+}
+
+
+/*
+Get staff name safely for internal
+record keeping.
+*/
+
+function getStoredStaffName(){
+
+try{
+
+const savedStaff=
+localStorage.getItem("nesiStaff");
+
+if(savedStaff){
+
+const staff=
+JSON.parse(savedStaff);
+
+if(staff?.name){
+
+return staff.name;
+
+}
+
+}
+
+}catch(error){
+
+console.error(
+"Unable to read staff name:",
+error
+);
+
+}
+
+if(
+window.nesiStaff?.name
+){
+
+return window.nesiStaff.name;
+
+}
+
+return "Administrator";
 
 }
 
@@ -3610,6 +3762,14 @@ notesInput.value="";
 
 receiptSaleNumber.textContent="Pending";
 
+/*
+Keep Staff ID visible on every
+new receipt preview.
+*/
+
+receiptStaffId.textContent=
+getCurrentStaffId();
+
 clearMessage();
 
 updateCustomerBalanceInfo();
@@ -3698,14 +3858,7 @@ showMessage(
 }
 
 
-/* ==========================================
-BARCODE SCANNER
-========================================== */
-
-
-/*
-Open scanner modal.
-*/
+/* BARCODE SCANNER */
 
 function openScanner(){
 
@@ -3729,10 +3882,6 @@ setTimeout(
 }
 
 
-/*
-Close scanner completely.
-*/
-
 function closeScanner(){
 
 stopBarcodeScanner();
@@ -3747,10 +3896,6 @@ pendingBarcode="";
 
 }
 
-
-/*
-Start camera.
-*/
 
 async function startBarcodeScanner(){
 
@@ -3827,10 +3972,6 @@ scannerStatus.textContent=
 }
 
 
-/*
-Stop camera safely.
-*/
-
 function stopBarcodeScanner(){
 
 scannerRunning=false;
@@ -3886,10 +4027,6 @@ error
 }
 
 
-/*
-Prevent repeated scans.
-*/
-
 function handleScannedBarcode(code){
 
 const normalized=
@@ -3925,10 +4062,6 @@ processBarcode(normalized);
 }
 
 
-/*
-Process barcode.
-*/
-
 function processBarcode(code){
 
 const normalized=
@@ -3962,17 +4095,8 @@ scannerStatus.textContent=
 "Product found successfully.";
 
 
-/*
-Stop camera first.
-*/
-
 stopBarcodeScanner();
 
-
-/*
-Close scanner shortly after
-successful scan.
-*/
 
 setTimeout(
 ()=>{
@@ -3993,10 +4117,6 @@ return;
 }
 
 
-/*
-Unknown barcode.
-*/
-
 pendingBarcode=normalized;
 
 unknownBarcodeText.textContent=
@@ -4013,10 +4133,6 @@ stopBarcodeScanner();
 
 }
 
-
-/*
-Product selector for barcode registration.
-*/
 
 function populateRegisterProductSelect(){
 
@@ -4040,10 +4156,6 @@ registerProductSelect.appendChild(option);
 
 }
 
-
-/*
-Save unknown barcode.
-*/
 
 async function saveBarcodeToProduct(){
 
@@ -4154,10 +4266,6 @@ scannerSuccess.classList.add("show");
 pendingBarcode="";
 
 
-/*
-Add one unit to sale.
-*/
-
 addProductToSale(
 savedProduct,
 false
@@ -4198,10 +4306,6 @@ saveBarcodeBtn.textContent="Save Barcode";
 }
 
 
-/*
-Manual barcode inside scanner.
-*/
-
 function processManualBarcode(){
 
 const code=
@@ -4228,16 +4332,6 @@ scannerManualInput.value="";
 
 }
 
-
-/*
-Barcode input on sales page.
-
-This supports:
-
-• USB scanners
-• Bluetooth scanners
-• manually typed codes
-*/
 
 function processBarcodeInput(){
 
@@ -4501,6 +4595,15 @@ displayName
 .toUpperCase();
 
 
+/*
+Refresh Staff ID on the receipt as
+soon as the authenticated page loads.
+*/
+
+receiptStaffId.textContent=
+getCurrentStaffId();
+
+
 loadProducts();
 loadSales();
 loadCustomers();
@@ -4515,8 +4618,8 @@ renderSaleItems();
 updateSaleSummary();
 
 </script>
-  
+
 <script type="module" src="./js/permission.js"></script>
-  
+
 </body>
-</html>
+  </html>
