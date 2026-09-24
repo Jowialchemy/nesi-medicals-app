@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Start New Stock | Nesi Medicals</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: #111827;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            background: white;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .brand h1 {
+            font-size: 19px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 3px;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+            background: #374151;
+            padding: 10px 15px;
+            border-radius: 7px;
+            font-size: 13px;
+        }
+
+        .page {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 0 18px 50px;
+        }
+
+        .heading {
+            margin-bottom: 22px;
+        }
+
+        .heading h2 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        .heading p {
+            color: #6b7280;
+        }
+
+        .warning {
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            border-left: 5px solid #f97316;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .warning h3 {
+            color: #c2410c;
+            margin-bottom: 10px;
+        }
+
+        .warning p {
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+        }
+
+        .delete-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .delete-item {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-radius: 9px;
+            padding: 15px;
+            color: #9f1239;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .protect-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .protect-item {
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 12px;
+            color: #166534;
+            font-size: 13px;
+        }
+
+        .confirm-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .confirm-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .confirm-input:focus {
+            border-color: #0A5FFF;
+        }
+
+        .button-row {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .reset-btn {
+            border: none;
+            background: #dc2626;
+            color: white;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .reset-btn:disabled {
+            background: #d1d5db;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .cancel-btn {
+            text-decoration: none;
+            background: #374151;
+            color: white;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .message {
+            display: none;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            background: #ecfdf5;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .progress {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .progress.show {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #dc2626;
+            transition: width 0.2s;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                padding: 14px;
+            }
+
+            .brand h1 {
+                font-size: 16px;
+            }
+
+            .back {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .page {
+                margin-top: 25px;
+            }
+
+            .delete-list {
+                grid-template-columns: 1fr;
+            }
+
+            .protect-list {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <img
+            src="assets/logo.png"
+            alt="Nesi Medicals Logo"
+        >
+
+        <div>
+
+            <h1>
+                Nesi Medicals
+            </h1>
+
+            <p>
+                & Minimart Enterprises
+            </p>
+
+        </div>
+
+    </div>
+
+    <a
+        href="settings.html"
+        class="back"
+    >
+        ← Back to Settings
+    </a>
+
+</header>
+
+
+<main class="page">
+
+    <div class="heading">
+
+        <h2>
+            Start New Stock
+        </h2>
+
+        <p>
+            Prepare Nesi Medicals for the new verified physical stock count.
+        </p>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <section class="warning">
+
+        <h3>
+            ⚠️ Permanent Data Reset
+        </h3>
+
+        <p>
+            This operation is for starting your real stock records after
+            physical stock-taking. The selected test/old transaction data
+            will be permanently deleted from Firebase.
+        </p>
+
+        <br>
+
+        <p>
+            <strong>
+                Make sure your physical stock-taking records are complete
+                before continuing.
+            </strong>
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>
+            The following will be deleted
+        </h3>
+
+        <div class="delete-list">
+
+            <div class="delete-item">
+                📦 Products
+            </div>
+
+            <div class="delete-item">
+                🧾 Sales
+            </div>
+
+            <div class="delete-item">
+                🏷️ Product Batches
+            </div>
+
+        </div>
+
+
+        <h3>
+            The following will NOT be deleted
+        </h3>
+
+        <div class="protect-list">
+
+            <div class="protect-item">
+                ✓ Staff records
+            </div>
+
+            <div class="protect-item">
+                ✓ Firebase login accounts
+            </div>
+
+            <div class="protect-item">
+                ✓ Customers
+            </div>
+
+            <div class="protect-item">
+                ✓ Suppliers
+            </div>
+
+            <div class="protect-item">
+                ✓ Expenses
+            </div>
+
+            <div class="protect-item">
+                ✓ Settings
+            </div>
+
+            <div class="protect-item">
+                ✓ Application code
+            </div>
+
+            <div class="protect-item">
+                ✓ Firebase project
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="card">
+
+        <h3>
+            Administrator Confirmation
+        </h3>
+
+        <label
+            class="confirm-label"
+            for="confirmation"
+        >
+            Type exactly:
+        </label>
+
+        <p
+            style="
+                margin-bottom:10px;
+                color:#dc2626;
+                font-weight:bold;
+            "
+        >
+            START NEW STOCK
+        </p>
+
+        <input
+            type="text"
+            id="confirmation"
+            class="confirm-input"
+            placeholder="Type START NEW STOCK"
+            autocomplete="off"
+        >
+
+
+        <div
+            class="button-row"
+        >
+
+            <button
+                type="button"
+                id="resetButton"
+                class="reset-btn"
+                disabled
+            >
+                🗑️ Start New Stock
+            </button>
+
+            <a
+                href="settings.html"
+                class="cancel-btn"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+
+        <div
+            id="progress"
+            class="progress"
+        >
+
+            <div class="progress-bar">
+
+                <div
+                    id="progressFill"
+                    class="progress-fill"
+                ></div>
+
+            </div>
+
+            <div
+                id="progressText"
+                class="progress-text"
+            >
+                Preparing...
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script type="module">
+
+import {
+    auth,
+    db
+} from "./js/firebase.js";
+
+
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+import {
+    collection,
+    getDocs,
+    deleteDoc,
+    doc,
+    query,
+    where,
+    writeBatch
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const confirmation =
+    document.getElementById(
+        "confirmation"
+    );
+
+const resetButton =
+    document.getElementById(
+        "resetButton"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+const progress =
+    document.getElementById(
+        "progress"
+    );
+
+const progressFill =
+    document.getElementById(
+        "progressFill"
+    );
+
+const progressText =
+    document.getElementById(
+        "progressText"
+    );
+
+
+let currentUser = null;
+let currentStaff = null;
+let isResetting = false;
+
+
+/* ==========================================
+   MESSAGE
+========================================== */
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent = text;
+
+    message.className =
+        "message show " + type;
+
+}
+
+
+/* ==========================================
+   ADMIN CHECK
+========================================== */
+
+async function getStaffProfile(user) {
+
+    if (!user) {
+        return null;
+    }
+
+
+    try {
+
+        const uidQuery =
+            query(
+                collection(
+                    db,
+                    "staff"
+                ),
+                where(
+                    "uid",
+                    "==",
+                    user.uid
+                )
+            );
+
+
+        const uidSnapshot =
+            await getDocs(
+                uidQuery
+            );
+
+
+        if (
+            !uidSnapshot.empty
+        ) {
+
+            const staffDoc =
+                uidSnapshot.docs[0];
+
+            return {
+                id: staffDoc.id,
+                ...staffDoc.data()
+            };
+
+        }
+
+
+        if (user.email) {
+
+            const emailQuery =
+                query(
+                    collection(
+                        db,
+                        "staff"
+                    ),
+                    where(
+                        "email",
+                        "==",
+                        user.email.toLowerCase()
+                    )
+                );
+
+
+            const emailSnapshot =
+                await getDocs(
+                    emailQuery
+                );
+
+
+            if (
+                !emailSnapshot.empty
+            ) {
+
+                const staffDoc =
+                    emailSnapshot.docs[0];
+
+                return {
+                    id: staffDoc.id,
+                    ...staffDoc.data()
+                };
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Staff lookup error:",
+            error
+        );
+
+    }
+
+
+    return null;
+}
+
+
+/* ==========================================
+   CONFIRMATION FIELD
+========================================== */
+
+confirmation.addEventListener(
+    "input",
+    () => {
+
+        const valid =
+            confirmation.value.trim() ===
+            "START NEW STOCK";
+
+        resetButton.disabled =
+            !valid ||
+            isResetting;
+
+    }
+);
+
+
+/* ==========================================
+   DELETE COLLECTION IN BATCHES
+========================================== */
+
+async function deleteCollection(
+    collectionName,
+    progressStart,
+    progressEnd
+) {
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                collectionName
+            )
+        );
+
+
+    const documents =
+        snapshot.docs;
+
+
+    if (!documents.length) {
+        return 0;
+    }
+
+
+    let deleted = 0;
+
+
+    /*
+     * Firestore batches support
+     * up to 500 operations.
+     */
+
+    for (
+        let i = 0;
+        i < documents.length;
+        i += 400
+    ) {
+
+        const chunk =
+            documents.slice(
+                i,
+                i + 400
+            );
+
+
+        const batch =
+            writeBatch(db);
+
+
+        chunk.forEach(
+            item => {
+
+                batch.delete(
+                    item.ref
+                );
+
+            }
+        );
+
+
+        await batch.commit();
+
+
+        deleted +=
+            chunk.length;
+
+
+        const percentage =
+            progressStart +
+            (
+                (
+                    deleted /
+                    documents.length
+                ) *
+                (
+                    progressEnd -
+                    progressStart
+                )
+            );
+
+
+        progressFill.style.width =
+            Math.min(
+                percentage,
+                progressEnd
+            ) + "%";
+
+        progressText.textContent =
+            `Deleting ${collectionName}... ${deleted}/${documents.length}`;
+
+    }
+
+
+    return deleted;
+}
+
+
+/* ==========================================
+   DELETE PRODUCT BATCHES
+========================================== */
+
+async function deleteProductBatches(
+    productDocs
+) {
+
+    let totalBatches = 0;
+
+
+    for (
+        let i = 0;
+        i < productDocs.length;
+        i++
+    ) {
+
+        const product =
+            productDocs[i];
+
+
+        const batchSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "products",
+                    product.id,
+                    "batches"
+                )
+            );
+
+
+        if (
+            batchSnapshot.empty
+        ) {
+            continue;
+        }
+
+
+        const batchDocs =
+            batchSnapshot.docs;
+
+
+        for (
+            let x = 0;
+            x < batchDocs.length;
+            x += 400
+        ) {
+
+            const chunk =
+                batchDocs.slice(
+                    x,
+                    x + 400
+                );
+
+
+            const batch =
+                writeBatch(db);
+
+
+            chunk.forEach(
+                item => {
+
+                    batch.delete(
+                        item.ref
+                    );
+
+                }
+            );
+
+
+            await batch.commit();
+
+            totalBatches +=
+                chunk.length;
+
+        }
+
+    }
+
+
+    return totalBatches;
+}
+
+
+/* ==========================================
+   START RESET
+========================================== */
+
+async function startNewStock() {
+
+    if (isResetting) {
+        return;
+    }
+
+
+    if (
+        confirmation.value.trim() !==
+        "START NEW STOCK"
+    ) {
+
+        showMessage(
+            "Please type START NEW STOCK exactly.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!currentUser) {
+
+        showMessage(
+            "You are not logged in.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+     * Extra administrator protection.
+     */
+
+    if (!currentStaff) {
+
+        showMessage(
+            "Administrator staff record could not be verified.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const role =
+        String(
+            currentStaff.role || ""
+        ).toLowerCase();
+
+
+    const isAdmin =
+        role === "administrator" ||
+        role === "admin";
+
+
+    if (!isAdmin) {
+
+        showMessage(
+            "Only an Administrator can start new stock.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const finalCheck =
+        confirm(
+            "FINAL WARNING\n\n" +
+            "This will permanently delete:\n\n" +
+            "• Products\n" +
+            "• Product batches\n" +
+            "• Sales\n\n" +
+            "Staff, customers, suppliers, expenses, " +
+            "settings and Firebase login accounts will remain.\n\n" +
+            "Continue?"
+        );
+
+
+    if (!finalCheck) {
+        return;
+    }
+
+
+    isResetting = true;
+
+    resetButton.disabled = true;
+
+    confirmation.disabled = true;
+
+    progress.classList.add(
+        "show"
+    );
+
+    progressFill.style.width =
+        "5%";
+
+    progressText.textContent =
+        "Preparing stock reset...";
+
+
+    try {
+
+        /*
+         * FIRST:
+         * Read all products so their
+         * batch subcollections can
+         * also be removed.
+         */
+
+        const productsSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "products"
+                )
+            );
+
+
+        const productDocs =
+            productsSnapshot.docs;
+
+
+        progressFill.style.width =
+            "15%";
+
+        progressText.textContent =
+            `Found ${productDocs.length} product(s).`;
+
+
+        /*
+         * DELETE PRODUCT BATCHES
+         */
+
+        const batchCount =
+            await deleteProductBatches(
+                productDocs
+            );
+
+
+        progressFill.style.width =
+            "35%";
+
+        progressText.textContent =
+            `${batchCount} product batch record(s) removed.`;
+
+
+        /*
+         * DELETE PRODUCTS
+         */
+
+        await deleteCollection(
+            "products",
+            35,
+            55
+        );
+
+
+        /*
+         * DELETE SALES
+         */
+
+        await deleteCollection(
+            "sales",
+            55,
+            95
+        );
+
+
+        /*
+         * COMPLETE
+         */
+
+        progressFill.style.width =
+            "100%";
+
+        progressText.textContent =
+            "Stock reset completed.";
+
+
+        showMessage(
+            "Start New Stock completed successfully. " +
+            "Products, product batches and sales have been cleared. " +
+            "You can now enter your verified physical stock.",
+            "success"
+        );
+
+
+        confirmation.value = "";
+
+        confirmation.disabled = true;
+
+        resetButton.disabled = true;
+
+
+    } catch (error) {
+
+        console.error(
+            "START NEW STOCK ERROR:",
+            error
+        );
+
+
+        progressFill.style.width =
+            "0%";
+
+        progressText.textContent =
+            "Reset stopped because an error occurred.";
+
+
+        showMessage(
+            "The reset could not be completed. " +
+            "No further deletion was attempted. " +
+            "Check the browser console/Firebase permissions.",
+            "error"
+        );
+
+
+        isResetting = false;
+
+        confirmation.disabled = false;
+
+        resetButton.disabled =
+            confirmation.value.trim() !==
+            "START NEW STOCK";
+
+    }
+
+}
+
+
+/* ==========================================
+   BUTTON
+========================================== */
+
+resetButton.addEventListener(
+    "click",
+    startNewStock
+);
+
+
+/* ==========================================
+   AUTHENTICATION
+========================================== */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        currentUser = user;
+
+
+        currentStaff =
+            await getStaffProfile(
+                user
+            );
+
+
+        if (!currentStaff) {
+
+            showMessage(
+                "Your staff profile could not be verified.",
+                "error"
+            );
+
+            resetButton.disabled =
+                true;
+
+            return;
+        }
+
+
+        const role =
+            String(
+                currentStaff.role || ""
+            ).toLowerCase();
+
+
+        const isAdmin =
+            role === "administrator" ||
+            role === "admin";
+
+
+        if (!isAdmin) {
+
+            showMessage(
+                "Access denied. Only an Administrator can use Start New Stock.",
+                "error"
+            );
+
+            resetButton.disabled =
+                true;
+
+            confirmation.disabled =
+                true;
+
+            return;
+        }
+
+
+        console.log(
+            "Start New Stock: Administrator verified."
+        );
+
+    }
+);
+
+</script>
+
+</body>
+  </html>
