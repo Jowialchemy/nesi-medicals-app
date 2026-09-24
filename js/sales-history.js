@@ -1,210 +1,698 @@
 import { auth, db } from "./firebase.js";
 
 import {
+    collection,
+    onSnapshot,
+    query,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-import {
-    collection,
-    onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const salesTable = document.getElementById("salesTable");
+const searchInput = document.getElementById("searchInput");
+
+const receiptModal = document.getElementById("receiptModal");
+const printArea = document.getElementById("printArea");
+
+const closeModal = document.getElementById("closeModal");
+const closeModal2 = document.getElementById("closeModal2");
+const printReceipt = document.getElementById("printReceipt");
+
+const mobileMenu = document.getElementById("mobileMenu");
+const sidebar = document.getElementById("sidebar");
+
+const logoutBtn = document.getElementById("logoutBtn");
+const userEmail = document.getElementById("userEmail");
 
 
-window.addEventListener("DOMContentLoaded", () => {
+/* =========================================================
+   STATE
+========================================================= */
 
-    const body = document.getElementById("salesBody");
-    const search = document.getElementById("searchInput");
-    const fromDate = document.getElementById("fromDate");
-    const toDate = document.getElementById("toDate");
-
-    const totalSales = document.getElementById("totalSales");
-    const todaySales = document.getElementById("todaySales");
-    const filteredTotal = document.getElementById("filteredTotal");
-
-    const modal = document.getElementById("receiptModal");
-    const receiptView = document.getElementById("receiptView");
-
-    let sales = [];
-    let selectedSale = null;
-    let unsubscribe = null;
+let sales = [];
+let selectedSale = null;
+let unsubscribeSales = null;
 
 
-    const money = value =>
-        "₦" +
-        (Number(value) || 0).toLocaleString("en-NG", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function money(value) {
+    return "₦" + (Number(value) || 0).toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
 
 
-    const esc = value =>
-        String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
 
-    function dateValue(value) {
+function getDate(value) {
 
-        if (!value) return null;
+    if (!value) {
+        return null;
+    }
 
-        if (typeof value.toDate === "function") {
-            return value.toDate();
+    if (typeof value.toDate === "function") {
+        return value.toDate();
+    }
+
+    if (value.seconds) {
+        return new Date(value.seconds * 1000);
+    }
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return null;
+    }
+
+    return date;
+}
+
+
+function formatDate(value) {
+
+    const date = getDate(value);
+
+    if (!date) {
+        return "—";
+    }
+
+    return date.toLocaleString("en-NG", {
+        dateStyle: "medium",
+        timeStyle: "short"
+    });
+}
+
+
+/* =========================================================
+   STAFF ID
+========================================================= */
+
+function getCurrentStaffId() {
+
+    try {
+
+        const savedStaff = localStorage.getItem("nesiStaff");
+
+        if (savedStaff) {
+
+            const staff = JSON.parse(savedStaff);
+
+            if (
+                staff &&
+                staff.staffId &&
+                String(staff.staffId).trim()
+            ) {
+                return String(staff.staffId).trim();
+            }
         }
 
-        if (value.seconds) {
-            return new Date(value.seconds * 1000);
-        }
+    } catch (error) {
 
-        const date = new Date(value);
-
-        return isNaN(date) ? null : date;
+        console.error(
+            "Unable to read staff ID:",
+            error
+        );
     }
 
 
-    function formatDate(value) {
+    if (
+        window.nesiStaff &&
+        window.nesiStaff.staffId
+    ) {
 
-        const date = dateValue(value);
-
-        return date
-            ? date.toLocaleString("en-NG", {
-                dateStyle: "medium",
-                timeStyle: "short"
-            })
-            : "—";
+        return String(
+            window.nesiStaff.staffId
+        ).trim();
     }
 
 
-    function dateOnly(value) {
-
-        const date = dateValue(value);
-
-        if (!date) return "";
-
-        return `${date.getFullYear()}-${String(
-            date.getMonth() + 1
-        ).padStart(2, "0")}-${String(
-            date.getDate()
-        ).padStart(2, "0")}`;
-    }
+    return "ADMIN";
+}
 
 
-    function matches(sale) {
+/* =========================================================
+   SEARCH
+========================================================= */
 
-        const q =
-            search.value.trim().toLowerCase();
+function matchesSearch(sale) {
 
-        const text =
-            `${sale.saleNumber || ""} ${sale.customer || ""}`
-                .toLowerCase();
+    const search = searchInput
+        ? searchInput.value.trim().toLowerCase()
+        : "";
 
-        if (q && !text.includes(q)) {
-            return false;
-        }
-
-        const date = dateOnly(sale.createdAt);
-
-        if (
-            fromDate.value &&
-            (!date || date < fromDate.value)
-        ) {
-            return false;
-        }
-
-        if (
-            toDate.value &&
-            (!date || date > toDate.value)
-        ) {
-            return false;
-        }
-
+    if (!search) {
         return true;
     }
 
 
-    function render() {
+    const saleNumber =
+        String(sale.saleNumber || "").toLowerCase();
 
-        const rows = sales.filter(matches);
+    const customer =
+        String(sale.customer || "").toLowerCase();
 
-        filteredTotal.textContent = money(
-            rows.reduce(
-                (total, sale) =>
-                    total + Number(sale.total || 0),
-                0
-            )
+    const staffId =
+        String(sale.staffId || "").toLowerCase();
+
+
+    return (
+        saleNumber.includes(search) ||
+        customer.includes(search) ||
+        staffId.includes(search)
+    );
+}
+
+
+/* =========================================================
+   RENDER SALES
+========================================================= */
+
+function renderSales() {
+
+    if (!salesTable) {
+        console.error(
+            "salesTable element was not found."
         );
+        return;
+    }
 
 
-        if (!rows.length) {
-
-            body.innerHTML =
-                '<tr><td colspan="7" class="empty">No sales found.</td></tr>';
-
-            return;
-        }
+    const filteredSales =
+        sales.filter(matchesSearch);
 
 
-        body.innerHTML = rows.map(sale => `
+    if (!filteredSales.length) {
 
+        salesTable.innerHTML = `
             <tr>
-
-                <td>
-                    <strong>
-                        ${esc(sale.saleNumber || "—")}
-                    </strong>
+                <td colspan="7" class="empty">
+                    No sales found.
                 </td>
+            </tr>
+        `;
 
-                <td>
-                    ${esc(formatDate(sale.createdAt))}
-                </td>
+        return;
+    }
 
-                <td>
-                    ${esc(
-                        sale.customer ||
-                        "Walk-in Customer"
-                    )}
-                </td>
 
-                <td>
-                    ${Number(sale.totalQuantity || 0)}
-                </td>
+    salesTable.innerHTML =
+        filteredSales.map(sale => {
 
-                <td class="money">
-                    ${money(sale.total)}
-                </td>
+            const items =
+                Array.isArray(sale.items)
+                    ? sale.items
+                    : [];
 
-                <td>
-                    <span class="badge">
-                        ${esc(
-                            sale.paymentMethod ||
-                            "—"
+            const totalQuantity =
+                Number(
+                    sale.totalQuantity ||
+                    items.reduce(
+                        (total, item) =>
+                            total +
+                            Number(item.quantity || 0),
+                        0
+                    )
+                );
+
+
+            return `
+                <tr>
+
+                    <td>
+                        <span class="sale-number">
+                            ${escapeHtml(
+                                sale.saleNumber || "—"
+                            )}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            formatDate(sale.createdAt)
                         )}
-                    </span>
-                </td>
+                    </td>
 
-                <td>
+                    <td>
+                        ${escapeHtml(
+                            sale.customer ||
+                            "Walk-in Customer"
+                        )}
+                    </td>
 
-                    <div class="actions">
+                    <td>
+                        ${totalQuantity}
+                    </td>
+
+                    <td>
+                        <span class="amount">
+                            ${money(sale.total)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="payment">
+                            ${escapeHtml(
+                                sale.paymentMethod || "—"
+                            )}
+                        </span>
+                    </td>
+
+                    <td>
 
                         <button
-                            class="btn-small"
-                            data-view="${esc(sale.id)}"
+                            type="button"
+                            class="btn btn-view"
+                            data-view="${escapeHtml(sale.id)}"
                         >
                             View
                         </button>
 
                         <button
-                            class="btn-small"
-                            data-print="${esc(sale.id)}"
+                            type="button"
+                            class="btn btn-print"
+                            data-print="${escapeHtml(sale.id)}"
                         >
                             Reprint
                         </button>
 
-                    </div>
+                    </td>
 
+                </tr>
+            `;
+
+        }).join("");
+
+
+    /* VIEW BUTTONS */
+
+    salesTable
+        .querySelectorAll("[data-view]")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const sale =
+                        sales.find(
+                            item =>
+                                item.id ===
+                                button.dataset.view
+                        );
+
+                    openReceipt(sale);
+                }
+            );
+
+        });
+
+
+    /* PRINT BUTTONS */
+
+    salesTable
+        .querySelectorAll("[data-print]")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const sale =
+                        sales.find(
+                            item =>
+                                item.id ===
+                                button.dataset.print
+                        );
+
+                    printSale(sale);
+                }
+            );
+
+        });
+}
+
+
+/* =========================================================
+   RECEIPT
+========================================================= */
+
+function renderReceipt(sale) {
+
+    if (!printArea || !sale) {
+        return;
+    }
+
+
+    const items =
+        Array.isArray(sale.items)
+            ? sale.items
+            : [];
+
+
+    const staffId =
+        sale.staffId ||
+        "ADMIN";
+
+
+    const amountPaid =
+        Number(sale.amountPaid || 0);
+
+
+    const outstanding =
+        Number(
+            sale.outstandingAmount ??
+            sale.outstandingBalance ??
+            0
+        );
+
+
+    const paymentStatus =
+        sale.paymentStatus ||
+        (
+            outstanding > 0
+                ? "Credit"
+                : "Paid"
+        );
+
+
+    printArea.innerHTML = `
+
+        <div class="receipt-header">
+
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+            >
+
+            <h2>
+                Nesi Medicals
+            </h2>
+
+            <p>
+                & Minimart Enterprises
+            </p>
+
+            <p>
+                SALES RECEIPT
+            </p>
+
+        </div>
+
+
+        <div class="receipt-info">
+
+            <div>
+                <strong>Receipt:</strong>
+                ${escapeHtml(
+                    sale.saleNumber || "—"
+                )}
+            </div>
+
+            <div>
+                <strong>Date:</strong>
+                ${escapeHtml(
+                    formatDate(sale.createdAt)
+                )}
+            </div>
+
+            <div>
+                <strong>Customer:</strong>
+                ${escapeHtml(
+                    sale.customer ||
+                    "Walk-in Customer"
+                )}
+            </div>
+
+            <div>
+                <strong>Payment:</strong>
+                ${escapeHtml(
+                    sale.paymentMethod ||
+                    "—"
+                )}
+            </div>
+
+            <div>
+                <strong>Staff ID:</strong>
+                ${escapeHtml(staffId)}
+            </div>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Item
+                    </th>
+
+                    <th>
+                        Qty
+                    </th>
+
+                    <th>
+                        Price
+                    </th>
+
+                    <th>
+                        Total
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                ${
+                    items.map(item => `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHtml(
+                                    item.productName ||
+                                    "Item"
+                                )}
+                            </td>
+
+                            <td>
+                                ${Number(
+                                    item.quantity || 0
+                                )}
+                            </td>
+
+                            <td>
+                                ${money(
+                                    item.unitPrice
+                                )}
+                            </td>
+
+                            <td>
+                                ${money(
+                                    item.total
+                                )}
+                            </td>
+
+                        </tr>
+
+                    `).join("")
+                }
+
+            </tbody>
+
+        </table>
+
+
+        <div class="receipt-total">
+
+            <p>
+                <strong>Total:</strong>
+                ${money(sale.total)}
+            </p>
+
+            ${
+                sale.paymentMethod === "Credit"
+                    ? `
+                        <p>
+                            <strong>
+                                Amount Paid:
+                            </strong>
+                            ${money(amountPaid)}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Balance Due:
+                            </strong>
+                            ${money(outstanding)}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Payment Status:
+                            </strong>
+                            ${escapeHtml(
+                                paymentStatus
+                            )}
+                        </p>
+                    `
+                    : ""
+            }
+
+            <p class="grand">
+                ${money(sale.total)}
+            </p>
+
+        </div>
+
+
+        <div class="receipt-footer">
+
+            Thank you for your patronage.
+
+            <br><br>
+
+            +2349067075444 • +2347087471639
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   OPEN RECEIPT
+========================================================= */
+
+function openReceipt(sale) {
+
+    if (!sale || !receiptModal) {
+        return;
+    }
+
+
+    selectedSale = sale;
+
+    renderReceipt(sale);
+
+    receiptModal.classList.add("show");
+}
+
+
+/* =========================================================
+   CLOSE RECEIPT
+========================================================= */
+
+function closeReceiptModal() {
+
+    if (!receiptModal) {
+        return;
+    }
+
+    receiptModal.classList.remove("show");
+
+    selectedSale = null;
+}
+
+
+/* =========================================================
+   PRINT RECEIPT
+========================================================= */
+
+function printSale(sale) {
+
+    if (!sale) {
+        return;
+    }
+
+
+    const items =
+        Array.isArray(sale.items)
+            ? sale.items
+            : [];
+
+
+    const staffId =
+        sale.staffId ||
+        "ADMIN";
+
+
+    const amountPaid =
+        Number(sale.amountPaid || 0);
+
+
+    const outstanding =
+        Number(
+            sale.outstandingAmount ??
+            sale.outstandingBalance ??
+            0
+        );
+
+
+    const paymentStatus =
+        sale.paymentStatus ||
+        (
+            outstanding > 0
+                ? "Credit"
+                : "Paid"
+        );
+
+
+    const itemsHtml =
+        items.map(item => `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(
+                        item.productName ||
+                        "Item"
+                    )}
+                </td>
+
+                <td>
+                    ${Number(
+                        item.quantity || 0
+                    )}
+                </td>
+
+                <td>
+                    ${money(
+                        item.unitPrice
+                    )}
+                </td>
+
+                <td>
+                    ${money(
+                        item.total
+                    )}
                 </td>
 
             </tr>
@@ -212,543 +700,421 @@ window.addEventListener("DOMContentLoaded", () => {
         `).join("");
 
 
-        body.querySelectorAll("[data-view]")
-            .forEach(button => {
+    const creditHtml =
+        sale.paymentMethod === "Credit"
+            ? `
 
-                button.addEventListener(
-                    "click",
-                    () => {
+                <div>
+                    <strong>
+                        Amount Paid:
+                    </strong>
+                    ${money(amountPaid)}
+                </div>
 
-                        const sale = sales.find(
-                            item =>
-                                item.id ===
-                                button.dataset.view
-                        );
+                <div>
+                    <strong>
+                        Balance Due:
+                    </strong>
+                    ${money(outstanding)}
+                </div>
 
-                        openReceipt(sale);
-                    }
-                );
+                <div>
+                    <strong>
+                        Payment Status:
+                    </strong>
+                    ${escapeHtml(
+                        paymentStatus
+                    )}
+                </div>
 
-            });
+            `
+            : "";
 
 
-        body.querySelectorAll("[data-print]")
-            .forEach(button => {
+    const popup =
+        window.open(
+            "",
+            "_blank",
+            "width=700,height=800"
+        );
 
-                button.addEventListener(
-                    "click",
-                    () => {
 
-                        const sale = sales.find(
-                            item =>
-                                item.id ===
-                                button.dataset.print
-                        );
+    if (!popup) {
 
-                        printSale(sale);
-                    }
-                );
+        alert(
+            "Please allow pop-ups to reprint the receipt."
+        );
 
-            });
-
+        return;
     }
 
 
-    function renderReceipt(sale) {
+    popup.document.write(`
 
-        const items =
-            Array.isArray(sale.items)
-                ? sale.items
-                : [];
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+            <title>
+                ${escapeHtml(
+                    sale.saleNumber ||
+                    "Nesi Medicals Receipt"
+                )}
+            </title>
+
+            <style>
+
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 25px;
+                    color: #111827;
+                }
+
+                .receipt {
+                    max-width: 600px;
+                    margin: auto;
+                }
+
+                .head {
+                    text-align: center;
+                    border-bottom: 1px dashed #999;
+                    padding-bottom: 15px;
+                    margin-bottom: 15px;
+                }
+
+                .head img {
+                    width: 65px;
+                    height: 65px;
+                    object-fit: contain;
+                }
+
+                .head h2 {
+                    margin: 5px 0;
+                }
+
+                .head p {
+                    margin: 3px 0;
+                    font-size: 12px;
+                }
+
+                .meta {
+                    font-size: 12px;
+                    line-height: 1.8;
+                    margin-bottom: 15px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 12px;
+                }
+
+                th,
+                td {
+                    padding: 8px 3px;
+                    border-bottom: 1px solid #eee;
+                    text-align: left;
+                }
+
+                th:last-child,
+                td:last-child {
+                    text-align: right;
+                }
+
+                .total {
+                    border-top: 1px dashed #999;
+                    margin-top: 15px;
+                    padding-top: 12px;
+                    text-align: right;
+                    font-size: 13px;
+                    line-height: 1.8;
+                }
+
+                .grand {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+
+                .footer {
+                    text-align: center;
+                    border-top: 1px dashed #999;
+                    margin-top: 20px;
+                    padding-top: 15px;
+                    font-size: 11px;
+                    color: #555;
+                }
+
+                @media print {
+
+                    body {
+                        padding: 10mm;
+                    }
+
+                }
+
+            </style>
+
+        </head>
 
 
-        receiptView.innerHTML = `
+        <body>
 
             <div class="receipt">
 
-                <div class="receipt-head">
+                <div class="head">
 
-                    <h2>Nesi Medicals</h2>
+                    <img
+                        src="assets/logo.png"
+                        alt="Nesi Medicals"
+                    >
+
+                    <h2>
+                        Nesi Medicals
+                    </h2>
+
+                    <p>
+                        & Minimart Enterprises
+                    </p>
+
+                    <p>
+                        SALES RECEIPT
+                    </p>
+
+                </div>
+
+
+                <div class="meta">
 
                     <div>
-                        Medical & Minimart Enterprises
+                        <strong>
+                            Receipt:
+                        </strong>
+                        ${escapeHtml(
+                            sale.saleNumber || "—"
+                        )}
                     </div>
 
-                    <small>SALES RECEIPT</small>
+                    <div>
+                        <strong>
+                            Date:
+                        </strong>
+                        ${escapeHtml(
+                            formatDate(
+                                sale.createdAt
+                            )
+                        )}
+                    </div>
+
+                    <div>
+                        <strong>
+                            Customer:
+                        </strong>
+                        ${escapeHtml(
+                            sale.customer ||
+                            "Walk-in Customer"
+                        )}
+                    </div>
+
+                    <div>
+                        <strong>
+                            Payment:
+                        </strong>
+                        ${escapeHtml(
+                            sale.paymentMethod ||
+                            "—"
+                        )}
+                    </div>
+
+                    <div>
+                        <strong>
+                            Staff ID:
+                        </strong>
+                        ${escapeHtml(staffId)}
+                    </div>
 
                 </div>
 
 
-                <div class="receipt-meta">
-
-                    <strong>Receipt:</strong>
-                    ${esc(sale.saleNumber || "—")}
-
-                    <br>
-
-                    <strong>Date:</strong>
-                    ${esc(formatDate(sale.createdAt))}
-
-                    <br>
-
-                    <strong>Customer:</strong>
-                    ${esc(
-                        sale.customer ||
-                        "Walk-in Customer"
-                    )}
-
-                    <br>
-
-                    <strong>Payment:</strong>
-                    ${esc(
-                        sale.paymentMethod ||
-                        "—"
-                    )}
-
-                    <br>
-
-                    <strong>Staff ID:</strong>
-                    ${esc(
-                        sale.staffId ||
-                        "—"
-                    )}
-
-                </div>
-
-
-                <table class="receipt-table">
+                <table>
 
                     <thead>
 
                         <tr>
-                            <th>Item</th>
-                            <th>Qty</th>
-                            <th>Price</th>
-                            <th>Total</th>
+
+                            <th>
+                                Item
+                            </th>
+
+                            <th>
+                                Qty
+                            </th>
+
+                            <th>
+                                Price
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+
                         </tr>
 
                     </thead>
 
+
                     <tbody>
 
-                        ${items.map(item => `
-
-                            <tr>
-
-                                <td>
-                                    ${esc(
-                                        item.productName ||
-                                        "Item"
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${Number(
-                                        item.quantity || 0
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${money(
-                                        item.unitPrice
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${money(
-                                        item.total
-                                    )}
-                                </td>
-
-                            </tr>
-
-                        `).join("")}
+                        ${itemsHtml}
 
                     </tbody>
 
                 </table>
 
 
-                <div class="receipt-total">
+                <div class="total">
 
-                    <span>Total</span>
-
-                    <span>
+                    <div>
+                        <strong>
+                            Total:
+                        </strong>
                         ${money(sale.total)}
-                    </span>
+                    </div>
+
+                    ${creditHtml}
+
+                    <div class="grand">
+                        ${money(sale.total)}
+                    </div>
 
                 </div>
 
 
-                <div
-                    style="
-                        text-align:center;
-                        margin-top:25px;
-                        font-size:11px;
-                        color:#777;
-                    "
-                >
+                <div class="footer">
+
                     Thank you for your patronage.
+
+                    <br><br>
+
+                    +2349067075444 • +2347087471639
+
                 </div>
 
             </div>
 
-        `;
 
-    }
+            <script>
 
+                window.onload = function() {
 
-    function openReceipt(sale) {
+                    window.print();
 
-        if (!sale) return;
-
-        selectedSale = sale;
-
-        renderReceipt(sale);
-
-        modal.classList.add("show");
-    }
-
-
-    function closeReceipt() {
-
-        modal.classList.remove("show");
-
-        selectedSale = null;
-    }
-
-
-    function printSale(sale) {
-
-        if (!sale) return;
-
-        const items =
-            Array.isArray(sale.items)
-                ? sale.items
-                : [];
-
-
-        const printWindow =
-            window.open(
-                "",
-                "_blank",
-                "width=700,height=800"
-            );
-
-
-        if (!printWindow) {
-
-            alert(
-                "Please allow pop-ups to reprint the receipt."
-            );
-
-            return;
-        }
-
-
-        printWindow.document.write(`
-
-            <!doctype html>
-
-            <html>
-
-            <head>
-
-                <title>
-                    ${esc(sale.saleNumber || "Receipt")}
-                </title>
-
-                <style>
-
-                    body {
-                        font-family: Arial, sans-serif;
-                        margin: 0;
-                        padding: 25px;
-                    }
-
-                    .receipt {
-                        max-width: 600px;
-                        margin: auto;
-                    }
-
-                    .head {
-                        text-align: center;
-                        border-bottom: 1px dashed #999;
-                        padding-bottom: 15px;
-                        margin-bottom: 15px;
-                    }
-
-                    .meta {
-                        font-size: 12px;
-                        line-height: 1.7;
-                        margin-bottom: 15px;
-                    }
-
-                    table {
-                        width: 100%;
-                        border-collapse: collapse;
-                        font-size: 12px;
-                    }
-
-                    th,
-                    td {
-                        padding: 8px 3px;
-                        border-bottom: 1px solid #eee;
-                        text-align: left;
-                    }
-
-                    th:last-child,
-                    td:last-child {
-                        text-align: right;
-                    }
-
-                    .total {
-                        display: flex;
-                        justify-content: space-between;
-                        font-weight: bold;
-                        font-size: 16px;
-                        padding-top: 14px;
-                    }
-
-                    @media print {
-                        body {
-                            padding: 10mm;
-                        }
-                    }
-
-                </style>
-
-            </head>
-
-            <body>
-
-                <div class="receipt">
-
-                    <div class="head">
-
-                        <h2>Nesi Medicals</h2>
-
-                        <div>
-                            Medical & Minimart Enterprises
-                        </div>
-
-                        <small>SALES RECEIPT</small>
-
-                    </div>
-
-
-                    <div class="meta">
-
-                        <b>Receipt:</b>
-                        ${esc(sale.saleNumber || "—")}
-
-                        <br>
-
-                        <b>Date:</b>
-                        ${esc(formatDate(sale.createdAt))}
-
-                        <br>
-
-                        <b>Customer:</b>
-                        ${esc(
-                            sale.customer ||
-                            "Walk-in Customer"
-                        )}
-
-                        <br>
-
-                        <b>Payment:</b>
-                        ${esc(
-                            sale.paymentMethod ||
-                            "—"
-                        )}
-
-                        <br>
-
-                        <b>Staff ID:</b>
-                        ${esc(
-                            sale.staffId ||
-                            "—"
-                        )}
-
-                    </div>
-
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Item</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            ${items.map(item => `
-
-                                <tr>
-
-                                    <td>
-                                        ${esc(
-                                            item.productName ||
-                                            "Item"
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        ${Number(
-                                            item.quantity || 0
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        ${money(
-                                            item.unitPrice
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        ${money(
-                                            item.total
-                                        )}
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-
-                    <div class="total">
-
-                        <span>Total</span>
-
-                        <span>
-                            ${money(sale.total)}
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <script>
-
-                    window.onload = function() {
-
-                        window.print();
-
-                        window.onafterprint = function() {
+                    window.onafterprint =
+                        function() {
                             window.close();
                         };
 
-                    };
+                };
 
-                <\/script>
+            <\/script>
 
-            </body>
+        </body>
 
-            </html>
+        </html>
 
-        `);
+    `);
 
-        printWindow.document.close();
 
+    popup.document.close();
+}
+
+
+/* =========================================================
+   LOAD SALES
+========================================================= */
+
+function loadSales() {
+
+    if (!salesTable) {
+        console.error(
+            "Sales table element missing."
+        );
+        return;
     }
 
 
-    function load() {
-
-        if (unsubscribe) {
-            unsubscribe();
-        }
-
-
-        body.innerHTML =
-            '<tr><td colspan="7" class="empty">Loading sales...</td></tr>';
+    if (unsubscribeSales) {
+        unsubscribeSales();
+        unsubscribeSales = null;
+    }
 
 
-        unsubscribe = onSnapshot(
+    salesTable.innerHTML = `
 
+        <tr>
+
+            <td
+                colspan="7"
+                class="loading"
+            >
+                Loading sales...
+            </td>
+
+        </tr>
+
+    `;
+
+
+    const salesQuery =
+        query(
             collection(db, "sales"),
+            orderBy(
+                "createdAt",
+                "desc"
+            )
+        );
+
+
+    unsubscribeSales =
+        onSnapshot(
+
+            salesQuery,
 
             snapshot => {
 
-                sales = snapshot.docs.map(
-                    document => ({
-                        id: document.id,
-                        ...document.data()
-                    })
+                sales =
+                    snapshot.docs.map(
+                        doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        })
+                    );
+
+
+                renderSales();
+
+                console.log(
+                    "Sales history loaded:",
+                    sales.length
                 );
-
-
-                /* Sort newest first */
-                sales.sort((a, b) => {
-
-                    const dateA =
-                        dateValue(a.createdAt);
-
-                    const dateB =
-                        dateValue(b.createdAt);
-
-                    return (
-                        (dateB?.getTime() || 0) -
-                        (dateA?.getTime() || 0)
-                    );
-
-                });
-
-
-                totalSales.textContent =
-                    sales.length;
-
-
-                const today =
-                    dateOnly(new Date());
-
-
-                todaySales.textContent =
-                    money(
-                        sales
-                            .filter(
-                                sale =>
-                                    dateOnly(
-                                        sale.createdAt
-                                    ) === today
-                            )
-                            .reduce(
-                                (total, sale) =>
-                                    total +
-                                    Number(
-                                        sale.total || 0
-                                    ),
-                                0
-                            )
-                    );
-
-
-                render();
 
             },
 
             error => {
 
                 console.error(
-                    "Sales History Firebase error:",
+                    "Sales history error:",
                     error
                 );
 
 
-                body.innerHTML = `
+                /*
+                   FALLBACK MESSAGE
+                */
+
+                salesTable.innerHTML = `
 
                     <tr>
 
@@ -756,10 +1122,9 @@ window.addEventListener("DOMContentLoaded", () => {
                             colspan="7"
                             class="empty"
                         >
-
-                            Unable to load sales.
+                            Unable to load sales history.
+                            <br><br>
                             Please refresh the page.
-
                         </td>
 
                     </tr>
@@ -767,163 +1132,166 @@ window.addEventListener("DOMContentLoaded", () => {
                 `;
 
             }
-
         );
+}
 
-    }
 
+/* =========================================================
+   SEARCH EVENT
+========================================================= */
 
-    /* FILTERS */
+if (searchInput) {
 
-    search.addEventListener(
+    searchInput.addEventListener(
         "input",
-        render
+        renderSales
     );
 
-    fromDate.addEventListener(
-        "change",
-        render
-    );
-
-    toDate.addEventListener(
-        "change",
-        render
-    );
+}
 
 
-    const clearFilters =
-        document.getElementById("clearFilters");
+/* =========================================================
+   MODAL EVENTS
+========================================================= */
 
-    if (clearFilters) {
+if (closeModal) {
 
-        clearFilters.addEventListener(
-            "click",
-            () => {
-
-                search.value = "";
-                fromDate.value = "";
-                toDate.value = "";
-
-                render();
-
-            }
-        );
-
-    }
-
-
-    /* RECEIPT BUTTONS */
-
-    const closeModal =
-        document.getElementById("closeModal");
-
-    if (closeModal) {
-        closeModal.addEventListener(
-            "click",
-            closeReceipt
-        );
-    }
-
-
-    const closeModal2 =
-        document.getElementById("closeModal2");
-
-    if (closeModal2) {
-        closeModal2.addEventListener(
-            "click",
-            closeReceipt
-        );
-    }
-
-
-    const printReceipt =
-        document.getElementById("printReceipt");
-
-    if (printReceipt) {
-
-        printReceipt.addEventListener(
-            "click",
-            () => printSale(selectedSale)
-        );
-
-    }
-
-
-    modal.addEventListener(
+    closeModal.addEventListener(
         "click",
-        event => {
+        closeReceiptModal
+    );
 
-            if (event.target === modal) {
-                closeReceipt();
+}
+
+
+if (closeModal2) {
+
+    closeModal2.addEventListener(
+        "click",
+        closeReceiptModal
+    );
+
+}
+
+
+if (printReceipt) {
+
+    printReceipt.addEventListener(
+        "click",
+        () => {
+
+            if (selectedSale) {
+                printSale(selectedSale);
             }
 
         }
     );
 
+}
 
-    /* MOBILE MENU */
 
-    const mobileMenu =
-        document.getElementById("mobileMenu");
+if (receiptModal) {
 
-    const sidebar =
-        document.getElementById("sidebar");
+    receiptModal.addEventListener(
+        "click",
+        event => {
 
-    if (mobileMenu && sidebar) {
-
-        mobileMenu.addEventListener(
-            "click",
-            () => {
-                sidebar.classList.toggle("open");
+            if (
+                event.target ===
+                receiptModal
+            ) {
+                closeReceiptModal();
             }
-        );
 
-    }
+        }
+    );
 
-
-    /* LOGOUT */
-
-    const logoutButton =
-        document.getElementById("logoutButton");
-
-    if (logoutButton) {
-
-        logoutButton.addEventListener(
-            "click",
-            async event => {
-
-                event.preventDefault();
-
-                try {
-                    await signOut(auth);
-                } finally {
-                    window.location.href =
-                        "login.html";
-                }
-
-            }
-        );
-
-    }
+}
 
 
-    /* AUTH */
+/* =========================================================
+   MOBILE MENU
+========================================================= */
 
-    onAuthStateChanged(
-        auth,
-        user => {
+if (mobileMenu && sidebar) {
 
-            if (!user) {
+    mobileMenu.addEventListener(
+        "click",
+        () => {
+
+            sidebar.classList.toggle(
+                "open"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener(
+        "click",
+        async event => {
+
+            event.preventDefault();
+
+            try {
+
+                await signOut(auth);
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+            } finally {
 
                 window.location.href =
                     "login.html";
 
-                return;
             }
-
-            load();
 
         }
     );
 
-});
+}
+
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        if (userEmail) {
+
+            userEmail.textContent =
+                user.email ||
+                "Logged in";
+
+        }
+
+
+        loadSales();
+
+    }
+);
