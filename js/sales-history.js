@@ -1,7 +1,4 @@
-import {
-    auth,
-    db
-} from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
     onAuthStateChanged,
@@ -10,1626 +7,392 @@ import {
 
 import {
     collection,
-    getDocs
+    onSnapshot,
+    query,
+    orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+const body = document.getElementById("salesBody");
+const search = document.getElementById("searchInput");
+const fromDate = document.getElementById("fromDate");
+const toDate = document.getElementById("toDate");
 
-const salesTable =
-    document.getElementById("salesTable");
+const totalSales = document.getElementById("totalSales");
+const todaySales = document.getElementById("todaySales");
+const filteredTotal = document.getElementById("filteredTotal");
 
-const searchInput =
-    document.getElementById("searchInput");
+const modal = document.getElementById("receiptModal");
+const receiptView = document.getElementById("receiptView");
 
-const logoutBtn =
-    document.getElementById("logoutBtn");
-
-const mobileMenu =
-    document.getElementById("mobileMenu");
-
-const sidebar =
-    document.getElementById("sidebar");
-
-const userEmail =
-    document.getElementById("userEmail");
-
-const receiptModal =
-    document.getElementById("receiptModal");
-
-const printArea =
-    document.getElementById("printArea");
-
-const closeModal =
-    document.getElementById("closeModal");
-
-const closeModal2 =
-    document.getElementById("closeModal2");
-
-const printReceiptBtn =
-    document.getElementById("printReceipt");
+let sales = [];
+let selectedSale = null;
+let unsubscribe = null;
 
 
-/* =========================================================
-   DATA
-========================================================= */
+/* =========================
+   MONEY
+========================= */
 
-let allSales = [];
-
-let allCreditPayments = [];
-
-let currentReceiptSale = null;
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function safeNumber(value) {
-
-    const number =
-        Number(value);
-
-    return Number.isFinite(number)
-        ? number
-        : 0;
-}
+const money = value =>
+    "₦" +
+    (Number(value) || 0).toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 
 
-function money(value) {
+/* =========================
+   ESCAPE HTML
+========================= */
 
-    return new Intl.NumberFormat(
-        "en-NG",
-        {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    ).format(
-        safeNumber(value)
-    );
-}
-
-
-function escapeHtml(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-        return "";
-    }
-
-    return String(value)
+const esc = value =>
+    String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
-}
 
 
-/* =========================================================
+/* =========================
    DATE
-========================================================= */
+========================= */
 
-function getDateValue(value) {
+function dateValue(value) {
 
-    if (!value) {
-        return null;
-    }
+    if (!value) return null;
 
-    if (
-        typeof value.toDate === "function"
-    ) {
-
+    if (typeof value.toDate === "function") {
         return value.toDate();
     }
 
-    if (
-        value instanceof Date
-    ) {
-
-        return value;
+    if (value.seconds) {
+        return new Date(value.seconds * 1000);
     }
 
-    if (
-        typeof value === "number"
-    ) {
+    const date = new Date(value);
 
-        const date =
-            new Date(value);
-
-        return Number.isNaN(
-            date.getTime()
-        )
-            ? null
-            : date;
-    }
-
-    if (
-        typeof value === "string"
-    ) {
-
-        const date =
-            new Date(value);
-
-        return Number.isNaN(
-            date.getTime()
-        )
-            ? null
-            : date;
-    }
-
-    if (
-        typeof value === "object" &&
-        value.seconds !== undefined
-    ) {
-
-        const date =
-            new Date(
-                value.seconds * 1000
-            );
-
-        return Number.isNaN(
-            date.getTime()
-        )
-            ? null
-            : date;
-    }
-
-    return null;
+    return isNaN(date) ? null : date;
 }
 
 
 function formatDate(value) {
 
-    const date =
-        getDateValue(value);
+    const date = dateValue(value);
 
-    if (!date) {
-        return "—";
+    return date
+        ? date.toLocaleString("en-NG", {
+            dateStyle: "medium",
+            timeStyle: "short"
+        })
+        : "—";
+}
+
+
+function dateOnly(value) {
+
+    const date = dateValue(value);
+
+    if (!date) return "";
+
+    const year = date.getFullYear();
+
+    const month =
+        String(date.getMonth() + 1).padStart(2, "0");
+
+    const day =
+        String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+/* =========================
+   SEARCH / FILTER
+========================= */
+
+function matches(sale) {
+
+    const q =
+        search.value.trim().toLowerCase();
+
+    const text =
+        `${sale.saleNumber || ""} ${sale.customer || ""}`
+            .toLowerCase();
+
+    if (q && !text.includes(q)) {
+        return false;
     }
 
-    return date.toLocaleString(
-        "en-NG",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-        }
-    );
-}
-
-
-/* =========================================================
-   SALE DATE
-========================================================= */
-
-function getSaleDate(sale) {
-
-    return (
-        sale.createdAt ||
-        sale.date ||
-        sale.saleDate ||
-        sale.timestamp ||
-        null
-    );
-}
-
-
-/* =========================================================
-   SALE ITEMS
-========================================================= */
-
-function getSaleItems(sale) {
+    const date = dateOnly(sale.createdAt);
 
     if (
-        Array.isArray(sale.items)
+        fromDate.value &&
+        (!date || date < fromDate.value)
     ) {
-
-        return sale.items;
+        return false;
     }
 
     if (
-        Array.isArray(sale.products)
+        toDate.value &&
+        (!date || date > toDate.value)
     ) {
-
-        return sale.products;
+        return false;
     }
 
-    return [];
+    return true;
 }
 
 
-function getItemQuantity(item) {
-
-    return safeNumber(
-        item.quantity ??
-        item.qty ??
-        0
-    );
-}
-
-
-function getItemPrice(item) {
-
-    return safeNumber(
-        item.sellingPrice ??
-        item.price ??
-        item.unitPrice ??
-        0
-    );
-}
-
-
-function getSaleItemCount(sale) {
-
-    const items =
-        getSaleItems(sale);
-
-    return items.reduce(
-        (total, item) => {
-
-            return (
-                total +
-                getItemQuantity(item)
-            );
-
-        },
-        0
-    );
-}
-
-
-/* =========================================================
-   SALE TOTAL
-========================================================= */
-
-function getSaleTotal(sale) {
-
-    return safeNumber(
-        sale.total ??
-        sale.grandTotal ??
-        sale.amount ??
-        sale.totalAmount ??
-        0
-    );
-}
-
-
-/* =========================================================
-   PAYMENT METHOD
-========================================================= */
-
-function getPaymentMethod(sale) {
-
-    return (
-        sale.paymentMethod ||
-        sale.payment ||
-        "Cash"
-    );
-}
-
-
-/* =========================================================
-   CREDIT PAYMENT HELPERS
-========================================================= */
-
-function getPaymentAmount(payment) {
-
-    return safeNumber(
-        payment.amount ??
-        payment.amountPaid ??
-        payment.paymentAmount ??
-        payment.paidAmount ??
-        0
-    );
-}
-
-
-function getPaymentCustomerId(payment) {
-
-    return (
-        payment.customerId ||
-        payment.customerID ||
-        ""
-    );
-}
-
-
-function getPaymentSaleId(payment) {
-
-    return (
-        payment.saleId ||
-        payment.saleID ||
-        payment.originalSaleId ||
-        payment.originalSaleID ||
-        ""
-    );
-}
-
-
-function getPaymentSaleNumber(payment) {
-
-    return (
-        payment.saleNumber ||
-        payment.saleNo ||
-        payment.invoiceNumber ||
-        payment.invoiceNo ||
-        ""
-    );
-}
-
-
-/* =========================================================
-   FIND CREDIT PAYMENTS
-========================================================= */
-
-function getPaymentsForSale(sale) {
-
-    const saleId =
-        sale.id ||
-        sale.saleId ||
-        "";
-
-    const saleNumber =
-        sale.saleNumber ||
-        sale.saleNo ||
-        sale.invoiceNumber ||
-        sale.invoiceNo ||
-        "";
-
-    const customerId =
-        sale.customerId ||
-        sale.customerID ||
-        "";
-
-    const saleCustomerName =
-        String(
-            sale.customerName ||
-            sale.customer ||
-            ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-    /*
-     * First: exact sale ID / sale number
-     */
-    const exactMatches =
-        allCreditPayments.filter(
-            payment => {
-
-                const paymentSaleId =
-                    getPaymentSaleId(
-                        payment
-                    );
-
-                const paymentSaleNumber =
-                    getPaymentSaleNumber(
-                        payment
-                    );
-
-                return (
-                    (
-                        saleId &&
-                        paymentSaleId &&
-                        String(
-                            paymentSaleId
-                        ) ===
-                        String(saleId)
-                    ) ||
-                    (
-                        saleNumber &&
-                        paymentSaleNumber &&
-                        String(
-                            paymentSaleNumber
-                        ) ===
-                        String(saleNumber)
-                    )
-                );
-            }
-        );
-
-    if (
-        exactMatches.length > 0
-    ) {
-
-        return exactMatches;
-    }
-
-
-    /*
-     * Your current Customer page creates
-     * creditPayments using customerId only.
-     *
-     * Therefore, if this customer has only ONE
-     * credit sale, it is safe to attach the
-     * payment to that sale.
-     */
-    if (customerId) {
-
-        const customerPayments =
-            allCreditPayments.filter(
-                payment =>
-                    String(
-                        getPaymentCustomerId(
-                            payment
-                        )
-                    ) ===
-                    String(customerId)
-            );
-
-        const customerCreditSales =
-            allSales.filter(
-                item => {
-
-                    const method =
-                        String(
-                            getPaymentMethod(
-                                item
-                            )
-                        )
-                        .toLowerCase();
-
-                    const itemCustomerId =
-                        item.customerId ||
-                        item.customerID ||
-                        "";
-
-                    return (
-                        method.includes(
-                            "credit"
-                        ) &&
-                        String(
-                            itemCustomerId
-                        ) ===
-                        String(customerId)
-                    );
-                }
-            );
-
-        if (
-            customerCreditSales.length === 1
-        ) {
-
-            return customerPayments;
-        }
-    }
-
-
-    /*
-     * Fallback for older sales where customerId
-     * may not have been stored.
-     */
-    if (saleCustomerName) {
-
-        const customerPayments =
-            allCreditPayments.filter(
-                payment => {
-
-                    const paymentName =
-                        String(
-                            payment.customerName ||
-                            ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-                    return (
-                        paymentName &&
-                        paymentName ===
-                        saleCustomerName
-                    );
-                }
-            );
-
-        const customerCreditSales =
-            allSales.filter(
-                item => {
-
-                    const method =
-                        String(
-                            getPaymentMethod(
-                                item
-                            )
-                        )
-                        .toLowerCase();
-
-                    const itemCustomer =
-                        String(
-                            item.customerName ||
-                            item.customer ||
-                            ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-                    return (
-                        method.includes(
-                            "credit"
-                        ) &&
-                        itemCustomer ===
-                        saleCustomerName
-                    );
-                }
-            );
-
-        if (
-            customerCreditSales.length === 1
-        ) {
-
-            return customerPayments;
-        }
-    }
-
-
-    return [];
-}
-
-
-/* =========================================================
-   CREDIT STATUS
-========================================================= */
-
-function getCreditStatus(sale) {
-
-    const total =
-        getSaleTotal(sale);
-
-    const originalPaid =
-        safeNumber(
-            sale.amountPaid ??
-            sale.paidAmount ??
-            0
-        );
-
-    const originalOutstanding =
-        safeNumber(
-            sale.outstandingBalance ??
-            sale.balanceDue ??
-            sale.amountOutstanding ??
-            0
-        );
-
-    const payments =
-        getPaymentsForSale(
-            sale
-        );
-
-    const laterPayments =
-        payments.reduce(
-            (sum, payment) => {
-
-                return (
-                    sum +
-                    getPaymentAmount(
-                        payment
-                    )
-                );
-
-            },
-            0
-        );
-
-
-    let startingOutstanding =
-        originalOutstanding;
-
-
-    if (
-        startingOutstanding <= 0 &&
-        total > 0 &&
-        originalPaid < total
-    ) {
-
-        startingOutstanding =
-            total -
-            originalPaid;
-    }
-
-
-    let currentOutstanding =
-        startingOutstanding -
-        laterPayments;
-
-
-    if (
-        currentOutstanding < 0.01
-    ) {
-
-        currentOutstanding = 0;
-    }
-
-
-    const totalPaid =
-        originalPaid +
-        laterPayments;
-
-
-    let status =
-        "Paid";
-
-
-    if (
-        currentOutstanding > 0
-    ) {
-
-        if (
-            totalPaid <= 0
-        ) {
-
-            status =
-                "Unpaid";
-
-        } else {
-
-            status =
-                "Partially Paid";
-        }
-    }
-
-
-    return {
-
-        total,
-
-        originalPaid,
-
-        originalOutstanding,
-
-        laterPayments,
-
-        totalPaid,
-
-        currentOutstanding,
-
-        status,
-
-        payments
-
-    };
-}
-
-
-/* =========================================================
-   LOAD SALES
-========================================================= */
-
-async function loadSales() {
-
-    console.log(
-        "Sales History: loading sales..."
-    );
-
-
-    const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "sales"
+/* =========================
+   RENDER SALES TABLE
+========================= */
+
+function render() {
+
+    const rows = sales.filter(matches);
+
+    filteredTotal.textContent =
+        money(
+            rows.reduce(
+                (total, sale) =>
+                    total + Number(sale.total || 0),
+                0
             )
         );
 
 
-    allSales = [];
+    if (!rows.length) {
 
-
-    snapshot.forEach(
-        doc => {
-
-            allSales.push({
-
-                id:
-                    doc.id,
-
-                ...doc.data()
-
-            });
-
-        }
-    );
-
-
-    allSales.sort(
-        (a, b) => {
-
-            const dateA =
-                getDateValue(
-                    getSaleDate(a)
-                )?.getTime() || 0;
-
-
-            const dateB =
-                getDateValue(
-                    getSaleDate(b)
-                )?.getTime() || 0;
-
-
-            return (
-                dateB -
-                dateA
-            );
-        }
-    );
-
-
-    console.log(
-        "Sales History:",
-        allSales.length,
-        "sales loaded"
-    );
-}
-
-
-/* =========================================================
-   LOAD CREDIT PAYMENTS
-========================================================= */
-
-async function loadCreditPayments() {
-
-    try {
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "creditPayments"
-                )
-            );
-
-
-        allCreditPayments = [];
-
-
-        snapshot.forEach(
-            doc => {
-
-                allCreditPayments.push({
-
-                    id:
-                        doc.id,
-
-                    ...doc.data()
-
-                });
-
-            }
-        );
-
-
-        console.log(
-            "Credit payments:",
-            allCreditPayments.length
-        );
-
-    } catch (error) {
-
-        console.warn(
-            "Credit payments could not be loaded:",
-            error
-        );
-
-        allCreditPayments = [];
-    }
-}
-
-
-/* =========================================================
-   RENDER SALES TABLE
-========================================================= */
-
-function renderSales(
-    sales = allSales
-) {
-
-    if (!salesTable) {
-
-        console.error(
-            "ERROR: #salesTable was not found."
-        );
+        body.innerHTML =
+            '<tr><td colspan="7" class="empty">No sales match your search or date filter.</td></tr>';
 
         return;
     }
 
 
-    if (
-        sales.length === 0
-    ) {
+    body.innerHTML = rows
+        .map(sale => `
 
-        salesTable.innerHTML = `
             <tr>
-                <td
-                    colspan="7"
-                    class="empty"
-                    style="
-                        text-align:center;
-                        padding:40px;
-                    "
-                >
-                    No sales found.
+
+                <td>
+                    <strong>
+                        ${esc(sale.saleNumber)}
+                    </strong>
                 </td>
-            </tr>
-        `;
 
-        return;
-    }
+                <td>
+                    ${esc(formatDate(sale.createdAt))}
+                </td>
 
+                <td>
+                    ${esc(
+                        sale.customer ||
+                        "Walk-in Customer"
+                    )}
+                </td>
 
-    salesTable.innerHTML =
-        sales.map(
-            sale => {
+                <td>
+                    ${Number(sale.totalQuantity || 0)}
+                </td>
 
-                const saleNumber =
-                    sale.saleNumber ||
-                    sale.saleNo ||
-                    sale.invoiceNumber ||
-                    sale.invoiceNo ||
-                    "—";
+                <td class="money">
+                    ${money(sale.total)}
+                </td>
 
+                <td>
+                    <span class="badge">
+                        ${esc(
+                            sale.paymentMethod ||
+                            "—"
+                        )}
+                    </span>
+                </td>
 
-                const customer =
-                    sale.customerName ||
-                    sale.customer ||
-                    "Walk-in Customer";
+                <td>
 
+                    <div class="actions">
 
-                const itemCount =
-                    getSaleItemCount(
-                        sale
-                    );
-
-
-                const total =
-                    getSaleTotal(
-                        sale
-                    );
-
-
-                const paymentMethod =
-                    getPaymentMethod(
-                        sale
-                    );
-
-
-                const isCredit =
-                    String(
-                        paymentMethod
-                    )
-                    .toLowerCase()
-                    .includes(
-                        "credit"
-                    );
-
-
-                let paymentDisplay =
-                    paymentMethod;
-
-
-                if (isCredit) {
-
-                    const credit =
-                        getCreditStatus(
-                            sale
-                        );
-
-
-                    paymentDisplay = `
-
-                        <div>
-                            <span
-                                class="payment"
-                                style="
-                                    background:#fff7ed;
-                                    color:#9a3412;
-                                "
-                            >
-                                Credit
-                            </span>
-                        </div>
-
-                        <small
-                            style="
-                                display:block;
-                                margin-top:5px;
-                                font-weight:bold;
-                                color:${
-                                    credit.status ===
-                                    "Paid"
-                                        ? "#15803d"
-                                        : "#d97706"
-                                };
-                            "
+                        <button
+                            class="btn-small"
+                            data-view="${esc(sale.id)}"
                         >
-                            ${escapeHtml(
-                                credit.status
-                            )}
-                        </small>
+                            View
+                        </button>
 
-                    `;
-                }
+                        <button
+                            class="btn-small"
+                            data-print="${esc(sale.id)}"
+                        >
+                            Reprint
+                        </button>
 
+                    </div>
 
-                return `
+                </td>
 
-                    <tr>
+            </tr>
 
-                        <td>
-                            <strong>
-                                ${escapeHtml(
-                                    saleNumber
-                                )}
-                            </strong>
-                        </td>
-
-
-                        <td>
-                            ${escapeHtml(
-                                formatDate(
-                                    getSaleDate(
-                                        sale
-                                    )
-                                )
-                            )}
-                        </td>
-
-
-                        <td>
-                            ${escapeHtml(
-                                customer
-                            )}
-                        </td>
-
-
-                        <td>
-                            ${itemCount}
-                        </td>
-
-
-                        <td>
-                            <strong
-                                class="amount"
-                            >
-                                ${money(
-                                    total
-                                )}
-                            </strong>
-                        </td>
-
-
-                        <td>
-                            ${paymentDisplay}
-                        </td>
-
-
-                        <td>
-
-                            <button
-                                type="button"
-                                class="btn btn-view view-receipt-btn"
-                                data-sale-id="${escapeHtml(
-                                    sale.id
-                                )}"
-                            >
-                                View
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="btn btn-print print-receipt-btn"
-                                data-sale-id="${escapeHtml(
-                                    sale.id
-                                )}"
-                            >
-                                Print
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                `;
-            }
-        )
+        `)
         .join("");
 
 
-    attachReceiptButtons();
+    body
+        .querySelectorAll("[data-view]")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const sale =
+                        sales.find(
+                            item =>
+                                item.id ===
+                                button.dataset.view
+                        );
+
+                    openReceipt(sale);
+                }
+            );
+
+        });
+
+
+    body
+        .querySelectorAll("[data-print]")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const sale =
+                        sales.find(
+                            item =>
+                                item.id ===
+                                button.dataset.print
+                        );
+
+                    printSale(sale);
+                }
+            );
+
+        });
+
 }
 
 
-/* =========================================================
-   RECEIPT BUTTONS
-========================================================= */
+/* =========================
+   RECEIPT VIEW
+========================= */
 
-function attachReceiptButtons() {
-
-    document
-        .querySelectorAll(
-            ".view-receipt-btn"
-        )
-        .forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const sale =
-                            allSales.find(
-                                item =>
-                                    item.id ===
-                                    button.dataset.saleId
-                            );
-
-
-                        if (sale) {
-
-                            openReceipt(
-                                sale
-                            );
-                        }
-                    }
-                );
-            }
-        );
-
-
-    document
-        .querySelectorAll(
-            ".print-receipt-btn"
-        )
-        .forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const sale =
-                            allSales.find(
-                                item =>
-                                    item.id ===
-                                    button.dataset.saleId
-                            );
-
-
-                        if (sale) {
-
-                            printReceipt(
-                                sale
-                            );
-                        }
-                    }
-                );
-            }
-        );
-}
-
-
-/* =========================================================
-   BUILD RECEIPT
-========================================================= */
-
-function buildReceiptHtml(sale) {
-
-    const saleNumber =
-        sale.saleNumber ||
-        sale.saleNo ||
-        sale.invoiceNumber ||
-        sale.invoiceNo ||
-        "—";
-
-
-    const customer =
-        sale.customerName ||
-        sale.customer ||
-        "Walk-in Customer";
-
-
-    const customerPhone =
-        sale.customerPhone ||
-        sale.phone ||
-        sale.customerPhoneNumber ||
-        "—";
-
-
-    const paymentMethod =
-        getPaymentMethod(
-            sale
-        );
-
-
-    const total =
-        getSaleTotal(
-            sale
-        );
-
+function renderReceipt(sale) {
 
     const items =
-        getSaleItems(
-            sale
-        );
+        Array.isArray(sale.items)
+            ? sale.items
+            : [];
 
 
-    const isCredit =
-        String(
-            paymentMethod
-        )
-        .toLowerCase()
-        .includes(
-            "credit"
-        );
+    receiptView.innerHTML = `
 
+        <div class="receipt">
 
-    const credit =
-        isCredit
-            ? getCreditStatus(
-                sale
-            )
-            : null;
+            <div class="receipt-head">
 
-
-    const itemsHtml =
-        items.length
-
-            ? items.map(
-                item => {
-
-                    const name =
-                        item.productName ||
-                        item.name ||
-                        item.product ||
-                        "Product";
-
-
-                    const quantity =
-                        getItemQuantity(
-                            item
-                        );
-
-
-                    const price =
-                        getItemPrice(
-                            item
-                        );
-
-
-                    const lineTotal =
-                        safeNumber(
-                            item.lineTotal ??
-                            item.total ??
-                            (
-                                quantity *
-                                price
-                            )
-                        );
-
-
-                    return `
-
-                        <tr>
-
-                            <td>
-                                ${escapeHtml(
-                                    name
-                                )}
-                            </td>
-
-                            <td
-                                style="
-                                    text-align:center;
-                                "
-                            >
-                                ${quantity}
-                            </td>
-
-                            <td
-                                style="
-                                    text-align:right;
-                                "
-                            >
-                                ${money(
-                                    price
-                                )}
-                            </td>
-
-                            <td
-                                style="
-                                    text-align:right;
-                                "
-                            >
-                                ${money(
-                                    lineTotal
-                                )}
-                            </td>
-
-                        </tr>
-
-                    `;
-                }
-            ).join("")
-
-            : `
-
-                <tr>
-
-                    <td colspan="4">
-                        No item details available.
-                    </td>
-
-                </tr>
-
-            `;
-
-
-    let creditHtml =
-        "";
-
-
-    if (isCredit) {
-
-        creditHtml = `
-
-            <div
-                style="
-                    margin-top:20px;
-                    padding:15px;
-                    border:1px solid #ddd;
-                    border-radius:8px;
-                "
-            >
-
-                <h3
-                    style="
-                        margin:0 0 12px;
-                        font-size:16px;
-                    "
-                >
-                    Credit Payment Details
-                </h3>
-
-
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin:6px 0;
-                    "
-                >
-
-                    <span>
-                        Payment Status
-                    </span>
-
-                    <strong
-                        style="
-                            color:${
-                                credit.status ===
-                                "Paid"
-                                    ? "#15803d"
-                                    : "#d97706"
-                            };
-                        "
-                    >
-                        ${escapeHtml(
-                            credit.status
-                        )}
-                    </strong>
-
-                </div>
-
-
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin:6px 0;
-                    "
-                >
-
-                    <span>
-                        Original Amount Paid
-                    </span>
-
-                    <strong>
-                        ${money(
-                            credit.originalPaid
-                        )}
-                    </strong>
-
-                </div>
-
-
-                ${
-                    credit.laterPayments > 0
-                        ? `
-
-                            <div
-                                style="
-                                    display:flex;
-                                    justify-content:space-between;
-                                    margin:6px 0;
-                                "
-                            >
-
-                                <span>
-                                    Later Credit Payments
-                                </span>
-
-                                <strong>
-                                    ${money(
-                                        credit.laterPayments
-                                    )}
-                                </strong>
-
-                            </div>
-
-                          `
-                        : ""
-                }
-
-
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin:6px 0;
-                        padding-top:8px;
-                        border-top:1px solid #eee;
-                    "
-                >
-
-                    <span>
-                        Total Paid
-                    </span>
-
-                    <strong>
-                        ${money(
-                            credit.totalPaid
-                        )}
-                    </strong>
-
-                </div>
-
-
-                <div
-                    style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin-top:10px;
-                        padding-top:10px;
-                        border-top:2px solid #222;
-                        font-size:18px;
-                    "
-                >
-
-                    <span>
-                        BALANCE DUE
-                    </span>
-
-                    <strong>
-                        ${money(
-                            credit.currentOutstanding
-                        )}
-                    </strong>
-
-                </div>
-
-            </div>
-
-        `;
-    }
-
-
-    const notes =
-        sale.notes ||
-        sale.note ||
-        "";
-
-
-    return `
-
-        <div
-            style="
-                font-family:Arial,Helvetica,sans-serif;
-                color:#222;
-                max-width:700px;
-                margin:0 auto;
-                background:#fff;
-            "
-        >
-
-            <div
-                style="
-                    text-align:center;
-                    border-bottom:2px solid #0a5fff;
-                    padding-bottom:15px;
-                    margin-bottom:20px;
-                "
-            >
-
-                <img
-                    src="./assets/logo.png"
-                    alt="Nesi Medicals"
-                    style="
-                        width:80px;
-                        height:80px;
-                        object-fit:contain;
-                    "
-                >
-
-
-                <h1
-                    style="
-                        margin:8px 0 3px;
-                        font-size:24px;
-                    "
-                >
+                <h2>
                     Nesi Medicals
-                </h1>
+                </h2>
 
-
-                <div
-                    style="
-                        font-size:14px;
-                    "
-                >
-                    & Minimart Enterprises
+                <div>
+                    Medical & Minimart Enterprises
                 </div>
 
-
-                <div
-                    style="
-                        margin-top:7px;
-                        font-size:13px;
-                    "
-                >
-                    Quality Care. Essential Products.
-                    Trusted Service.
-                </div>
-
-
-                <div
-                    style="
-                        margin-top:8px;
-                        font-size:13px;
-                    "
-                >
-                    +2349067075444 • +2347087471639
-                </div>
+                <small>
+                    SALES RECEIPT
+                </small>
 
             </div>
 
 
-            <div
-                style="
-                    display:grid;
-                    grid-template-columns:1fr 1fr;
-                    gap:8px;
-                    margin-bottom:20px;
-                    font-size:14px;
-                "
-            >
+            <div class="receipt-meta">
 
-                <div>
-                    <strong>
-                        Sale No:
-                    </strong>
+                <strong>
+                    Receipt:
+                </strong>
 
-                    ${escapeHtml(
-                        saleNumber
-                    )}
-                </div>
+                ${esc(sale.saleNumber)}
+
+                <br>
 
 
-                <div>
-                    <strong>
-                        Date:
-                    </strong>
+                <strong>
+                    Date:
+                </strong>
 
-                    ${escapeHtml(
-                        formatDate(
-                            getSaleDate(
-                                sale
-                            )
-                        )
-                    )}
-                </div>
+                ${esc(formatDate(sale.createdAt))}
+
+                <br>
 
 
-                <div>
-                    <strong>
-                        Customer:
-                    </strong>
+                <strong>
+                    Customer:
+                </strong>
 
-                    ${escapeHtml(
-                        customer
-                    )}
-                </div>
+                ${esc(
+                    sale.customer ||
+                    "Walk-in Customer"
+                )}
 
-
-                <div>
-                    <strong>
-                        Phone:
-                    </strong>
-
-                    ${escapeHtml(
-                        customerPhone
-                    )}
-                </div>
+                <br>
 
 
-                <div>
-                    <strong>Payment:</strong> ${esc(s.paymentMethod||"—")}<br>
-<strong>Staff ID:</strong> ${esc(s.staffId||"—")}
+                <strong>
+                    Payment:
+                </strong>
 
-                </div>
+                ${esc(
+                    sale.paymentMethod ||
+                    "—"
+                )}
+
+                <br>
+
+
+                <strong>
+                    Staff ID:
+                </strong>
+
+                ${esc(
+                    sale.staffId ||
+                    "—"
+                )}
 
             </div>
 
 
-            <table
-                style="
-                    width:100%;
-                    border-collapse:collapse;
-                    margin-bottom:20px;
-                    font-size:14px;
-                "
-            >
+            <table class="receipt-table">
 
                 <thead>
 
                     <tr>
 
-                        <th
-                            style="
-                                text-align:left;
-                                border-bottom:1px solid #222;
-                                padding:8px 5px;
-                            "
-                        >
-                            Product
+                        <th>
+                            Item
                         </th>
 
-
-                        <th
-                            style="
-                                text-align:center;
-                                border-bottom:1px solid #222;
-                                padding:8px 5px;
-                            "
-                        >
+                        <th>
                             Qty
                         </th>
 
-
-                        <th
-                            style="
-                                text-align:right;
-                                border-bottom:1px solid #222;
-                                padding:8px 5px;
-                            "
-                        >
+                        <th>
                             Price
                         </th>
 
-
-                        <th
-                            style="
-                                text-align:right;
-                                border-bottom:1px solid #222;
-                                padding:8px 5px;
-                            "
-                        >
+                        <th>
                             Total
                         </th>
 
@@ -1640,193 +403,216 @@ function buildReceiptHtml(sale) {
 
                 <tbody>
 
-                    ${itemsHtml}
+                    ${items
+                        .map(item => `
+
+                            <tr>
+
+                                <td>
+                                    ${esc(
+                                        item.productName ||
+                                        "Item"
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${Number(
+                                        item.quantity || 0
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${money(
+                                        item.unitPrice
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${money(
+                                        item.total
+                                    )}
+                                </td>
+
+                            </tr>
+
+                        `)
+                        .join("")}
 
                 </tbody>
 
             </table>
 
 
-            <div
-                style="
-                    text-align:right;
-                    font-size:18px;
-                    font-weight:bold;
-                    padding-top:10px;
-                    border-top:2px solid #222;
-                "
-            >
-                TOTAL:
-                ${money(total)}
+            <div class="receipt-total">
+
+                <span>
+                    Total
+                </span>
+
+                <span>
+                    ${money(sale.total)}
+                </span>
+
             </div>
 
 
-            ${creditHtml}
-
-
-            ${
-                notes
-                    ? `
-
-                        <div
-                            style="
-                                margin-top:20px;
-                                padding:12px;
-                                background:#f6f6f6;
-                                border-radius:6px;
-                                font-size:13px;
-                            "
-                        >
-
-                            <strong>
-                                Notes:
-                            </strong>
-
-                            ${escapeHtml(
-                                notes
-                            )}
-
-                        </div>
-
-                      `
-                    : ""
-            }
-
-
             <div
                 style="
-                    margin-top:30px;
-                    padding-top:15px;
-                    border-top:1px solid #ddd;
                     text-align:center;
-                    font-size:12px;
-                    color:#666;
+                    margin-top:25px;
+                    font-size:11px;
+                    color:#777;
                 "
             >
 
                 Thank you for your patronage.
-
-                <br>
-
-                Nesi Medicals & Minimart Enterprises
 
             </div>
 
         </div>
 
     `;
+
 }
 
 
-/* =========================================================
+/* =========================
    OPEN RECEIPT
-========================================================= */
+========================= */
 
 function openReceipt(sale) {
 
-    currentReceiptSale =
-        sale;
+    if (!sale) return;
 
+    selectedSale = sale;
 
-    if (!receiptModal) {
-        return;
-    }
+    renderReceipt(sale);
 
-
-    if (printArea) {
-
-        printArea.innerHTML =
-            buildReceiptHtml(
-                sale
-            );
-    }
-
-
-    receiptModal.classList.add(
-        "show"
-    );
+    modal.classList.add("show");
 }
 
 
-/* =========================================================
+/* =========================
    CLOSE RECEIPT
-========================================================= */
+========================= */
 
 function closeReceipt() {
 
-    if (receiptModal) {
+    modal.classList.remove("show");
 
-        receiptModal.classList.remove(
-            "show"
-        );
-    }
+    selectedSale = null;
 }
 
 
-/* =========================================================
-   PRINT RECEIPT
-========================================================= */
+/* =========================
+   PRINT / REPRINT RECEIPT
+========================= */
 
-function printReceipt(sale) {
+function printSale(sale) {
 
-    if (!sale) {
-        return;
-    }
+    if (!sale) return;
 
-
-    const receiptHtml =
-        buildReceiptHtml(
-            sale
-        );
+    const items =
+        Array.isArray(sale.items)
+            ? sale.items
+            : [];
 
 
-    const printWindow =
+    const windowPrint =
         window.open(
             "",
             "_blank",
-            "width=800,height=900"
+            "width=700,height=800"
         );
 
 
-    if (!printWindow) {
+    if (!windowPrint) {
 
         alert(
-            "Please allow pop-ups to print the receipt."
+            "Please allow pop-ups to reprint the receipt."
         );
 
         return;
     }
 
 
-    printWindow.document.open();
+    windowPrint.document.write(`
 
-
-    printWindow.document.write(`
-
-        <!DOCTYPE html>
+        <!doctype html>
 
         <html>
 
         <head>
 
-            <meta charset="UTF-8">
-
             <title>
-                Nesi Medicals Receipt
+                ${esc(sale.saleNumber)}
             </title>
+
 
             <style>
 
                 body {
+                    font-family: Arial, sans-serif;
                     margin: 0;
-                    padding: 20px;
-                    background: white;
+                    padding: 25px;
                 }
+
+
+                .receipt {
+                    max-width: 600px;
+                    margin: auto;
+                }
+
+
+                .head {
+                    text-align: center;
+                    border-bottom: 1px dashed #999;
+                    padding-bottom: 15px;
+                    margin-bottom: 15px;
+                }
+
+
+                .meta {
+                    font-size: 12px;
+                    line-height: 1.7;
+                    margin-bottom: 15px;
+                }
+
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 12px;
+                }
+
+
+                th,
+                td {
+                    padding: 8px 3px;
+                    border-bottom: 1px solid #eee;
+                    text-align: left;
+                }
+
+
+                th:last-child,
+                td:last-child {
+                    text-align: right;
+                }
+
+
+                .total {
+                    display: flex;
+                    justify-content: space-between;
+                    font-weight: bold;
+                    font-size: 16px;
+                    padding-top: 14px;
+                }
+
 
                 @media print {
 
                     body {
-                        padding: 0;
+                        padding: 10mm;
                     }
 
                 }
@@ -1838,14 +624,180 @@ function printReceipt(sale) {
 
         <body>
 
-            ${receiptHtml}
+            <div class="receipt">
+
+
+                <div class="head">
+
+                    <h2>
+                        Nesi Medicals
+                    </h2>
+
+                    <div>
+                        Medical & Minimart Enterprises
+                    </div>
+
+                    <small>
+                        SALES RECEIPT
+                    </small>
+
+                </div>
+
+
+                <div class="meta">
+
+                    <b>
+                        Receipt:
+                    </b>
+
+                    ${esc(sale.saleNumber)}
+
+                    <br>
+
+
+                    <b>
+                        Date:
+                    </b>
+
+                    ${esc(
+                        formatDate(
+                            sale.createdAt
+                        )
+                    )}
+
+                    <br>
+
+
+                    <b>
+                        Customer:
+                    </b>
+
+                    ${esc(
+                        sale.customer ||
+                        "Walk-in Customer"
+                    )}
+
+                    <br>
+
+
+                    <b>
+                        Payment:
+                    </b>
+
+                    ${esc(
+                        sale.paymentMethod ||
+                        "—"
+                    )}
+
+                    <br>
+
+
+                    <b>
+                        Staff ID:
+                    </b>
+
+                    ${esc(
+                        sale.staffId ||
+                        "—"
+                    )}
+
+                </div>
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Item
+                            </th>
+
+                            <th>
+                                Qty
+                            </th>
+
+                            <th>
+                                Price
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${items
+                            .map(item => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(
+                                            item.productName ||
+                                            "Item"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${Number(
+                                            item.quantity || 0
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${money(
+                                            item.unitPrice
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${money(
+                                            item.total
+                                        )}
+                                    </td>
+
+                                </tr>
+
+                            `)
+                            .join("")}
+
+                    </tbody>
+
+                </table>
+
+
+                <div class="total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span>
+                        ${money(sale.total)}
+                    </span>
+
+                </div>
+
+
+            </div>
 
 
             <script>
 
-                window.onload = function() {
+                window.onload = () => {
 
                     window.print();
+
+                    window.onafterprint = () => {
+                        window.close();
+                    };
 
                 };
 
@@ -1858,112 +810,210 @@ function printReceipt(sale) {
     `);
 
 
-    printWindow.document.close();
+    windowPrint.document.close();
+
 }
 
 
-/* =========================================================
-   SEARCH
-========================================================= */
+/* =========================
+   LOAD SALES
+========================= */
 
-function searchSales() {
+function load() {
 
-    const search =
-        String(
-            searchInput?.value || ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-    if (!search) {
-
-        renderSales(
-            allSales
-        );
-
-        return;
+    if (unsubscribe) {
+        unsubscribe();
     }
 
 
-    const filtered =
-        allSales.filter(
-            sale => {
+    unsubscribe =
+        onSnapshot(
 
-                const saleNumber =
-                    String(
-                        sale.saleNumber ||
-                        sale.saleNo ||
-                        sale.invoiceNumber ||
-                        sale.invoiceNo ||
-                        ""
-                    )
-                    .toLowerCase();
+            query(
+                collection(db, "sales"),
+                orderBy(
+                    "createdAt",
+                    "desc"
+                )
+            ),
 
+            snapshot => {
 
-                const customer =
-                    String(
-                        sale.customerName ||
-                        sale.customer ||
-                        ""
-                    )
-                    .toLowerCase();
+                sales =
+                    snapshot.docs.map(
+                        document => ({
+                            id: document.id,
+                            ...document.data()
+                        })
+                    );
 
 
-                const phone =
-                    String(
-                        sale.customerPhone ||
-                        sale.phone ||
-                        ""
-                    )
-                    .toLowerCase();
+                totalSales.textContent =
+                    sales.length;
 
 
-                const payment =
-                    String(
-                        getPaymentMethod(
-                            sale
-                        )
-                    )
-                    .toLowerCase();
+                const today =
+                    dateOnly(new Date());
 
 
-                return (
+                todaySales.textContent =
+                    money(
+                        sales
+                            .filter(
+                                sale =>
+                                    dateOnly(
+                                        sale.createdAt
+                                    ) === today
+                            )
+                            .reduce(
+                                (total, sale) =>
+                                    total +
+                                    Number(
+                                        sale.total || 0
+                                    ),
+                                0
+                            )
+                    );
 
-                    saleNumber.includes(
-                        search
-                    ) ||
 
-                    customer.includes(
-                        search
-                    ) ||
+                render();
 
-                    phone.includes(
-                        search
-                    ) ||
+            },
 
-                    payment.includes(
-                        search
-                    )
+            error => {
 
-                );
+                console.error(error);
+
+                body.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="empty"
+                        >
+
+                            Unable to load sales history.
+                            Check your Firebase rules/index
+                            and try again.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
             }
+
         );
 
-
-    renderSales(
-        filtered
-    );
 }
 
 
-/* =========================================================
+/* =========================
+   FILTERS
+========================= */
+
+search.addEventListener(
+    "input",
+    render
+);
+
+
+fromDate.addEventListener(
+    "change",
+    render
+);
+
+
+toDate.addEventListener(
+    "change",
+    render
+);
+
+
+document
+    .getElementById("clearFilters")
+    .addEventListener(
+        "click",
+        () => {
+
+            search.value = "";
+            fromDate.value = "";
+            toDate.value = "";
+
+            render();
+
+        }
+    );
+
+
+/* =========================
+   RECEIPT BUTTONS
+========================= */
+
+document
+    .getElementById("closeModal")
+    .addEventListener(
+        "click",
+        closeReceipt
+    );
+
+
+document
+    .getElementById("closeModal2")
+    .addEventListener(
+        "click",
+        closeReceipt
+    );
+
+
+document
+    .getElementById("printReceipt")
+    .addEventListener(
+        "click",
+        () => printSale(selectedSale)
+    );
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === modal) {
+            closeReceipt();
+        }
+
+    }
+);
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+document
+    .getElementById("mobileMenu")
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById("sidebar")
+                .classList
+                .toggle("open");
+
+        }
+    );
+
+
+/* =========================
    LOGOUT
-========================================================= */
+========================= */
 
-if (logoutBtn) {
-
-    logoutBtn.addEventListener(
+document
+    .getElementById("logoutButton")
+    .addEventListener(
         "click",
         async event => {
 
@@ -1971,260 +1021,36 @@ if (logoutBtn) {
 
             try {
 
-                await signOut(
-                    auth
-                );
+                await signOut(auth);
+
+            } finally {
 
                 window.location.href =
-                    "./login.html";
+                    "login.html";
 
-            } catch (error) {
-
-                console.error(
-                    "Logout error:",
-                    error
-                );
-
-                alert(
-                    "Unable to log out. Please try again."
-                );
             }
+
         }
     );
-}
 
 
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-if (mobileMenu) {
-
-    mobileMenu.addEventListener(
-        "click",
-        () => {
-
-            if (sidebar) {
-
-                sidebar.classList.toggle(
-                    "open"
-                );
-            }
-        }
-    );
-}
-
-
-/* =========================================================
-   RECEIPT CLOSE BUTTONS
-========================================================= */
-
-if (closeModal) {
-
-    closeModal.addEventListener(
-        "click",
-        closeReceipt
-    );
-}
-
-
-if (closeModal2) {
-
-    closeModal2.addEventListener(
-        "click",
-        closeReceipt
-    );
-}
-
-
-if (receiptModal) {
-
-    receiptModal.addEventListener(
-        "click",
-        event => {
-
-            if (
-                event.target ===
-                receiptModal
-            ) {
-
-                closeReceipt();
-            }
-        }
-    );
-}
-
-
-/* =========================================================
-   PRINT BUTTON
-========================================================= */
-
-if (printReceiptBtn) {
-
-    printReceiptBtn.addEventListener(
-        "click",
-        () => {
-
-            if (
-                currentReceiptSale
-            ) {
-
-                printReceipt(
-                    currentReceiptSale
-                );
-            }
-        }
-    );
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-if (searchInput) {
-
-    searchInput.addEventListener(
-        "input",
-        searchSales
-    );
-}
-
-
-/* =========================================================
-   AUTH + INITIAL LOAD
-========================================================= */
+/* =========================
+   AUTH
+========================= */
 
 onAuthStateChanged(
     auth,
-    async user => {
-
-        console.log(
-            "Sales History auth:",
-            user
-                ? user.email
-                : "No user"
-        );
-
+    user => {
 
         if (!user) {
 
             window.location.href =
-                "./login.html";
+                "login.html";
 
             return;
         }
 
-
-        /* Show logged-in email */
-        if (userEmail) {
-
-            userEmail.textContent =
-                user.email ||
-                "Logged in";
-        }
-
-
-        /* Show loading */
-        if (salesTable) {
-
-            salesTable.innerHTML = `
-
-                <tr>
-
-                    <td
-                        colspan="7"
-                        class="loading"
-                    >
-                        Loading sales...
-                    </td>
-
-                </tr>
-
-            `;
-        }
-
-
-        try {
-
-            /*
-             * STEP 1:
-             * Load sales.
-             */
-            await loadSales();
-
-
-            /*
-             * STEP 2:
-             * Display sales immediately.
-             */
-            renderSales(
-                allSales
-            );
-
-
-            /*
-             * STEP 3:
-             * Load credit payments.
-             */
-            await loadCreditPayments();
-
-
-            /*
-             * STEP 4:
-             * Refresh credit statuses.
-             */
-            renderSales(
-                allSales
-            );
-
-
-            console.log(
-                "Sales History ready."
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Sales History error:",
-                error
-            );
-
-
-            if (salesTable) {
-
-                salesTable.innerHTML = `
-
-                    <tr>
-
-                        <td
-                            colspan="7"
-                            style="
-                                text-align:center;
-                                padding:40px;
-                                color:#c62828;
-                            "
-                        >
-
-                            <strong>
-                                Unable to load sales.
-                            </strong>
-
-                            <br><br>
-
-                            ${escapeHtml(
-                                error.message ||
-                                "Please refresh the page."
-                            )}
-
-                        </td>
-
-                    </tr>
-
-                `;
-            }
-        }
+        load();
 
     }
 );
