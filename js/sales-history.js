@@ -1569,13 +1569,9 @@ function buildReceiptHtml(sale) {
 
 
                 <div>
-                    <strong>
-                        Payment:
-                    </strong>
+                    <strong>Payment:</strong> ${esc(s.paymentMethod||"—")}<br>
+<strong>Staff ID:</strong> ${esc(s.staffId||"—")}
 
-                    ${escapeHtml(
-                        paymentMethod
-                    )}
                 </div>
 
             </div>
