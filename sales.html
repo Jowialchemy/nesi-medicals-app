@@ -3490,11 +3490,7 @@ totalQuantity:transactionQuantityTotal,
 /* STAFF ACCOUNTABILITY */
 staffId:currentStaffId,
 
-staffName:
-window.nesiStaff?.name||
-localStorage.getItem("nesiStaff")
-?getStoredStaffName()
-:"Administrator",
+staffName:getStoredStaffName(),
 
 staffUid:currentUser.uid,
 
