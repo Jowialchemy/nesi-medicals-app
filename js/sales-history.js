@@ -7,22 +7,11 @@ import {
 
 import {
     collection,
-    onSnapshot,
-    query,
-    orderBy
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* =========================
-   START AFTER PAGE LOADS
-========================= */
-
 window.addEventListener("DOMContentLoaded", () => {
-
-
-    /* =========================
-       DOM ELEMENTS
-    ========================= */
 
     const body = document.getElementById("salesBody");
     const search = document.getElementById("searchInput");
@@ -41,34 +30,6 @@ window.addEventListener("DOMContentLoaded", () => {
     let unsubscribe = null;
 
 
-    /* =========================
-       CHECK PAGE ELEMENTS
-    ========================= */
-
-    if (
-        !body ||
-        !search ||
-        !fromDate ||
-        !toDate ||
-        !totalSales ||
-        !todaySales ||
-        !filteredTotal ||
-        !modal ||
-        !receiptView
-    ) {
-
-        console.error(
-            "Sales History: Required HTML elements were not found."
-        );
-
-        return;
-    }
-
-
-    /* =========================
-       MONEY
-    ========================= */
-
     const money = value =>
         "₦" +
         (Number(value) || 0).toLocaleString("en-NG", {
@@ -76,10 +37,6 @@ window.addEventListener("DOMContentLoaded", () => {
             maximumFractionDigits: 2
         });
 
-
-    /* =========================
-       ESCAPE HTML
-    ========================= */
 
     const esc = value =>
         String(value ?? "")
@@ -89,10 +46,6 @@ window.addEventListener("DOMContentLoaded", () => {
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
 
-
-    /* =========================
-       DATE
-    ========================= */
 
     function dateValue(value) {
 
@@ -131,21 +84,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
         if (!date) return "";
 
-        const year = date.getFullYear();
-
-        const month =
-            String(date.getMonth() + 1).padStart(2, "0");
-
-        const day =
-            String(date.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
+        return `${date.getFullYear()}-${String(
+            date.getMonth() + 1
+        ).padStart(2, "0")}-${String(
+            date.getDate()
+        ).padStart(2, "0")}`;
     }
 
-
-    /* =========================
-       SEARCH / FILTER
-    ========================= */
 
     function matches(sale) {
 
@@ -180,114 +125,105 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* =========================
-       RENDER SALES TABLE
-    ========================= */
-
     function render() {
 
         const rows = sales.filter(matches);
 
-        filteredTotal.textContent =
-            money(
-                rows.reduce(
-                    (total, sale) =>
-                        total + Number(sale.total || 0),
-                    0
-                )
-            );
+        filteredTotal.textContent = money(
+            rows.reduce(
+                (total, sale) =>
+                    total + Number(sale.total || 0),
+                0
+            )
+        );
 
 
         if (!rows.length) {
 
             body.innerHTML =
-                '<tr><td colspan="7" class="empty">No sales match your search or date filter.</td></tr>';
+                '<tr><td colspan="7" class="empty">No sales found.</td></tr>';
 
             return;
         }
 
 
-        body.innerHTML = rows
-            .map(sale => `
+        body.innerHTML = rows.map(sale => `
 
-                <tr>
+            <tr>
 
-                    <td>
-                        <strong>
-                            ${esc(sale.saleNumber)}
-                        </strong>
-                    </td>
+                <td>
+                    <strong>
+                        ${esc(sale.saleNumber || "—")}
+                    </strong>
+                </td>
 
-                    <td>
-                        ${esc(formatDate(sale.createdAt))}
-                    </td>
+                <td>
+                    ${esc(formatDate(sale.createdAt))}
+                </td>
 
-                    <td>
+                <td>
+                    ${esc(
+                        sale.customer ||
+                        "Walk-in Customer"
+                    )}
+                </td>
+
+                <td>
+                    ${Number(sale.totalQuantity || 0)}
+                </td>
+
+                <td class="money">
+                    ${money(sale.total)}
+                </td>
+
+                <td>
+                    <span class="badge">
                         ${esc(
-                            sale.customer ||
-                            "Walk-in Customer"
+                            sale.paymentMethod ||
+                            "—"
                         )}
-                    </td>
+                    </span>
+                </td>
 
-                    <td>
-                        ${Number(sale.totalQuantity || 0)}
-                    </td>
+                <td>
 
-                    <td class="money">
-                        ${money(sale.total)}
-                    </td>
+                    <div class="actions">
 
-                    <td>
-                        <span class="badge">
-                            ${esc(
-                                sale.paymentMethod ||
-                                "—"
-                            )}
-                        </span>
-                    </td>
+                        <button
+                            class="btn-small"
+                            data-view="${esc(sale.id)}"
+                        >
+                            View
+                        </button>
 
-                    <td>
+                        <button
+                            class="btn-small"
+                            data-print="${esc(sale.id)}"
+                        >
+                            Reprint
+                        </button>
 
-                        <div class="actions">
+                    </div>
 
-                            <button
-                                class="btn-small"
-                                data-view="${esc(sale.id)}"
-                            >
-                                View
-                            </button>
+                </td>
 
-                            <button
-                                class="btn-small"
-                                data-print="${esc(sale.id)}"
-                            >
-                                Reprint
-                            </button>
+            </tr>
 
-                        </div>
-
-                    </td>
-
-                </tr>
-
-            `)
-            .join("");
+        `).join("");
 
 
-        body
-            .querySelectorAll("[data-view]")
+        body.querySelectorAll("[data-view]")
             .forEach(button => {
 
                 button.addEventListener(
                     "click",
                     () => {
 
-                        const sale =
-                            sales.find(
-                                item =>
-                                    item.id ===
-                                    button.dataset.view
-                            );
+                        const sale = sales.find(
+                            item =>
+                                item.id ===
+                                button.dataset.view
+                        );
 
                         openReceipt(sale);
                     }
@@ -296,20 +232,18 @@ window.addEventListener("DOMContentLoaded", () => {
             });
 
 
-        body
-            .querySelectorAll("[data-print]")
+        body.querySelectorAll("[data-print]")
             .forEach(button => {
 
                 button.addEventListener(
                     "click",
                     () => {
 
-                        const sale =
-                            sales.find(
-                                item =>
-                                    item.id ===
-                                    button.dataset.print
-                            );
+                        const sale = sales.find(
+                            item =>
+                                item.id ===
+                                button.dataset.print
+                        );
 
                         printSale(sale);
                     }
@@ -319,10 +253,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* =========================
-       RECEIPT VIEW
-    ========================= */
 
     function renderReceipt(sale) {
 
@@ -338,45 +268,30 @@ window.addEventListener("DOMContentLoaded", () => {
 
                 <div class="receipt-head">
 
-                    <h2>
-                        Nesi Medicals
-                    </h2>
+                    <h2>Nesi Medicals</h2>
 
                     <div>
                         Medical & Minimart Enterprises
                     </div>
 
-                    <small>
-                        SALES RECEIPT
-                    </small>
+                    <small>SALES RECEIPT</small>
 
                 </div>
 
 
                 <div class="receipt-meta">
 
-                    <strong>
-                        Receipt:
-                    </strong>
-
-                    ${esc(sale.saleNumber)}
+                    <strong>Receipt:</strong>
+                    ${esc(sale.saleNumber || "—")}
 
                     <br>
 
-
-                    <strong>
-                        Date:
-                    </strong>
-
+                    <strong>Date:</strong>
                     ${esc(formatDate(sale.createdAt))}
 
                     <br>
 
-
-                    <strong>
-                        Customer:
-                    </strong>
-
+                    <strong>Customer:</strong>
                     ${esc(
                         sale.customer ||
                         "Walk-in Customer"
@@ -384,11 +299,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
                     <br>
 
-
-                    <strong>
-                        Payment:
-                    </strong>
-
+                    <strong>Payment:</strong>
                     ${esc(
                         sale.paymentMethod ||
                         "—"
@@ -396,11 +307,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
                     <br>
 
-
-                    <strong>
-                        Staff ID:
-                    </strong>
-
+                    <strong>Staff ID:</strong>
                     ${esc(
                         sale.staffId ||
                         "—"
@@ -414,64 +321,48 @@ window.addEventListener("DOMContentLoaded", () => {
                     <thead>
 
                         <tr>
-
-                            <th>
-                                Item
-                            </th>
-
-                            <th>
-                                Qty
-                            </th>
-
-                            <th>
-                                Price
-                            </th>
-
-                            <th>
-                                Total
-                            </th>
-
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
                         </tr>
 
                     </thead>
 
-
                     <tbody>
 
-                        ${items
-                            .map(item => `
+                        ${items.map(item => `
 
-                                <tr>
+                            <tr>
 
-                                    <td>
-                                        ${esc(
-                                            item.productName ||
-                                            "Item"
-                                        )}
-                                    </td>
+                                <td>
+                                    ${esc(
+                                        item.productName ||
+                                        "Item"
+                                    )}
+                                </td>
 
-                                    <td>
-                                        ${Number(
-                                            item.quantity || 0
-                                        )}
-                                    </td>
+                                <td>
+                                    ${Number(
+                                        item.quantity || 0
+                                    )}
+                                </td>
 
-                                    <td>
-                                        ${money(
-                                            item.unitPrice
-                                        )}
-                                    </td>
+                                <td>
+                                    ${money(
+                                        item.unitPrice
+                                    )}
+                                </td>
 
-                                    <td>
-                                        ${money(
-                                            item.total
-                                        )}
-                                    </td>
+                                <td>
+                                    ${money(
+                                        item.total
+                                    )}
+                                </td>
 
-                                </tr>
+                            </tr>
 
-                            `)
-                            .join("")}
+                        `).join("")}
 
                     </tbody>
 
@@ -480,9 +371,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
                 <div class="receipt-total">
 
-                    <span>
-                        Total
-                    </span>
+                    <span>Total</span>
 
                     <span>
                         ${money(sale.total)}
@@ -499,9 +388,7 @@ window.addEventListener("DOMContentLoaded", () => {
                         color:#777;
                     "
                 >
-
                     Thank you for your patronage.
-
                 </div>
 
             </div>
@@ -510,10 +397,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* =========================
-       OPEN RECEIPT
-    ========================= */
 
     function openReceipt(sale) {
 
@@ -527,10 +410,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* =========================
-       CLOSE RECEIPT
-    ========================= */
-
     function closeReceipt() {
 
         modal.classList.remove("show");
@@ -538,10 +417,6 @@ window.addEventListener("DOMContentLoaded", () => {
         selectedSale = null;
     }
 
-
-    /* =========================
-       PRINT / REPRINT RECEIPT
-    ========================= */
 
     function printSale(sale) {
 
@@ -580,9 +455,8 @@ window.addEventListener("DOMContentLoaded", () => {
             <head>
 
                 <title>
-                    ${esc(sale.saleNumber)}
+                    ${esc(sale.saleNumber || "Receipt")}
                 </title>
-
 
                 <style>
 
@@ -592,12 +466,10 @@ window.addEventListener("DOMContentLoaded", () => {
                         padding: 25px;
                     }
 
-
                     .receipt {
                         max-width: 600px;
                         margin: auto;
                     }
-
 
                     .head {
                         text-align: center;
@@ -606,20 +478,17 @@ window.addEventListener("DOMContentLoaded", () => {
                         margin-bottom: 15px;
                     }
 
-
                     .meta {
                         font-size: 12px;
                         line-height: 1.7;
                         margin-bottom: 15px;
                     }
 
-
                     table {
                         width: 100%;
                         border-collapse: collapse;
                         font-size: 12px;
                     }
-
 
                     th,
                     td {
@@ -628,12 +497,10 @@ window.addEventListener("DOMContentLoaded", () => {
                         text-align: left;
                     }
 
-
                     th:last-child,
                     td:last-child {
                         text-align: right;
                     }
-
 
                     .total {
                         display: flex;
@@ -643,70 +510,46 @@ window.addEventListener("DOMContentLoaded", () => {
                         padding-top: 14px;
                     }
 
-
                     @media print {
-
                         body {
                             padding: 10mm;
                         }
-
                     }
 
                 </style>
 
             </head>
 
-
             <body>
 
                 <div class="receipt">
 
-
                     <div class="head">
 
-                        <h2>
-                            Nesi Medicals
-                        </h2>
+                        <h2>Nesi Medicals</h2>
 
                         <div>
                             Medical & Minimart Enterprises
                         </div>
 
-                        <small>
-                            SALES RECEIPT
-                        </small>
+                        <small>SALES RECEIPT</small>
 
                     </div>
 
 
                     <div class="meta">
 
-                        <b>
-                            Receipt:
-                        </b>
-
-                        ${esc(sale.saleNumber)}
+                        <b>Receipt:</b>
+                        ${esc(sale.saleNumber || "—")}
 
                         <br>
 
-
-                        <b>
-                            Date:
-                        </b>
-
-                        ${esc(
-                            formatDate(
-                                sale.createdAt
-                            )
-                        )}
+                        <b>Date:</b>
+                        ${esc(formatDate(sale.createdAt))}
 
                         <br>
 
-
-                        <b>
-                            Customer:
-                        </b>
-
+                        <b>Customer:</b>
                         ${esc(
                             sale.customer ||
                             "Walk-in Customer"
@@ -714,11 +557,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
                         <br>
 
-
-                        <b>
-                            Payment:
-                        </b>
-
+                        <b>Payment:</b>
                         ${esc(
                             sale.paymentMethod ||
                             "—"
@@ -726,11 +565,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
                         <br>
 
-
-                        <b>
-                            Staff ID:
-                        </b>
-
+                        <b>Staff ID:</b>
                         ${esc(
                             sale.staffId ||
                             "—"
@@ -744,23 +579,10 @@ window.addEventListener("DOMContentLoaded", () => {
                         <thead>
 
                             <tr>
-
-                                <th>
-                                    Item
-                                </th>
-
-                                <th>
-                                    Qty
-                                </th>
-
-                                <th>
-                                    Price
-                                </th>
-
-                                <th>
-                                    Total
-                                </th>
-
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
                             </tr>
 
                         </thead>
@@ -768,40 +590,38 @@ window.addEventListener("DOMContentLoaded", () => {
 
                         <tbody>
 
-                            ${items
-                                .map(item => `
+                            ${items.map(item => `
 
-                                    <tr>
+                                <tr>
 
-                                        <td>
-                                            ${esc(
-                                                item.productName ||
-                                                "Item"
-                                            )}
-                                        </td>
+                                    <td>
+                                        ${esc(
+                                            item.productName ||
+                                            "Item"
+                                        )}
+                                    </td>
 
-                                        <td>
-                                            ${Number(
-                                                item.quantity || 0
-                                            )}
-                                        </td>
+                                    <td>
+                                        ${Number(
+                                            item.quantity || 0
+                                        )}
+                                    </td>
 
-                                        <td>
-                                            ${money(
-                                                item.unitPrice
-                                            )}
-                                        </td>
+                                    <td>
+                                        ${money(
+                                            item.unitPrice
+                                        )}
+                                    </td>
 
-                                        <td>
-                                            ${money(
-                                                item.total
-                                            )}
-                                        </td>
+                                    <td>
+                                        ${money(
+                                            item.total
+                                        )}
+                                    </td>
 
-                                    </tr>
+                                </tr>
 
-                                `)
-                                .join("")}
+                            `).join("")}
 
                         </tbody>
 
@@ -810,9 +630,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
                     <div class="total">
 
-                        <span>
-                            Total
-                        </span>
+                        <span>Total</span>
 
                         <span>
                             ${money(sale.total)}
@@ -820,17 +638,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
                     </div>
 
-
                 </div>
 
 
                 <script>
 
-                    window.onload = () => {
+                    window.onload = function() {
 
                         window.print();
 
-                        window.onafterprint = () => {
+                        window.onafterprint = function() {
                             window.close();
                         };
 
@@ -844,15 +661,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
         `);
 
-
         printWindow.document.close();
 
     }
 
-
-    /* =========================
-       LOAD SALES
-    ========================= */
 
     function load() {
 
@@ -861,108 +673,117 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        unsubscribe =
-            onSnapshot(
-
-                query(
-                    collection(db, "sales"),
-                    orderBy(
-                        "createdAt",
-                        "desc"
-                    )
-                ),
-
-                snapshot => {
-
-                    sales =
-                        snapshot.docs.map(
-                            document => ({
-                                id: document.id,
-                                ...document.data()
-                            })
-                        );
+        body.innerHTML =
+            '<tr><td colspan="7" class="empty">Loading sales...</td></tr>';
 
 
-                    totalSales.textContent =
-                        sales.length;
+        unsubscribe = onSnapshot(
+
+            collection(db, "sales"),
+
+            snapshot => {
+
+                sales = snapshot.docs.map(
+                    document => ({
+                        id: document.id,
+                        ...document.data()
+                    })
+                );
 
 
-                    const today =
-                        dateOnly(new Date());
+                /* Sort newest first */
+                sales.sort((a, b) => {
 
+                    const dateA =
+                        dateValue(a.createdAt);
 
-                    todaySales.textContent =
-                        money(
-                            sales
-                                .filter(
-                                    sale =>
-                                        dateOnly(
-                                            sale.createdAt
-                                        ) === today
-                                )
-                                .reduce(
-                                    (total, sale) =>
-                                        total +
-                                        Number(
-                                            sale.total || 0
-                                        ),
-                                    0
-                                )
-                        );
+                    const dateB =
+                        dateValue(b.createdAt);
 
-
-                    render();
-
-                },
-
-                error => {
-
-                    console.error(
-                        "Sales history error:",
-                        error
+                    return (
+                        (dateB?.getTime() || 0) -
+                        (dateA?.getTime() || 0)
                     );
 
-                    body.innerHTML = `
+                });
 
-                        <tr>
 
-                            <td
-                                colspan="7"
-                                class="empty"
-                            >
+                totalSales.textContent =
+                    sales.length;
 
-                                Unable to load sales history.
-                                Check your Firebase rules/index
-                                and try again.
 
-                            </td>
+                const today =
+                    dateOnly(new Date());
 
-                        </tr>
 
-                    `;
+                todaySales.textContent =
+                    money(
+                        sales
+                            .filter(
+                                sale =>
+                                    dateOnly(
+                                        sale.createdAt
+                                    ) === today
+                            )
+                            .reduce(
+                                (total, sale) =>
+                                    total +
+                                    Number(
+                                        sale.total || 0
+                                    ),
+                                0
+                            )
+                    );
 
-                }
 
-            );
+                render();
+
+            },
+
+            error => {
+
+                console.error(
+                    "Sales History Firebase error:",
+                    error
+                );
+
+
+                body.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="empty"
+                        >
+
+                            Unable to load sales.
+                            Please refresh the page.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        );
 
     }
 
 
-    /* =========================
-       FILTERS
-    ========================= */
+    /* FILTERS */
 
     search.addEventListener(
         "input",
         render
     );
 
-
     fromDate.addEventListener(
         "change",
         render
     );
-
 
     toDate.addEventListener(
         "change",
@@ -991,20 +812,16 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* =========================
-       RECEIPT BUTTONS
-    ========================= */
+    /* RECEIPT BUTTONS */
 
     const closeModal =
         document.getElementById("closeModal");
 
     if (closeModal) {
-
         closeModal.addEventListener(
             "click",
             closeReceipt
         );
-
     }
 
 
@@ -1012,12 +829,10 @@ window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("closeModal2");
 
     if (closeModal2) {
-
         closeModal2.addEventListener(
             "click",
             closeReceipt
         );
-
     }
 
 
@@ -1046,9 +861,7 @@ window.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    /* =========================
-       MOBILE MENU
-    ========================= */
+    /* MOBILE MENU */
 
     const mobileMenu =
         document.getElementById("mobileMenu");
@@ -1056,28 +869,22 @@ window.addEventListener("DOMContentLoaded", () => {
     const sidebar =
         document.getElementById("sidebar");
 
-
     if (mobileMenu && sidebar) {
 
         mobileMenu.addEventListener(
             "click",
             () => {
-
                 sidebar.classList.toggle("open");
-
             }
         );
 
     }
 
 
-    /* =========================
-       LOGOUT
-    ========================= */
+    /* LOGOUT */
 
     const logoutButton =
         document.getElementById("logoutButton");
-
 
     if (logoutButton) {
 
@@ -1088,14 +895,10 @@ window.addEventListener("DOMContentLoaded", () => {
                 event.preventDefault();
 
                 try {
-
                     await signOut(auth);
-
                 } finally {
-
                     window.location.href =
                         "login.html";
-
                 }
 
             }
@@ -1104,9 +907,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* =========================
-       AUTH
-    ========================= */
+    /* AUTH */
 
     onAuthStateChanged(
         auth,
@@ -1124,6 +925,5 @@ window.addEventListener("DOMContentLoaded", () => {
 
         }
     );
-
 
 });
