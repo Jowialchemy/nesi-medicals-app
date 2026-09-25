@@ -245,7 +245,7 @@
         .save-area {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 40px;
+            margin-bottom: 22px;
         }
 
         .save-btn {
@@ -266,6 +266,49 @@
         .save-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+        }
+
+        /* STOCK MANAGEMENT */
+        .stock-management {
+            background: #fffafa;
+            border: 1px solid #fecaca;
+        }
+
+        .stock-management h2 {
+            color: #991b1b;
+        }
+
+        .stock-management p {
+            color: #667085;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .stock-warning {
+            background: #fff1f2;
+            border-left: 4px solid #dc2626;
+            padding: 12px 14px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            color: #7f1d1d;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .stock-btn {
+            display: inline-block;
+            background: #dc2626;
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .stock-btn:hover {
+            background: #b91c1c;
         }
 
         .message {
@@ -292,6 +335,7 @@
 
         /* MOBILE */
         @media (max-width: 800px) {
+
             .sidebar {
                 width: 100%;
                 position: relative;
@@ -322,6 +366,19 @@
             .form-group.full {
                 grid-column: auto;
             }
+
+            .save-area {
+                justify-content: stretch;
+            }
+
+            .save-btn {
+                width: 100%;
+            }
+
+            .stock-btn {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -334,6 +391,7 @@
     <aside class="sidebar">
 
         <div class="brand">
+
             <img
                 src="assets/logo.png"
                 alt="Nesi Medicals Logo"
@@ -343,9 +401,12 @@
                 Nesi Medicals
                 <small>& Minimart Enterprises</small>
             </div>
+
         </div>
 
-        <div class="nav-title">Main Menu</div>
+        <div class="nav-title">
+            Main Menu
+        </div>
 
         <nav class="nav-menu">
 
@@ -422,8 +483,15 @@
         <header class="topbar">
 
             <div>
-                <h1>Settings</h1>
-                <p>Manage your Nesi Medicals business settings</p>
+
+                <h1>
+                    Settings
+                </h1>
+
+                <p>
+                    Manage your Nesi Medicals business settings
+                </p>
+
             </div>
 
             <div
@@ -447,7 +515,9 @@
             <!-- BUSINESS INFORMATION -->
             <div class="settings-card">
 
-                <h2>🏢 Business Information</h2>
+                <h2>
+                    🏢 Business Information
+                </h2>
 
                 <p>
                     Update the information used throughout your
@@ -551,7 +621,9 @@
             <!-- RECEIPT SETTINGS -->
             <div class="settings-card">
 
-                <h2>🧾 Receipt Settings</h2>
+                <h2>
+                    🧾 Receipt Settings
+                </h2>
 
                 <p>
                     Control what appears on printed sales receipts.
@@ -640,7 +712,9 @@
             <!-- SALES SETTINGS -->
             <div class="settings-card">
 
-                <h2>💰 Sales Settings</h2>
+                <h2>
+                    💰 Sales Settings
+                </h2>
 
                 <p>
                     Configure your default sales preferences.
@@ -697,7 +771,9 @@
             <!-- INVENTORY SETTINGS -->
             <div class="settings-card">
 
-                <h2>📦 Inventory Settings</h2>
+                <h2>
+                    📦 Inventory Settings
+                </h2>
 
                 <p>
                     Configure how inventory warnings should work.
@@ -755,6 +831,40 @@
 
             </div>
 
+
+            <!-- STOCK MANAGEMENT -->
+            <div class="settings-card stock-management">
+
+                <h2>
+                    ⚠️ Stock Management
+                </h2>
+
+                <p>
+                    This section is available for future stock-cycle
+                    upgrades. For your current stock-taking exercise,
+                    you can manually remove the old test products from
+                    Inventory and enter your verified physical stock.
+                </p>
+
+                <div class="stock-warning">
+
+                    <strong>For the current stock entry:</strong><br>
+
+                    Delete only the old/test products you no longer need,
+                    then enter the actual quantities counted during your
+                    physical stock-taking.
+
+                </div>
+
+                <a
+                    href="start-new-stock.html"
+                    class="stock-btn"
+                >
+                    🗑️ Start New Stock
+                </a>
+
+            </div>
+
         </section>
 
     </main>
@@ -782,10 +892,17 @@
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-    const userEmail = document.getElementById("userEmail");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const saveBtn = document.getElementById("saveSettingsBtn");
-    const message = document.getElementById("message");
+    const userEmail =
+        document.getElementById("userEmail");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const saveBtn =
+        document.getElementById("saveSettingsBtn");
+
+    const message =
+        document.getElementById("message");
 
 
     function showMessage(text, type) {
@@ -809,51 +926,89 @@
         return {
 
             businessName:
-                document.getElementById("businessName").value.trim(),
+                document
+                    .getElementById("businessName")
+                    .value
+                    .trim(),
 
             businessPhone:
-                document.getElementById("businessPhone").value.trim(),
+                document
+                    .getElementById("businessPhone")
+                    .value
+                    .trim(),
 
             businessPhone2:
-                document.getElementById("businessPhone2").value.trim(),
+                document
+                    .getElementById("businessPhone2")
+                    .value
+                    .trim(),
 
             businessEmail:
-                document.getElementById("businessEmail").value.trim(),
+                document
+                    .getElementById("businessEmail")
+                    .value
+                    .trim(),
 
             businessAddress:
-                document.getElementById("businessAddress").value.trim(),
+                document
+                    .getElementById("businessAddress")
+                    .value
+                    .trim(),
 
             businessDescription:
-                document.getElementById("businessDescription").value.trim(),
+                document
+                    .getElementById("businessDescription")
+                    .value
+                    .trim(),
 
             receiptTitle:
-                document.getElementById("receiptTitle").value.trim(),
+                document
+                    .getElementById("receiptTitle")
+                    .value
+                    .trim(),
 
             receiptFooter:
-                document.getElementById("receiptFooter").value.trim(),
+                document
+                    .getElementById("receiptFooter")
+                    .value
+                    .trim(),
 
             showCustomer:
-                document.getElementById("showCustomer").checked,
+                document
+                    .getElementById("showCustomer")
+                    .checked,
 
             showPhone:
-                document.getElementById("showPhone").checked,
+                document
+                    .getElementById("showPhone")
+                    .checked,
 
             showAddress:
-                document.getElementById("showAddress").checked,
+                document
+                    .getElementById("showAddress")
+                    .checked,
 
             currency:
-                document.getElementById("currency").value,
+                document
+                    .getElementById("currency")
+                    .value,
 
             defaultPayment:
-                document.getElementById("defaultPayment").value,
+                document
+                    .getElementById("defaultPayment")
+                    .value,
 
             defaultLowStock:
                 Number(
-                    document.getElementById("defaultLowStock").value
+                    document
+                        .getElementById("defaultLowStock")
+                        .value
                 ) || 0,
 
             lowStockAlerts:
-                document.getElementById("lowStockAlerts").checked
+                document
+                    .getElementById("lowStockAlerts")
+                    .checked
 
         };
 
@@ -867,7 +1022,8 @@
         }
 
         document.getElementById("businessName").value =
-            data.businessName || "Nesi Medicals & Minimart Enterprises";
+            data.businessName ||
+            "Nesi Medicals & Minimart Enterprises";
 
         document.getElementById("businessPhone").value =
             data.businessPhone || "";
@@ -885,7 +1041,8 @@
             data.businessDescription || "";
 
         document.getElementById("receiptTitle").value =
-            data.receiptTitle || "SALES RECEIPT";
+            data.receiptTitle ||
+            "SALES RECEIPT";
 
         document.getElementById("receiptFooter").value =
             data.receiptFooter ||
@@ -927,7 +1084,9 @@
 
             if (snapshot.exists()) {
 
-                fillSettings(snapshot.data());
+                fillSettings(
+                    snapshot.data()
+                );
 
             }
 
@@ -960,10 +1119,15 @@
                     getSettingsData();
 
                 await setDoc(
-                    doc(db, "settings", "business"),
+                    doc(
+                        db,
+                        "settings",
+                        "business"
+                    ),
                     {
                         ...data,
-                        updatedAt: serverTimestamp()
+                        updatedAt:
+                            serverTimestamp()
                     },
                     {
                         merge: true
@@ -1039,7 +1203,8 @@
             }
 
             userEmail.textContent =
-                user.email || "Logged in";
+                user.email ||
+                "Logged in";
 
             await loadSettings();
 
@@ -1048,7 +1213,11 @@
 
 </script>
 
-<script type="module" src="./js/permission.js"></script>
+
+<script
+    type="module"
+    src="./js/permission.js"
+></script>
 
 </body>
-</html>
+                            </html>
