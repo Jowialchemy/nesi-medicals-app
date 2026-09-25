@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -242,19 +243,246 @@
             box-shadow: 0 0 0 3px rgba(22,163,74,0.10);
         }
 
-        .barcode-row {
+        /* BARCODE AREA */
+
+        .barcode-box {
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            padding: 15px;
+            background: #fbfffc;
+        }
+
+        .barcode-input-row {
             display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .barcode-input-row .form-input {
+            flex: 1;
+        }
+
+        .barcode-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
-        .barcode-row .form-input {
-            flex: 1;
+        .barcode-button {
+            min-height: 46px;
+            border: none;
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            background: #e8f7ed;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .barcode-button:hover {
+            background: #dcfce7;
+        }
+
+        .barcode-button.primary {
+            background: #0f766e;
+            color: white;
+            border-color: #0f766e;
+        }
+
+        .barcode-button.primary:hover {
+            background: #115e59;
         }
 
         .barcode-info {
             font-size: 11px;
             color: #6b7280;
-            margin-top: 3px;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        /* SCANNER MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 5000;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .scanner-card {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+
+        .scanner-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .scanner-header h3 {
+            font-size: 18px;
+            color: #0f5132;
+        }
+
+        .close-scanner {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #f3f4f6;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .scanner-video-wrap {
+            width: 100%;
+            background: #111827;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #barcodeVideo {
+            width: 100%;
+            display: block;
+            min-height: 240px;
+            object-fit: cover;
+        }
+
+        .scan-frame {
+            position: absolute;
+            left: 15%;
+            right: 15%;
+            top: 30%;
+            height: 35%;
+            border: 2px solid #4ade80;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .scanner-status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            color: #374151;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .scanner-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .scanner-actions button {
+            flex: 1;
+            min-height: 44px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        #startScannerButton {
+            background: #16a34a;
+            color: white;
+        }
+
+        #stopScannerButton {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .scanner-manual {
+            margin-top: 15px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 15px;
+        }
+
+        .scanner-manual label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .scanner-manual-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .scanner-manual-row input {
+            flex: 1;
+            height: 44px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 0 10px;
+        }
+
+        .scanner-manual-row button {
+            border: none;
+            background: #0f766e;
+            color: white;
+            border-radius: 8px;
+            padding: 0 14px;
+            font-weight: 700;
+        }
+
+        /* MESSAGE */
+
+        .message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            display: block;
+            background: #ecfdf5;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .message.info {
+            display: block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+
+        .required-note {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 20px;
         }
 
         .button-row {
@@ -292,40 +520,7 @@
             color: #374151;
         }
 
-        .message {
-            display: none;
-            margin-bottom: 18px;
-            padding: 12px;
-            border-radius: 9px;
-            font-size: 12px;
-        }
-
-        .message.success {
-            display: block;
-            background: #ecfdf5;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-        }
-
-        .message.error {
-            display: block;
-            background: #fef2f2;
-            color: #b91c1c;
-            border: 1px solid #fecaca;
-        }
-
-        .message.info {
-            display: block;
-            background: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #bfdbfe;
-        }
-
-        .required-note {
-            font-size: 11px;
-            color: #6b7280;
-            margin-bottom: 20px;
-        }
+        /* MOBILE */
 
         @media (max-width: 700px) {
 
@@ -365,8 +560,16 @@
                 width: 100%;
             }
 
-            .barcode-row {
+            .barcode-input-row {
                 flex-direction: column;
+            }
+
+            .barcode-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .scanner-card {
+                padding: 15px;
             }
 
         }
@@ -375,7 +578,9 @@
 
 </head>
 
+
 <body>
+
 
     <!-- SIDEBAR -->
 
@@ -402,9 +607,11 @@
 
         </div>
 
+
         <div class="nav-title">
             Main
         </div>
+
 
         <a
             href="dashboard.html"
@@ -414,6 +621,7 @@
             Dashboard
         </a>
 
+
         <a
             href="sales.html"
             class="nav-link"
@@ -421,6 +629,7 @@
             <span class="nav-icon">💰</span>
             Sales
         </a>
+
 
         <a
             href="sales-history.html"
@@ -430,6 +639,7 @@
             Sales History
         </a>
 
+
         <a
             href="inventory.html"
             class="nav-link active"
@@ -437,6 +647,7 @@
             <span class="nav-icon">📦</span>
             Inventory
         </a>
+
 
         <a
             href="customers.html"
@@ -446,9 +657,11 @@
             Customers
         </a>
 
+
         <div class="nav-title">
             Management
         </div>
+
 
         <a
             href="suppliers.html"
@@ -458,6 +671,7 @@
             Suppliers
         </a>
 
+
         <a
             href="expenses.html"
             class="nav-link"
@@ -465,6 +679,7 @@
             <span class="nav-icon">💳</span>
             Expenses
         </a>
+
 
         <a
             href="reports.html"
@@ -474,6 +689,7 @@
             Reports
         </a>
 
+
         <a
             href="staff.html"
             class="nav-link"
@@ -482,9 +698,11 @@
             Staff
         </a>
 
+
         <div class="nav-title">
             System
         </div>
+
 
         <a
             href="settings.html"
@@ -494,6 +712,7 @@
             Settings
         </a>
 
+
         <a
             href="profile.html"
             class="nav-link"
@@ -501,6 +720,7 @@
             <span class="nav-icon">👤</span>
             Profile
         </a>
+
 
         <a
             href="#"
@@ -514,9 +734,11 @@
     </aside>
 
 
+
     <!-- MAIN -->
 
     <main class="main">
+
 
         <header class="topbar">
 
@@ -532,6 +754,7 @@
 
             </div>
 
+
             <div class="user-area">
 
                 <div
@@ -540,6 +763,7 @@
                 >
                     N
                 </div>
+
 
                 <div class="user-info">
 
@@ -558,7 +782,9 @@
         </header>
 
 
+
         <section class="content">
+
 
             <div class="page-header">
 
@@ -573,6 +799,7 @@
             </div>
 
 
+
             <div
                 id="formMessage"
                 class="message"
@@ -580,13 +807,19 @@
             ></div>
 
 
+
             <div class="panel">
 
+
                 <form id="productForm">
+
+
+                    <!-- PRODUCT INFORMATION -->
 
                     <div class="section-title">
                         Product Information
                     </div>
+
 
                     <div class="required-note">
                         Fields marked with * are required.
@@ -595,8 +828,6 @@
 
                     <div class="form-grid">
 
-
-                        <!-- PRODUCT NAME -->
 
                         <div class="form-group">
 
@@ -615,7 +846,8 @@
                         </div>
 
 
-                        <!-- CATEGORY -->
+
+                        <!-- CATEGORY DROPDOWN -->
 
                         <div class="form-group">
 
@@ -682,7 +914,6 @@
                         </div>
 
 
-                        <!-- BRAND -->
 
                         <div class="form-group">
 
@@ -700,7 +931,6 @@
                         </div>
 
 
-                        <!-- SKU -->
 
                         <div class="form-group">
 
@@ -718,6 +948,7 @@
                         </div>
 
 
+
                         <!-- BARCODE -->
 
                         <div class="form-group full">
@@ -726,21 +957,76 @@
                                 Barcode / EAN / UPC
                             </label>
 
-                            <div class="barcode-row">
+
+                            <div class="barcode-box">
+
+
+                                <!-- MANUAL ENTRY -->
+
+                                <div class="barcode-input-row">
+
+                                    <input
+                                        type="text"
+                                        id="barcode"
+                                        class="form-input"
+                                        placeholder="Type barcode number manually"
+                                        inputmode="numeric"
+                                        autocomplete="off"
+                                    >
+
+                                </div>
+
+
+
+                                <!-- THREE OPTIONS -->
+
+                                <div class="barcode-actions">
+
+
+                                    <button
+                                        type="button"
+                                        class="barcode-button primary"
+                                        id="scanBarcodeButton"
+                                    >
+                                        📷 Scan Barcode
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="barcode-button"
+                                        id="galleryBarcodeButton"
+                                    >
+                                        🖼️ Scan from Gallery
+                                    </button>
+
+
+                                </div>
+
+
+                                <!-- HIDDEN GALLERY INPUT -->
 
                                 <input
-                                    type="text"
-                                    id="barcode"
-                                    class="form-input"
-                                    placeholder="Enter or scan barcode"
-                                    inputmode="numeric"
+                                    type="file"
+                                    id="barcodeImageInput"
+                                    accept="image/*"
+                                    capture="environment"
+                                    style="display:none;"
                                 >
 
-                            </div>
 
-                            <div class="barcode-info">
-                                If the package has a barcode, enter the barcode number here.
-                                The barcode can also be added later from Inventory.
+                                <div class="barcode-info">
+
+                                    <strong>Three ways to add a barcode:</strong><br>
+
+                                    1. Type the barcode number manually.<br>
+
+                                    2. Tap <strong>📷 Scan Barcode</strong> to use your camera.<br>
+
+                                    3. Tap <strong>🖼️ Scan from Gallery</strong> to select a saved photo/snapshot of the barcode.
+
+                                </div>
+
                             </div>
 
                         </div>
@@ -748,16 +1034,16 @@
                     </div>
 
 
-                    <!-- STOCK -->
+
+                    <!-- STOCK INFORMATION -->
 
                     <div class="section-title">
                         Stock Information
                     </div>
 
+
                     <div class="form-grid">
 
-
-                        <!-- QUANTITY -->
 
                         <div class="form-group">
 
@@ -778,7 +1064,6 @@
                         </div>
 
 
-                        <!-- LOW STOCK -->
 
                         <div class="form-group">
 
@@ -798,7 +1083,6 @@
                         </div>
 
 
-                        <!-- BATCH -->
 
                         <div class="form-group">
 
@@ -816,7 +1100,6 @@
                         </div>
 
 
-                        <!-- EXPIRY -->
 
                         <div class="form-group">
 
@@ -833,7 +1116,6 @@
                         </div>
 
 
-                        <!-- MANUFACTURING DATE -->
 
                         <div class="form-group">
 
@@ -852,16 +1134,16 @@
                     </div>
 
 
+
                     <!-- PRICING -->
 
                     <div class="section-title">
                         Pricing
                     </div>
 
+
                     <div class="form-grid">
 
-
-                        <!-- COST -->
 
                         <div class="form-group">
 
@@ -882,7 +1164,6 @@
                         </div>
 
 
-                        <!-- SELLING -->
 
                         <div class="form-group">
 
@@ -905,11 +1186,13 @@
                     </div>
 
 
+
                     <!-- SUPPLIER -->
 
                     <div class="section-title">
                         Supplier
                     </div>
+
 
                     <div class="form-grid">
 
@@ -931,6 +1214,7 @@
                     </div>
 
 
+
                     <!-- BUTTONS -->
 
                     <div class="button-row">
@@ -943,6 +1227,7 @@
                             Cancel
                         </button>
 
+
                         <button
                             type="submit"
                             class="button button-primary"
@@ -953,6 +1238,7 @@
 
                     </div>
 
+
                 </form>
 
             </div>
@@ -962,7 +1248,117 @@
     </main>
 
 
-    <!-- FIREBASE -->
+
+    <!-- BARCODE SCANNER MODAL -->
+
+    <div
+        class="modal"
+        id="scannerModal"
+    >
+
+        <div class="scanner-card">
+
+
+            <div class="scanner-header">
+
+                <h3>
+                    📷 Scan Barcode
+                </h3>
+
+
+                <button
+                    type="button"
+                    class="close-scanner"
+                    id="closeScannerButton"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <div class="scanner-video-wrap">
+
+                <video
+                    id="barcodeVideo"
+                    autoplay
+                    muted
+                    playsinline
+                ></video>
+
+                <div class="scan-frame"></div>
+
+            </div>
+
+
+
+            <div
+                class="scanner-status"
+                id="scannerStatus"
+            >
+                Camera is ready. Point it at the barcode.
+            </div>
+
+
+
+            <div class="scanner-actions">
+
+                <button
+                    type="button"
+                    id="startScannerButton"
+                >
+                    ▶ Start Camera
+                </button>
+
+
+                <button
+                    type="button"
+                    id="stopScannerButton"
+                >
+                    ■ Stop Camera
+                </button>
+
+            </div>
+
+
+
+            <div class="scanner-manual">
+
+                <label for="scannerManualInput">
+                    Or enter barcode manually
+                </label>
+
+
+                <div class="scanner-manual-row">
+
+                    <input
+                        type="text"
+                        id="scannerManualInput"
+                        placeholder="Barcode number"
+                        inputmode="numeric"
+                    >
+
+
+                    <button
+                        type="button"
+                        id="useScannerManualButton"
+                    >
+                        Use
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FIREBASE + BARCODE SYSTEM -->
 
     <script type="module">
 
@@ -973,45 +1369,127 @@
             where,
             getDocs,
             serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        }
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
         import {
             onAuthStateChanged,
             signOut
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        }
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
         import {
             auth,
             db
-        } from "./js/firebase.js";
+        }
+        from "./js/firebase.js";
+
+
+
+        /*
+         * ZXing barcode reader.
+         * This is the same barcode scanning technology
+         * used for camera/photo barcode reading.
+         */
+
+        let ZXingModule = null;
+
+        let barcodeReader = null;
+
+        let scannerRunning = false;
+
 
 
         const productForm =
             document.getElementById("productForm");
 
+
         const message =
             document.getElementById("formMessage");
+
 
         const saveButton =
             document.getElementById("saveButton");
 
+
         const cancelButton =
             document.getElementById("cancelButton");
+
 
         const logoutButton =
             document.getElementById("logoutButton");
 
+
         const userName =
             document.getElementById("userName");
 
+
         const userRole =
             document.getElementById("userRole");
+
 
         const userAvatar =
             document.getElementById("userAvatar");
 
 
+        const barcodeInput =
+            document.getElementById("barcode");
+
+
+        const scanBarcodeButton =
+            document.getElementById("scanBarcodeButton");
+
+
+        const galleryBarcodeButton =
+            document.getElementById("galleryBarcodeButton");
+
+
+        const barcodeImageInput =
+            document.getElementById("barcodeImageInput");
+
+
+        const scannerModal =
+            document.getElementById("scannerModal");
+
+
+        const barcodeVideo =
+            document.getElementById("barcodeVideo");
+
+
+        const scannerStatus =
+            document.getElementById("scannerStatus");
+
+
+        const closeScannerButton =
+            document.getElementById("closeScannerButton");
+
+
+        const startScannerButton =
+            document.getElementById("startScannerButton");
+
+
+        const stopScannerButton =
+            document.getElementById("stopScannerButton");
+
+
+        const scannerManualInput =
+            document.getElementById("scannerManualInput");
+
+
+        const useScannerManualButton =
+            document.getElementById("useScannerManualButton");
+
+
+
         let currentUser = null;
+
+
+
+        /* -----------------------------------------
+           GENERAL HELPERS
+        ----------------------------------------- */
 
 
         function showMessage(text, type) {
@@ -1024,6 +1502,7 @@
         }
 
 
+
         function normalizeBarcode(value) {
 
             return String(value || "")
@@ -1034,6 +1513,7 @@
         }
 
 
+
         function getStaffDetails() {
 
             try {
@@ -1041,43 +1521,63 @@
                 const saved =
                     localStorage.getItem("nesiStaff");
 
+
                 if (!saved) {
 
                     return {
+
                         staffId: "ADMIN",
-                        name: currentUser?.displayName || "Administrator",
+
+                        name:
+                            currentUser?.displayName ||
+                            "Administrator",
+
                         role: "Administrator"
+
                     };
 
                 }
 
+
                 const staff =
                     JSON.parse(saved);
 
+
                 return {
-                    staffId: staff.staffId || "ADMIN",
+
+                    staffId:
+                        staff.staffId ||
+                        "ADMIN",
+
                     name:
                         staff.name ||
                         currentUser?.displayName ||
                         "Administrator",
+
                     role:
                         staff.role ||
                         "Administrator"
+
                 };
 
             } catch (error) {
 
                 return {
+
                     staffId: "ADMIN",
+
                     name:
                         currentUser?.displayName ||
                         "Administrator",
+
                     role: "Administrator"
+
                 };
 
             }
 
         }
+
 
 
         function updateUserDisplay(user) {
@@ -1085,27 +1585,37 @@
             const staff =
                 getStaffDetails();
 
+
             const name =
                 staff.name ||
                 user.displayName ||
                 "Administrator";
 
+
             const role =
                 staff.role ||
                 "Administrator";
 
-            userName.textContent = name;
 
-            userRole.textContent = role;
+            userName.textContent =
+                name;
+
+
+            userRole.textContent =
+                role;
+
 
             const initials =
                 name
                     .split(" ")
                     .filter(Boolean)
                     .slice(0, 2)
-                    .map(word => word.charAt(0))
+                    .map(word =>
+                        word.charAt(0)
+                    )
                     .join("")
                     .toUpperCase();
+
 
             userAvatar.textContent =
                 initials || "N";
@@ -1113,49 +1623,656 @@
         }
 
 
+
+        /* -----------------------------------------
+           FIREBASE DUPLICATE CHECKS
+        ----------------------------------------- */
+
+
         async function barcodeAlreadyExists(barcode) {
 
             if (!barcode) {
+
                 return false;
+
             }
+
 
             const barcodeQuery =
                 query(
-                    collection(db, "products"),
-                    where("barcode", "==", barcode)
+                    collection(
+                        db,
+                        "products"
+                    ),
+                    where(
+                        "barcode",
+                        "==",
+                        barcode
+                    )
                 );
 
+
             const snapshot =
-                await getDocs(barcodeQuery);
+                await getDocs(
+                    barcodeQuery
+                );
+
 
             return !snapshot.empty;
 
         }
+
 
 
         async function skuAlreadyExists(sku) {
 
             if (!sku) {
+
                 return false;
+
             }
+
 
             const skuQuery =
                 query(
-                    collection(db, "products"),
-                    where("sku", "==", sku)
+                    collection(
+                        db,
+                        "products"
+                    ),
+                    where(
+                        "sku",
+                        "==",
+                        sku
+                    )
                 );
 
+
             const snapshot =
-                await getDocs(skuQuery);
+                await getDocs(
+                    skuQuery
+                );
+
 
             return !snapshot.empty;
 
         }
 
 
+
+        /* -----------------------------------------
+           LOAD ZXING
+        ----------------------------------------- */
+
+
+        async function loadZXing() {
+
+            if (ZXingModule) {
+
+                return ZXingModule;
+
+            }
+
+
+            try {
+
+                scannerStatus.textContent =
+                    "Loading barcode scanner...";
+
+
+                ZXingModule =
+                    await import(
+                        "https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm"
+                    );
+
+
+                return ZXingModule;
+
+            } catch (error) {
+
+                console.error(
+                    "ZXing loading error:",
+                    error
+                );
+
+
+                throw new Error(
+                    "Barcode scanner could not be loaded. Please check your internet connection."
+                );
+
+            }
+
+        }
+
+
+
+        /* -----------------------------------------
+           OPEN SCANNER
+        ----------------------------------------- */
+
+
+        scanBarcodeButton.addEventListener(
+            "click",
+            async function() {
+
+                scannerModal.classList.add(
+                    "show"
+                );
+
+
+                scannerStatus.textContent =
+                    "Loading camera scanner...";
+
+
+                try {
+
+                    await loadZXing();
+
+
+                    scannerStatus.textContent =
+                        "Starting camera...";
+
+
+                    await startCameraScanner();
+
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    scannerStatus.textContent =
+                        error.message ||
+                        "Unable to start barcode scanner.";
+
+                }
+
+            }
+        );
+
+
+
+        /* -----------------------------------------
+           START CAMERA
+        ----------------------------------------- */
+
+
+        async function startCameraScanner() {
+
+            if (scannerRunning) {
+
+                return;
+
+            }
+
+
+            if (!ZXingModule) {
+
+                await loadZXing();
+
+            }
+
+
+            const BrowserMultiFormatReader =
+                ZXingModule.BrowserMultiFormatReader;
+
+
+            if (!BrowserMultiFormatReader) {
+
+                throw new Error(
+                    "Barcode scanner is unavailable."
+                );
+
+            }
+
+
+            barcodeReader =
+                new BrowserMultiFormatReader();
+
+
+            scannerRunning =
+                true;
+
+
+            scannerStatus.textContent =
+                "Point your camera at the barcode...";
+
+
+            try {
+
+                await barcodeReader.decodeFromConstraints(
+                    {
+                        video: {
+                            facingMode: {
+                                ideal: "environment"
+                            }
+                        }
+                    },
+                    barcodeVideo,
+                    function(result, error) {
+
+                        if (result) {
+
+                            const text =
+                                result.getText();
+
+
+                            if (text) {
+
+                                barcodeInput.value =
+                                    normalizeBarcode(text);
+
+
+                                scannerStatus.textContent =
+                                    "✅ Barcode detected: " +
+                                    barcodeInput.value;
+
+
+                                stopCameraScanner();
+
+
+                                setTimeout(
+                                    function() {
+
+                                        closeScanner();
+
+                                    },
+                                    700
+                                );
+
+                            }
+
+                        }
+
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Camera scanner error:",
+                    error
+                );
+
+
+                scannerRunning =
+                    false;
+
+
+                scannerStatus.textContent =
+                    "Camera could not start. Please allow camera permission and try again.";
+
+            }
+
+        }
+
+
+
+        /* -----------------------------------------
+           STOP CAMERA
+        ----------------------------------------- */
+
+
+        function stopCameraScanner() {
+
+            scannerRunning =
+                false;
+
+
+            try {
+
+                if (barcodeReader) {
+
+                    barcodeReader.reset();
+
+                }
+
+            } catch (error) {
+
+                console.log(
+                    "Scanner reset:",
+                    error
+                );
+
+            }
+
+
+            barcodeReader =
+                null;
+
+
+            if (barcodeVideo.srcObject) {
+
+                const tracks =
+                    barcodeVideo
+                        .srcObject
+                        .getTracks();
+
+
+                tracks.forEach(
+                    track =>
+                        track.stop()
+                );
+
+
+                barcodeVideo.srcObject =
+                    null;
+
+            }
+
+
+            scannerStatus.textContent =
+                "Camera stopped.";
+
+        }
+
+
+
+        stopScannerButton.addEventListener(
+            "click",
+            function() {
+
+                stopCameraScanner();
+
+            }
+        );
+
+
+
+        startScannerButton.addEventListener(
+            "click",
+            async function() {
+
+                try {
+
+                    await startCameraScanner();
+
+                } catch (error) {
+
+                    scannerStatus.textContent =
+                        error.message ||
+                        "Unable to start camera.";
+
+                }
+
+            }
+        );
+
+
+
+        /* -----------------------------------------
+           CLOSE SCANNER
+        ----------------------------------------- */
+
+
+        function closeScanner() {
+
+            stopCameraScanner();
+
+            scannerModal.classList.remove(
+                "show"
+            );
+
+        }
+
+
+
+        closeScannerButton.addEventListener(
+            "click",
+            function() {
+
+                closeScanner();
+
+            }
+        );
+
+
+
+        scannerModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    scannerModal
+                ) {
+
+                    closeScanner();
+
+                }
+
+            }
+        );
+
+
+
+        /* -----------------------------------------
+           MANUAL BARCODE INSIDE SCANNER
+        ----------------------------------------- */
+
+
+        useScannerManualButton.addEventListener(
+            "click",
+            function() {
+
+                const value =
+                    normalizeBarcode(
+                        scannerManualInput.value
+                    );
+
+
+                if (!value) {
+
+                    scannerStatus.textContent =
+                        "Please enter a barcode.";
+
+                    return;
+
+                }
+
+
+                barcodeInput.value =
+                    value;
+
+
+                scannerStatus.textContent =
+                    "✅ Barcode entered: " +
+                    value;
+
+
+                setTimeout(
+                    function() {
+
+                        closeScanner();
+
+                    },
+                    500
+                );
+
+            }
+        );
+
+
+
+        /* -----------------------------------------
+           GALLERY BARCODE SCANNING
+        ----------------------------------------- */
+
+
+        galleryBarcodeButton.addEventListener(
+            "click",
+            function() {
+
+                barcodeImageInput.click();
+
+            }
+        );
+
+
+
+        barcodeImageInput.addEventListener(
+            "change",
+            async function() {
+
+                const file =
+                    barcodeImageInput.files[0];
+
+
+                if (!file) {
+
+                    return;
+
+                }
+
+
+                try {
+
+                    showMessage(
+                        "Reading barcode from the selected image...",
+                        "info"
+                    );
+
+
+                    await loadZXing();
+
+
+                    const imageUrl =
+                        URL.createObjectURL(
+                            file
+                        );
+
+
+                    const reader =
+                        new ZXingModule.BrowserMultiFormatReader();
+
+
+                    let result = null;
+
+
+                    try {
+
+                        result =
+                            await reader.decodeFromImageUrl(
+                                imageUrl
+                            );
+
+                    } catch (firstError) {
+
+                        /*
+                         * Some browser/device combinations
+                         * need an actual HTML image element.
+                         */
+
+                        const image =
+                            new Image();
+
+
+                        image.src =
+                            imageUrl;
+
+
+                        await new Promise(
+                            function(resolve, reject) {
+
+                                image.onload =
+                                    resolve;
+
+                                image.onerror =
+                                    reject;
+
+                            }
+                        );
+
+
+                        try {
+
+                            result =
+                                await reader.decodeFromImageElement(
+                                    image
+                                );
+
+                        } catch (secondError) {
+
+                            throw firstError;
+
+                        }
+
+                    }
+
+
+                    URL.revokeObjectURL(
+                        imageUrl
+                    );
+
+
+                    if (!result) {
+
+                        throw new Error(
+                            "No barcode was found in the selected image."
+                        );
+
+                    }
+
+
+                    const detectedBarcode =
+                        normalizeBarcode(
+                            result.getText()
+                        );
+
+
+                    if (!detectedBarcode) {
+
+                        throw new Error(
+                            "The barcode could not be read from the image."
+                        );
+
+                    }
+
+
+                    barcodeInput.value =
+                        detectedBarcode;
+
+
+                    showMessage(
+                        "✅ Barcode successfully read from the image: " +
+                        detectedBarcode,
+                        "success"
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Gallery barcode error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "Could not read a barcode from that image. Make sure the barcode is clear, straight and fully visible, then try another photo.",
+                        "error"
+                    );
+
+                }
+
+
+                barcodeImageInput.value =
+                    "";
+
+            }
+        );
+
+
+
+        /* -----------------------------------------
+           AUTHENTICATION
+        ----------------------------------------- */
+
+
         onAuthStateChanged(
             auth,
-            user => {
+            function(user) {
 
                 if (!user) {
 
@@ -1166,12 +2283,23 @@
 
                 }
 
-                currentUser = user;
 
-                updateUserDisplay(user);
+                currentUser =
+                    user;
+
+
+                updateUserDisplay(
+                    user
+                );
 
             }
         );
+
+
+
+        /* -----------------------------------------
+           SAVE PRODUCT
+        ----------------------------------------- */
 
 
         productForm.addEventListener(
@@ -1195,28 +2323,36 @@
 
                 const productName =
                     document
-                        .getElementById("productName")
+                        .getElementById(
+                            "productName"
+                        )
                         .value
                         .trim();
 
 
                 const category =
                     document
-                        .getElementById("category")
+                        .getElementById(
+                            "category"
+                        )
                         .value
                         .trim();
 
 
                 const brand =
                     document
-                        .getElementById("brand")
+                        .getElementById(
+                            "brand"
+                        )
                         .value
                         .trim();
 
 
                 const sku =
                     document
-                        .getElementById("sku")
+                        .getElementById(
+                            "sku"
+                        )
                         .value
                         .trim()
                         .toUpperCase();
@@ -1224,16 +2360,16 @@
 
                 const barcode =
                     normalizeBarcode(
-                        document
-                            .getElementById("barcode")
-                            .value
+                        barcodeInput.value
                     );
 
 
                 const quantity =
                     Number(
                         document
-                            .getElementById("quantity")
+                            .getElementById(
+                                "quantity"
+                            )
                             .value
                     );
 
@@ -1241,34 +2377,44 @@
                 const lowStockLevel =
                     Number(
                         document
-                            .getElementById("lowStockLevel")
+                            .getElementById(
+                                "lowStockLevel"
+                            )
                             .value || 0
                     );
 
 
                 const batchNumber =
                     document
-                        .getElementById("batchNumber")
+                        .getElementById(
+                            "batchNumber"
+                        )
                         .value
                         .trim();
 
 
                 const expiryDate =
                     document
-                        .getElementById("expiryDate")
+                        .getElementById(
+                            "expiryDate"
+                        )
                         .value;
 
 
                 const manufacturingDate =
                     document
-                        .getElementById("manufacturingDate")
+                        .getElementById(
+                            "manufacturingDate"
+                        )
                         .value;
 
 
                 const costPrice =
                     Number(
                         document
-                            .getElementById("costPrice")
+                            .getElementById(
+                                "costPrice"
+                            )
                             .value || 0
                     );
 
@@ -1276,16 +2422,24 @@
                 const sellingPrice =
                     Number(
                         document
-                            .getElementById("sellingPrice")
+                            .getElementById(
+                                "sellingPrice"
+                            )
                             .value
                     );
 
 
                 const supplier =
                     document
-                        .getElementById("supplier")
+                        .getElementById(
+                            "supplier"
+                        )
                         .value
                         .trim();
+
+
+
+                /* VALIDATION */
 
 
                 if (!productName) {
@@ -1313,7 +2467,9 @@
 
 
                 if (
-                    !Number.isFinite(quantity) ||
+                    !Number.isFinite(
+                        quantity
+                    ) ||
                     quantity < 0
                 ) {
 
@@ -1328,7 +2484,9 @@
 
 
                 if (
-                    !Number.isFinite(lowStockLevel) ||
+                    !Number.isFinite(
+                        lowStockLevel
+                    ) ||
                     lowStockLevel < 0
                 ) {
 
@@ -1343,7 +2501,9 @@
 
 
                 if (
-                    !Number.isFinite(costPrice) ||
+                    !Number.isFinite(
+                        costPrice
+                    ) ||
                     costPrice < 0
                 ) {
 
@@ -1358,7 +2518,9 @@
 
 
                 if (
-                    !Number.isFinite(sellingPrice) ||
+                    !Number.isFinite(
+                        sellingPrice
+                    ) ||
                     sellingPrice < 0
                 ) {
 
@@ -1372,13 +2534,21 @@
                 }
 
 
-                saveButton.disabled = true;
+
+                saveButton.disabled =
+                    true;
+
 
                 saveButton.textContent =
                     "Saving...";
 
 
+
                 try {
+
+
+                    /* DUPLICATE BARCODE */
+
 
                     if (barcode) {
 
@@ -1387,23 +2557,34 @@
                                 barcode
                             );
 
-                        if (duplicateBarcode) {
+
+                        if (
+                            duplicateBarcode
+                        ) {
 
                             showMessage(
                                 "This barcode is already assigned to another product.",
                                 "error"
                             );
 
-                            saveButton.disabled = false;
+
+                            saveButton.disabled =
+                                false;
+
 
                             saveButton.textContent =
                                 "Save Product";
+
 
                             return;
 
                         }
 
                     }
+
+
+
+                    /* DUPLICATE SKU */
 
 
                     if (sku) {
@@ -1413,6 +2594,7 @@
                                 sku
                             );
 
+
                         if (duplicateSku) {
 
                             showMessage(
@@ -1420,10 +2602,14 @@
                                 "error"
                             );
 
-                            saveButton.disabled = false;
+
+                            saveButton.disabled =
+                                false;
+
 
                             saveButton.textContent =
                                 "Save Product";
+
 
                             return;
 
@@ -1432,27 +2618,36 @@
                     }
 
 
+
                     const staff =
                         getStaffDetails();
+
 
 
                     let status =
                         "In Stock";
 
 
-                    if (quantity <= 0) {
+                    if (
+                        quantity <= 0
+                    ) {
 
                         status =
                             "Out of Stock";
 
                     } else if (
-                        quantity <= lowStockLevel
+                        quantity <=
+                        lowStockLevel
                     ) {
 
                         status =
                             "Low Stock";
 
                     }
+
+
+
+                    /* PRODUCT DOCUMENT */
 
 
                     const productData = {
@@ -1506,13 +2701,16 @@
                             currentUser.uid,
 
                         createdByEmail:
-                            currentUser.email || "",
+                            currentUser.email ||
+                            "",
 
                         staffId:
-                            staff.staffId || "ADMIN",
+                            staff.staffId ||
+                            "ADMIN",
 
                         staffName:
-                            staff.name || "",
+                            staff.name ||
+                            "",
 
                         createdAt:
                             serverTimestamp(),
@@ -1523,17 +2721,20 @@
                     };
 
 
+
                     const productRef =
                         await addDoc(
-                            collection(db, "products"),
+                            collection(
+                                db,
+                                "products"
+                            ),
                             productData
                         );
 
 
-                    /*
-                     * If a batch number was entered,
-                     * also create a batch record.
-                     */
+
+                    /* BATCH DOCUMENT */
+
 
                     if (batchNumber) {
 
@@ -1574,7 +2775,8 @@
                                     currentUser.uid,
 
                                 createdByEmail:
-                                    currentUser.email || "",
+                                    currentUser.email ||
+                                    "",
 
                                 createdAt:
                                     serverTimestamp(),
@@ -1588,8 +2790,9 @@
                     }
 
 
+
                     showMessage(
-                        "Product saved successfully to Firebase.",
+                        "✅ Product saved successfully to Firebase.",
                         "success"
                     );
 
@@ -1598,13 +2801,18 @@
 
 
                     document
-                        .getElementById("quantity")
+                        .getElementById(
+                            "quantity"
+                        )
                         .value = "0";
 
 
                     document
-                        .getElementById("lowStockLevel")
+                        .getElementById(
+                            "lowStockLevel"
+                        )
                         .value = "5";
+
 
 
                     setTimeout(
@@ -1632,7 +2840,9 @@
                     );
 
 
-                    saveButton.disabled = false;
+                    saveButton.disabled =
+                        false;
+
 
                     saveButton.textContent =
                         "Save Product";
@@ -1641,6 +2851,12 @@
 
             }
         );
+
+
+
+        /* -----------------------------------------
+           CANCEL
+        ----------------------------------------- */
 
 
         cancelButton.addEventListener(
@@ -1654,15 +2870,25 @@
         );
 
 
+
+        /* -----------------------------------------
+           LOGOUT
+        ----------------------------------------- */
+
+
         logoutButton.addEventListener(
             "click",
             async function(event) {
 
                 event.preventDefault();
 
+
                 try {
 
-                    await signOut(auth);
+                    await signOut(
+                        auth
+                    );
+
 
                     window.location.href =
                         "login.html";
@@ -1679,7 +2905,9 @@
             }
         );
 
+
     </script>
+
 
 
     <!-- PERMISSION PROTECTION -->
@@ -1688,6 +2916,7 @@
         type="module"
         src="./js/permission.js"
     ></script>
+
 
 </body>
 
