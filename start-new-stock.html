@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
     <title>Start New Stock | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Safely clear old stock and sales data before starting a new stock-taking cycle."
+    >
 
     <style>
 
@@ -18,281 +26,522 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f7fb;
             color: #172033;
             min-height: 100vh;
         }
 
         .topbar {
-            background: #111827;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0a5fff,
+                    #0848c7
+                );
+
             color: white;
+
             padding: 18px 25px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
+            gap: 15px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.12);
         }
 
         .brand {
+
             display: flex;
+
             align-items: center;
+
             gap: 12px;
         }
 
         .brand img {
-            width: 48px;
-            height: 48px;
+
+            width: 45px;
+            height: 45px;
+
             object-fit: contain;
+
             background: white;
-            border-radius: 8px;
+
+            border-radius: 10px;
+
             padding: 4px;
         }
 
         .brand h1 {
-            font-size: 19px;
+
+            font-size: 20px;
         }
 
         .brand p {
-            font-size: 11px;
-            color: #9ca3af;
+
+            font-size: 12px;
+
+            opacity: 0.9;
+
             margin-top: 3px;
         }
 
-        .back {
-            color: white;
+        .back-btn {
+
+            display: inline-block;
+
             text-decoration: none;
-            background: #374151;
-            padding: 10px 15px;
-            border-radius: 7px;
-            font-size: 13px;
+
+            background: white;
+
+            color: #0a5fff;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
         }
 
         .page {
+
             max-width: 850px;
+
             margin: 35px auto;
-            padding: 0 18px 50px;
+
+            padding:
+                0 20px
+                50px;
         }
 
         .heading {
-            margin-bottom: 22px;
+
+            margin-bottom: 25px;
         }
 
         .heading h2 {
-            font-size: 27px;
+
+            font-size: 28px;
+
             margin-bottom: 7px;
         }
 
         .heading p {
-            color: #6b7280;
+
+            color: #687386;
+
+            line-height: 1.6;
         }
 
         .warning {
+
             background: #fff7ed;
+
             border: 1px solid #fdba74;
-            border-left: 5px solid #f97316;
+
+            color: #9a3412;
+
+            border-radius: 14px;
+
             padding: 20px;
-            border-radius: 10px;
+
             margin-bottom: 20px;
-        }
 
-        .warning h3 {
-            color: #c2410c;
-            margin-bottom: 10px;
-        }
-
-        .warning p {
             line-height: 1.6;
-            font-size: 14px;
+        }
+
+        .warning strong {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 17px;
         }
 
         .card {
+
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+
+            border-radius: 16px;
+
             padding: 25px;
+
             margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(21, 40, 70, 0.08);
         }
 
         .card h3 {
-            margin-bottom: 15px;
+
+            font-size: 19px;
+
+            margin-bottom: 18px;
         }
 
         .delete-list {
+
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
         }
 
         .delete-item {
-            background: #fff1f2;
-            border: 1px solid #fecdd3;
-            border-radius: 9px;
-            padding: 15px;
-            color: #9f1239;
-            font-weight: bold;
+
+            border: 1px solid #fecaca;
+
+            background: #fffafa;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
             text-align: center;
         }
 
-        .protect-list {
+        .delete-icon {
+
+            font-size: 27px;
+
+            margin-bottom: 8px;
+        }
+
+        .delete-name {
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+        }
+
+        .delete-count {
+
+            color: #dc2626;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .keep-list {
+
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
             gap: 10px;
         }
 
-        .protect-item {
-            background: #ecfdf5;
+        .keep-item {
+
+            background: #f0fdf4;
+
             border: 1px solid #bbf7d0;
-            border-radius: 8px;
-            padding: 12px;
+
             color: #166534;
-            font-size: 13px;
+
+            border-radius: 9px;
+
+            padding: 12px 14px;
+
+            font-weight: 600;
+
         }
 
-        .confirm-label {
+        .status {
+
+            padding: 14px 16px;
+
+            border-radius: 9px;
+
+            margin-bottom: 18px;
+
+            display: none;
+
+            line-height: 1.5;
+        }
+
+        .status.info {
+
             display: block;
+
+            background: #eef6ff;
+
+            color: #0a5fff;
+
+        }
+
+        .status.success {
+
+            display: block;
+
+            background: #eefaf1;
+
+            color: #218838;
+
+        }
+
+        .status.error {
+
+            display: block;
+
+            background: #fff0f0;
+
+            color: #c62828;
+
+        }
+
+        .admin-info {
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        .admin-info strong {
+
+            color: #172033;
+        }
+
+        label {
+
+            display: block;
+
             font-weight: bold;
+
             margin-bottom: 8px;
         }
 
         .confirm-input {
+
             width: 100%;
-            padding: 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+
+            padding: 14px 15px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius: 9px;
+
             font-size: 16px;
+
             outline: none;
+
+            margin-bottom: 14px;
         }
 
         .confirm-input:focus {
-            border-color: #0A5FFF;
+
+            border-color: #0a5fff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(10, 95, 255, 0.1);
         }
 
-        .button-row {
-            margin-top: 18px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+        .confirm-help {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 20px;
+
+            line-height: 1.5;
         }
 
         .reset-btn {
+
+            width: 100%;
+
             border: none;
+
             background: #dc2626;
+
             color: white;
-            padding: 13px 20px;
-            border-radius: 8px;
+
+            padding: 15px;
+
+            border-radius: 9px;
+
+            font-size: 16px;
+
             font-weight: bold;
+
             cursor: pointer;
-            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .reset-btn:hover {
+
+            background: #b91c1c;
         }
 
         .reset-btn:disabled {
-            background: #d1d5db;
-            color: #6b7280;
+
+            background: #94a3b8;
+
             cursor: not-allowed;
         }
 
-        .cancel-btn {
-            text-decoration: none;
-            background: #374151;
-            color: white;
-            padding: 13px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-        }
+        .progress-wrap {
 
-        .message {
             display: none;
-            padding: 14px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            font-size: 14px;
-        }
 
-        .message.show {
-            display: block;
-        }
-
-        .message.error {
-            background: #fef2f2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-
-        .message.success {
-            background: #ecfdf5;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-        }
-
-        .progress {
-            margin-top: 15px;
-            display: none;
-        }
-
-        .progress.show {
-            display: block;
+            margin-top: 20px;
         }
 
         .progress-bar {
-            height: 10px;
-            background: #e5e7eb;
-            border-radius: 10px;
+
+            width: 100%;
+
+            height: 12px;
+
+            background: #e2e8f0;
+
+            border-radius: 999px;
+
             overflow: hidden;
         }
 
         .progress-fill {
+
             width: 0%;
+
             height: 100%;
+
             background: #dc2626;
-            transition: width 0.2s;
+
+            transition: width 0.25s ease;
         }
 
         .progress-text {
-            margin-top: 8px;
-            font-size: 12px;
-            color: #6b7280;
+
+            text-align: center;
+
+            margin-top: 9px;
+
+            color: #64748b;
+
+            font-size: 13px;
         }
 
-        @media (max-width: 650px) {
+        .success-summary {
+
+            display: none;
+
+            background: #f0fdf4;
+
+            border: 1px solid #bbf7d0;
+
+            color: #166534;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            margin-top: 20px;
+
+            line-height: 1.7;
+        }
+
+        @media (max-width: 700px) {
 
             .topbar {
-                padding: 14px;
+
+                padding: 15px;
+
             }
 
             .brand h1 {
-                font-size: 16px;
+
+                font-size: 17px;
+
             }
 
-            .back {
-                padding: 8px 10px;
+            .brand p {
+
+                font-size: 11px;
+
+            }
+
+            .back-btn {
+
+                padding:
+                    8px 10px;
+
                 font-size: 12px;
             }
 
             .page {
-                margin-top: 25px;
+
+                margin:
+                    25px auto;
+
+                padding:
+                    0 14px
+                    35px;
             }
 
-            .delete-list {
-                grid-template-columns: 1fr;
-            }
+            .heading h2 {
 
-            .protect-list {
-                grid-template-columns: 1fr;
+                font-size: 23px;
             }
 
             .card {
-                padding: 18px;
+
+                padding: 20px;
             }
 
+            .delete-list {
+
+                grid-template-columns: 1fr;
+            }
+
+            .keep-list {
+
+                grid-template-columns: 1fr;
+            }
         }
 
     </style>
+
 </head>
 
+
 <body>
+
 
 <header class="topbar">
 
@@ -317,9 +566,10 @@
 
     </div>
 
+
     <a
         href="settings.html"
-        class="back"
+        class="back-btn"
     >
         ← Back to Settings
     </a>
@@ -329,6 +579,7 @@
 
 <main class="page">
 
+
     <div class="heading">
 
         <h2>
@@ -336,101 +587,169 @@
         </h2>
 
         <p>
-            Prepare Nesi Medicals for the new verified physical stock count.
+            Use this function when you want to clear
+            the old/test stock and begin a completely
+            new stock-taking cycle.
         </p>
 
     </div>
 
 
     <div
-        id="message"
-        class="message"
+        id="statusMessage"
+        class="status"
     ></div>
 
 
-    <section class="warning">
+    <div
+        id="adminInfo"
+        class="admin-info"
+    >
+        Checking administrator access...
+    </div>
 
-        <h3>
-            ⚠️ Permanent Data Reset
-        </h3>
 
-        <p>
-            This operation is for starting your real stock records after
-            physical stock-taking. The selected test/old transaction data
-            will be permanently deleted from Firebase.
-        </p>
+    <div class="warning">
 
-        <br>
+        <strong>
+            ⚠️ Permanent Deletion Warning
+        </strong>
 
-        <p>
-            <strong>
-                Make sure your physical stock-taking records are complete
-                before continuing.
-            </strong>
-        </p>
+        This operation permanently deletes the selected
+        stock and sales records from Firebase.
 
-    </section>
+        <br><br>
 
+        Make sure your previous data is no longer needed
+        before continuing.
+
+        <br><br>
+
+        <strong>
+            This cannot be undone from this page.
+        </strong>
+
+    </div>
+
+
+    <!-- DATA TO DELETE -->
 
     <section class="card">
 
         <h3>
-            The following will be deleted
+            Data That Will Be Deleted
         </h3>
+
 
         <div class="delete-list">
 
-            <div class="delete-item">
-                📦 Products
-            </div>
 
             <div class="delete-item">
-                🧾 Sales
+
+                <div class="delete-icon">
+                    📦
+                </div>
+
+                <div class="delete-name">
+                    Products
+                </div>
+
+                <div
+                    class="delete-count"
+                    id="productCount"
+                >
+                    Checking...
+                </div>
+
             </div>
 
+
             <div class="delete-item">
-                🏷️ Product Batches
+
+                <div class="delete-icon">
+                    🏷️
+                </div>
+
+                <div class="delete-name">
+                    Product Batches
+                </div>
+
+                <div
+                    class="delete-count"
+                    id="batchCount"
+                >
+                    Checking...
+                </div>
+
             </div>
+
+
+            <div class="delete-item">
+
+                <div class="delete-icon">
+                    🧾
+                </div>
+
+                <div class="delete-name">
+                    Sales
+                </div>
+
+                <div
+                    class="delete-count"
+                    id="salesCount"
+                >
+                    Checking...
+                </div>
+
+            </div>
+
 
         </div>
 
+    </section>
+
+
+    <!-- DATA TO KEEP -->
+
+    <section class="card">
 
         <h3>
-            The following will NOT be deleted
+            Data That Will Be Kept
         </h3>
 
-        <div class="protect-list">
 
-            <div class="protect-item">
-                ✓ Staff records
+        <div class="keep-list">
+
+            <div class="keep-item">
+                ✅ Staff
             </div>
 
-            <div class="protect-item">
-                ✓ Firebase login accounts
+            <div class="keep-item">
+                ✅ Firebase Login Accounts
             </div>
 
-            <div class="protect-item">
-                ✓ Customers
+            <div class="keep-item">
+                ✅ Customers
             </div>
 
-            <div class="protect-item">
-                ✓ Suppliers
+            <div class="keep-item">
+                ✅ Suppliers
             </div>
 
-            <div class="protect-item">
-                ✓ Expenses
+            <div class="keep-item">
+                ✅ Expenses
             </div>
 
-            <div class="protect-item">
-                ✓ Settings
+            <div class="keep-item">
+                ✅ Settings
             </div>
 
-            <div class="protect-item">
-                ✓ Application code
+            <div class="keep-item">
+                ✅ Application Code
             </div>
 
-            <div class="protect-item">
-                ✓ Firebase project
+            <div class="keep-item">
+                ✅ Firebase Project
             </div>
 
         </div>
@@ -438,64 +757,56 @@
     </section>
 
 
+    <!-- CONFIRMATION -->
+
     <section class="card">
 
         <h3>
-            Administrator Confirmation
+            Confirm New Stock Reset
         </h3>
 
-        <label
-            class="confirm-label"
-            for="confirmation"
-        >
+
+        <label for="confirmationInput">
+
             Type exactly:
+
+            <strong>
+                START NEW STOCK
+            </strong>
+
         </label>
 
-        <p
-            style="
-                margin-bottom:10px;
-                color:#dc2626;
-                font-weight:bold;
-            "
-        >
-            START NEW STOCK
-        </p>
 
         <input
             type="text"
-            id="confirmation"
+            id="confirmationInput"
             class="confirm-input"
-            placeholder="Type START NEW STOCK"
+            placeholder="START NEW STOCK"
             autocomplete="off"
         >
 
 
-        <div
-            class="button-row"
-        >
+        <div class="confirm-help">
 
-            <button
-                type="button"
-                id="resetButton"
-                class="reset-btn"
-                disabled
-            >
-                🗑️ Start New Stock
-            </button>
-
-            <a
-                href="settings.html"
-                class="cancel-btn"
-            >
-                Cancel
-            </a>
+            This confirmation is required to prevent
+            accidental deletion.
 
         </div>
 
 
+        <button
+            type="button"
+            id="resetBtn"
+            class="reset-btn"
+            disabled
+        >
+            🗑️ Delete Old Stock & Start New Stock
+        </button>
+
+
         <div
-            id="progress"
-            class="progress"
+            id="progressWrap"
+            class="progress-wrap"
         >
 
             <div class="progress-bar">
@@ -507,6 +818,7 @@
 
             </div>
 
+
             <div
                 id="progressText"
                 class="progress-text"
@@ -516,108 +828,171 @@
 
         </div>
 
+
+        <div
+            id="successSummary"
+            class="success-summary"
+        ></div>
+
+
     </section>
+
 
 </main>
 
 
 <script type="module">
 
-import {
-    auth,
-    db
-} from "./js/firebase.js";
+    import {
+        auth,
+        db
+    } from "./js/firebase.js";
 
 
-import {
-    onAuthStateChanged,
-    signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-import {
-    collection,
-    getDocs,
-    deleteDoc,
-    doc,
-    query,
-    where,
-    writeBatch
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+        collection,
+        getDocs,
+        deleteDoc,
+        doc,
+        query,
+        where,
+        writeBatch,
+        serverTimestamp,
+        addDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-const confirmation =
-    document.getElementById(
-        "confirmation"
-    );
-
-const resetButton =
-    document.getElementById(
-        "resetButton"
-    );
-
-const message =
-    document.getElementById(
-        "message"
-    );
-
-const progress =
-    document.getElementById(
-        "progress"
-    );
-
-const progressFill =
-    document.getElementById(
-        "progressFill"
-    );
-
-const progressText =
-    document.getElementById(
-        "progressText"
-    );
+    const CONFIRMATION_TEXT =
+        "START NEW STOCK";
 
 
-let currentUser = null;
-let currentStaff = null;
-let isResetting = false;
+    const BATCH_SIZE = 400;
 
 
-/* ==========================================
-   MESSAGE
-========================================== */
-
-function showMessage(
-    text,
-    type
-) {
-
-    message.textContent = text;
-
-    message.className =
-        "message show " + type;
-
-}
+    const statusMessage =
+        document.getElementById(
+            "statusMessage"
+        );
 
 
-/* ==========================================
-   ADMIN CHECK
-========================================== */
+    const adminInfo =
+        document.getElementById(
+            "adminInfo"
+        );
 
-async function getStaffProfile(user) {
 
-    if (!user) {
-        return null;
+    const productCount =
+        document.getElementById(
+            "productCount"
+        );
+
+
+    const batchCount =
+        document.getElementById(
+            "batchCount"
+        );
+
+
+    const salesCount =
+        document.getElementById(
+            "salesCount"
+        );
+
+
+    const confirmationInput =
+        document.getElementById(
+            "confirmationInput"
+        );
+
+
+    const resetBtn =
+        document.getElementById(
+            "resetBtn"
+        );
+
+
+    const progressWrap =
+        document.getElementById(
+            "progressWrap"
+        );
+
+
+    const progressFill =
+        document.getElementById(
+            "progressFill"
+        );
+
+
+    const progressText =
+        document.getElementById(
+            "progressText"
+        );
+
+
+    const successSummary =
+        document.getElementById(
+            "successSummary"
+        );
+
+
+    let currentUser = null;
+
+    let currentStaff = null;
+
+    let resetAllowed = false;
+
+
+    function showStatus(
+        message,
+        type = "info"
+    ) {
+
+        statusMessage.textContent =
+            message;
+
+        statusMessage.className =
+            `status ${type}`;
+
     }
 
 
-    try {
+    function updateResetButton() {
 
-        const uidQuery =
-            query(
-                collection(
-                    db,
-                    "staff"
-                ),
+        resetBtn.disabled =
+            !resetAllowed ||
+            confirmationInput.value.trim() !==
+                CONFIRMATION_TEXT;
+
+    }
+
+
+    confirmationInput.addEventListener(
+        "input",
+        updateResetButton
+    );
+
+
+    async function findStaff(user) {
+
+        if (!user) {
+            return null;
+        }
+
+
+        try {
+
+            /*
+             * First try Firebase UID.
+             */
+
+            const uidQuery = query(
+                collection(db, "staff"),
                 where(
                     "uid",
                     "==",
@@ -626,55 +1001,14 @@ async function getStaffProfile(user) {
             );
 
 
-        const uidSnapshot =
-            await getDocs(
-                uidQuery
-            );
+            const uidSnapshot =
+                await getDocs(uidQuery);
 
 
-        if (
-            !uidSnapshot.empty
-        ) {
-
-            const staffDoc =
-                uidSnapshot.docs[0];
-
-            return {
-                id: staffDoc.id,
-                ...staffDoc.data()
-            };
-
-        }
-
-
-        if (user.email) {
-
-            const emailQuery =
-                query(
-                    collection(
-                        db,
-                        "staff"
-                    ),
-                    where(
-                        "email",
-                        "==",
-                        user.email.toLowerCase()
-                    )
-                );
-
-
-            const emailSnapshot =
-                await getDocs(
-                    emailQuery
-                );
-
-
-            if (
-                !emailSnapshot.empty
-            ) {
+            if (!uidSnapshot.empty) {
 
                 const staffDoc =
-                    emailSnapshot.docs[0];
+                    uidSnapshot.docs[0];
 
                 return {
                     id: staffDoc.id,
@@ -683,196 +1017,243 @@ async function getStaffProfile(user) {
 
             }
 
-        }
 
-    } catch (error) {
+            /*
+             * Then try email.
+             */
 
-        console.error(
-            "Staff lookup error:",
-            error
-        );
+            if (user.email) {
 
-    }
-
-
-    return null;
-}
-
-
-/* ==========================================
-   CONFIRMATION FIELD
-========================================== */
-
-confirmation.addEventListener(
-    "input",
-    () => {
-
-        const valid =
-            confirmation.value.trim() ===
-            "START NEW STOCK";
-
-        resetButton.disabled =
-            !valid ||
-            isResetting;
-
-    }
-);
+                const emailQuery =
+                    query(
+                        collection(
+                            db,
+                            "staff"
+                        ),
+                        where(
+                            "email",
+                            "==",
+                            user.email.toLowerCase()
+                        )
+                    );
 
 
-/* ==========================================
-   DELETE COLLECTION IN BATCHES
-========================================== */
-
-async function deleteCollection(
-    collectionName,
-    progressStart,
-    progressEnd
-) {
-
-    const snapshot =
-        await getDocs(
-            collection(
-                db,
-                collectionName
-            )
-        );
+                const emailSnapshot =
+                    await getDocs(
+                        emailQuery
+                    );
 
 
-    const documents =
-        snapshot.docs;
+                if (
+                    !emailSnapshot.empty
+                ) {
 
+                    const staffDoc =
+                        emailSnapshot.docs[0];
 
-    if (!documents.length) {
-        return 0;
-    }
+                    return {
+                        id: staffDoc.id,
+                        ...staffDoc.data()
+                    };
 
-
-    let deleted = 0;
-
-
-    /*
-     * Firestore batches support
-     * up to 500 operations.
-     */
-
-    for (
-        let i = 0;
-        i < documents.length;
-        i += 400
-    ) {
-
-        const chunk =
-            documents.slice(
-                i,
-                i + 400
-            );
-
-
-        const batch =
-            writeBatch(db);
-
-
-        chunk.forEach(
-            item => {
-
-                batch.delete(
-                    item.ref
-                );
+                }
 
             }
-        );
 
 
-        await batch.commit();
+        } catch (error) {
 
-
-        deleted +=
-            chunk.length;
-
-
-        const percentage =
-            progressStart +
-            (
-                (
-                    deleted /
-                    documents.length
-                ) *
-                (
-                    progressEnd -
-                    progressStart
-                )
+            console.error(
+                "Staff lookup error:",
+                error
             );
 
+        }
 
-        progressFill.style.width =
-            Math.min(
-                percentage,
-                progressEnd
-            ) + "%";
 
-        progressText.textContent =
-            `Deleting ${collectionName}... ${deleted}/${documents.length}`;
+        return null;
 
     }
 
 
-    return deleted;
-}
-
-
-/* ==========================================
-   DELETE PRODUCT BATCHES
-========================================== */
-
-async function deleteProductBatches(
-    productDocs
-) {
-
-    let totalBatches = 0;
-
-
-    for (
-        let i = 0;
-        i < productDocs.length;
-        i++
+    async function getCollectionCount(
+        collectionName
     ) {
 
-        const product =
-            productDocs[i];
-
-
-        const batchSnapshot =
+        const snapshot =
             await getDocs(
                 collection(
                     db,
-                    "products",
-                    product.id,
-                    "batches"
+                    collectionName
                 )
             );
 
+        return snapshot.size;
 
-        if (
-            batchSnapshot.empty
-        ) {
-            continue;
-        }
+    }
 
 
-        const batchDocs =
-            batchSnapshot.docs;
+    async function getBatchCount(
+        products
+    ) {
+
+        let total = 0;
 
 
         for (
-            let x = 0;
-            x < batchDocs.length;
-            x += 400
+            const productDoc
+            of products
+        ) {
+
+            const batchSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "products",
+                        productDoc.id,
+                        "batches"
+                    )
+                );
+
+
+            total +=
+                batchSnapshot.size;
+
+        }
+
+
+        return total;
+
+    }
+
+
+    async function loadPreview() {
+
+        try {
+
+            showStatus(
+                "Checking current stock data...",
+                "info"
+            );
+
+
+            const productsSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "products"
+                    )
+                );
+
+
+            const salesSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "sales"
+                    )
+                );
+
+
+            const products =
+                productsSnapshot.docs;
+
+
+            const productsTotal =
+                products.length;
+
+
+            const salesTotal =
+                salesSnapshot.size;
+
+
+            productCount.textContent =
+                `${productsTotal} product${
+                    productsTotal === 1
+                        ? ""
+                        : "s"
+                }`;
+
+
+            salesCount.textContent =
+                `${salesTotal} sale${
+                    salesTotal === 1
+                        ? ""
+                        : "s"
+                }`;
+
+
+            const batchesTotal =
+                await getBatchCount(
+                    products
+                );
+
+
+            batchCount.textContent =
+                `${batchesTotal} batch${
+                    batchesTotal === 1
+                        ? ""
+                        : "es"
+                }`;
+
+
+            showStatus(
+                "Preview loaded. Nothing has been deleted.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Preview error:",
+                error
+            );
+
+
+            showStatus(
+                "Unable to load the stock preview. Check your Firebase connection and try again.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    function setProgress(
+        percent,
+        message
+    ) {
+
+        progressFill.style.width =
+            `${percent}%`;
+
+        progressText.textContent =
+            message;
+
+    }
+
+
+    async function deleteInChunks(
+        docs,
+        label,
+        onProgress
+    ) {
+
+        let deleted = 0;
+
+
+        for (
+            let i = 0;
+            i < docs.length;
+            i += BATCH_SIZE
         ) {
 
             const chunk =
-                batchDocs.slice(
-                    x,
-                    x + 400
+                docs.slice(
+                    i,
+                    i + BATCH_SIZE
                 );
 
 
@@ -884,7 +1265,10 @@ async function deleteProductBatches(
                 item => {
 
                     batch.delete(
-                        item.ref
+                        doc(
+                            db,
+                            item.ref.path
+                        )
                     );
 
                 }
@@ -893,342 +1277,725 @@ async function deleteProductBatches(
 
             await batch.commit();
 
-            totalBatches +=
+
+            deleted +=
                 chunk.length;
 
+
+            if (onProgress) {
+
+                onProgress(
+                    deleted,
+                    docs.length
+                );
+
+            }
+
         }
 
+
+        return deleted;
+
     }
 
 
-    return totalBatches;
-}
-
-
-/* ==========================================
-   START RESET
-========================================== */
-
-async function startNewStock() {
-
-    if (isResetting) {
-        return;
-    }
-
-
-    if (
-        confirmation.value.trim() !==
-        "START NEW STOCK"
+    async function deleteProductBatches(
+        productDocs,
+        totalBatches
     ) {
 
-        showMessage(
-            "Please type START NEW STOCK exactly.",
-            "error"
-        );
+        let deleted =
+            0;
 
-        return;
+
+        for (
+            const productDoc
+            of productDocs
+        ) {
+
+            const batchesSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "products",
+                        productDoc.id,
+                        "batches"
+                    )
+                );
+
+
+            if (
+                batchesSnapshot.empty
+            ) {
+                continue;
+            }
+
+
+            const batches =
+                batchesSnapshot.docs;
+
+
+            for (
+                let i = 0;
+                i < batches.length;
+                i += BATCH_SIZE
+            ) {
+
+                const chunk =
+                    batches.slice(
+                        i,
+                        i + BATCH_SIZE
+                    );
+
+
+                const batch =
+                    writeBatch(db);
+
+
+                chunk.forEach(
+                    batchDoc => {
+
+                        batch.delete(
+                            doc(
+                                db,
+                                "products",
+                                productDoc.id,
+                                "batches",
+                                batchDoc.id
+                            )
+                        );
+
+                    }
+                );
+
+
+                await batch.commit();
+
+
+                deleted +=
+                    chunk.length;
+
+
+                const percent =
+                    totalBatches > 0
+                        ? Math.round(
+                            (
+                                deleted /
+                                totalBatches
+                            ) * 35
+                        )
+                        : 35;
+
+
+                setProgress(
+                    percent,
+                    `Deleting product batches: ${deleted} of ${totalBatches}`
+                );
+
+            }
+
+        }
+
+
+        return deleted;
+
     }
 
 
-    if (!currentUser) {
+    async function createResetAudit(
+        deletedProducts,
+        deletedBatches,
+        deletedSales
+    ) {
 
-        showMessage(
-            "You are not logged in.",
-            "error"
-        );
+        try {
 
-        return;
-    }
-
-
-    /*
-     * Extra administrator protection.
-     */
-
-    if (!currentStaff) {
-
-        showMessage(
-            "Administrator staff record could not be verified.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    const role =
-        String(
-            currentStaff.role || ""
-        ).toLowerCase();
-
-
-    const isAdmin =
-        role === "administrator" ||
-        role === "admin";
-
-
-    if (!isAdmin) {
-
-        showMessage(
-            "Only an Administrator can start new stock.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    const finalCheck =
-        confirm(
-            "FINAL WARNING\n\n" +
-            "This will permanently delete:\n\n" +
-            "• Products\n" +
-            "• Product batches\n" +
-            "• Sales\n\n" +
-            "Staff, customers, suppliers, expenses, " +
-            "settings and Firebase login accounts will remain.\n\n" +
-            "Continue?"
-        );
-
-
-    if (!finalCheck) {
-        return;
-    }
-
-
-    isResetting = true;
-
-    resetButton.disabled = true;
-
-    confirmation.disabled = true;
-
-    progress.classList.add(
-        "show"
-    );
-
-    progressFill.style.width =
-        "5%";
-
-    progressText.textContent =
-        "Preparing stock reset...";
-
-
-    try {
-
-        /*
-         * FIRST:
-         * Read all products so their
-         * batch subcollections can
-         * also be removed.
-         */
-
-        const productsSnapshot =
-            await getDocs(
+            await addDoc(
                 collection(
                     db,
-                    "products"
-                )
+                    "stockResetHistory"
+                ),
+                {
+
+                    action:
+                        "START_NEW_STOCK",
+
+                    deletedProducts,
+
+                    deletedBatches,
+
+                    deletedSales,
+
+                    staffId:
+                        currentStaff?.staffId ||
+                        "ADMIN",
+
+                    staffName:
+                        currentStaff?.name ||
+                        currentUser?.displayName ||
+                        "",
+
+                    staffUid:
+                        currentUser?.uid ||
+                        "",
+
+                    email:
+                        currentUser?.email ||
+                        "",
+
+                    createdAt:
+                        serverTimestamp()
+
+                }
             );
 
+        } catch (error) {
 
-        const productDocs =
-            productsSnapshot.docs;
+            /*
+             * Do not fail the reset because
+             * audit logging itself failed.
+             */
 
-
-        progressFill.style.width =
-            "15%";
-
-        progressText.textContent =
-            `Found ${productDocs.length} product(s).`;
-
-
-        /*
-         * DELETE PRODUCT BATCHES
-         */
-
-        const batchCount =
-            await deleteProductBatches(
-                productDocs
+            console.error(
+                "Audit log error:",
+                error
             );
 
-
-        progressFill.style.width =
-            "35%";
-
-        progressText.textContent =
-            `${batchCount} product batch record(s) removed.`;
-
-
-        /*
-         * DELETE PRODUCTS
-         */
-
-        await deleteCollection(
-            "products",
-            35,
-            55
-        );
-
-
-        /*
-         * DELETE SALES
-         */
-
-        await deleteCollection(
-            "sales",
-            55,
-            95
-        );
-
-
-        /*
-         * COMPLETE
-         */
-
-        progressFill.style.width =
-            "100%";
-
-        progressText.textContent =
-            "Stock reset completed.";
-
-
-        showMessage(
-            "Start New Stock completed successfully. " +
-            "Products, product batches and sales have been cleared. " +
-            "You can now enter your verified physical stock.",
-            "success"
-        );
-
-
-        confirmation.value = "";
-
-        confirmation.disabled = true;
-
-        resetButton.disabled = true;
-
-
-    } catch (error) {
-
-        console.error(
-            "START NEW STOCK ERROR:",
-            error
-        );
-
-
-        progressFill.style.width =
-            "0%";
-
-        progressText.textContent =
-            "Reset stopped because an error occurred.";
-
-
-        showMessage(
-            "The reset could not be completed. " +
-            "No further deletion was attempted. " +
-            "Check the browser console/Firebase permissions.",
-            "error"
-        );
-
-
-        isResetting = false;
-
-        confirmation.disabled = false;
-
-        resetButton.disabled =
-            confirmation.value.trim() !==
-            "START NEW STOCK";
+        }
 
     }
 
-}
 
+    async function performReset() {
 
-/* ==========================================
-   BUTTON
-========================================== */
+        if (!resetAllowed) {
 
-resetButton.addEventListener(
-    "click",
-    startNewStock
-);
-
-
-/* ==========================================
-   AUTHENTICATION
-========================================== */
-
-onAuthStateChanged(
-    auth,
-    async user => {
-
-        if (!user) {
-
-            window.location.href =
-                "login.html";
-
-            return;
-        }
-
-
-        currentUser = user;
-
-
-        currentStaff =
-            await getStaffProfile(
-                user
-            );
-
-
-        if (!currentStaff) {
-
-            showMessage(
-                "Your staff profile could not be verified.",
+            showStatus(
+                "Administrator access is required.",
                 "error"
             );
 
-            resetButton.disabled =
-                true;
-
             return;
+
         }
 
 
-        const role =
-            String(
-                currentStaff.role || ""
-            ).toLowerCase();
+        if (
+            confirmationInput.value.trim() !==
+            CONFIRMATION_TEXT
+        ) {
 
-
-        const isAdmin =
-            role === "administrator" ||
-            role === "admin";
-
-
-        if (!isAdmin) {
-
-            showMessage(
-                "Access denied. Only an Administrator can use Start New Stock.",
+            showStatus(
+                "Please type START NEW STOCK exactly.",
                 "error"
             );
 
-            resetButton.disabled =
-                true;
-
-            confirmation.disabled =
-                true;
-
             return;
+
         }
 
 
-        console.log(
-            "Start New Stock: Administrator verified."
-        );
+        const finalConfirm =
+            window.confirm(
+                "FINAL WARNING\n\n" +
+
+                "This will permanently delete:\n" +
+
+                "• All Products\n" +
+
+                "• All Product Batches\n" +
+
+                "• All Sales\n\n" +
+
+                "Staff, Customers, Suppliers, Expenses and Settings will remain.\n\n" +
+
+                "Do you want to continue?"
+            );
+
+
+        if (!finalConfirm) {
+
+            showStatus(
+                "Reset cancelled. No data was deleted.",
+                "info"
+            );
+
+            return;
+
+        }
+
+
+        resetBtn.disabled = true;
+
+        confirmationInput.disabled =
+            true;
+
+        progressWrap.style.display =
+            "block";
+
+        successSummary.style.display =
+            "none";
+
+
+        try {
+
+            showStatus(
+                "Starting new-stock reset...",
+                "info"
+            );
+
+
+            /*
+             * Get fresh documents immediately
+             * before deletion.
+             */
+
+            const productsSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "products"
+                    )
+                );
+
+
+            const salesSnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "sales"
+                    )
+                );
+
+
+            const productDocs =
+                productsSnapshot.docs;
+
+
+            const salesDocs =
+                salesSnapshot.docs;
+
+
+            /*
+             * Count batches first.
+             */
+
+            let totalBatches = 0;
+
+
+            for (
+                const productDoc
+                of productDocs
+            ) {
+
+                const batchSnapshot =
+                    await getDocs(
+                        collection(
+                            db,
+                            "products",
+                            productDoc.id,
+                            "batches"
+                        )
+                    );
+
+
+                totalBatches +=
+                    batchSnapshot.size;
+
+            }
+
+
+            /*
+             * Delete product batches first.
+             */
+
+            const deletedBatches =
+                await deleteProductBatches(
+                    productDocs,
+                    totalBatches
+                );
+
+
+            /*
+             * Delete products.
+             */
+
+            setProgress(
+                45,
+                "Deleting products..."
+            );
+
+
+            const deletedProducts =
+                await deleteInChunks(
+                    productDocs,
+                    "Products",
+                    (
+                        deleted,
+                        total
+                    ) => {
+
+                        const percent =
+                            total > 0
+                                ? 45 +
+                                  Math.round(
+                                      (
+                                          deleted /
+                                          total
+                                      ) * 20
+                                  )
+                                : 65;
+
+
+                        setProgress(
+                            percent,
+                            `Deleting products: ${deleted} of ${total}`
+                        );
+
+                    }
+                );
+
+
+            /*
+             * Delete sales.
+             */
+
+            setProgress(
+                70,
+                "Deleting sales..."
+            );
+
+
+            const deletedSales =
+                await deleteInChunks(
+                    salesDocs,
+                    "Sales",
+                    (
+                        deleted,
+                        total
+                    ) => {
+
+                        const percent =
+                            total > 0
+                                ? 70 +
+                                  Math.round(
+                                      (
+                                          deleted /
+                                          total
+                                      ) * 20
+                                  )
+                                : 90;
+
+
+                        setProgress(
+                            percent,
+                            `Deleting sales: ${deleted} of ${total}`
+                        );
+
+                    }
+                );
+
+
+            /*
+             * Write audit record.
+             */
+
+            setProgress(
+                93,
+                "Saving reset record..."
+            );
+
+
+            await createResetAudit(
+                deletedProducts,
+                deletedBatches,
+                deletedSales
+            );
+
+
+            setProgress(
+                100,
+                "New stock reset completed."
+            );
+
+
+            showStatus(
+                "New stock reset completed successfully.",
+                "success"
+            );
+
+
+            successSummary.innerHTML = `
+
+                <strong>
+                    ✅ Ready for a New Stock Count
+                </strong>
+
+                <br><br>
+
+                Products deleted:
+                <strong>
+                    ${deletedProducts}
+                </strong>
+
+                <br>
+
+                Product batches deleted:
+                <strong>
+                    ${deletedBatches}
+                </strong>
+
+                <br>
+
+                Sales deleted:
+                <strong>
+                    ${deletedSales}
+                </strong>
+
+                <br><br>
+
+                Your staff, customers, suppliers,
+                expenses and settings were kept.
+
+                <br><br>
+
+                You can now go to
+                <strong>
+                    Inventory
+                </strong>
+                and enter the verified physical stock
+                from your new stock-taking exercise.
+
+            `;
+
+
+            successSummary.style.display =
+                "block";
+
+
+            confirmationInput.value =
+                "";
+
+
+        } catch (error) {
+
+            console.error(
+                "START NEW STOCK error:",
+                error
+            );
+
+
+            showStatus(
+                "The reset encountered an error. Check the browser console and Firebase data before attempting another reset.",
+                "error"
+            );
+
+
+            /*
+             * We deliberately do not pretend
+             * that a failed operation was rolled back.
+             */
+
+            progressText.textContent =
+                "Reset stopped because an error occurred.";
+
+        } finally {
+
+            confirmationInput.disabled =
+                false;
+
+            /*
+             * Do not automatically re-enable
+             * the reset button after completion.
+             */
+
+            resetBtn.disabled = true;
+
+        }
 
     }
-);
+
+
+    resetBtn.addEventListener(
+        "click",
+        performReset
+    );
+
+
+    onAuthStateChanged(
+        auth,
+        async user => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            currentUser =
+                user;
+
+
+            currentStaff =
+                await findStaff(user);
+
+
+            if (!currentStaff) {
+
+                adminInfo.textContent =
+                    "❌ No staff profile was found for this account. Reset access is blocked.";
+
+                adminInfo.style.background =
+                    "#fff0f0";
+
+                adminInfo.style.color =
+                    "#c62828";
+
+                resetAllowed =
+                    false;
+
+                updateResetButton();
+
+                return;
+
+            }
+
+
+            const role =
+                String(
+                    currentStaff.role ||
+                    ""
+                ).trim();
+
+
+            const isAdmin =
+                role === "Administrator" ||
+                role === "Admin";
+
+
+            const isActive =
+                !currentStaff.status ||
+                currentStaff.status ===
+                    "Active";
+
+
+            if (!isActive) {
+
+                adminInfo.textContent =
+                    "❌ This staff account is inactive. Reset access is blocked.";
+
+                adminInfo.style.background =
+                    "#fff0f0";
+
+                adminInfo.style.color =
+                    "#c62828";
+
+                resetAllowed =
+                    false;
+
+                updateResetButton();
+
+                return;
+
+            }
+
+
+            if (!isAdmin) {
+
+                adminInfo.innerHTML = `
+
+                    ❌ <strong>
+                    Administrator access required.
+                    </strong>
+
+                    <br>
+
+                    Logged in as:
+                    ${currentStaff.name || user.email}
+
+                    <br>
+
+                    Role:
+                    ${role || "Staff"}
+
+                `;
+
+
+                adminInfo.style.background =
+                    "#fff0f0";
+
+                adminInfo.style.color =
+                    "#c62828";
+
+
+                resetAllowed =
+                    false;
+
+                updateResetButton();
+
+                return;
+
+            }
+
+
+            /*
+             * Administrator confirmed.
+             */
+
+            resetAllowed =
+                true;
+
+
+            adminInfo.innerHTML = `
+
+                🔐 <strong>
+                Administrator access confirmed.
+                </strong>
+
+                <br>
+
+                Logged in as:
+                ${currentStaff.name || user.email}
+
+                <br>
+
+                Staff ID:
+                ${currentStaff.staffId || "ADMIN"}
+
+                <br>
+
+                Role:
+                ${role}
+
+            `;
+
+
+            adminInfo.style.background =
+                "#eefaf1";
+
+            adminInfo.style.borderColor =
+                "#bbf7d0";
+
+            adminInfo.style.color =
+                "#166534";
+
+
+            updateResetButton();
+
+
+            await loadPreview();
+
+        }
+
+    );
 
 </script>
 
+
 </body>
-  </html>
+
+</html>
