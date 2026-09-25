@@ -1,41 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Products | Nesi Medicals</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Product | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Add products to Nesi Medicals inventory"
+    >
 
     <style>
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: #f3f6fa;
-            color: #172033;
+            background: #f5f7f6;
+            color: #17201c;
+            min-height: 100vh;
         }
 
-        header {
-            background: #111827;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            position: sticky;
+        .sidebar {
+            position: fixed;
+            left: 0;
             top: 0;
-            z-index: 100;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(
+                180deg,
+                #073b2a,
+                #062b21
+            );
+            color: white;
+            padding: 22px 15px;
+            z-index: 1000;
+            overflow-y: auto;
         }
 
         .brand {
             display: flex;
             align-items: center;
             gap: 10px;
+            padding: 0 8px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            margin-bottom: 20px;
         }
 
         .brand img {
@@ -43,510 +62,291 @@
             height: 45px;
             object-fit: contain;
             border-radius: 8px;
+            background: white;
         }
 
         .brand-text strong {
             display: block;
-            font-size: 18px;
+            color: #4ade80;
+            font-size: 16px;
         }
 
         .brand-text span {
-            font-size: 11px;
-            opacity: .75;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        button {
-            border: none;
-            border-radius: 8px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .dashboard-btn {
-            background: #2563eb;
-            color: white;
-        }
-
-        .logout-btn {
-            background: #dc2626;
-            color: white;
-        }
-
-        main {
-            max-width: 1450px;
-            margin: auto;
-            padding: 25px;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .page-header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-
-        .page-header p {
-            color: #64748b;
-        }
-
-        .add-btn {
-            background: #16a34a;
-            color: white;
-            font-size: 15px;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.06);
-        }
-
-        .stat-card span {
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        .stat-card strong {
             display: block;
-            margin-top: 8px;
-            font-size: 24px;
+            color: #c9e8df;
+            font-size: 10px;
+            margin-top: 3px;
         }
 
-        .toolbar {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .toolbar input {
-            flex: 1;
-            min-width: 220px;
-            padding: 11px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-        }
-
-        .refresh-btn {
-            background: #e5e7eb;
-            color: #111827;
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            overflow-x: auto;
-            box-shadow: 0 2px 8px rgba(0,0,0,.06);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1250px;
-        }
-
-        th,
-        td {
-            padding: 13px;
-            border-bottom: 1px solid #e5e7eb;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        th {
-            background: #f8fafc;
-            color: #475569;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 20px;
-            font-size: 12px;
+        .nav-title {
+            color: #7fb8a8;
+            font-size: 10px;
             font-weight: 700;
+            margin: 20px 10px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
         }
 
-        .status.in-stock,
-        .status.good {
-            background: #dcfce7;
-            color: #166534;
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #dceee8;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s ease;
         }
 
-        .status.low,
-        .status.expiring {
-            background: #fef3c7;
-            color: #92400e;
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(74,222,128,0.14);
+            color: white;
         }
 
-        .status.out,
-        .status.expired {
-            background: #fee2e2;
-            color: #991b1b;
+        .nav-icon {
+            width: 24px;
+            text-align: center;
+            font-size: 17px;
         }
 
-        .status.no-barcode {
-            background: #e5e7eb;
-            color: #475569;
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
         }
 
-        .action-btn {
-            padding: 7px 10px;
-            font-size: 12px;
-            margin-right: 4px;
+        .topbar {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .topbar-title h1 {
+            font-size: 20px;
             margin-bottom: 4px;
         }
 
-        .edit-btn {
-            background: #dbeafe;
-            color: #1d4ed8;
+        .topbar-title p {
+            color: #6b7280;
+            font-size: 11px;
         }
 
-        .batch-btn {
-            background: #ede9fe;
-            color: #6d28d9;
-        }
-
-        .delete-btn {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .empty {
-            padding: 40px;
-            text-align: center;
-            color: #64748b;
-        }
-
-        /* MODAL */
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.55);
-            z-index: 1000;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .modal.show {
-            display: block;
-        }
-
-        .modal-content {
-            max-width: 850px;
-            margin: 30px auto;
-            background: white;
-            border-radius: 14px;
-            padding: 25px;
-        }
-
-        .modal-header {
+        .user-area {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 12px;
         }
 
-        .close-btn {
-            background: #e5e7eb;
-            font-size: 20px;
-            padding: 5px 11px;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #15803d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .user-info span {
+            color: #6b7280;
+            font-size: 10px;
+        }
+
+        .content {
+            padding: 30px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h2 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: #0f5132;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 18px;
+            margin-bottom: 28px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 7px;
         }
 
         .form-group.full {
             grid-column: 1 / -1;
         }
 
-        label {
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 11px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #2563eb;
-        }
-
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        .barcode-box {
-            border: 1px solid #dbe3ec;
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .barcode-title {
+        .form-group label {
+            font-size: 12px;
             font-weight: 700;
-            margin-bottom: 5px;
+            color: #374151;
         }
 
-        .barcode-help {
-            color: #64748b;
-            font-size: 12px;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-
-        .barcode-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-
-        .scan-btn {
-            background: #2563eb;
-            color: white;
-        }
-
-        .image-btn {
-            background: #7c3aed;
-            color: white;
-        }
-
-        .clear-barcode-btn {
-            background: #e5e7eb;
-            color: #111827;
-        }
-
-        #barcodeImageInput {
-            display: none;
-        }
-
-        .barcode-result {
-            margin-top: 10px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .cancel-btn {
-            background: #e5e7eb;
-        }
-
-        .save-btn {
-            background: #16a34a;
-            color: white;
-        }
-
-        /* BATCH MODAL */
-
-        .batch-product-info {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 18px;
-        }
-
-        .batch-product-info strong {
-            font-size: 18px;
-        }
-
-        .batch-product-info div {
-            color: #64748b;
-            font-size: 13px;
-            margin-top: 5px;
-        }
-
-        .batch-summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .batch-summary-card {
-            background: #f8fafc;
+        .form-input,
+        .form-select {
+            width: 100%;
+            height: 46px;
+            padding: 0 12px;
+            border: 1px solid #d1d5db;
             border-radius: 9px;
-            padding: 13px;
-        }
-
-        .batch-summary-card span {
-            color: #64748b;
-            font-size: 12px;
-        }
-
-        .batch-summary-card strong {
-            display: block;
-            margin-top: 5px;
-            font-size: 18px;
-        }
-
-        .batch-list-container {
-            overflow-x: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-        }
-
-        .batch-list {
-            width: 100%;
-            min-width: 900px;
-            border-collapse: collapse;
-        }
-
-        .batch-list th,
-        .batch-list td {
-            font-size: 12px;
-            padding: 10px;
-        }
-
-        .batch-add-box {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 18px;
-        }
-
-        .batch-add-box h3 {
-            margin-bottom: 12px;
-        }
-
-        .batch-save-btn {
-            background: #16a34a;
-            color: white;
-            margin-top: 12px;
-        }
-
-        /* SCANNER */
-
-        .scanner-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.85);
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .scanner-modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .scanner-box {
-            width: 100%;
-            max-width: 550px;
+            font-size: 13px;
+            outline: none;
             background: white;
-            border-radius: 15px;
-            padding: 20px;
         }
 
-        .scanner-box h2 {
-            margin-bottom: 8px;
+        .form-input:focus,
+        .form-select:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22,163,74,0.10);
         }
 
-        .scanner-box p {
-            color: #64748b;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-
-        #scannerVideo {
-            width: 100%;
-            max-height: 350px;
-            object-fit: cover;
-            background: #000;
-            border-radius: 10px;
-        }
-
-        .scanner-actions {
+        .barcode-row {
             display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .start-camera {
-            background: #2563eb;
-            color: white;
+        .barcode-row .form-input {
+            flex: 1;
         }
 
-        .stop-camera {
-            background: #dc2626;
-            color: white;
+        .barcode-info {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 3px;
         }
 
-        .scanner-close {
-            background: #e5e7eb;
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
         }
 
-        .scanner-status {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            background: #f1f5f9;
+        .button {
+            min-height: 46px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 9px;
             font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
         }
 
-        @media (max-width: 1050px) {
-            .stats {
-                grid-template-columns: repeat(3, 1fr);
+        .button-primary {
+            background: linear-gradient(
+                135deg,
+                #16a34a,
+                #0f766e
+            );
+            color: white;
+        }
+
+        .button-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .button-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 12px;
+        }
+
+        .message.success {
+            display: block;
+            background: #ecfdf5;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .message.info {
+            display: block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+
+        .required-note {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
             }
-        }
 
-        @media (max-width: 800px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .content {
+                padding: 20px 15px;
             }
 
             .form-grid {
@@ -557,3109 +357,835 @@
                 grid-column: auto;
             }
 
-            .batch-summary {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            header {
-                align-items: flex-start;
-            }
-
-            .header-actions {
+            .button-row {
                 flex-direction: column;
             }
 
-            main {
-                padding: 15px;
+            .button {
+                width: 100%;
             }
 
-            .stats {
-                grid-template-columns: 1fr 1fr;
+            .barcode-row {
+                flex-direction: column;
             }
 
-            .page-header h1 {
-                font-size: 23px;
-            }
-
-            .modal {
-                padding: 10px;
-            }
-
-            .modal-content {
-                margin: 10px auto;
-                padding: 18px;
-            }
         }
+
     </style>
+
 </head>
 
 <body>
 
-<header>
+    <!-- SIDEBAR -->
 
-    <div class="brand">
+    <aside class="sidebar">
 
-        <img
-            src="assets/logo.png"
-            alt="Nesi Medicals"
-        >
+        <div class="brand">
 
-        <div class="brand-text">
-
-            <strong>
-                Nesi Medicals
-            </strong>
-
-            <span>
-                & Minimart Enterprises
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <div class="header-actions">
-
-        <button
-            class="dashboard-btn"
-            onclick="location.href='dashboard.html'"
-        >
-            Dashboard
-        </button>
-
-        <button
-            class="logout-btn"
-            id="logoutBtn"
-        >
-            Logout
-        </button>
-
-    </div>
-
-</header>
-
-
-<main>
-
-    <div class="page-header">
-
-        <div>
-
-            <h1>
-                Products & Inventory
-            </h1>
-
-            <p>
-                Manage products, barcodes, batches and expiry dates.
-            </p>
-
-        </div>
-
-
-        <button
-            class="add-btn"
-            id="addProductBtn"
-        >
-            + Add Product
-        </button>
-
-    </div>
-
-
-    <section class="stats">
-
-        <div class="stat-card">
-
-            <span>
-                Total Products
-            </span>
-
-            <strong id="totalProducts">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <span>
-                Total Stock Units
-            </span>
-
-            <strong id="totalStock">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <span>
-                Low Stock
-            </span>
-
-            <strong id="lowStock">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <span>
-                Expiring Soon
-            </span>
-
-            <strong id="expiringSoon">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <span>
-                Expired Batches
-            </span>
-
-            <strong id="expiredBatches">
-                0
-            </strong>
-
-        </div>
-
-    </section>
-
-
-    <div class="toolbar">
-
-        <input
-            type="search"
-            id="searchInput"
-            placeholder="Search product, category, brand, SKU, barcode or batch..."
-        >
-
-        <button
-            class="refresh-btn"
-            id="refreshBtn"
-        >
-            ↻ Refresh
-        </button>
-
-    </div>
-
-
-    <div class="table-container">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>
-                        Product
-                    </th>
-
-                    <th>
-                        Category
-                    </th>
-
-                    <th>
-                        Brand
-                    </th>
-
-                    <th>
-                        SKU
-                    </th>
-
-                    <th>
-                        Barcode
-                    </th>
-
-                    <th>
-                        Stock
-                    </th>
-
-                    <th>
-                        Cost
-                    </th>
-
-                    <th>
-                        Selling
-                    </th>
-
-                    <th>
-                        Batches
-                    </th>
-
-                    <th>
-                        Status
-                    </th>
-
-                    <th>
-                        Actions
-                    </th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody id="productsTableBody">
-
-                <tr>
-
-                    <td
-                        colspan="11"
-                        class="empty"
-                    >
-                        Loading products...
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</main>
-
-
-<!-- ======================================================
-     PRODUCT MODAL
-====================================================== -->
-
-<div
-    class="modal"
-    id="productModal"
->
-
-    <div class="modal-content">
-
-        <div class="modal-header">
-
-            <h2 id="modalTitle">
-                Add Product
-            </h2>
-
-            <button
-                class="close-btn"
-                id="closeModalBtn"
-                type="button"
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals"
             >
-                ×
-            </button>
+
+            <div class="brand-text">
+
+                <strong>
+                    Nesi Medicals
+                </strong>
+
+                <span>
+                    & Minimart Enterprises
+                </span>
+
+            </div>
 
         </div>
 
+        <div class="nav-title">
+            Main
+        </div>
 
-        <form id="productForm">
+        <a
+            href="dashboard.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">📊</span>
+            Dashboard
+        </a>
 
-            <div class="form-grid">
+        <a
+            href="sales.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">💰</span>
+            Sales
+        </a>
+
+        <a
+            href="sales-history.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">🧾</span>
+            Sales History
+        </a>
+
+        <a
+            href="inventory.html"
+            class="nav-link active"
+        >
+            <span class="nav-icon">📦</span>
+            Inventory
+        </a>
+
+        <a
+            href="customers.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">👥</span>
+            Customers
+        </a>
+
+        <div class="nav-title">
+            Management
+        </div>
+
+        <a
+            href="suppliers.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">🚚</span>
+            Suppliers
+        </a>
+
+        <a
+            href="expenses.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">💳</span>
+            Expenses
+        </a>
+
+        <a
+            href="reports.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">📈</span>
+            Reports
+        </a>
+
+        <a
+            href="staff.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">👨‍💼</span>
+            Staff
+        </a>
+
+        <div class="nav-title">
+            System
+        </div>
+
+        <a
+            href="settings.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">⚙️</span>
+            Settings
+        </a>
+
+        <a
+            href="profile.html"
+            class="nav-link"
+        >
+            <span class="nav-icon">👤</span>
+            Profile
+        </a>
+
+        <a
+            href="#"
+            class="nav-link"
+            id="logoutButton"
+        >
+            <span class="nav-icon">🚪</span>
+            Logout
+        </a>
+
+    </aside>
 
 
-                <div class="form-group">
+    <!-- MAIN -->
 
-                    <label>
-                        Product Name *
-                    </label>
+    <main class="main">
 
-                    <input
-                        type="text"
-                        id="productName"
-                        required
-                    >
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <h1>
+                    Add Product
+                </h1>
+
+                <p>
+                    Nesi Medicals Inventory Management
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <div
+                    class="user-avatar"
+                    id="userAvatar"
+                >
+                    N
+                </div>
+
+                <div class="user-info">
+
+                    <strong id="userName">
+                        Nesi Medicals
+                    </strong>
+
+                    <span id="userRole">
+                        Administrator
+                    </span>
 
                 </div>
 
+            </div>
 
-                <div class="form-group">
-
-                    <label>
-                        Category *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="category"
-                        placeholder="Medicine, Toiletries, Cosmetics..."
-                        required
-                    >
-
-                </div>
+        </header>
 
 
-                <div class="form-group">
+        <section class="content">
 
-                    <label>
-                        Brand
-                    </label>
+            <div class="page-header">
 
-                    <input
-                        type="text"
-                        id="brand"
-                    >
+                <h2>
+                    Add New Product
+                </h2>
 
-                </div>
+                <p>
+                    Enter the product, pricing, stock, barcode and expiry information.
+                </p>
 
-
-                <div class="form-group">
-
-                    <label>
-                        SKU / Product Code
-                    </label>
-
-                    <input
-                        type="text"
-                        id="sku"
-                    >
-
-                </div>
+            </div>
 
 
-                <!-- BARCODE -->
+            <div
+                id="formMessage"
+                class="message"
+                aria-live="polite"
+            ></div>
 
-                <div class="form-group full">
 
-                    <div class="barcode-box">
+            <div class="panel">
 
-                        <div class="barcode-title">
-                            Barcode / EAN / UPC
+                <form id="productForm">
+
+                    <div class="section-title">
+                        Product Information
+                    </div>
+
+                    <div class="required-note">
+                        Fields marked with * are required.
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- PRODUCT NAME -->
+
+                        <div class="form-group">
+
+                            <label for="productName">
+                                Product Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="productName"
+                                class="form-input"
+                                placeholder="e.g. Paracetamol 500mg"
+                                required
+                            >
+
                         </div>
 
-                        <div class="barcode-help">
 
-                            Enter the barcode manually,
-                            scan it with your camera,
-                            or choose a barcode photo
-                            from your phone gallery.
+                        <!-- CATEGORY -->
+
+                        <div class="form-group">
+
+                            <label for="category">
+                                Category *
+                            </label>
+
+                            <select
+                                id="category"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="Medicine">
+                                    Medicine
+                                </option>
+
+                                <option value="Supplement">
+                                    Supplement
+                                </option>
+
+                                <option value="Medical Supply">
+                                    Medical Supply
+                                </option>
+
+                                <option value="Personal Care">
+                                    Personal Care
+                                </option>
+
+                                <option value="Cosmetics">
+                                    Cosmetics
+                                </option>
+
+                                <option value="Toiletries">
+                                    Toiletries
+                                </option>
+
+                                <option value="Cream">
+                                    Cream
+                                </option>
+
+                                <option value="Soap">
+                                    Soap
+                                </option>
+
+                                <option value="Perfume">
+                                    Perfume
+                                </option>
+
+                                <option value="Drinks & Beverages">
+                                    Drinks & Beverages
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
 
                         </div>
 
 
-                        <input
-                            type="text"
-                            id="barcode"
-                            placeholder="Enter barcode number"
-                            autocomplete="off"
-                        >
+                        <!-- BRAND -->
 
+                        <div class="form-group">
 
-                        <div class="barcode-actions">
+                            <label for="brand">
+                                Brand
+                            </label>
 
-                            <button
-                                type="button"
-                                class="scan-btn"
-                                id="scanBarcodeBtn"
+                            <input
+                                type="text"
+                                id="brand"
+                                class="form-input"
+                                placeholder="Brand name"
                             >
-                                📷 Scan Barcode
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="image-btn"
-                                id="scanImageBtn"
-                            >
-                                🖼️ Scan From Photo
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="clear-barcode-btn"
-                                id="clearBarcodeBtn"
-                            >
-                                Clear
-                            </button>
 
                         </div>
 
 
-                        <input
-                            type="file"
-                            id="barcodeImageInput"
-                            accept="image/*"
-                        >
+                        <!-- SKU -->
+
+                        <div class="form-group">
+
+                            <label for="sku">
+                                Product Code / SKU
+                            </label>
+
+                            <input
+                                type="text"
+                                id="sku"
+                                class="form-input"
+                                placeholder="e.g. PCM500"
+                            >
+
+                        </div>
 
 
-                        <div
-                            class="barcode-result"
-                            id="barcodeResult"
-                        ></div>
+                        <!-- BARCODE -->
+
+                        <div class="form-group full">
+
+                            <label for="barcode">
+                                Barcode / EAN / UPC
+                            </label>
+
+                            <div class="barcode-row">
+
+                                <input
+                                    type="text"
+                                    id="barcode"
+                                    class="form-input"
+                                    placeholder="Enter or scan barcode"
+                                    inputmode="numeric"
+                                >
+
+                            </div>
+
+                            <div class="barcode-info">
+                                If the package has a barcode, enter the barcode number here.
+                                The barcode can also be added later from Inventory.
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
+
+                    <!-- STOCK -->
+
+                    <div class="section-title">
+                        Stock Information
+                    </div>
+
+                    <div class="form-grid">
 
 
-                <div class="form-group">
+                        <!-- QUANTITY -->
 
-                    <label>
-                        Opening Quantity
-                    </label>
+                        <div class="form-group">
 
-                    <input
-                        type="number"
-                        id="quantity"
-                        min="0"
-                        step="1"
-                        value="0"
-                    >
+                            <label for="quantity">
+                                Quantity in Stock *
+                            </label>
 
-                </div>
+                            <input
+                                type="number"
+                                id="quantity"
+                                class="form-input"
+                                min="0"
+                                step="1"
+                                value="0"
+                                required
+                            >
 
-
-                <div class="form-group">
-
-                    <label>
-                        Low Stock Level
-                    </label>
-
-                    <input
-                        type="number"
-                        id="lowStockLevel"
-                        min="0"
-                        step="1"
-                        value="5"
-                    >
-
-                </div>
+                        </div>
 
 
-                <div class="form-group">
+                        <!-- LOW STOCK -->
 
-                    <label>
-                        Cost Price
-                    </label>
+                        <div class="form-group">
 
-                    <input
-                        type="number"
-                        id="costPrice"
-                        min="0"
-                        step="0.01"
-                    >
+                            <label for="lowStockLevel">
+                                Low Stock Alert Level
+                            </label>
 
-                </div>
+                            <input
+                                type="number"
+                                id="lowStockLevel"
+                                class="form-input"
+                                min="0"
+                                step="1"
+                                value="5"
+                            >
 
-
-                <div class="form-group">
-
-                    <label>
-                        Selling Price
-                    </label>
-
-                    <input
-                        type="number"
-                        id="sellingPrice"
-                        min="0"
-                        step="0.01"
-                    >
-
-                </div>
+                        </div>
 
 
-                <div class="form-group">
+                        <!-- BATCH -->
 
-                    <label>
-                        Batch Number
-                    </label>
+                        <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="batchNumber"
-                        placeholder="e.g. BTH-2026-001"
-                    >
+                            <label for="batchNumber">
+                                Batch Number
+                            </label>
 
-                </div>
+                            <input
+                                type="text"
+                                id="batchNumber"
+                                class="form-input"
+                                placeholder="Batch number"
+                            >
 
-
-                <div class="form-group">
-
-                    <label>
-                        Manufacturing Date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="manufacturingDate"
-                    >
-
-                </div>
+                        </div>
 
 
-                <div class="form-group">
+                        <!-- EXPIRY -->
 
-                    <label>
-                        Expiry Date
-                    </label>
+                        <div class="form-group">
 
-                    <input
-                        type="date"
-                        id="expiryDate"
-                    >
+                            <label for="expiryDate">
+                                Expiry Date
+                            </label>
 
-                </div>
+                            <input
+                                type="date"
+                                id="expiryDate"
+                                class="form-input"
+                            >
+
+                        </div>
 
 
-                <div class="form-group">
+                        <!-- MANUFACTURING DATE -->
 
-                    <label>
+                        <div class="form-group">
+
+                            <label for="manufacturingDate">
+                                Manufacturing Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="manufacturingDate"
+                                class="form-input"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PRICING -->
+
+                    <div class="section-title">
+                        Pricing
+                    </div>
+
+                    <div class="form-grid">
+
+
+                        <!-- COST -->
+
+                        <div class="form-group">
+
+                            <label for="costPrice">
+                                Cost Price (₦)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="costPrice"
+                                class="form-input"
+                                min="0"
+                                step="0.01"
+                                value="0"
+                                placeholder="0.00"
+                            >
+
+                        </div>
+
+
+                        <!-- SELLING -->
+
+                        <div class="form-group">
+
+                            <label for="sellingPrice">
+                                Selling Price (₦) *
+                            </label>
+
+                            <input
+                                type="number"
+                                id="sellingPrice"
+                                class="form-input"
+                                min="0"
+                                step="0.01"
+                                placeholder="0.00"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUPPLIER -->
+
+                    <div class="section-title">
                         Supplier
-                    </label>
+                    </div>
 
-                    <input
-                        type="text"
-                        id="supplier"
-                    >
+                    <div class="form-grid">
 
-                </div>
+                        <div class="form-group full">
 
+                            <label for="supplier">
+                                Supplier Name
+                            </label>
 
-                <div class="form-group full">
+                            <input
+                                type="text"
+                                id="supplier"
+                                class="form-input"
+                                placeholder="Enter supplier name"
+                            >
 
-                    <label>
-                        Notes
-                    </label>
+                        </div>
 
-                    <textarea
-                        id="notes"
-                        placeholder="Optional notes..."
-                    ></textarea>
-
-                </div>
-
-            </div>
+                    </div>
 
 
-            <div class="modal-footer">
+                    <!-- BUTTONS -->
 
-                <button
-                    type="button"
-                    class="cancel-btn"
-                    id="cancelBtn"
-                >
-                    Cancel
-                </button>
+                    <div class="button-row">
 
-
-                <button
-                    type="submit"
-                    class="save-btn"
-                >
-                    Save Product
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     BATCH MANAGEMENT MODAL
-====================================================== -->
-
-<div
-    class="modal"
-    id="batchModal"
->
-
-    <div class="modal-content">
-
-        <div class="modal-header">
-
-            <h2>
-                Batch Management
-            </h2>
-
-            <button
-                class="close-btn"
-                id="closeBatchModalBtn"
-                type="button"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div
-            class="batch-product-info"
-            id="batchProductInfo"
-        >
-            Loading product...
-        </div>
-
-
-        <div class="batch-summary">
-
-            <div class="batch-summary-card">
-
-                <span>
-                    Total Batch Quantity
-                </span>
-
-                <strong id="batchTotalQuantity">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="batch-summary-card">
-
-                <span>
-                    Active Batches
-                </span>
-
-                <strong id="batchCount">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="batch-summary-card">
-
-                <span>
-                    Expired
-                </span>
-
-                <strong id="batchExpiredCount">
-                    0
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="batch-list-container">
-
-            <table class="batch-list">
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Batch No.
-                        </th>
-
-                        <th>
-                            MFG
-                        </th>
-
-                        <th>
-                            EXP
-                        </th>
-
-                        <th>
-                            Quantity
-                        </th>
-
-                        <th>
-                            Cost
-                        </th>
-
-                        <th>
-                            Selling
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Action
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody id="batchTableBody">
-
-                    <tr>
-
-                        <td
-                            colspan="8"
-                            class="empty"
+                        <button
+                            type="button"
+                            class="button button-secondary"
+                            id="cancelButton"
                         >
-                            No batches yet.
-                        </td>
+                            Cancel
+                        </button>
 
-                    </tr>
+                        <button
+                            type="submit"
+                            class="button button-primary"
+                            id="saveButton"
+                        >
+                            Save Product
+                        </button>
 
-                </tbody>
+                    </div>
 
-            </table>
-
-        </div>
-
-
-        <div class="batch-add-box">
-
-            <h3>
-                + Add New Batch
-            </h3>
-
-
-            <div class="form-grid">
-
-
-                <div class="form-group">
-
-                    <label>
-                        Batch Number *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="newBatchNumber"
-                        placeholder="e.g. BTH-2026-002"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Quantity *
-                    </label>
-
-                    <input
-                        type="number"
-                        id="newBatchQuantity"
-                        min="1"
-                        step="1"
-                        value="1"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Manufacturing Date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="newBatchMfg"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Expiry Date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="newBatchExpiry"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Cost Price *
-                    </label>
-
-                    <input
-                        type="number"
-                        id="newBatchCost"
-                        min="0"
-                        step="0.01"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Selling Price *
-                    </label>
-
-                    <input
-                        type="number"
-                        id="newBatchSelling"
-                        min="0"
-                        step="0.01"
-                    >
-
-                </div>
-
-
-                <div class="form-group full">
-
-                    <label>
-                        Supplier
-                    </label>
-
-                    <input
-                        type="text"
-                        id="newBatchSupplier"
-                    >
-
-                </div>
+                </form>
 
             </div>
 
+        </section>
 
-            <button
-                type="button"
-                class="batch-save-btn"
-                id="saveBatchBtn"
-            >
-                Save New Batch
-            </button>
-
-        </div>
+    </main>
 
 
-        <div class="modal-footer">
+    <!-- FIREBASE -->
 
-            <button
-                type="button"
-                class="cancel-btn"
-                id="doneBatchBtn"
-            >
-                Done
-            </button>
+    <script type="module">
 
-        </div>
+        import {
+            collection,
+            addDoc,
+            query,
+            where,
+            getDocs,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    </div>
+        import {
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-</div>
-
-
-<!-- ======================================================
-     BARCODE CAMERA MODAL
-====================================================== -->
-
-<div
-    class="scanner-modal"
-    id="scannerModal"
->
-
-    <div class="scanner-box">
-
-        <h2>
-            Scan Product Barcode
-        </h2>
-
-        <p>
-            Point your camera at the barcode on the product.
-        </p>
+        import {
+            auth,
+            db
+        } from "./js/firebase.js";
 
 
-        <video
-            id="scannerVideo"
-            autoplay
-            muted
-            playsinline
-        ></video>
+        const productForm =
+            document.getElementById("productForm");
+
+        const message =
+            document.getElementById("formMessage");
+
+        const saveButton =
+            document.getElementById("saveButton");
+
+        const cancelButton =
+            document.getElementById("cancelButton");
+
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+        const userName =
+            document.getElementById("userName");
+
+        const userRole =
+            document.getElementById("userRole");
+
+        const userAvatar =
+            document.getElementById("userAvatar");
 
 
-        <div class="scanner-actions">
-
-            <button
-                type="button"
-                class="start-camera"
-                id="startCameraBtn"
-            >
-                Start Camera
-            </button>
+        let currentUser = null;
 
 
-            <button
-                type="button"
-                class="stop-camera"
-                id="stopCameraBtn"
-            >
-                Stop Camera
-            </button>
+        function showMessage(text, type) {
 
+            message.textContent = text;
 
-            <button
-                type="button"
-                class="scanner-close"
-                id="closeScannerBtn"
-            >
-                Close
-            </button>
-
-        </div>
-
-
-        <div
-            class="scanner-status"
-            id="scannerStatus"
-        >
-            Camera is ready.
-        </div>
-
-    </div>
-
-</div>
-
-
-<script type="module">
-
-    import {
-        auth,
-        db
-    } from "./js/firebase.js";
-
-
-    import {
-        onAuthStateChanged,
-        signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-    import {
-        collection,
-        getDocs,
-        addDoc,
-        updateDoc,
-        deleteDoc,
-        doc,
-        serverTimestamp,
-        query,
-        orderBy,
-        getDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-    let BrowserMultiFormatReader = null;
-
-    let barcodeReader = null;
-
-    let scannerRunning = false;
-
-    let editingProductId = null;
-
-    let selectedBatchProductId = null;
-
-    let allProducts = [];
-
-    let currentBatches = [];
-
-
-    const productModal =
-        document.getElementById("productModal");
-
-    const batchModal =
-        document.getElementById("batchModal");
-
-    const scannerModal =
-        document.getElementById("scannerModal");
-
-    const productForm =
-        document.getElementById("productForm");
-
-    const productsTableBody =
-        document.getElementById("productsTableBody");
-
-    const barcodeInput =
-        document.getElementById("barcode");
-
-    const barcodeResult =
-        document.getElementById("barcodeResult");
-
-    const scannerVideo =
-        document.getElementById("scannerVideo");
-
-    const scannerStatus =
-        document.getElementById("scannerStatus");
-
-
-    /* ======================================================
-       AUTH
-    ====================================================== */
-
-    onAuthStateChanged(
-        auth,
-        async (user) => {
-
-            if (!user) {
-
-                window.location.href =
-                    "login.html";
-
-                return;
-
-            }
-
-            await loadProducts();
+            message.className =
+                "message " + type;
 
         }
-    );
 
 
-    /* ======================================================
-       ZXING
-    ====================================================== */
+        function normalizeBarcode(value) {
 
-    async function loadZXing() {
-
-        if (BrowserMultiFormatReader) {
-
-            return true;
-
-        }
-
-        try {
-
-            const module =
-                await import(
-                    "https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm"
-                );
-
-            BrowserMultiFormatReader =
-                module.BrowserMultiFormatReader;
-
-            barcodeReader =
-                new BrowserMultiFormatReader();
-
-            return true;
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert(
-                "Barcode scanner could not be loaded. Check your internet connection."
-            );
-
-            return false;
-
-        }
-
-    }
-
-
-    /* ======================================================
-       BARCODE NORMALIZATION
-    ====================================================== */
-
-    function normalizeBarcode(value) {
-
-        return String(value || "")
-            .trim()
-            .replace(/[\s-]/g, "")
-            .toUpperCase();
-
-    }
-
-
-    /* ======================================================
-       OPEN ADD PRODUCT
-    ====================================================== */
-
-    document
-        .getElementById("addProductBtn")
-        .addEventListener(
-            "click",
-            () => {
-
-                editingProductId = null;
-
-                document.getElementById(
-                    "modalTitle"
-                ).textContent =
-                    "Add Product";
-
-                productForm.reset();
-
-                document.getElementById(
-                    "quantity"
-                ).value = 0;
-
-                document.getElementById(
-                    "lowStockLevel"
-                ).value = 5;
-
-                barcodeResult.textContent = "";
-
-                productModal.classList.add(
-                    "show"
-                );
-
-            }
-        );
-
-
-    /* ======================================================
-       EDIT PRODUCT
-    ====================================================== */
-
-    window.editProduct =
-        function(productId) {
-
-            const product =
-                allProducts.find(
-                    item =>
-                        item.id === productId
-                );
-
-            if (!product) {
-                return;
-            }
-
-            editingProductId =
-                productId;
-
-            document.getElementById(
-                "modalTitle"
-            ).textContent =
-                "Edit Product";
-
-
-            document.getElementById(
-                "productName"
-            ).value =
-                product.productName || "";
-
-
-            document.getElementById(
-                "category"
-            ).value =
-                product.category || "";
-
-
-            document.getElementById(
-                "brand"
-            ).value =
-                product.brand || "";
-
-
-            document.getElementById(
-                "sku"
-            ).value =
-                product.sku || "";
-
-
-            document.getElementById(
-                "barcode"
-            ).value =
-                product.barcode ||
-                product.barCode ||
-                product.ean ||
-                product.upc ||
-                "";
-
-
-            document.getElementById(
-                "quantity"
-            ).value =
-                product.quantity ??
-                product.stock ??
-                0;
-
-
-            document.getElementById(
-                "lowStockLevel"
-            ).value =
-                product.lowStockLevel ??
-                5;
-
-
-            document.getElementById(
-                "costPrice"
-            ).value =
-                product.costPrice ??
-                0;
-
-
-            document.getElementById(
-                "sellingPrice"
-            ).value =
-                product.sellingPrice ??
-                0;
-
-
-            document.getElementById(
-                "batchNumber"
-            ).value =
-                product.batchNumber || "";
-
-
-            document.getElementById(
-                "manufacturingDate"
-            ).value =
-                product.manufacturingDate || "";
-
-
-            document.getElementById(
-                "expiryDate"
-            ).value =
-                product.expiryDate || "";
-
-
-            document.getElementById(
-                "supplier"
-            ).value =
-                product.supplier || "";
-
-
-            document.getElementById(
-                "notes"
-            ).value =
-                product.notes || "";
-
-
-            barcodeResult.textContent =
-                product.barcode
-                    ? "✓ Barcode loaded"
-                    : "No barcode saved.";
-
-
-            productModal.classList.add(
-                "show"
-            );
-
-        };
-
-
-    /* ======================================================
-       CLOSE PRODUCT MODAL
-    ====================================================== */
-
-    function closeProductModal() {
-
-        productModal.classList.remove(
-            "show"
-        );
-
-        editingProductId = null;
-
-    }
-
-
-    document
-        .getElementById("closeModalBtn")
-        .addEventListener(
-            "click",
-            closeProductModal
-        );
-
-
-    document
-        .getElementById("cancelBtn")
-        .addEventListener(
-            "click",
-            closeProductModal
-        );
-
-
-    /* ======================================================
-       BARCODE INPUT
-    ====================================================== */
-
-    document
-        .getElementById("clearBarcodeBtn")
-        .addEventListener(
-            "click",
-            () => {
-
-                barcodeInput.value = "";
-
-                barcodeResult.textContent =
-                    "Barcode cleared.";
-
-            }
-        );
-
-
-    barcodeInput.addEventListener(
-        "input",
-        () => {
-
-            barcodeInput.value =
-                normalizeBarcode(
-                    barcodeInput.value
-                );
-
-            if (
-                barcodeInput.value
-            ) {
-
-                barcodeResult.textContent =
-                    "✓ Barcode entered.";
-
-            } else {
-
-                barcodeResult.textContent =
-                    "";
-
-            }
-
-        }
-    );
-
-
-    /* ======================================================
-       CAMERA SCANNER
-    ====================================================== */
-
-    document
-        .getElementById("scanBarcodeBtn")
-        .addEventListener(
-            "click",
-            async () => {
-
-                const loaded =
-                    await loadZXing();
-
-                if (!loaded) {
-                    return;
-                }
-
-                scannerModal.classList.add(
-                    "show"
-                );
-
-                scannerStatus.textContent =
-                    "Tap Start Camera and allow camera permission.";
-
-            }
-        );
-
-
-    document
-        .getElementById("startCameraBtn")
-        .addEventListener(
-            "click",
-            startCameraScanner
-        );
-
-
-    async function startCameraScanner() {
-
-        const loaded =
-            await loadZXing();
-
-        if (!loaded) {
-            return;
-        }
-
-        try {
-
-            stopCameraScanner();
-
-            scannerRunning = true;
-
-            scannerStatus.textContent =
-                "Starting camera...";
-
-
-            await barcodeReader
-                .decodeFromVideoDevice(
-                    undefined,
-                    scannerVideo,
-                    (result) => {
-
-                        if (
-                            result &&
-                            scannerRunning
-                        ) {
-
-                            const code =
-                                normalizeBarcode(
-                                    result.getText()
-                                );
-
-
-                            if (code) {
-
-                                barcodeInput.value =
-                                    code;
-
-                                barcodeResult.textContent =
-                                    "✓ Barcode scanned: " +
-                                    code;
-
-                                scannerStatus.textContent =
-                                    "Barcode found.";
-
-                                stopCameraScanner();
-
-                                setTimeout(
-                                    () => {
-
-                                        scannerModal.classList.remove(
-                                            "show"
-                                        );
-
-                                    },
-                                    500
-                                );
-
-                            }
-
-                        }
-
-                    }
-                );
-
-
-            scannerStatus.textContent =
-                "Scanning... Point the camera at the barcode.";
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            scannerRunning = false;
-
-            scannerStatus.textContent =
-                "Could not start camera. Allow camera permission and try again.";
-
-        }
-
-    }
-
-
-    function stopCameraScanner() {
-
-        scannerRunning = false;
-
-        try {
-
-            if (barcodeReader) {
-
-                barcodeReader.reset();
-
-            }
-
-        } catch (error) {
-
-            console.log(error);
-
-        }
-
-
-        if (
-            scannerVideo.srcObject
-        ) {
-
-            scannerVideo.srcObject
-                .getTracks()
-                .forEach(
-                    track =>
-                        track.stop()
-                );
-
-            scannerVideo.srcObject =
-                null;
-
-        }
-
-    }
-
-
-    document
-        .getElementById("stopCameraBtn")
-        .addEventListener(
-            "click",
-            () => {
-
-                stopCameraScanner();
-
-                scannerStatus.textContent =
-                    "Camera stopped.";
-
-            }
-        );
-
-
-    document
-        .getElementById("closeScannerBtn")
-        .addEventListener(
-            "click",
-            () => {
-
-                stopCameraScanner();
-
-                scannerModal.classList.remove(
-                    "show"
-                );
-
-            }
-        );
-
-
-    /* ======================================================
-       BARCODE FROM PHOTO
-    ====================================================== */
-
-    document
-        .getElementById("scanImageBtn")
-        .addEventListener(
-            "click",
-            () => {
-
-                document
-                    .getElementById(
-                        "barcodeImageInput"
-                    )
-                    .click();
-
-            }
-        );
-
-
-    document
-        .getElementById(
-            "barcodeImageInput"
-        )
-        .addEventListener(
-            "change",
-            async event => {
-
-                const file =
-                    event.target.files[0];
-
-                if (!file) {
-                    return;
-                }
-
-
-                const loaded =
-                    await loadZXing();
-
-                if (!loaded) {
-
-                    event.target.value = "";
-
-                    return;
-
-                }
-
-
-                barcodeResult.textContent =
-                    "Reading barcode from photo...";
-
-
-                try {
-
-                    const imageUrl =
-                        URL.createObjectURL(
-                            file
-                        );
-
-                    let result = null;
-
-
-                    try {
-
-                        result =
-                            await barcodeReader
-                                .decodeFromImageUrl(
-                                    imageUrl
-                                );
-
-                    } catch (firstError) {
-
-                        const image =
-                            new Image();
-
-                        image.src =
-                            imageUrl;
-
-
-                        await new Promise(
-                            (resolve, reject) => {
-
-                                image.onload =
-                                    resolve;
-
-                                image.onerror =
-                                    reject;
-
-                            }
-                        );
-
-
-                        result =
-                            await barcodeReader
-                                .decodeFromImageElement(
-                                    image
-                                );
-
-                    }
-
-
-                    URL.revokeObjectURL(
-                        imageUrl
-                    );
-
-
-                    if (result) {
-
-                        const code =
-                            normalizeBarcode(
-                                result.getText()
-                            );
-
-
-                        barcodeInput.value =
-                            code;
-
-
-                        barcodeResult.textContent =
-                            "✓ Barcode found from photo: " +
-                            code;
-
-
-                    } else {
-
-                        barcodeResult.textContent =
-                            "No barcode detected. Try a clearer photo.";
-
-                    }
-
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    barcodeResult.textContent =
-                        "Could not read barcode from this photo. Try a clearer image.";
-
-                }
-
-
-                event.target.value = "";
-
-            }
-        );
-
-
-    /* ======================================================
-       DUPLICATE BARCODE
-    ====================================================== */
-
-    function barcodeAlreadyUsed(
-        barcode,
-        ignoreProductId = null
-    ) {
-
-        if (!barcode) {
-            return false;
-        }
-
-
-        return allProducts.some(
-            product => {
-
-                if (
-                    ignoreProductId &&
-                    product.id ===
-                    ignoreProductId
-                ) {
-
-                    return false;
-
-                }
-
-
-                const existing =
-                    normalizeBarcode(
-                        product.barcode ||
-                        product.barCode ||
-                        product.ean ||
-                        product.upc ||
-                        ""
-                    );
-
-
-                return existing ===
-                    barcode;
-
-            }
-        );
-
-    }
-
-
-    /* ======================================================
-       SAVE PRODUCT
-    ====================================================== */
-
-    productForm.addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const user =
-                auth.currentUser;
-
-
-            if (!user) {
-
-                alert(
-                    "Please login again."
-                );
-
-                return;
-
-            }
-
-
-            const productName =
-                document
-                    .getElementById(
-                        "productName"
-                    )
-                    .value
-                    .trim();
-
-
-            const category =
-                document
-                    .getElementById(
-                        "category"
-                    )
-                    .value
-                    .trim();
-
-
-            const brand =
-                document
-                    .getElementById(
-                        "brand"
-                    )
-                    .value
-                    .trim();
-
-
-            const sku =
-                document
-                    .getElementById(
-                        "sku"
-                    )
-                    .value
-                    .trim();
-
-
-            const barcode =
-                normalizeBarcode(
-                    document
-                        .getElementById(
-                            "barcode"
-                        )
-                        .value
-                );
-
-
-            const quantity =
-                Number(
-                    document
-                        .getElementById(
-                            "quantity"
-                        )
-                        .value
-                ) || 0;
-
-
-            const lowStockLevel =
-                Number(
-                    document
-                        .getElementById(
-                            "lowStockLevel"
-                        )
-                        .value
-                ) || 0;
-
-
-            const costPrice =
-                Number(
-                    document
-                        .getElementById(
-                            "costPrice"
-                        )
-                        .value
-                ) || 0;
-
-
-            const sellingPrice =
-                Number(
-                    document
-                        .getElementById(
-                            "sellingPrice"
-                        )
-                        .value
-                ) || 0;
-
-
-            const batchNumber =
-                document
-                    .getElementById(
-                        "batchNumber"
-                    )
-                    .value
-                    .trim();
-
-
-            const manufacturingDate =
-                document
-                    .getElementById(
-                        "manufacturingDate"
-                    )
-                    .value;
-
-
-            const expiryDate =
-                document
-                    .getElementById(
-                        "expiryDate"
-                    )
-                    .value;
-
-
-            const supplier =
-                document
-                    .getElementById(
-                        "supplier"
-                    )
-                    .value
-                    .trim();
-
-
-            const notes =
-                document
-                    .getElementById(
-                        "notes"
-                    )
-                    .value
-                    .trim();
-
-
-            if (
-                !productName ||
-                !category
-            ) {
-
-                alert(
-                    "Please enter product name and category."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                barcode &&
-                barcodeAlreadyUsed(
-                    barcode,
-                    editingProductId
-                )
-            ) {
-
-                alert(
-                    "This barcode is already assigned to another product."
-                );
-
-                return;
-
-            }
-
-
-            const status =
-                quantity <= 0
-                    ? "Out of Stock"
-                    : quantity <= lowStockLevel
-                        ? "Low Stock"
-                        : "In Stock";
-
-
-            const productData = {
-
-                productName,
-
-                category,
-
-                brand,
-
-                sku,
-
-                barcode,
-
-                quantity,
-
-                stock: quantity,
-
-                lowStockLevel,
-
-                costPrice,
-
-                sellingPrice,
-
-                batchNumber,
-
-                manufacturingDate,
-
-                expiryDate,
-
-                supplier,
-
-                notes,
-
-                status,
-
-                updatedAt:
-                    serverTimestamp(),
-
-                updatedBy:
-                    user.uid,
-
-                updatedByEmail:
-                    user.email || ""
-
-            };
-
-
-            try {
-
-                if (
-                    editingProductId
-                ) {
-
-                    await updateDoc(
-                        doc(
-                            db,
-                            "products",
-                            editingProductId
-                        ),
-                        productData
-                    );
-
-
-                    alert(
-                        "Product updated successfully."
-                    );
-
-
-                } else {
-
-                    productData.createdAt =
-                        serverTimestamp();
-
-                    productData.createdBy =
-                        user.uid;
-
-                    productData.createdByEmail =
-                        user.email || "";
-
-
-                    const newProduct =
-                        await addDoc(
-                            collection(
-                                db,
-                                "products"
-                            ),
-                            productData
-                        );
-
-
-                    /*
-                    If an opening batch number
-                    was entered, create a batch
-                    automatically.
-                    */
-
-                    if (
-                        batchNumber
-                    ) {
-
-                        await addDoc(
-                            collection(
-                                db,
-                                "products",
-                                newProduct.id,
-                                "batches"
-                            ),
-                            {
-
-                                batchNumber,
-
-                                manufacturingDate,
-
-                                expiryDate,
-
-                                quantity,
-
-                                costPrice,
-
-                                sellingPrice,
-
-                                supplier,
-
-                                barcode,
-
-                                createdAt:
-                                    serverTimestamp(),
-
-                                createdBy:
-                                    user.uid
-
-                            }
-                        );
-
-                    }
-
-
-                    alert(
-                        "Product added successfully."
-                    );
-
-                }
-
-
-                closeProductModal();
-
-                await loadProducts();
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "Could not save product: " +
-                    error.message
-                );
-
-            }
-
-        }
-    );
-
-
-    /* ======================================================
-       LOAD PRODUCTS
-    ====================================================== */
-
-    async function loadProducts() {
-
-        try {
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="11" class="empty">
-                        Loading products...
-                    </td>
-                </tr>
-            `;
-
-
-            let snapshot;
-
-
-            try {
-
-                snapshot =
-                    await getDocs(
-                        query(
-                            collection(
-                                db,
-                                "products"
-                            ),
-                            orderBy(
-                                "productName"
-                            )
-                        )
-                    );
-
-            } catch (error) {
-
-                snapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "products"
-                        )
-                    );
-
-            }
-
-
-            allProducts = [];
-
-
-            snapshot.forEach(
-                productDoc => {
-
-                    allProducts.push({
-
-                        id:
-                            productDoc.id,
-
-                        ...productDoc.data()
-
-                    });
-
-                }
-            );
-
-
-            updateStats();
-
-            renderProducts();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="11" class="empty">
-                        Could not load products.
-                    </td>
-                </tr>
-            `;
-
-        }
-
-    }
-
-
-    /* ======================================================
-       UPDATE STATS
-    ====================================================== */
-
-    async function updateStats() {
-
-        let totalStock = 0;
-
-        let lowStock = 0;
-
-        let expiringSoon = 0;
-
-        let expired = 0;
-
-
-        allProducts.forEach(
-            product => {
-
-                const quantity =
-                    Number(
-                        product.quantity ??
-                        product.stock ??
-                        0
-                    );
-
-
-                const lowLevel =
-                    Number(
-                        product.lowStockLevel ??
-                        0
-                    );
-
-
-                totalStock +=
-                    quantity;
-
-
-                if (
-                    quantity > 0 &&
-                    quantity <= lowLevel
-                ) {
-
-                    lowStock++;
-
-                }
-
-            }
-        );
-
-
-        /*
-        Check batches for expiry.
-        */
-
-        for (
-            const product
-            of allProducts
-        ) {
-
-            try {
-
-                const snapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "products",
-                            product.id,
-                            "batches"
-                        )
-                    );
-
-
-                snapshot.forEach(
-                    batchDoc => {
-
-                        const batch =
-                            batchDoc.data();
-
-
-                        const status =
-                            getBatchStatus(
-                                batch.expiryDate
-                            );
-
-
-                        if (
-                            status ===
-                            "Expiring Soon"
-                        ) {
-
-                            expiringSoon++;
-
-                        }
-
-
-                        if (
-                            status ===
-                            "Expired"
-                        ) {
-
-                            expired++;
-
-                        }
-
-                    }
-                );
-
-            } catch (error) {
-
-                console.log(
-                    "Batch check skipped:",
-                    error
-                );
-
-            }
-
-        }
-
-
-        document.getElementById(
-            "totalProducts"
-        ).textContent =
-            allProducts.length;
-
-
-        document.getElementById(
-            "totalStock"
-        ).textContent =
-            totalStock;
-
-
-        document.getElementById(
-            "lowStock"
-        ).textContent =
-            lowStock;
-
-
-        document.getElementById(
-            "expiringSoon"
-        ).textContent =
-            expiringSoon;
-
-
-        document.getElementById(
-            "expiredBatches"
-        ).textContent =
-            expired;
-
-    }
-
-
-    /* ======================================================
-       RENDER PRODUCTS
-    ====================================================== */
-
-    function renderProducts() {
-
-        const search =
-            document
-                .getElementById(
-                    "searchInput"
-                )
-                .value
+            return String(value || "")
                 .trim()
-                .toLowerCase();
+                .replace(/[\s-]/g, "")
+                .toUpperCase();
+
+        }
 
 
-        const filtered =
-            allProducts.filter(
-                product => {
+        function getStaffDetails() {
 
-                    const text = [
+            try {
 
-                        product.productName,
+                const saved =
+                    localStorage.getItem("nesiStaff");
 
-                        product.category,
+                if (!saved) {
 
-                        product.brand,
-
-                        product.sku,
-
-                        product.barcode,
-
-                        product.batchNumber,
-
-                        product.supplier
-
-                    ]
-                        .filter(Boolean)
-                        .join(" ")
-                        .toLowerCase();
-
-
-                    return text.includes(
-                        search
-                    );
+                    return {
+                        staffId: "ADMIN",
+                        name: currentUser?.displayName || "Administrator",
+                        role: "Administrator"
+                    };
 
                 }
-            );
 
+                const staff =
+                    JSON.parse(saved);
+
+                return {
+                    staffId: staff.staffId || "ADMIN",
+                    name:
+                        staff.name ||
+                        currentUser?.displayName ||
+                        "Administrator",
+                    role:
+                        staff.role ||
+                        "Administrator"
+                };
+
+            } catch (error) {
+
+                return {
+                    staffId: "ADMIN",
+                    name:
+                        currentUser?.displayName ||
+                        "Administrator",
+                    role: "Administrator"
+                };
 
-        if (
-            !filtered.length
-        ) {
-
-            productsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="11" class="empty">
-                        No products found.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        productsTableBody.innerHTML =
-            filtered
-                .map(
-                    product => {
-
-                        const quantity =
-                            Number(
-                                product.quantity ??
-                                product.stock ??
-                                0
-                            );
-
-
-                        const lowLevel =
-                            Number(
-                                product.lowStockLevel ??
-                                0
-                            );
-
-
-                        let statusClass =
-                            "in-stock";
-
-
-                        let statusText =
-                            "In Stock";
-
-
-                        if (
-                            quantity <= 0
-                        ) {
-
-                            statusClass =
-                                "out";
-
-                            statusText =
-                                "Out of Stock";
-
-                        } else if (
-                            quantity <=
-                            lowLevel
-                        ) {
-
-                            statusClass =
-                                "low";
-
-                            statusText =
-                                "Low Stock";
-
-                        }
-
-
-                        const barcode =
-                            product.barcode ||
-                            product.barCode ||
-                            product.ean ||
-                            product.upc ||
-                            "";
-
-
-                        return `
-
-                            <tr>
-
-                                <td>
-                                    <strong>
-                                        ${escapeHtml(
-                                            product.productName ||
-                                            ""
-                                        )}
-                                    </strong>
-                                </td>
-
-
-                                <td>
-                                    ${escapeHtml(
-                                        product.category ||
-                                        ""
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ${escapeHtml(
-                                        product.brand ||
-                                        "-"
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ${escapeHtml(
-                                        product.sku ||
-                                        "-"
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ${
-                                        barcode
-                                            ? escapeHtml(
-                                                barcode
-                                            )
-                                            : '<span style="color:#94a3b8;">No barcode</span>'
-                                    }
-                                </td>
-
-
-                                <td>
-                                    ${quantity}
-                                </td>
-
-
-                                <td>
-                                    ₦${formatMoney(
-                                        product.costPrice
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ₦${formatMoney(
-                                        product.sellingPrice
-                                    )}
-                                </td>
-
-
-                                <td>
-
-                                    <button
-                                        class="action-btn batch-btn"
-                                        onclick="manageBatches('${product.id}')"
-                                    >
-                                        📦 Batches
-                                    </button>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span
-                                        class="status ${statusClass}"
-                                    >
-                                        ${statusText}
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <button
-                                        class="action-btn edit-btn"
-                                        onclick="editProduct('${product.id}')"
-                                    >
-                                        Edit
-                                    </button>
-
-
-                                    <button
-                                        class="action-btn delete-btn"
-                                        onclick="deleteProduct('${product.id}')"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        `;
-
-                    }
-                )
-                .join("");
-
-    }
-
-
-    /* ======================================================
-       BATCH STATUS
-    ====================================================== */
-
-    function getBatchStatus(
-        expiryDate
-    ) {
-
-        if (!expiryDate) {
-
-            return "Good";
-
-        }
-
-
-        const today =
-            new Date();
-
-        today.setHours(
-            0,
-            0,
-            0,
-            0
-        );
-
-
-        const expiry =
-            new Date(
-                expiryDate +
-                "T00:00:00"
-            );
-
-
-        expiry.setHours(
-            0,
-            0,
-            0,
-            0
-        );
-
-
-        if (
-            expiry < today
-        ) {
-
-            return "Expired";
-
-        }
-
-
-        const days =
-            Math.ceil(
-                (
-                    expiry -
-                    today
-                ) /
-                (
-                    1000 *
-                    60 *
-                    60 *
-                    24
-                )
-            );
-
-
-        if (
-            days <= 90
-        ) {
-
-            return "Expiring Soon";
-
-        }
-
-
-        return "Good";
-
-    }
-
-
-    /* ======================================================
-       MANAGE BATCHES
-    ====================================================== */
-
-    window.manageBatches =
-        async function(productId) {
-
-            selectedBatchProductId =
-                productId;
-
-
-            const product =
-                allProducts.find(
-                    item =>
-                        item.id ===
-                        productId
-                );
-
-
-            if (!product) {
-                return;
             }
 
-
-            document.getElementById(
-                "batchProductInfo"
-            ).innerHTML = `
-
-                <strong>
-                    ${escapeHtml(
-                        product.productName ||
-                        ""
-                    )}
-                </strong>
-
-                <div>
-                    Barcode:
-                    ${
-                        product.barcode ||
-                        "No barcode"
-                    }
-                </div>
-
-                <div>
-                    SKU:
-                    ${
-                        product.sku ||
-                        "-"
-                    }
-                </div>
-
-            `;
+        }
 
 
-            document.getElementById(
-                "newBatchNumber"
-            ).value = "";
+        function updateUserDisplay(user) {
+
+            const staff =
+                getStaffDetails();
+
+            const name =
+                staff.name ||
+                user.displayName ||
+                "Administrator";
+
+            const role =
+                staff.role ||
+                "Administrator";
+
+            userName.textContent = name;
+
+            userRole.textContent = role;
+
+            const initials =
+                name
+                    .split(" ")
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map(word => word.charAt(0))
+                    .join("")
+                    .toUpperCase();
+
+            userAvatar.textContent =
+                initials || "N";
+
+        }
 
 
-            document.getElementById(
-                "newBatchQuantity"
-            ).value = 1;
+        async function barcodeAlreadyExists(barcode) {
 
+            if (!barcode) {
+                return false;
+            }
 
-            document.getElementById(
-                "newBatchMfg"
-            ).value = "";
-
-
-            document.getElementById(
-                "newBatchExpiry"
-            ).value = "";
-
-
-            document.getElementById(
-                "newBatchCost"
-            ).value =
-                product.costPrice ||
-                "";
-
-
-            document.getElementById(
-                "newBatchSelling"
-            ).value =
-                product.sellingPrice ||
-                "";
-
-
-            document.getElementById(
-                "newBatchSupplier"
-            ).value =
-                product.supplier ||
-                "";
-
-
-            batchModal.classList.add(
-                "show"
-            );
-
-
-            await loadBatches(
-                productId
-            );
-
-        };
-
-
-    /* ======================================================
-       LOAD BATCHES
-    ====================================================== */
-
-    async function loadBatches(
-        productId
-    ) {
-
-        const batchTableBody =
-            document.getElementById(
-                "batchTableBody"
-            );
-
-
-        batchTableBody.innerHTML = `
-            <tr>
-                <td colspan="8" class="empty">
-                    Loading batches...
-                </td>
-            </tr>
-        `;
-
-
-        try {
+            const barcodeQuery =
+                query(
+                    collection(db, "products"),
+                    where("barcode", "==", barcode)
+                );
 
             const snapshot =
-                await getDocs(
-                    collection(
-                        db,
-                        "products",
-                        productId,
-                        "batches"
-                    )
+                await getDocs(barcodeQuery);
+
+            return !snapshot.empty;
+
+        }
+
+
+        async function skuAlreadyExists(sku) {
+
+            if (!sku) {
+                return false;
+            }
+
+            const skuQuery =
+                query(
+                    collection(db, "products"),
+                    where("sku", "==", sku)
                 );
 
+            const snapshot =
+                await getDocs(skuQuery);
 
-            currentBatches = [];
-
-
-            snapshot.forEach(
-                batchDoc => {
-
-                    currentBatches.push({
-
-                        id:
-                            batchDoc.id,
-
-                        ...batchDoc.data()
-
-                    });
-
-                }
-            );
-
-
-            currentBatches.sort(
-                (
-                    a,
-                    b
-                ) =>
-                    String(
-                        a.expiryDate ||
-                        ""
-                    ).localeCompare(
-                        String(
-                            b.expiryDate ||
-                            ""
-                        )
-                    )
-            );
-
-
-            renderBatches();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            batchTableBody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="empty">
-                        Could not load batches.
-                    </td>
-                </tr>
-            `;
-
-        }
-
-    }
-
-
-    /* ======================================================
-       RENDER BATCHES
-    ====================================================== */
-
-    function renderBatches() {
-
-        const batchTableBody =
-            document.getElementById(
-                "batchTableBody"
-            );
-
-
-        let totalQuantity = 0;
-
-        let expiredCount = 0;
-
-
-        currentBatches.forEach(
-            batch => {
-
-                totalQuantity +=
-                    Number(
-                        batch.quantity ||
-                        0
-                    );
-
-
-                if (
-                    getBatchStatus(
-                        batch.expiryDate
-                    ) ===
-                    "Expired"
-                ) {
-
-                    expiredCount++;
-
-                }
-
-            }
-        );
-
-
-        document.getElementById(
-            "batchTotalQuantity"
-        ).textContent =
-            totalQuantity;
-
-
-        document.getElementById(
-            "batchCount"
-        ).textContent =
-            currentBatches.length;
-
-
-        document.getElementById(
-            "batchExpiredCount"
-        ).textContent =
-            expiredCount;
-
-
-        if (
-            !currentBatches.length
-        ) {
-
-            batchTableBody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="empty">
-                        No batches recorded for this product yet.
-                    </td>
-                </tr>
-            `;
-
-            return;
+            return !snapshot.empty;
 
         }
 
 
-        batchTableBody.innerHTML =
-            currentBatches
-                .map(
-                    batch => {
-
-                        const status =
-                            getBatchStatus(
-                                batch.expiryDate
-                            );
-
-
-                        let statusClass =
-                            "good";
-
-
-                        if (
-                            status ===
-                            "Expired"
-                        ) {
-
-                            statusClass =
-                                "expired";
-
-                        } else if (
-                            status ===
-                            "Expiring Soon"
-                        ) {
-
-                            statusClass =
-                                "expiring";
-
-                        }
-
-
-                        return `
-
-                            <tr>
-
-                                <td>
-                                    <strong>
-                                        ${escapeHtml(
-                                            batch.batchNumber ||
-                                            "-"
-                                        )}
-                                    </strong>
-                                </td>
-
-
-                                <td>
-                                    ${escapeHtml(
-                                        batch.manufacturingDate ||
-                                        "-"
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ${escapeHtml(
-                                        batch.expiryDate ||
-                                        "-"
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ${Number(
-                                        batch.quantity ||
-                                        0
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ₦${formatMoney(
-                                        batch.costPrice
-                                    )}
-                                </td>
-
-
-                                <td>
-                                    ₦${formatMoney(
-                                        batch.sellingPrice
-                                    )}
-                                </td>
-
-
-                                <td>
-
-                                    <span
-                                        class="status ${statusClass}"
-                                    >
-                                        ${status}
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <button
-                                        class="action-btn delete-btn"
-                                        onclick="deleteBatch('${batch.id}')"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        `;
-
-                    }
-                )
-                .join("");
-
-    }
-
-
-    /* ======================================================
-       ADD NEW BATCH
-    ====================================================== */
-
-    document
-        .getElementById(
-            "saveBatchBtn"
-        )
-        .addEventListener(
-            "click",
-            async () => {
-
-                if (
-                    !selectedBatchProductId
-                ) {
-
-                    return;
-
-                }
-
-
-                const user =
-                    auth.currentUser;
-
+        onAuthStateChanged(
+            auth,
+            user => {
 
                 if (!user) {
 
-                    alert(
-                        "Please login again."
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+                currentUser = user;
+
+                updateUserDisplay(user);
+
+            }
+        );
+
+
+        productForm.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                if (!currentUser) {
+
+                    showMessage(
+                        "Please wait for your account to finish loading.",
+                        "error"
                     );
 
                     return;
@@ -3667,76 +1193,118 @@
                 }
 
 
-                const batchNumber =
+                const productName =
                     document
-                        .getElementById(
-                            "newBatchNumber"
-                        )
+                        .getElementById("productName")
                         .value
                         .trim();
+
+
+                const category =
+                    document
+                        .getElementById("category")
+                        .value
+                        .trim();
+
+
+                const brand =
+                    document
+                        .getElementById("brand")
+                        .value
+                        .trim();
+
+
+                const sku =
+                    document
+                        .getElementById("sku")
+                        .value
+                        .trim()
+                        .toUpperCase();
+
+
+                const barcode =
+                    normalizeBarcode(
+                        document
+                            .getElementById("barcode")
+                            .value
+                    );
 
 
                 const quantity =
                     Number(
                         document
-                            .getElementById(
-                                "newBatchQuantity"
-                            )
+                            .getElementById("quantity")
                             .value
-                    ) || 0;
+                    );
 
 
-                const manufacturingDate =
+                const lowStockLevel =
+                    Number(
+                        document
+                            .getElementById("lowStockLevel")
+                            .value || 0
+                    );
+
+
+                const batchNumber =
                     document
-                        .getElementById(
-                            "newBatchMfg"
-                        )
-                        .value;
+                        .getElementById("batchNumber")
+                        .value
+                        .trim();
 
 
                 const expiryDate =
                     document
-                        .getElementById(
-                            "newBatchExpiry"
-                        )
+                        .getElementById("expiryDate")
+                        .value;
+
+
+                const manufacturingDate =
+                    document
+                        .getElementById("manufacturingDate")
                         .value;
 
 
                 const costPrice =
                     Number(
                         document
-                            .getElementById(
-                                "newBatchCost"
-                            )
-                            .value
-                    ) || 0;
+                            .getElementById("costPrice")
+                            .value || 0
+                    );
 
 
                 const sellingPrice =
                     Number(
                         document
-                            .getElementById(
-                                "newBatchSelling"
-                            )
+                            .getElementById("sellingPrice")
                             .value
-                    ) || 0;
+                    );
 
 
                 const supplier =
                     document
-                        .getElementById(
-                            "newBatchSupplier"
-                        )
+                        .getElementById("supplier")
                         .value
                         .trim();
 
 
-                if (
-                    !batchNumber
-                ) {
+                if (!productName) {
 
-                    alert(
-                        "Please enter a batch number."
+                    showMessage(
+                        "Please enter the product name.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (!category) {
+
+                    showMessage(
+                        "Please select a product category.",
+                        "error"
                     );
 
                     return;
@@ -3745,179 +1313,329 @@
 
 
                 if (
-                    quantity <= 0
+                    !Number.isFinite(quantity) ||
+                    quantity < 0
                 ) {
 
-                    alert(
-                        "Batch quantity must be greater than zero."
+                    showMessage(
+                        "Please enter a valid stock quantity.",
+                        "error"
                     );
 
                     return;
 
                 }
+
+
+                if (
+                    !Number.isFinite(lowStockLevel) ||
+                    lowStockLevel < 0
+                ) {
+
+                    showMessage(
+                        "Please enter a valid low stock level.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !Number.isFinite(costPrice) ||
+                    costPrice < 0
+                ) {
+
+                    showMessage(
+                        "Please enter a valid cost price.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !Number.isFinite(sellingPrice) ||
+                    sellingPrice < 0
+                ) {
+
+                    showMessage(
+                        "Please enter a valid selling price.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                saveButton.disabled = true;
+
+                saveButton.textContent =
+                    "Saving...";
 
 
                 try {
 
-                    const productRef =
-                        doc(
-                            db,
-                            "products",
-                            selectedBatchProductId
-                        );
+                    if (barcode) {
 
+                        const duplicateBarcode =
+                            await barcodeAlreadyExists(
+                                barcode
+                            );
 
-                    const productSnap =
-                        await getDoc(
-                            productRef
-                        );
+                        if (duplicateBarcode) {
 
+                            showMessage(
+                                "This barcode is already assigned to another product.",
+                                "error"
+                            );
 
-                    if (
-                        !productSnap.exists()
-                    ) {
+                            saveButton.disabled = false;
 
-                        alert(
-                            "Product could not be found."
-                        );
+                            saveButton.textContent =
+                                "Save Product";
 
-                        return;
+                            return;
+
+                        }
 
                     }
 
 
-                    const product =
-                        productSnap.data();
+                    if (sku) {
+
+                        const duplicateSku =
+                            await skuAlreadyExists(
+                                sku
+                            );
+
+                        if (duplicateSku) {
+
+                            showMessage(
+                                "This Product Code / SKU is already in use.",
+                                "error"
+                            );
+
+                            saveButton.disabled = false;
+
+                            saveButton.textContent =
+                                "Save Product";
+
+                            return;
+
+                        }
+
+                    }
 
 
-                    const barcode =
-                        product.barcode ||
-                        product.barCode ||
-                        product.ean ||
-                        product.upc ||
-                        "";
+                    const staff =
+                        getStaffDetails();
 
 
-                    /*
-                    Save batch.
-                    */
+                    let status =
+                        "In Stock";
 
-                    await addDoc(
-                        collection(
-                            db,
-                            "products",
-                            selectedBatchProductId,
-                            "batches"
-                        ),
-                        {
 
-                            batchNumber,
+                    if (quantity <= 0) {
 
-                            manufacturingDate,
+                        status =
+                            "Out of Stock";
 
-                            expiryDate,
+                    } else if (
+                        quantity <= lowStockLevel
+                    ) {
 
-                            quantity,
+                        status =
+                            "Low Stock";
 
-                            costPrice,
+                    }
 
-                            sellingPrice,
 
-                            supplier,
+                    const productData = {
 
+                        productName:
+                            productName,
+
+                        category:
+                            category,
+
+                        brand:
+                            brand,
+
+                        sku:
+                            sku,
+
+                        barcode:
                             barcode,
 
-                            createdAt:
-                                serverTimestamp(),
+                        quantity:
+                            quantity,
 
-                            createdBy:
-                                user.uid,
+                        stock:
+                            quantity,
 
-                            createdByEmail:
-                                user.email || ""
+                        lowStockLevel:
+                            lowStockLevel,
 
-                        }
-                    );
+                        batchNumber:
+                            batchNumber,
+
+                        manufacturingDate:
+                            manufacturingDate,
+
+                        expiryDate:
+                            expiryDate,
+
+                        costPrice:
+                            costPrice,
+
+                        sellingPrice:
+                            sellingPrice,
+
+                        supplier:
+                            supplier,
+
+                        status:
+                            status,
+
+                        createdBy:
+                            currentUser.uid,
+
+                        createdByEmail:
+                            currentUser.email || "",
+
+                        staffId:
+                            staff.staffId || "ADMIN",
+
+                        staffName:
+                            staff.name || "",
+
+                        createdAt:
+                            serverTimestamp(),
+
+                        updatedAt:
+                            serverTimestamp()
+
+                    };
+
+
+                    const productRef =
+                        await addDoc(
+                            collection(db, "products"),
+                            productData
+                        );
 
 
                     /*
-                    Increase product's
-                    aggregate stock.
-                    */
+                     * If a batch number was entered,
+                     * also create a batch record.
+                     */
 
-                    const oldQuantity =
-                        Number(
-                            product.quantity ??
-                            product.stock ??
-                            0
+                    if (batchNumber) {
+
+                        await addDoc(
+                            collection(
+                                db,
+                                "products",
+                                productRef.id,
+                                "batches"
+                            ),
+                            {
+
+                                batchNumber:
+                                    batchNumber,
+
+                                manufacturingDate:
+                                    manufacturingDate,
+
+                                expiryDate:
+                                    expiryDate,
+
+                                quantity:
+                                    quantity,
+
+                                costPrice:
+                                    costPrice,
+
+                                sellingPrice:
+                                    sellingPrice,
+
+                                supplier:
+                                    supplier,
+
+                                barcode:
+                                    barcode,
+
+                                createdBy:
+                                    currentUser.uid,
+
+                                createdByEmail:
+                                    currentUser.email || "",
+
+                                createdAt:
+                                    serverTimestamp(),
+
+                                updatedAt:
+                                    serverTimestamp()
+
+                            }
                         );
 
-
-                    const newQuantity =
-                        oldQuantity +
-                        quantity;
+                    }
 
 
-                    const lowStockLevel =
-                        Number(
-                            product.lowStockLevel ??
-                            0
-                        );
-
-
-                    const status =
-                        newQuantity <= 0
-                            ? "Out of Stock"
-                            : newQuantity <=
-                              lowStockLevel
-                                ? "Low Stock"
-                                : "In Stock";
-
-
-                    await updateDoc(
-                        productRef,
-                        {
-
-                            quantity:
-                                newQuantity,
-
-                            stock:
-                                newQuantity,
-
-                            costPrice,
-
-                            sellingPrice,
-
-                            status,
-
-                            updatedAt:
-                                serverTimestamp()
-
-                        }
+                    showMessage(
+                        "Product saved successfully to Firebase.",
+                        "success"
                     );
 
 
-                    alert(
-                        "New batch added successfully."
+                    productForm.reset();
+
+
+                    document
+                        .getElementById("quantity")
+                        .value = "0";
+
+
+                    document
+                        .getElementById("lowStockLevel")
+                        .value = "5";
+
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "inventory.html";
+
+                        },
+                        1200
                     );
-
-
-                    await loadBatches(
-                        selectedBatchProductId
-                    );
-
-
-                    await loadProducts();
 
 
                 } catch (error) {
 
-                    console.error(error);
-
-                    alert(
-                        "Could not save batch: " +
-                        error.message
+                    console.error(
+                        "Save product error:",
+                        error
                     );
+
+
+                    showMessage(
+                        "Unable to save product. Please check your Firebase connection and try again.",
+                        "error"
+                    );
+
+
+                    saveButton.disabled = false;
+
+                    saveButton.textContent =
+                        "Save Product";
 
                 }
 
@@ -3925,324 +1643,35 @@
         );
 
 
-    /* ======================================================
-       DELETE BATCH
-    ====================================================== */
-
-    window.deleteBatch =
-        async function(batchId) {
-
-            if (
-                !selectedBatchProductId
-            ) {
-
-                return;
-
-            }
-
-
-            const batch =
-                currentBatches.find(
-                    item =>
-                        item.id ===
-                        batchId
-                );
-
-
-            if (!batch) {
-                return;
-            }
-
-
-            const confirmed =
-                confirm(
-                    `Delete batch "${batch.batchNumber}"?\n\nThe batch quantity will also be removed from total product stock.`
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            try {
-
-                const productRef =
-                    doc(
-                        db,
-                        "products",
-                        selectedBatchProductId
-                    );
-
-
-                const productSnap =
-                    await getDoc(
-                        productRef
-                    );
-
-
-                if (
-                    productSnap.exists()
-                ) {
-
-                    const product =
-                        productSnap.data();
-
-
-                    const oldQuantity =
-                        Number(
-                            product.quantity ??
-                            product.stock ??
-                            0
-                        );
-
-
-                    const batchQuantity =
-                        Number(
-                            batch.quantity ||
-                            0
-                        );
-
-
-                    const newQuantity =
-                        Math.max(
-                            0,
-                            oldQuantity -
-                            batchQuantity
-                        );
-
-
-                    const lowStockLevel =
-                        Number(
-                            product.lowStockLevel ??
-                            0
-                        );
-
-
-                    const status =
-                        newQuantity <= 0
-                            ? "Out of Stock"
-                            : newQuantity <=
-                              lowStockLevel
-                                ? "Low Stock"
-                                : "In Stock";
-
-
-                    await updateDoc(
-                        productRef,
-                        {
-
-                            quantity:
-                                newQuantity,
-
-                            stock:
-                                newQuantity,
-
-                            status,
-
-                            updatedAt:
-                                serverTimestamp()
-
-                        }
-                    );
-
-                }
-
-
-                await deleteDoc(
-                    doc(
-                        db,
-                        "products",
-                        selectedBatchProductId,
-                        "batches",
-                        batchId
-                    )
-                );
-
-
-                alert(
-                    "Batch deleted."
-                );
-
-
-                await loadBatches(
-                    selectedBatchProductId
-                );
-
-
-                await loadProducts();
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "Could not delete batch: " +
-                    error.message
-                );
-
-            }
-
-        };
-
-
-    /* ======================================================
-       CLOSE BATCH MODAL
-    ====================================================== */
-
-    function closeBatchModal() {
-
-        batchModal.classList.remove(
-            "show"
-        );
-
-        selectedBatchProductId =
-            null;
-
-        currentBatches = [];
-
-    }
-
-
-    document
-        .getElementById(
-            "closeBatchModalBtn"
-        )
-        .addEventListener(
+        cancelButton.addEventListener(
             "click",
-            closeBatchModal
-        );
+            function() {
 
-
-    document
-        .getElementById(
-            "doneBatchBtn"
-        )
-        .addEventListener(
-            "click",
-            closeBatchModal
-        );
-
-
-    /* ======================================================
-       DELETE PRODUCT
-    ====================================================== */
-
-    window.deleteProduct =
-        async function(productId) {
-
-            const product =
-                allProducts.find(
-                    item =>
-                        item.id ===
-                        productId
-                );
-
-
-            if (!product) {
-                return;
-            }
-
-
-            const confirmed =
-                confirm(
-                    `Delete "${product.productName}"?\n\nThis removes the product record.`
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            try {
-
-                await deleteDoc(
-                    doc(
-                        db,
-                        "products",
-                        productId
-                    )
-                );
-
-
-                alert(
-                    "Product deleted successfully."
-                );
-
-
-                await loadProducts();
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "Could not delete product: " +
-                    error.message
-                );
+                window.location.href =
+                    "inventory.html";
 
             }
-
-        };
-
-
-    /* ======================================================
-       SEARCH
-    ====================================================== */
-
-    document
-        .getElementById(
-            "searchInput"
-        )
-        .addEventListener(
-            "input",
-            renderProducts
         );
 
 
-    /* ======================================================
-       REFRESH
-    ====================================================== */
-
-    document
-        .getElementById(
-            "refreshBtn"
-        )
-        .addEventListener(
+        logoutButton.addEventListener(
             "click",
-            loadProducts
-        );
+            async function(event) {
 
-
-    /* ======================================================
-       LOGOUT
-    ====================================================== */
-
-    document
-        .getElementById(
-            "logoutBtn"
-        )
-        .addEventListener(
-            "click",
-            async () => {
+                event.preventDefault();
 
                 try {
 
-                    await signOut(
-                        auth
-                    );
+                    await signOut(auth);
 
                     window.location.href =
                         "login.html";
 
                 } catch (error) {
 
-                    alert(
-                        "Logout failed: " +
-                        error.message
+                    console.error(
+                        "Logout error:",
+                        error
                     );
 
                 }
@@ -4250,77 +1679,16 @@
             }
         );
 
-
-    /* ======================================================
-       MONEY
-    ====================================================== */
-
-    function formatMoney(
-        value
-    ) {
-
-        return (
-            Number(value) || 0
-        ).toLocaleString(
-            "en-NG",
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }
-        );
-
-    }
+    </script>
 
 
-    /* ======================================================
-       ESCAPE HTML
-    ====================================================== */
+    <!-- PERMISSION PROTECTION -->
 
-    function escapeHtml(
-        value
-    ) {
-
-        return String(
-            value ?? ""
-        )
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-            .replace(
-                /</g,
-                "&lt;"
-            )
-            .replace(
-                />/g,
-                "&gt;"
-            )
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-            .replace(
-                /'/g,
-                "&#039;"
-            );
-
-    }
-
-
-    /* ======================================================
-       CLEANUP
-    ====================================================== */
-
-    window.addEventListener(
-        "beforeunload",
-        () => {
-
-            stopCameraScanner();
-
-        }
-    );
-
-</script>
+    <script
+        type="module"
+        src="./js/permission.js"
+    ></script>
 
 </body>
-</html>
+
+    </html>
