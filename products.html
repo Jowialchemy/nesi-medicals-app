@@ -175,6 +175,16 @@
 
         .page-header {
             margin-bottom: 25px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-text {
+            flex: 1;
+            min-width: 220px;
         }
 
         .page-header h2 {
@@ -185,6 +195,26 @@
         .page-header p {
             color: #6b7280;
             font-size: 13px;
+        }
+
+        .back-inventory-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 16px;
+            border-radius: 9px;
+            background: #0f766e;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+            transition: 0.2s ease;
+        }
+
+        .back-inventory-button:hover {
+            background: #115e59;
         }
 
         .panel {
@@ -544,6 +574,14 @@
                 padding: 20px 15px;
             }
 
+            .page-header {
+                align-items: stretch;
+            }
+
+            .back-inventory-button {
+                width: 100%;
+            }
+
             .form-grid {
                 grid-template-columns: 1fr;
             }
@@ -788,13 +826,27 @@
 
             <div class="page-header">
 
-                <h2>
-                    Add New Product
-                </h2>
+                <div class="page-header-text">
 
-                <p>
-                    Enter the product, pricing, stock, barcode and expiry information.
-                </p>
+                    <h2>
+                        Add New Product
+                    </h2>
+
+                    <p>
+                        Enter the product, pricing, stock, barcode and expiry information.
+                    </p>
+
+                </div>
+
+
+                <!-- ONLY NEW ADDITION -->
+
+                <a
+                    href="inventory.html"
+                    class="back-inventory-button"
+                >
+                    ← Back to Inventory
+                </a>
 
             </div>
 
@@ -846,8 +898,6 @@
                         </div>
 
 
-
-                        <!-- CATEGORY DROPDOWN -->
 
                         <div class="form-group">
 
@@ -949,8 +999,6 @@
 
 
 
-                        <!-- BARCODE -->
-
                         <div class="form-group full">
 
                             <label for="barcode">
@@ -960,8 +1008,6 @@
 
                             <div class="barcode-box">
 
-
-                                <!-- MANUAL ENTRY -->
 
                                 <div class="barcode-input-row">
 
@@ -977,8 +1023,6 @@
                                 </div>
 
 
-
-                                <!-- THREE OPTIONS -->
 
                                 <div class="barcode-actions">
 
@@ -1003,8 +1047,6 @@
 
                                 </div>
 
-
-                                <!-- HIDDEN GALLERY INPUT -->
 
                                 <input
                                     type="file"
@@ -1034,8 +1076,6 @@
                     </div>
 
 
-
-                    <!-- STOCK INFORMATION -->
 
                     <div class="section-title">
                         Stock Information
@@ -1135,8 +1175,6 @@
 
 
 
-                    <!-- PRICING -->
-
                     <div class="section-title">
                         Pricing
                     </div>
@@ -1187,8 +1225,6 @@
 
 
 
-                    <!-- SUPPLIER -->
-
                     <div class="section-title">
                         Supplier
                     </div>
@@ -1214,8 +1250,6 @@
                     </div>
 
 
-
-                    <!-- BUTTONS -->
 
                     <div class="button-row">
 
@@ -1248,8 +1282,6 @@
     </main>
 
 
-
-    <!-- BARCODE SCANNER MODAL -->
 
     <div
         class="modal"
@@ -1358,8 +1390,6 @@
 
 
 
-    <!-- FIREBASE + BARCODE SYSTEM -->
-
     <script type="module">
 
         import {
@@ -1387,13 +1417,6 @@
         from "./js/firebase.js";
 
 
-
-        /*
-         * ZXing barcode reader.
-         * This is the same barcode scanning technology
-         * used for camera/photo barcode reading.
-         */
-
         let ZXingModule = null;
 
         let barcodeReader = null;
@@ -1401,95 +1424,68 @@
         let scannerRunning = false;
 
 
-
         const productForm =
             document.getElementById("productForm");
-
 
         const message =
             document.getElementById("formMessage");
 
-
         const saveButton =
             document.getElementById("saveButton");
-
 
         const cancelButton =
             document.getElementById("cancelButton");
 
-
         const logoutButton =
             document.getElementById("logoutButton");
-
 
         const userName =
             document.getElementById("userName");
 
-
         const userRole =
             document.getElementById("userRole");
-
 
         const userAvatar =
             document.getElementById("userAvatar");
 
-
         const barcodeInput =
             document.getElementById("barcode");
-
 
         const scanBarcodeButton =
             document.getElementById("scanBarcodeButton");
 
-
         const galleryBarcodeButton =
             document.getElementById("galleryBarcodeButton");
-
 
         const barcodeImageInput =
             document.getElementById("barcodeImageInput");
 
-
         const scannerModal =
             document.getElementById("scannerModal");
-
 
         const barcodeVideo =
             document.getElementById("barcodeVideo");
 
-
         const scannerStatus =
             document.getElementById("scannerStatus");
-
 
         const closeScannerButton =
             document.getElementById("closeScannerButton");
 
-
         const startScannerButton =
             document.getElementById("startScannerButton");
-
 
         const stopScannerButton =
             document.getElementById("stopScannerButton");
 
-
         const scannerManualInput =
             document.getElementById("scannerManualInput");
-
 
         const useScannerManualButton =
             document.getElementById("useScannerManualButton");
 
 
-
         let currentUser = null;
-
-
-
-        /* -----------------------------------------
-           GENERAL HELPERS
-        ----------------------------------------- */
 
 
         function showMessage(text, type) {
@@ -1502,7 +1498,6 @@
         }
 
 
-
         function normalizeBarcode(value) {
 
             return String(value || "")
@@ -1513,14 +1508,12 @@
         }
 
 
-
         function getStaffDetails() {
 
             try {
 
                 const saved =
                     localStorage.getItem("nesiStaff");
-
 
                 if (!saved) {
 
@@ -1538,10 +1531,8 @@
 
                 }
 
-
                 const staff =
                     JSON.parse(saved);
-
 
                 return {
 
@@ -1579,31 +1570,25 @@
         }
 
 
-
         function updateUserDisplay(user) {
 
             const staff =
                 getStaffDetails();
-
 
             const name =
                 staff.name ||
                 user.displayName ||
                 "Administrator";
 
-
             const role =
                 staff.role ||
                 "Administrator";
 
-
             userName.textContent =
                 name;
 
-
             userRole.textContent =
                 role;
-
 
             const initials =
                 name
@@ -1616,17 +1601,10 @@
                     .join("")
                     .toUpperCase();
 
-
             userAvatar.textContent =
                 initials || "N";
 
         }
-
-
-
-        /* -----------------------------------------
-           FIREBASE DUPLICATE CHECKS
-        ----------------------------------------- */
 
 
         async function barcodeAlreadyExists(barcode) {
@@ -1636,7 +1614,6 @@
                 return false;
 
             }
-
 
             const barcodeQuery =
                 query(
@@ -1651,17 +1628,14 @@
                     )
                 );
 
-
             const snapshot =
                 await getDocs(
                     barcodeQuery
                 );
 
-
             return !snapshot.empty;
 
         }
-
 
 
         async function skuAlreadyExists(sku) {
@@ -1671,7 +1645,6 @@
                 return false;
 
             }
-
 
             const skuQuery =
                 query(
@@ -1686,22 +1659,14 @@
                     )
                 );
 
-
             const snapshot =
                 await getDocs(
                     skuQuery
                 );
 
-
             return !snapshot.empty;
 
         }
-
-
-
-        /* -----------------------------------------
-           LOAD ZXING
-        ----------------------------------------- */
 
 
         async function loadZXing() {
@@ -1712,18 +1677,15 @@
 
             }
 
-
             try {
 
                 scannerStatus.textContent =
                     "Loading barcode scanner...";
 
-
                 ZXingModule =
                     await import(
                         "https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm"
                     );
-
 
                 return ZXingModule;
 
@@ -1734,7 +1696,6 @@
                     error
                 );
 
-
                 throw new Error(
                     "Barcode scanner could not be loaded. Please check your internet connection."
                 );
@@ -1742,12 +1703,6 @@
             }
 
         }
-
-
-
-        /* -----------------------------------------
-           OPEN SCANNER
-        ----------------------------------------- */
 
 
         scanBarcodeButton.addEventListener(
@@ -1758,29 +1713,23 @@
                     "show"
                 );
 
-
                 scannerStatus.textContent =
                     "Loading camera scanner...";
-
 
                 try {
 
                     await loadZXing();
 
-
                     scannerStatus.textContent =
                         "Starting camera...";
 
-
                     await startCameraScanner();
-
 
                 } catch (error) {
 
                     console.error(
                         error
                     );
-
 
                     scannerStatus.textContent =
                         error.message ||
@@ -1792,12 +1741,6 @@
         );
 
 
-
-        /* -----------------------------------------
-           START CAMERA
-        ----------------------------------------- */
-
-
         async function startCameraScanner() {
 
             if (scannerRunning) {
@@ -1806,17 +1749,14 @@
 
             }
 
-
             if (!ZXingModule) {
 
                 await loadZXing();
 
             }
 
-
             const BrowserMultiFormatReader =
                 ZXingModule.BrowserMultiFormatReader;
-
 
             if (!BrowserMultiFormatReader) {
 
@@ -1826,18 +1766,14 @@
 
             }
 
-
             barcodeReader =
                 new BrowserMultiFormatReader();
-
 
             scannerRunning =
                 true;
 
-
             scannerStatus.textContent =
                 "Point your camera at the barcode...";
-
 
             try {
 
@@ -1857,20 +1793,16 @@
                             const text =
                                 result.getText();
 
-
                             if (text) {
 
                                 barcodeInput.value =
                                     normalizeBarcode(text);
 
-
                                 scannerStatus.textContent =
                                     "✅ Barcode detected: " +
                                     barcodeInput.value;
 
-
                                 stopCameraScanner();
-
 
                                 setTimeout(
                                     function() {
@@ -1895,10 +1827,8 @@
                     error
                 );
 
-
                 scannerRunning =
                     false;
-
 
                 scannerStatus.textContent =
                     "Camera could not start. Please allow camera permission and try again.";
@@ -1908,17 +1838,10 @@
         }
 
 
-
-        /* -----------------------------------------
-           STOP CAMERA
-        ----------------------------------------- */
-
-
         function stopCameraScanner() {
 
             scannerRunning =
                 false;
-
 
             try {
 
@@ -1937,10 +1860,8 @@
 
             }
 
-
             barcodeReader =
                 null;
-
 
             if (barcodeVideo.srcObject) {
 
@@ -1949,24 +1870,20 @@
                         .srcObject
                         .getTracks();
 
-
                 tracks.forEach(
                     track =>
                         track.stop()
                 );
-
 
                 barcodeVideo.srcObject =
                     null;
 
             }
 
-
             scannerStatus.textContent =
                 "Camera stopped.";
 
         }
-
 
 
         stopScannerButton.addEventListener(
@@ -1977,7 +1894,6 @@
 
             }
         );
-
 
 
         startScannerButton.addEventListener(
@@ -2000,12 +1916,6 @@
         );
 
 
-
-        /* -----------------------------------------
-           CLOSE SCANNER
-        ----------------------------------------- */
-
-
         function closeScanner() {
 
             stopCameraScanner();
@@ -2017,7 +1927,6 @@
         }
 
 
-
         closeScannerButton.addEventListener(
             "click",
             function() {
@@ -2026,7 +1935,6 @@
 
             }
         );
-
 
 
         scannerModal.addEventListener(
@@ -2046,12 +1954,6 @@
         );
 
 
-
-        /* -----------------------------------------
-           MANUAL BARCODE INSIDE SCANNER
-        ----------------------------------------- */
-
-
         useScannerManualButton.addEventListener(
             "click",
             function() {
@@ -2060,7 +1962,6 @@
                     normalizeBarcode(
                         scannerManualInput.value
                     );
-
 
                 if (!value) {
 
@@ -2071,15 +1972,12 @@
 
                 }
 
-
                 barcodeInput.value =
                     value;
-
 
                 scannerStatus.textContent =
                     "✅ Barcode entered: " +
                     value;
-
 
                 setTimeout(
                     function() {
@@ -2094,12 +1992,6 @@
         );
 
 
-
-        /* -----------------------------------------
-           GALLERY BARCODE SCANNING
-        ----------------------------------------- */
-
-
         galleryBarcodeButton.addEventListener(
             "click",
             function() {
@@ -2110,7 +2002,6 @@
         );
 
 
-
         barcodeImageInput.addEventListener(
             "change",
             async function() {
@@ -2118,13 +2009,11 @@
                 const file =
                     barcodeImageInput.files[0];
 
-
                 if (!file) {
 
                     return;
 
                 }
-
 
                 try {
 
@@ -2133,22 +2022,17 @@
                         "info"
                     );
 
-
                     await loadZXing();
-
 
                     const imageUrl =
                         URL.createObjectURL(
                             file
                         );
 
-
                     const reader =
                         new ZXingModule.BrowserMultiFormatReader();
 
-
                     let result = null;
-
 
                     try {
 
@@ -2159,18 +2043,11 @@
 
                     } catch (firstError) {
 
-                        /*
-                         * Some browser/device combinations
-                         * need an actual HTML image element.
-                         */
-
                         const image =
                             new Image();
 
-
                         image.src =
                             imageUrl;
-
 
                         await new Promise(
                             function(resolve, reject) {
@@ -2183,7 +2060,6 @@
 
                             }
                         );
-
 
                         try {
 
@@ -2200,11 +2076,9 @@
 
                     }
 
-
                     URL.revokeObjectURL(
                         imageUrl
                     );
-
 
                     if (!result) {
 
@@ -2214,12 +2088,10 @@
 
                     }
 
-
                     const detectedBarcode =
                         normalizeBarcode(
                             result.getText()
                         );
-
 
                     if (!detectedBarcode) {
 
@@ -2229,17 +2101,14 @@
 
                     }
 
-
                     barcodeInput.value =
                         detectedBarcode;
-
 
                     showMessage(
                         "✅ Barcode successfully read from the image: " +
                         detectedBarcode,
                         "success"
                     );
-
 
                 } catch (error) {
 
@@ -2248,7 +2117,6 @@
                         error
                     );
 
-
                     showMessage(
                         "Could not read a barcode from that image. Make sure the barcode is clear, straight and fully visible, then try another photo.",
                         "error"
@@ -2256,18 +2124,11 @@
 
                 }
 
-
                 barcodeImageInput.value =
                     "";
 
             }
         );
-
-
-
-        /* -----------------------------------------
-           AUTHENTICATION
-        ----------------------------------------- */
 
 
         onAuthStateChanged(
@@ -2283,10 +2144,8 @@
 
                 }
 
-
                 currentUser =
                     user;
-
 
                 updateUserDisplay(
                     user
@@ -2296,18 +2155,11 @@
         );
 
 
-
-        /* -----------------------------------------
-           SAVE PRODUCT
-        ----------------------------------------- */
-
-
         productForm.addEventListener(
             "submit",
             async function(event) {
 
                 event.preventDefault();
-
 
                 if (!currentUser) {
 
@@ -2320,7 +2172,6 @@
 
                 }
 
-
                 const productName =
                     document
                         .getElementById(
@@ -2328,7 +2179,6 @@
                         )
                         .value
                         .trim();
-
 
                 const category =
                     document
@@ -2338,7 +2188,6 @@
                         .value
                         .trim();
 
-
                 const brand =
                     document
                         .getElementById(
@@ -2346,7 +2195,6 @@
                         )
                         .value
                         .trim();
-
 
                 const sku =
                     document
@@ -2357,12 +2205,10 @@
                         .trim()
                         .toUpperCase();
 
-
                 const barcode =
                     normalizeBarcode(
                         barcodeInput.value
                     );
-
 
                 const quantity =
                     Number(
@@ -2373,7 +2219,6 @@
                             .value
                     );
 
-
                 const lowStockLevel =
                     Number(
                         document
@@ -2383,7 +2228,6 @@
                             .value || 0
                     );
 
-
                 const batchNumber =
                     document
                         .getElementById(
@@ -2392,7 +2236,6 @@
                         .value
                         .trim();
 
-
                 const expiryDate =
                     document
                         .getElementById(
@@ -2400,14 +2243,12 @@
                         )
                         .value;
 
-
                 const manufacturingDate =
                     document
                         .getElementById(
                             "manufacturingDate"
                         )
                         .value;
-
 
                 const costPrice =
                     Number(
@@ -2418,7 +2259,6 @@
                             .value || 0
                     );
 
-
                 const sellingPrice =
                     Number(
                         document
@@ -2428,7 +2268,6 @@
                             .value
                     );
 
-
                 const supplier =
                     document
                         .getElementById(
@@ -2436,10 +2275,6 @@
                         )
                         .value
                         .trim();
-
-
-
-                /* VALIDATION */
 
 
                 if (!productName) {
@@ -2453,7 +2288,6 @@
 
                 }
 
-
                 if (!category) {
 
                     showMessage(
@@ -2464,7 +2298,6 @@
                     return;
 
                 }
-
 
                 if (
                     !Number.isFinite(
@@ -2482,7 +2315,6 @@
 
                 }
 
-
                 if (
                     !Number.isFinite(
                         lowStockLevel
@@ -2498,7 +2330,6 @@
                     return;
 
                 }
-
 
                 if (
                     !Number.isFinite(
@@ -2516,7 +2347,6 @@
 
                 }
 
-
                 if (
                     !Number.isFinite(
                         sellingPrice
@@ -2533,22 +2363,14 @@
 
                 }
 
-
-
                 saveButton.disabled =
                     true;
-
 
                 saveButton.textContent =
                     "Saving...";
 
 
-
                 try {
-
-
-                    /* DUPLICATE BARCODE */
-
 
                     if (barcode) {
 
@@ -2556,7 +2378,6 @@
                             await barcodeAlreadyExists(
                                 barcode
                             );
-
 
                         if (
                             duplicateBarcode
@@ -2567,24 +2388,17 @@
                                 "error"
                             );
 
-
                             saveButton.disabled =
                                 false;
 
-
                             saveButton.textContent =
                                 "Save Product";
-
 
                             return;
 
                         }
 
                     }
-
-
-
-                    /* DUPLICATE SKU */
 
 
                     if (sku) {
@@ -2594,7 +2408,6 @@
                                 sku
                             );
 
-
                         if (duplicateSku) {
 
                             showMessage(
@@ -2602,14 +2415,11 @@
                                 "error"
                             );
 
-
                             saveButton.disabled =
                                 false;
 
-
                             saveButton.textContent =
                                 "Save Product";
-
 
                             return;
 
@@ -2618,15 +2428,12 @@
                     }
 
 
-
                     const staff =
                         getStaffDetails();
 
 
-
                     let status =
                         "In Stock";
-
 
                     if (
                         quantity <= 0
@@ -2644,10 +2451,6 @@
                             "Low Stock";
 
                     }
-
-
-
-                    /* PRODUCT DOCUMENT */
 
 
                     const productData = {
@@ -2721,7 +2524,6 @@
                     };
 
 
-
                     const productRef =
                         await addDoc(
                             collection(
@@ -2730,10 +2532,6 @@
                             ),
                             productData
                         );
-
-
-
-                    /* BATCH DOCUMENT */
 
 
                     if (batchNumber) {
@@ -2790,15 +2588,12 @@
                     }
 
 
-
                     showMessage(
                         "✅ Product saved successfully to Firebase.",
                         "success"
                     );
 
-
                     productForm.reset();
-
 
                     document
                         .getElementById(
@@ -2806,13 +2601,11 @@
                         )
                         .value = "0";
 
-
                     document
                         .getElementById(
                             "lowStockLevel"
                         )
                         .value = "5";
-
 
 
                     setTimeout(
@@ -2833,16 +2626,13 @@
                         error
                     );
 
-
                     showMessage(
                         "Unable to save product. Please check your Firebase connection and try again.",
                         "error"
                     );
 
-
                     saveButton.disabled =
                         false;
-
 
                     saveButton.textContent =
                         "Save Product";
@@ -2851,12 +2641,6 @@
 
             }
         );
-
-
-
-        /* -----------------------------------------
-           CANCEL
-        ----------------------------------------- */
 
 
         cancelButton.addEventListener(
@@ -2870,25 +2654,17 @@
         );
 
 
-
-        /* -----------------------------------------
-           LOGOUT
-        ----------------------------------------- */
-
-
         logoutButton.addEventListener(
             "click",
             async function(event) {
 
                 event.preventDefault();
 
-
                 try {
 
                     await signOut(
                         auth
                     );
-
 
                     window.location.href =
                         "login.html";
@@ -2905,12 +2681,8 @@
             }
         );
 
-
     </script>
 
-
-
-    <!-- PERMISSION PROTECTION -->
 
     <script
         type="module"
@@ -2920,4 +2692,4 @@
 
 </body>
 
-    </html>
+</html>
