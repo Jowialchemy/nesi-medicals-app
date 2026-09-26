@@ -1,3 +1,6 @@
+inventory.html — Back to Dashboard added
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -374,6 +377,52 @@
         .add-button:hover {
 
             background: #15803d;
+
+        }
+
+
+        /* =========================
+           BACK TO DASHBOARD
+        ========================= */
+
+        .back-dashboard {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            margin-top: 20px;
+
+            min-height: 44px;
+
+            padding: 0 18px;
+
+            border-radius: 9px;
+
+            background: #073b2a;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            border: 1px solid #073b2a;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .back-dashboard:hover {
+
+            background: #062b21;
 
         }
 
@@ -1050,6 +1099,13 @@
             }
 
 
+            .back-dashboard {
+
+                width: 100%;
+
+            }
+
+
             .modal-content {
 
                 padding: 20px;
@@ -1361,6 +1417,16 @@
                 </div>
 
             </div>
+
+
+            <!-- BACK TO DASHBOARD -->
+
+            <a
+                href="dashboard.html"
+                class="back-dashboard"
+            >
+                ← Back to Dashboard
+            </a>
 
 
         </section>
@@ -1695,9 +1761,9 @@
 
 
         import {
-    auth,
-    db
-} from "./js/firebase.js";
+            auth,
+            db
+        } from "./js/firebase.js";
 
 
         /* =========================
@@ -3374,8 +3440,14 @@
         }
 
     </script>
-    
-<script type="module" src="./js/permission.js"></script>
+
+    <script
+        type="module"
+        src="./js/permission.js"
+    ></script>
 
 </body>
 </html>
+
+
+
