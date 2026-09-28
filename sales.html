@@ -34,11 +34,7 @@ min-height:100vh
 }
 
 a{text-decoration:none;color:inherit}
-
-button,input,select,textarea{
-font-family:inherit
-}
-
+button,input,select,textarea{font-family:inherit}
 button{cursor:pointer}
 
 .sidebar{
@@ -73,7 +69,6 @@ padding:3px
 }
 
 .brand-text h2{font-size:17px}
-
 .brand-text p{
 font-size:11px;
 color:#a7b0c0;
@@ -81,7 +76,6 @@ margin-top:4px
 }
 
 .nav-section{margin-bottom:20px}
-
 .nav-title{
 color:#778197;
 font-size:10px;
@@ -181,7 +175,6 @@ font-weight:bold
 }
 
 .user-info{text-align:right}
-
 .user-info strong{
 display:block;
 font-size:13px;
@@ -245,9 +238,7 @@ background:var(--green);
 color:white
 }
 
-.btn-primary:hover{
-background:var(--green-dark)
-}
+.btn-primary:hover{background:var(--green-dark)}
 
 .btn-secondary{
 background:#eef2f7;
@@ -304,7 +295,6 @@ gap:16px
 }
 
 .form-group{margin-bottom:15px}
-
 .form-group.full{grid-column:1/-1}
 
 label{
@@ -380,6 +370,83 @@ align-items:center;
 margin-bottom:10px
 }
 
+/* SEARCHABLE PRODUCT SELECT */
+
+.product-picker{
+position:relative;
+width:100%
+}
+
+.product-search{
+width:100%;
+padding-right:38px
+}
+
+.product-search::placeholder{
+color:#8a94a6
+}
+
+.product-results{
+display:none;
+position:absolute;
+left:0;
+right:0;
+top:calc(100% + 4px);
+background:white;
+border:1px solid var(--border);
+border-radius:9px;
+box-shadow:0 12px 30px rgba(15,23,42,.16);
+max-height:240px;
+overflow-y:auto;
+z-index:2000
+}
+
+.product-results.show{
+display:block
+}
+
+.product-result{
+display:block;
+width:100%;
+border:none;
+background:white;
+text-align:left;
+padding:11px 12px;
+border-bottom:1px solid #edf1f5;
+font-size:12px;
+color:var(--dark)
+}
+
+.product-result:last-child{
+border-bottom:none
+}
+
+.product-result:hover,
+.product-result:focus{
+background:var(--green-light);
+color:var(--green-dark);
+outline:none
+}
+
+.product-result-name{
+font-weight:bold;
+display:block
+}
+
+.product-result-info{
+display:block;
+font-size:10px;
+color:var(--muted);
+margin-top:3px
+}
+
+.product-no-results{
+padding:13px;
+font-size:12px;
+color:var(--muted);
+text-align:center
+}
+
 .item-quantity input{text-align:center}
 
 .item-total{
@@ -445,7 +512,6 @@ font-size:13px
 }
 
 .summary-row span{color:var(--muted)}
-
 .summary-row strong{color:var(--dark)}
 
 .summary-row.profit-row{
@@ -1092,11 +1158,6 @@ Logout
 
 <div class="header-actions">
 
-<!-- SEARCH SALES ADDED -->
-<a href="sales-history.html" class="btn btn-secondary">
-🔎 Search Sales
-</a>
-
 <a href="sales-history.html" class="btn btn-secondary">
 🧾 Sales History
 </a>
@@ -1418,7 +1479,6 @@ class="receipt-logo">
 <strong id="receiptCreditPaymentMethod">Cash</strong>
 </div>
 
-<!-- STAFF ID -->
 <div>
 <span>Staff ID:</span>
 <strong id="receiptStaffId">—</strong>
@@ -1506,9 +1566,6 @@ Thank you for your patronage.
 
 </section>
 </main>
-
-
-<!-- BARCODE SCANNER -->
 
 <div class="scanner-modal" id="scannerModal">
 
@@ -1626,7 +1683,6 @@ Save Barcode
 </div>
 </div>
 
-
 <script type="module">
 
 import { auth, db } from "./js/firebase.js";
@@ -1649,7 +1705,6 @@ import {
 BrowserMultiFormatReader
 } from "https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm";
 
-
 let currentUser=null;
 let products=[];
 let customers=[];
@@ -1668,14 +1723,9 @@ let scannerRunning=false;
 
 let lastScannedCode="";
 let lastScanTime=0;
-
 let pendingBarcode="";
 
-
 const $=id=>document.getElementById(id);
-
-
-/* ELEMENTS */
 
 const sidebar=$("sidebar");
 const sidebarOverlay=$("sidebarOverlay");
@@ -1729,8 +1779,6 @@ const receiptCustomer=$("receiptCustomer");
 const receiptPayment=$("receiptPayment");
 const receiptPaymentMethodRow=$("receiptPaymentMethodRow");
 const receiptCreditPaymentMethod=$("receiptCreditPaymentMethod");
-
-/* STAFF ID RECEIPT ELEMENT */
 const receiptStaffId=$("receiptStaffId");
 
 const receiptItems=$("receiptItems");
@@ -1742,9 +1790,6 @@ const receiptCredit=$("receiptCredit");
 const receiptPaid=$("receiptPaid");
 const receiptOutstanding=$("receiptOutstanding");
 const receiptPaymentStatus=$("receiptPaymentStatus");
-
-
-/* BARCODE */
 
 const scanBarcodeBtn=$("scanBarcodeBtn");
 const barcodeInput=$("barcodeInput");
@@ -1769,122 +1814,53 @@ const registerProductSelect=$("registerProductSelect");
 const cancelRegisterBarcodeBtn=$("cancelRegisterBarcodeBtn");
 const saveBarcodeBtn=$("saveBarcodeBtn");
 
-
-/* MONEY */
-
 function formatMoney(value){
-
-return new Intl.NumberFormat(
-"en-NG",
-{
+return new Intl.NumberFormat("en-NG",{
 style:"currency",
 currency:"NGN"
+}).format(Number(value)||0);
 }
-).format(Number(value)||0);
-
-}
-
-
-/* MESSAGES */
 
 function showMessage(message,type="info"){
-
 statusMessage.textContent=message;
 statusMessage.className=`status-message ${type}`;
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
+window.scrollTo({top:0,behavior:"smooth"});
 }
-
 
 function clearMessage(){
-
 statusMessage.textContent="";
 statusMessage.className="status-message";
-
 }
-
-
-/* STAFF ID */
 
 function getCurrentStaffId(){
 
 try{
-
-const savedStaff=
-localStorage.getItem("nesiStaff");
+const savedStaff=localStorage.getItem("nesiStaff");
 
 if(savedStaff){
+const staff=JSON.parse(savedStaff);
 
-const staff=
-JSON.parse(savedStaff);
-
-if(
-staff &&
-staff.staffId &&
-String(staff.staffId).trim()
-){
-
-return String(
-staff.staffId
-).trim();
-
+if(staff&&staff.staffId&&String(staff.staffId).trim()){
+return String(staff.staffId).trim();
 }
-
 }
-
 }catch(error){
-
-console.error(
-"Unable to read staff ID:",
-error
-);
-
+console.error("Unable to read staff ID:",error);
 }
 
-
-/*
-permission.js also places the
-current staff profile on window.
-*/
-
-if(
-window.nesiStaff &&
-window.nesiStaff.staffId
-){
-
-return String(
-window.nesiStaff.staffId
-).trim();
-
+if(window.nesiStaff&&window.nesiStaff.staffId){
+return String(window.nesiStaff.staffId).trim();
 }
-
-
-/*
-If the logged-in user is the
-administrator, use ADMIN.
-*/
 
 return "ADMIN";
-
 }
-
-
-/* CUSTOMER */
 
 function getSelectedCustomer(){
 
-const option=
-customerInput.options[
-customerInput.selectedIndex
-];
+const option=customerInput.options[customerInput.selectedIndex];
 
-if(!option || !customerInput.value){
-
-return {
+if(!option||!customerInput.value){
+return{
 id:"",
 name:"Walk-in Customer",
 phone:"",
@@ -1892,65 +1868,36 @@ email:"",
 outstanding:0,
 creditLimit:0
 };
-
 }
 
-const customer=
-customers.find(
-c=>c.id===customerInput.value
-);
+const customer=customers.find(c=>c.id===customerInput.value);
 
-return {
-
+return{
 id:customerInput.value,
-
-name:
-option.dataset.customerName||
-customer?.name||
-"Walk-in Customer",
-
-phone:
-option.dataset.customerPhone||
-customer?.phone||
-"",
-
-email:
-option.dataset.customerEmail||
-customer?.email||
-"",
-
-outstanding:
-Number(customer?.outstandingBalance)||0,
-
-creditLimit:
-Number(customer?.creditLimit)||0
-
+name:option.dataset.customerName||customer?.name||"Walk-in Customer",
+phone:option.dataset.customerPhone||customer?.phone||"",
+email:option.dataset.customerEmail||customer?.email||"",
+outstanding:Number(customer?.outstandingBalance)||0,
+creditLimit:Number(customer?.creditLimit)||0
 };
-
 }
-
 
 function loadCustomers(){
 
-if(customersUnsubscribe)
-customersUnsubscribe();
+if(customersUnsubscribe)customersUnsubscribe();
 
-customersUnsubscribe=
-onSnapshot(
+customersUnsubscribe=onSnapshot(
 collection(db,"customers"),
 snapshot=>{
 
-const currentValue=
-customerInput.value;
+const currentValue=customerInput.value;
 
-customers=
-snapshot.docs.map(d=>({
+customers=snapshot.docs.map(d=>({
 id:d.id,
 ...d.data()
 }));
 
-customerInput.innerHTML=
-`<option value="">Walk-in Customer</option>`;
+customerInput.innerHTML=`<option value="">Walk-in Customer</option>`;
 
 customers.forEach(customer=>{
 
@@ -1959,33 +1906,18 @@ const option=document.createElement("option");
 option.value=customer.id;
 
 option.textContent=
-`${customer.name||"Unnamed Customer"}${
-customer.phone
-?" — "+customer.phone
-:""
-}`;
+`${customer.name||"Unnamed Customer"}${customer.phone?" — "+customer.phone:""}`;
 
-option.dataset.customerName=
-customer.name||"";
-
-option.dataset.customerPhone=
-customer.phone||"";
-
-option.dataset.customerEmail=
-customer.email||"";
+option.dataset.customerName=customer.name||"";
+option.dataset.customerPhone=customer.phone||"";
+option.dataset.customerEmail=customer.email||"";
 
 customerInput.appendChild(option);
 
 });
 
-if(
-currentValue &&
-[...customerInput.options]
-.some(o=>o.value===currentValue)
-){
-
+if(currentValue&&[...customerInput.options].some(o=>o.value===currentValue)){
 customerInput.value=currentValue;
-
 }
 
 updateCustomerBalanceInfo();
@@ -1993,151 +1925,84 @@ updateSaleSummary();
 
 },
 error=>{
-
 console.error(error);
-
-showMessage(
-"Unable to load customers.",
-"error"
-);
-
+showMessage("Unable to load customers.","error");
 }
 );
 
 }
-
-
-/* PRODUCTS */
 
 function getProductName(product){
-
-return product.productName||
-product.name||
-"Unnamed Product";
-
+return product.productName||product.name||"Unnamed Product";
 }
-
 
 function getProductStock(product){
 
 const quantity=Number(product.quantity);
 
-if(
-Number.isFinite(quantity)&&
-product.quantity!==undefined
-){
-
+if(Number.isFinite(quantity)&&product.quantity!==undefined){
 return quantity;
-
 }
 
 const stock=Number(product.stock);
 
-if(
-Number.isFinite(stock)&&
-product.stock!==undefined
-){
-
+if(Number.isFinite(stock)&&product.stock!==undefined){
 return stock;
-
 }
 
 return 0;
-
 }
-
 
 function getProductPrice(product){
 
-const sellingPrice=
-Number(product.sellingPrice);
+const sellingPrice=Number(product.sellingPrice);
 
-if(
-Number.isFinite(sellingPrice)&&
-product.sellingPrice!==undefined
-){
-
+if(Number.isFinite(sellingPrice)&&product.sellingPrice!==undefined){
 return sellingPrice;
-
 }
 
 const price=Number(product.price);
 
-if(
-Number.isFinite(price)&&
-product.price!==undefined
-){
-
+if(Number.isFinite(price)&&product.price!==undefined){
 return price;
-
 }
 
 return 0;
-
 }
-
 
 function getProductCostPrice(product){
 
-const rawCost=
-product.costPrice??
-product.cost;
+const rawCost=product.costPrice??product.cost;
 
-if(
-rawCost===undefined||
-rawCost===null||
-rawCost===""
-){
-
+if(rawCost===undefined||rawCost===null||rawCost===""){
 return null;
-
 }
 
 const cost=Number(rawCost);
 
-if(
-!Number.isFinite(cost)||
-cost<0
-){
-
+if(!Number.isFinite(cost)||cost<0){
 return null;
-
 }
 
 return cost;
-
 }
-
 
 function getLowStockLevel(product){
 
-const level=
-Number(product.lowStockLevel);
+const level=Number(product.lowStockLevel);
 
-return Number.isFinite(level)&&level>=0
-?level
-:5;
-
+return Number.isFinite(level)&&level>=0?level:5;
 }
-
 
 function getProductStatus(stock,product){
 
-const level=
-getLowStockLevel(product);
+const level=getLowStockLevel(product);
 
-if(stock<=0)
-return "Out of Stock";
+if(stock<=0)return"Out of Stock";
+if(stock<=level)return"Low Stock";
 
-if(stock<=level)
-return "Low Stock";
-
-return "In Stock";
-
+return"In Stock";
 }
-
-
-/* BARCODE */
 
 function normalizeBarcode(value){
 
@@ -2145,14 +2010,11 @@ return String(value||"")
 .trim()
 .toUpperCase()
 .replace(/[\s-]/g,"");
-
 }
-
 
 function getProductBarcodes(product){
 
-return [
-
+return[
 product.barcode,
 product.barCode,
 product.barcodeNumber,
@@ -2163,76 +2025,50 @@ product.upc,
 product.upcCode,
 product.gtin,
 product.sku
-
 ]
-.filter(
-value=>
-value!==undefined&&
-value!==null&&
-String(value).trim()!==""
-)
+.filter(value=>value!==undefined&&value!==null&&String(value).trim()!=="")
 .map(normalizeBarcode);
-
 }
-
 
 function findProductByBarcode(code){
 
-const normalized=
-normalizeBarcode(code);
+const normalized=normalizeBarcode(code);
 
-if(!normalized)
-return null;
+if(!normalized)return null;
 
 return products.find(product=>
-
-getProductBarcodes(product)
-.includes(normalized)
-
+getProductBarcodes(product).includes(normalized)
 )||null;
-
 }
-
 
 function loadProducts(){
 
-if(productsUnsubscribe)
-productsUnsubscribe();
+if(productsUnsubscribe)productsUnsubscribe();
 
-productsUnsubscribe=
-onSnapshot(
+productsUnsubscribe=onSnapshot(
 collection(db,"products"),
 snapshot=>{
 
-products=
-snapshot.docs.map(d=>({
+products=snapshot.docs.map(d=>({
 id:d.id,
 ...d.data()
 }));
 
 populateRegisterProductSelect();
-
 renderSaleItems();
-
 updateSaleSummary();
 
 },
 error=>{
-
 console.error(error);
-
 showMessage(
 "Unable to load products. Please refresh the page.",
 "error"
 );
-
 }
 );
 
 }
-
-
-/* SALE ITEMS */
 
 function addSaleItem(){
 
@@ -2243,36 +2079,22 @@ quantity:1
 
 renderSaleItems();
 updateSaleSummary();
-
 }
-
 
 function addProductToSale(product,showSuccess=true){
 
-if(!product)
-return;
-
+if(!product)return;
 
 const stock=getProductStock(product);
 
-
 if(stock<=0){
-
-showMessage(
-`${getProductName(product)} is out of stock.`,
-"error"
-);
-
+showMessage(`${getProductName(product)} is out of stock.`,"error");
 return false;
-
 }
 
-
-const existingIndex=
-saleItems.findIndex(
+const existingIndex=saleItems.findIndex(
 item=>item.productId===product.id
 );
-
 
 if(existingIndex>=0){
 
@@ -2280,18 +2102,14 @@ const currentQuantity=
 Number(saleItems[existingIndex].quantity)||1;
 
 if(currentQuantity>=stock){
-
 showMessage(
 `${getProductName(product)} has only ${stock} item(s) in stock.`,
 "error"
 );
-
 return false;
-
 }
 
-saleItems[existingIndex].quantity=
-currentQuantity+1;
+saleItems[existingIndex].quantity=currentQuantity+1;
 
 }else{
 
@@ -2302,24 +2120,144 @@ quantity:1
 
 }
 
-
 renderSaleItems();
 updateSaleSummary();
 
-
 if(showSuccess){
-
 showMessage(
 `${getProductName(product)} added to the sale.`,
 "success"
 );
-
 }
 
 return true;
+}
+
+/* SEARCHABLE PRODUCT PICKER */
+
+function closeAllProductResults(except=null){
+
+saleItemsContainer
+.querySelectorAll(".product-results.show")
+.forEach(list=>{
+if(list!==except)list.classList.remove("show");
+});
 
 }
 
+function selectProductForItem(index,product){
+
+if(!product)return;
+
+const stock=getProductStock(product);
+
+if(stock<=0){
+showMessage(
+`${getProductName(product)} is out of stock.`,
+"error"
+);
+return;
+}
+
+const duplicateIndex=saleItems.findIndex(
+(item,i)=>i!==index&&item.productId===product.id
+);
+
+if(duplicateIndex>=0){
+
+showMessage(
+"The same product cannot be added twice. Increase its quantity instead.",
+"error"
+);
+
+return;
+}
+
+saleItems[index].productId=product.id;
+
+if(
+Number(saleItems[index].quantity)<1||
+!Number.isFinite(Number(saleItems[index].quantity))
+){
+saleItems[index].quantity=1;
+}
+
+if(Number(saleItems[index].quantity)>stock){
+saleItems[index].quantity=stock;
+}
+
+renderSaleItems();
+updateSaleSummary();
+}
+
+function renderProductResults(index,query){
+
+const picker=saleItemsContainer.querySelector(
+`.product-picker[data-index="${index}"]`
+);
+
+if(!picker)return;
+
+const results=picker.querySelector(".product-results");
+
+const search=String(query||"").trim().toLowerCase();
+
+results.innerHTML="";
+
+const availableProducts=products.filter(product=>{
+
+const name=getProductName(product).toLowerCase();
+
+const sku=String(product.sku||"").toLowerCase();
+
+const barcode=String(product.barcode||"").toLowerCase();
+
+return !search||
+name.includes(search)||
+sku.includes(search)||
+barcode.includes(search);
+
+});
+
+if(availableProducts.length===0){
+
+results.innerHTML=
+`<div class="product-no-results">No matching product found.</div>`;
+
+}else{
+
+availableProducts.forEach(product=>{
+
+const button=document.createElement("button");
+
+button.type="button";
+button.className="product-result";
+
+button.innerHTML=`
+<span class="product-result-name">
+${escapeHtml(getProductName(product))}
+</span>
+<span class="product-result-info">
+${formatMoney(getProductPrice(product))} • Stock: ${getProductStock(product)}
+${product.sku?" • SKU: "+escapeHtml(product.sku):""}
+</span>
+`;
+
+button.addEventListener("click",()=>{
+
+selectProductForItem(index,product);
+
+});
+
+results.appendChild(button);
+
+});
+
+}
+
+closeAllProductResults(results);
+results.classList.add("show");
+}
 
 function renderSaleItems(){
 
@@ -2333,62 +2271,77 @@ Add a product to start this sale.
 itemCountLabel.textContent="0 items";
 
 return;
-
 }
 
 saleItemsContainer.innerHTML="";
 
-
 saleItems.forEach((item,index)=>{
 
 const row=document.createElement("div");
-
 row.className="sale-item";
-
 
 const productDiv=document.createElement("div");
 
-const select=document.createElement("select");
+const picker=document.createElement("div");
+picker.className="product-picker";
+picker.dataset.index=index;
 
-select.dataset.index=index;
+const searchInput=document.createElement("input");
+searchInput.type="text";
+searchInput.className="product-search";
 
+const selectedProduct=products.find(
+p=>p.id===item.productId
+);
 
-const defaultOption=document.createElement("option");
+searchInput.placeholder="🔎 Search product...";
 
-defaultOption.value="";
-defaultOption.textContent="Select product";
+searchInput.autocomplete="off";
 
-select.appendChild(defaultOption);
+if(selectedProduct){
 
+searchInput.value=
+`${getProductName(selectedProduct)} — ${formatMoney(getProductPrice(selectedProduct))}`;
 
-products.forEach(product=>{
+}else{
 
-const option=document.createElement("option");
+searchInput.value="";
+}
 
-option.value=product.id;
+const results=document.createElement("div");
+results.className="product-results";
 
-option.textContent=
-`${getProductName(product)} — ${
-formatMoney(getProductPrice(product))
-} — Stock: ${
-getProductStock(product)
-}`;
+picker.append(searchInput,results);
+productDiv.appendChild(picker);
 
-if(product.id===item.productId)
-option.selected=true;
+searchInput.addEventListener("focus",()=>{
 
-select.appendChild(option);
+renderProductResults(
+index,
+searchInput.value
+);
 
 });
 
+searchInput.addEventListener("input",()=>{
 
-productDiv.appendChild(select);
+renderProductResults(
+index,
+searchInput.value
+);
 
+});
+
+searchInput.addEventListener("keydown",event=>{
+
+if(event.key==="Escape"){
+results.classList.remove("show");
+}
+
+});
 
 const quantityDiv=document.createElement("div");
-
 quantityDiv.className="item-quantity";
-
 
 const quantityInput=document.createElement("input");
 
@@ -2399,32 +2352,21 @@ quantityInput.value=item.quantity||1;
 quantityInput.dataset.index=index;
 quantityInput.className="quantity-input";
 
-
 quantityDiv.appendChild(quantityInput);
 
-
 const totalDiv=document.createElement("div");
-
 totalDiv.className="item-total";
 
-
-const product=
-products.find(
+const product=products.find(
 p=>p.id===item.productId
 );
 
-const unitPrice=
-product
-?getProductPrice(product)
-:0;
+const unitPrice=product?getProductPrice(product):0;
 
 const lineTotal=
-unitPrice*
-(Number(item.quantity)||0);
+unitPrice*(Number(item.quantity)||0);
 
-totalDiv.textContent=
-formatMoney(lineTotal);
-
+totalDiv.textContent=formatMoney(lineTotal);
 
 const removeBtn=document.createElement("button");
 
@@ -2433,7 +2375,6 @@ removeBtn.className="remove-item";
 removeBtn.textContent="×";
 removeBtn.title="Remove product";
 removeBtn.dataset.index=index;
-
 
 row.append(
 productDiv,
@@ -2446,117 +2387,72 @@ saleItemsContainer.appendChild(row);
 
 });
 
-
 itemCountLabel.textContent=
-`${saleItems.length} ${
-saleItems.length===1
-?"item"
-:"items"
-}`;
-
-
-saleItemsContainer
-.querySelectorAll("select")
-.forEach(select=>{
-
-select.addEventListener(
-"change",
-event=>{
-
-const index=
-Number(event.target.dataset.index);
-
-saleItems[index].productId=
-event.target.value;
-
-renderSaleItems();
-updateSaleSummary();
-
-}
-);
-
-});
-
+`${saleItems.length} ${saleItems.length===1?"item":"items"}`;
 
 saleItemsContainer
 .querySelectorAll(".quantity-input")
 .forEach(input=>{
 
-input.addEventListener(
-"input",
-event=>{
+input.addEventListener("input",event=>{
 
-const index=
-Number(event.target.dataset.index);
+const index=Number(event.target.dataset.index);
 
-let quantity=
-Number(event.target.value);
+let quantity=Number(event.target.value);
 
-const product=
-products.find(
+const product=products.find(
 p=>p.id===saleItems[index].productId
 );
 
-if(
-!Number.isFinite(quantity)||
-quantity<1
-){
-
+if(!Number.isFinite(quantity)||quantity<1){
 quantity=1;
-
 }
 
 if(product){
 
-const stock=
-getProductStock(product);
+const stock=getProductStock(product);
 
 if(quantity>stock){
-
 quantity=stock;
-
 event.target.value=stock;
-
 }
 
 }
 
-saleItems[index].quantity=
-Math.floor(quantity);
+saleItems[index].quantity=Math.floor(quantity);
 
 updateSaleSummary();
 
-}
-);
-
 });
 
+});
 
 saleItemsContainer
 .querySelectorAll(".remove-item")
 .forEach(button=>{
 
-button.addEventListener(
-"click",
-event=>{
+button.addEventListener("click",event=>{
 
-const index=
-Number(event.target.dataset.index);
+const index=Number(event.target.dataset.index);
 
 saleItems.splice(index,1);
 
 renderSaleItems();
 updateSaleSummary();
 
-}
-);
+});
 
 });
 
 }
 
+document.addEventListener("click",event=>{
 
-/* SALE DATA */
+if(!event.target.closest(".product-picker")){
+closeAllProductResults();
+}
+
+});
 
 function getCurrentSaleData(){
 
@@ -2567,48 +2463,32 @@ let costTotalValue=0;
 let grossProfitValue=0;
 let quantityTotal=0;
 
-
 saleItems.forEach(saleItem=>{
 
-if(!saleItem.productId)
-return;
+if(!saleItem.productId)return;
 
-const product=
-products.find(
+const product=products.find(
 p=>p.id===saleItem.productId
 );
 
-if(!product)
-return;
+if(!product)return;
 
-const quantity=
-Math.max(
+const quantity=Math.max(
 1,
-Math.floor(
-Number(saleItem.quantity)||1
-)
+Math.floor(Number(saleItem.quantity)||1)
 );
 
-const unitPrice=
-getProductPrice(product);
+const unitPrice=getProductPrice(product);
+const costPrice=getProductCostPrice(product);
 
-const costPrice=
-getProductCostPrice(product);
-
-const total=
-unitPrice*quantity;
+const total=unitPrice*quantity;
 
 const costTotal=
-costPrice===null
-?0
-:costPrice*quantity;
+costPrice===null?0:costPrice*quantity;
 
-const profit=
-total-costTotal;
-
+const profit=total-costTotal;
 
 items.push({
-
 productId:product.id,
 productName:getProductName(product),
 quantity,
@@ -2617,7 +2497,6 @@ costPrice,
 total,
 costTotal,
 profit
-
 });
 
 subtotalValue+=total;
@@ -2627,28 +2506,22 @@ quantityTotal+=quantity;
 
 });
 
-
-return {
-
+return{
 items,
 subtotal:subtotalValue,
 total:subtotalValue,
 costTotal:costTotalValue,
 grossProfit:grossProfitValue,
 quantityTotal
-
 };
 
 }
-
-
-/* PAYMENT */
 
 function getPaymentValues(total){
 
 if(paymentMethod.value!=="Credit"){
 
-return {
+return{
 amountPaid:total,
 outstandingBalance:0,
 paymentStatus:"Paid"
@@ -2656,40 +2529,25 @@ paymentStatus:"Paid"
 
 }
 
+let amountPaid=Number(amountPaidInput.value);
 
-let amountPaid=
-Number(amountPaidInput.value);
-
-if(
-!Number.isFinite(amountPaid)||
-amountPaid<0
-){
-
+if(!Number.isFinite(amountPaid)||amountPaid<0){
 amountPaid=0;
-
 }
 
-if(amountPaid>total)
-amountPaid=total;
+if(amountPaid>total)amountPaid=total;
 
-
-const outstanding=
-Math.max(0,total-amountPaid);
+const outstanding=Math.max(0,total-amountPaid);
 
 let status="Credit";
 
 if(outstanding===0){
-
 status="Paid";
-
 }else if(amountPaid>0){
-
 status="Partially Paid";
-
 }
 
-
-return {
+return{
 amountPaid,
 outstandingBalance:outstanding,
 paymentStatus:status
@@ -2697,13 +2555,9 @@ paymentStatus:status
 
 }
 
-
-/* CUSTOMER BALANCE */
-
 function updateCustomerBalanceInfo(){
 
-const customer=
-getSelectedCustomer();
+const customer=getSelectedCustomer();
 
 if(!customer.id){
 
@@ -2711,38 +2565,22 @@ customerBalanceInfo.classList.remove("show");
 customerBalanceInfo.textContent="";
 
 return;
-
 }
 
 customerBalanceInfo.classList.add("show");
 
 customerBalanceInfo.textContent=
-`Current outstanding balance: ${
-formatMoney(customer.outstanding)
-}`;
-
+`Current outstanding balance: ${formatMoney(customer.outstanding)}`;
 }
-
-
-/* CREDIT UI */
 
 function updateCreditUI(){
 
-const isCredit=
-paymentMethod.value==="Credit";
+const isCredit=paymentMethod.value==="Credit";
 
-creditBox.classList.toggle(
-"show",
-isCredit
-);
+creditBox.classList.toggle("show",isCredit);
 
-
-const data=
-getCurrentSaleData();
-
-const payment=
-getPaymentValues(data.total);
-
+const data=getCurrentSaleData();
+const payment=getPaymentValues(data.total);
 
 outstandingDisplay.textContent=
 formatMoney(payment.outstandingBalance);
@@ -2756,21 +2594,11 @@ formatMoney(payment.outstandingBalance);
 paymentStatusSummary.textContent=
 payment.paymentStatus;
 
+paidSummaryRow.style.display=isCredit?"flex":"none";
+outstandingSummaryRow.style.display=isCredit?"flex":"none";
+paymentStatusSummaryRow.style.display=isCredit?"flex":"none";
 
-paidSummaryRow.style.display=
-isCredit?"flex":"none";
-
-outstandingSummaryRow.style.display=
-isCredit?"flex":"none";
-
-paymentStatusSummaryRow.style.display=
-isCredit?"flex":"none";
-
-
-if(
-isCredit &&
-!customerInput.value
-){
+if(isCredit&&!customerInput.value){
 
 creditWarning.textContent=
 "A registered customer is required for a credit sale.";
@@ -2785,90 +2613,46 @@ creditWarning.classList.remove("show");
 
 }
 
-
-/* RECEIPT */
-
 function updateSaleSummary(){
 
-const data=
-getCurrentSaleData();
+const data=getCurrentSaleData();
 
-totalItems.textContent=
-data.quantityTotal;
-
-subtotal.textContent=
-formatMoney(data.subtotal);
-
-grossProfit.textContent=
-formatMoney(data.grossProfit);
-
-grandTotal.textContent=
-formatMoney(data.total);
+totalItems.textContent=data.quantityTotal;
+subtotal.textContent=formatMoney(data.subtotal);
+grossProfit.textContent=formatMoney(data.grossProfit);
+grandTotal.textContent=formatMoney(data.total);
 
 updateCreditUI();
-
 updateReceiptPreview(data);
-
 }
-
 
 function updateReceiptPreview(saleData){
 
-const customer=
-getSelectedCustomer();
+const customer=getSelectedCustomer();
+const payment=getPaymentValues(saleData.total);
+const isCredit=paymentMethod.value==="Credit";
 
-const payment=
-getPaymentValues(saleData.total);
+receiptStaffId.textContent=getCurrentStaffId();
 
-const isCredit=
-paymentMethod.value==="Credit";
+receiptCustomer.textContent=customer.name;
+receiptPayment.textContent=paymentMethod.value||"Cash";
 
+receiptItemCount.textContent=saleData.quantityTotal;
+receiptSubtotal.textContent=formatMoney(saleData.subtotal);
+receiptTotal.textContent=formatMoney(saleData.total);
 
-/*
-Display Staff ID on customer receipt.
-
-Only the Staff ID is shown.
-No staff name, phone or email.
-*/
-
-receiptStaffId.textContent=
-getCurrentStaffId();
-
-
-receiptCustomer.textContent=
-customer.name;
-
-receiptPayment.textContent=
-paymentMethod.value||"Cash";
-
-receiptItemCount.textContent=
-saleData.quantityTotal;
-
-receiptSubtotal.textContent=
-formatMoney(saleData.subtotal);
-
-receiptTotal.textContent=
-formatMoney(saleData.total);
-
-receiptPaid.textContent=
-formatMoney(payment.amountPaid);
-
+receiptPaid.textContent=formatMoney(payment.amountPaid);
 receiptOutstanding.textContent=
 formatMoney(payment.outstandingBalance);
 
 receiptPaymentStatus.textContent=
 payment.paymentStatus;
 
-receiptCredit.classList.toggle(
-"show",
-isCredit
-);
-
+receiptCredit.classList.toggle("show",isCredit);
 
 if(isCredit){
 
 receiptPaymentMethodRow.style.display="flex";
-
 receiptCreditPaymentMethod.textContent=
 creditPaymentMethod.value;
 
@@ -2878,21 +2662,16 @@ receiptPaymentMethodRow.style.display="none";
 
 }
 
-
 const now=new Date();
 
 receiptDate.textContent=
-now.toLocaleString(
-"en-NG",
-{
+now.toLocaleString("en-NG",{
 dateStyle:"medium",
 timeStyle:"short"
-}
-);
+});
 
 receiptSaleNumber.textContent=
 lastSale?.saleNumber||"Pending";
-
 
 if(saleData.items.length===0){
 
@@ -2902,9 +2681,7 @@ No products added.
 </div>`;
 
 return;
-
 }
-
 
 receiptItems.innerHTML=
 saleData.items.map(item=>`
@@ -2913,9 +2690,7 @@ saleData.items.map(item=>`
 
 <div class="receipt-item-name">
 
-<strong>
-${escapeHtml(item.productName)}
-</strong>
+<strong>${escapeHtml(item.productName)}</strong>
 
 <small>
 ${item.quantity} × ${formatMoney(item.unitPrice)}
@@ -2923,16 +2698,13 @@ ${item.quantity} × ${formatMoney(item.unitPrice)}
 
 </div>
 
-<strong>
-${formatMoney(item.total)}
-</strong>
+<strong>${formatMoney(item.total)}</strong>
 
 </div>
 
 `).join("");
 
 }
-
 
 function escapeHtml(value){
 
@@ -2942,221 +2714,123 @@ return String(value)
 .replace(/>/g,"&gt;")
 .replace(/"/g,"&quot;")
 .replace(/'/g,"&#039;");
-
 }
-
-
-/* SALE NUMBER */
 
 function generateSaleNumber(){
 
 const now=new Date();
 
-return `NM-${
-now.getFullYear()
-}${String(now.getMonth()+1).padStart(2,"0")
-}${String(now.getDate()).padStart(2,"0")
-}-${
-String(now.getHours()).padStart(2,"0")
-}${String(now.getMinutes()).padStart(2,"0")
-}${String(now.getSeconds()).padStart(2,"0")
-}`;
+return `NM-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,"0")}${String(now.getDate()).padStart(2,"0")}-${String(now.getHours()).padStart(2,"0")}${String(now.getMinutes()).padStart(2,"0")}${String(now.getSeconds()).padStart(2,"0")}`;
 
 }
-
-
-/* VALIDATION */
 
 function validateSale(){
 
 if(saleItems.length===0){
-
-return "Please add at least one product.";
-
+return"Please add at least one product.";
 }
 
-
 const selectedProductIds=new Set();
-
 
 for(let index=0;index<saleItems.length;index++){
 
 const item=saleItems[index];
 
 if(!item.productId){
-
-return `Please select a product for item ${index+1}.`;
-
+return`Please select a product for item ${index+1}.`;
 }
 
-
 if(selectedProductIds.has(item.productId)){
-
-return "The same product cannot be added twice. Increase its quantity instead.";
-
+return"The same product cannot be added twice. Increase its quantity instead.";
 }
 
 selectedProductIds.add(item.productId);
 
-
-const product=
-products.find(
+const product=products.find(
 p=>p.id===item.productId
 );
 
 if(!product){
-
-return "One of the selected products could not be found.";
-
+return"One of the selected products could not be found.";
 }
 
+const quantity=Number(item.quantity);
 
-const quantity=
-Number(item.quantity);
-
-if(
-!Number.isInteger(quantity)||
-quantity<1
-){
-
-return `Quantity for ${getProductName(product)} must be at least 1.`;
-
+if(!Number.isInteger(quantity)||quantity<1){
+return`Quantity for ${getProductName(product)} must be at least 1.`;
 }
-
 
 if(quantity>getProductStock(product)){
-
-return `${getProductName(product)} has only ${getProductStock(product)} item(s) in stock.`;
-
+return`${getProductName(product)} has only ${getProductStock(product)} item(s) in stock.`;
 }
-
 
 if(getProductPrice(product)<0){
-
-return `${getProductName(product)} does not have a valid selling price.`;
-
+return`${getProductName(product)} does not have a valid selling price.`;
 }
-
 
 if(getProductCostPrice(product)===null){
-
-return `${getProductName(product)} does not have a valid cost price in Inventory. Please edit the product and enter its Cost Price before recording this sale.`;
-
+return`${getProductName(product)} does not have a valid cost price in Inventory. Please edit the product and enter its Cost Price before recording this sale.`;
 }
 
 }
 
-
-const data=
-getCurrentSaleData();
-
+const data=getCurrentSaleData();
 
 if(paymentMethod.value==="Credit"){
 
 if(!customerInput.value){
-
-return "A registered customer must be selected for a credit sale. Walk-in customers cannot have an outstanding balance.";
-
+return"A registered customer must be selected for a credit sale. Walk-in customers cannot have an outstanding balance.";
 }
 
+const amountPaid=Number(amountPaidInput.value);
 
-const amountPaid=
-Number(amountPaidInput.value);
-
-if(
-!Number.isFinite(amountPaid)||
-amountPaid<0
-){
-
-return "Please enter a valid amount paid.";
-
+if(!Number.isFinite(amountPaid)||amountPaid<0){
+return"Please enter a valid amount paid.";
 }
 
 if(amountPaid>data.total){
-
-return "Amount paid cannot be greater than the sale total.";
-
+return"Amount paid cannot be greater than the sale total.";
 }
 
 }
 
-
-return "";
-
+return"";
 }
-
-
-/* RECORD SALE */
 
 async function recordSale(){
 
-if(savingSale)
-return;
+if(savingSale)return;
 
 clearMessage();
 
-const validationError=
-validateSale();
+const validationError=validateSale();
 
 if(validationError){
-
-showMessage(
-validationError,
-"error"
-);
-
+showMessage(validationError,"error");
 return;
-
 }
 
 if(!currentUser){
-
-showMessage(
-"You are not logged in.",
-"error"
-);
-
+showMessage("You are not logged in.","error");
 return;
-
 }
 
+const currentStaffId=getCurrentStaffId();
+const saleData=getCurrentSaleData();
+const selectedCustomer=getSelectedCustomer();
 
-/*
-Get Staff ID once at the moment
-the sale is actually recorded.
+const saleRef=doc(collection(db,"sales"));
 
-This is the value saved with the sale.
-*/
-
-const currentStaffId=
-getCurrentStaffId();
-
-
-const saleData=
-getCurrentSaleData();
-
-const selectedCustomer=
-getSelectedCustomer();
-
-const saleRef=
-doc(collection(db,"sales"));
-
-const customerRef=
-selectedCustomer.id
+const customerRef=selectedCustomer.id
 ?doc(db,"customers",selectedCustomer.id)
 :null;
-
 
 savingSale=true;
 
 recordSaleBtn.disabled=true;
-
-recordSaleBtn.textContent=
-"Recording Sale...";
-
+recordSaleBtn.textContent="Recording Sale...";
 
 let savedSaleData=null;
-
 
 try{
 
@@ -3166,33 +2840,23 @@ async transaction=>{
 
 let customerSnapshot=null;
 
-
 if(customerRef){
 
-customerSnapshot=
-await transaction.get(customerRef);
+customerSnapshot=await transaction.get(customerRef);
 
 if(!customerSnapshot.exists()){
-
-throw new Error(
-"The selected customer no longer exists."
-);
-
+throw new Error("The selected customer no longer exists.");
 }
 
 }
-
 
 const productSnapshots=[];
 
-
 for(const item of saleData.items){
 
-const productRef=
-doc(db,"products",item.productId);
+const productRef=doc(db,"products",item.productId);
 
-const snapshot=
-await transaction.get(productRef);
+const snapshot=await transaction.get(productRef);
 
 productSnapshots.push({
 item,
@@ -3202,81 +2866,46 @@ snapshot
 
 }
 
-
 let transactionSubtotal=0;
 let transactionCostTotal=0;
 let transactionQuantityTotal=0;
 
 const transactionItems=[];
 
-
 for(const entry of productSnapshots){
 
-const {
+const{
 item,
 productRef,
 snapshot
 }=entry;
 
-
 if(!snapshot.exists()){
-
-throw new Error(
-`Product ${item.productName} no longer exists.`
-);
-
+throw new Error(`Product ${item.productName} no longer exists.`);
 }
-
 
 const product=snapshot.data();
 
-const productName=
-getProductName(product);
-
-const currentStock=
-getProductStock(product);
-
-const quantity=
-Number(item.quantity);
-
+const productName=getProductName(product);
+const currentStock=getProductStock(product);
+const quantity=Number(item.quantity);
 
 if(quantity>currentStock){
-
-throw new Error(
-`${productName} now has only ${currentStock} item(s) in stock.`
-);
-
+throw new Error(`${productName} now has only ${currentStock} item(s) in stock.`);
 }
 
-
-const currentUnitPrice=
-getProductPrice(product);
-
-const currentCostPrice=
-getProductCostPrice(product);
-
+const currentUnitPrice=getProductPrice(product);
+const currentCostPrice=getProductCostPrice(product);
 
 if(currentCostPrice===null){
-
-throw new Error(
-`${productName} does not have a valid cost price.`
-);
-
+throw new Error(`${productName} does not have a valid cost price.`);
 }
 
-
-const lineTotal=
-currentUnitPrice*quantity;
-
-const lineCostTotal=
-currentCostPrice*quantity;
-
-const lineProfit=
-lineTotal-lineCostTotal;
-
+const lineTotal=currentUnitPrice*quantity;
+const lineCostTotal=currentCostPrice*quantity;
+const lineProfit=lineTotal-lineCostTotal;
 
 transactionItems.push({
-
 productId:snapshot.id,
 productName,
 quantity,
@@ -3285,53 +2914,35 @@ costPrice:currentCostPrice,
 total:lineTotal,
 costTotal:lineCostTotal,
 profit:lineProfit
-
 });
-
 
 transactionSubtotal+=lineTotal;
 transactionCostTotal+=lineCostTotal;
 transactionQuantityTotal+=quantity;
 
-
-const newStock=
-currentStock-quantity;
-
+const newStock=currentStock-quantity;
 
 transaction.update(
 productRef,
 {
-
 quantity:newStock,
 stock:newStock,
-
-status:getProductStatus(
-newStock,
-product
-),
-
+status:getProductStatus(newStock,product),
 updatedAt:serverTimestamp(),
-
 updatedBy:currentUser.uid
-
 }
 );
 
 }
 
-
-const finalTotal=
-transactionSubtotal;
-
+const finalTotal=transactionSubtotal;
 const transactionGrossProfit=
 finalTotal-transactionCostTotal;
-
 
 let finalAmountPaid=finalTotal;
 let finalOutstanding=0;
 let paymentStatus="Paid";
 let creditSale=false;
-
 
 if(paymentMethod.value==="Credit"){
 
@@ -3340,119 +2951,67 @@ creditSale=true;
 finalAmountPaid=
 Number(amountPaidInput.value)||0;
 
-
 if(finalAmountPaid>finalTotal){
-
-throw new Error(
-"Amount paid cannot be greater than the sale total."
-);
-
+throw new Error("Amount paid cannot be greater than the sale total.");
 }
-
 
 finalOutstanding=
-Math.max(
-0,
-finalTotal-finalAmountPaid
-);
-
+Math.max(0,finalTotal-finalAmountPaid);
 
 if(finalOutstanding===0){
-
 paymentStatus="Paid";
-
 }else if(finalAmountPaid>0){
-
 paymentStatus="Partially Paid";
-
 }else{
-
 paymentStatus="Credit";
-
 }
 
 }
-
 
 let previousOutstanding=0;
 let newCustomerOutstanding=0;
 
-
 if(customerRef){
 
-const customerData=
-customerSnapshot.data();
+const customerData=customerSnapshot.data();
 
 previousOutstanding=
-Number(
-customerData.outstandingBalance
-)||0;
+Number(customerData.outstandingBalance)||0;
 
 newCustomerOutstanding=
-previousOutstanding+
-finalOutstanding;
-
+previousOutstanding+finalOutstanding;
 
 transaction.update(
 customerRef,
 {
-
 outstandingBalance:newCustomerOutstanding,
-
 updatedAt:serverTimestamp(),
-
 updatedBy:currentUser.uid
-
 }
 );
 
 }
 
-
-const paymentRecord=
-finalAmountPaid>0
+const paymentRecord=finalAmountPaid>0
 ?[{
-
 amount:finalAmountPaid,
-
 method:
 paymentMethod.value==="Credit"
 ?creditPaymentMethod.value
 :paymentMethod.value,
-
 createdAt:new Date().toISOString(),
-
 createdBy:currentUser.uid,
-
 createdByEmail:currentUser.email||""
-
 }]
 :[];
-
-
-/*
-IMPORTANT:
-
-Staff ID is saved internally with
-the sale.
-
-Staff name is also saved internally
-for administrator accountability.
-
-Only Staff ID is printed on the
-customer receipt.
-*/
 
 savedSaleData={
 
 saleNumber:generateSaleNumber(),
 
 customer:selectedCustomer.name,
-
 customerId:selectedCustomer.id,
-
 customerPhone:selectedCustomer.phone,
-
 customerEmail:selectedCustomer.email,
 
 paymentMethod:paymentMethod.value,
@@ -3469,11 +3028,9 @@ paymentStatus,
 amountPaid:finalAmountPaid,
 
 outstandingAmount:finalOutstanding,
-
 outstandingBalance:finalOutstanding,
 
 previousCustomerOutstanding:previousOutstanding,
-
 newCustomerOutstanding,
 
 payments:paymentRecord,
@@ -3483,59 +3040,36 @@ notes:notesInput.value.trim(),
 items:transactionItems,
 
 subtotal:transactionSubtotal,
-
 total:finalTotal,
-
 costTotal:transactionCostTotal,
-
 grossProfit:transactionGrossProfit,
-
 totalQuantity:transactionQuantityTotal,
 
-/* STAFF ACCOUNTABILITY */
 staffId:currentStaffId,
-
 staffName:getStoredStaffName(),
-
 staffUid:currentUser.uid,
 
 createdBy:currentUser.uid,
-
 createdByEmail:currentUser.email||"",
 
 createdAt:serverTimestamp()
 
 };
 
-
-transaction.set(
-saleRef,
-savedSaleData
-);
+transaction.set(saleRef,savedSaleData);
 
 }
 );
-
 
 lastSale={
 id:saleRef.id,
 ...savedSaleData
 };
 
-
-receiptSaleNumber.textContent=
-lastSale.saleNumber;
-
-/*
-Make sure the receipt shows the
-same Staff ID that was saved.
-*/
-
-receiptStaffId.textContent=
-currentStaffId;
+receiptSaleNumber.textContent=lastSale.saleNumber;
+receiptStaffId.textContent=currentStaffId;
 
 updateSaleSummary();
-
 
 if(lastSale.creditSale){
 
@@ -3553,13 +3087,9 @@ showMessage(
 
 }
 
-
 }catch(error){
 
-console.error(
-"Record sale error:",
-error
-);
+console.error("Record sale error:",error);
 
 showMessage(
 error.message||
@@ -3570,105 +3100,69 @@ error.message||
 }finally{
 
 savingSale=false;
-
 recordSaleBtn.disabled=false;
-
-recordSaleBtn.textContent=
-"Record Sale";
+recordSaleBtn.textContent="Record Sale";
 
 }
 
 }
-
-
-/*
-Get staff name safely for internal
-record keeping.
-*/
 
 function getStoredStaffName(){
 
 try{
 
-const savedStaff=
-localStorage.getItem("nesiStaff");
+const savedStaff=localStorage.getItem("nesiStaff");
 
 if(savedStaff){
 
-const staff=
-JSON.parse(savedStaff);
+const staff=JSON.parse(savedStaff);
 
 if(staff?.name){
-
 return staff.name;
-
 }
 
 }
 
 }catch(error){
-
-console.error(
-"Unable to read staff name:",
-error
-);
-
+console.error("Unable to read staff name:",error);
 }
 
-if(
-window.nesiStaff?.name
-){
-
+if(window.nesiStaff?.name){
 return window.nesiStaff.name;
-
 }
 
-return "Administrator";
-
+return"Administrator";
 }
-
-
-/* TODAY'S SALES */
 
 function isToday(timestamp){
 
-if(!timestamp)
-return false;
+if(!timestamp)return false;
 
 let date;
 
 if(typeof timestamp.toDate==="function"){
-
 date=timestamp.toDate();
-
 }else if(timestamp instanceof Date){
-
 date=timestamp;
-
 }else{
-
 return false;
-
 }
 
 const now=new Date();
 
 return(
-date.getFullYear()===now.getFullYear() &&
-date.getMonth()===now.getMonth() &&
+date.getFullYear()===now.getFullYear()&&
+date.getMonth()===now.getMonth()&&
 date.getDate()===now.getDate()
 );
 
 }
 
-
 function loadSales(){
 
-if(salesUnsubscribe)
-salesUnsubscribe();
+if(salesUnsubscribe)salesUnsubscribe();
 
-salesUnsubscribe=
-onSnapshot(
+salesUnsubscribe=onSnapshot(
 collection(db,"sales"),
 snapshot=>{
 
@@ -3676,42 +3170,31 @@ let todayTotal=0;
 let transactionCount=0;
 let latestSale=null;
 
-
-snapshot.forEach(
-saleDoc=>{
+snapshot.forEach(saleDoc=>{
 
 const sale=saleDoc.data();
 
-
 if(isToday(sale.createdAt)){
 
-todayTotal+=
-Number(sale.total)||0;
-
+todayTotal+=Number(sale.total)||0;
 transactionCount++;
 
 }
 
-
 let saleDate=null;
 
 if(
-sale.createdAt &&
+sale.createdAt&&
 typeof sale.createdAt.toDate==="function"
 ){
 
-saleDate=
-sale.createdAt.toDate();
+saleDate=sale.createdAt.toDate();
 
 }
 
-
 if(
-saleDate &&
-(
-!latestSale||
-saleDate>latestSale.date
-)
+saleDate&&
+(!latestSale||saleDate>latestSale.date)
 ){
 
 latestSale={
@@ -3721,16 +3204,10 @@ sale
 
 }
 
-}
-);
+});
 
-
-todaySales.textContent=
-formatMoney(todayTotal);
-
-todayTransactions.textContent=
-transactionCount;
-
+todaySales.textContent=formatMoney(todayTotal);
+todayTransactions.textContent=transactionCount;
 
 lastSaleNumber.textContent=
 latestSale
@@ -3738,17 +3215,10 @@ latestSale
 :"—";
 
 },
-error=>
-console.error(
-"Sales loading error:",
-error
-)
+error=>console.error("Sales loading error:",error)
 );
 
 }
-
-
-/* CLEAR */
 
 function clearSale(){
 
@@ -3762,14 +3232,7 @@ creditPaymentMethod.value="Cash";
 notesInput.value="";
 
 receiptSaleNumber.textContent="Pending";
-
-/*
-Keep Staff ID visible on every
-new receipt preview.
-*/
-
-receiptStaffId.textContent=
-getCurrentStaffId();
+receiptStaffId.textContent=getCurrentStaffId();
 
 clearMessage();
 
@@ -3778,9 +3241,6 @@ renderSaleItems();
 updateSaleSummary();
 
 }
-
-
-/* NEW SALE */
 
 function startNewSale(){
 
@@ -3793,13 +3253,9 @@ behavior:"smooth"
 
 }
 
-
-/* PRINT */
-
 function printReceipt(){
 
-const data=
-getCurrentSaleData();
+const data=getCurrentSaleData();
 
 if(data.items.length===0){
 
@@ -3816,9 +3272,6 @@ window.print();
 
 }
 
-
-/* MENU */
-
 function openMenu(){
 
 sidebar.classList.add("open");
@@ -3826,16 +3279,12 @@ sidebarOverlay.classList.add("show");
 
 }
 
-
 function closeMenu(){
 
 sidebar.classList.remove("open");
 sidebarOverlay.classList.remove("show");
 
 }
-
-
-/* LOGOUT */
 
 async function logout(){
 
@@ -3858,9 +3307,6 @@ showMessage(
 
 }
 
-
-/* BARCODE SCANNER */
-
 function openScanner(){
 
 scannerModal.classList.add("show");
@@ -3875,13 +3321,9 @@ pendingBarcode="";
 scannerStatus.textContent=
 "Point your camera at the product barcode.";
 
-setTimeout(
-()=>startBarcodeScanner(),
-200
-);
+setTimeout(()=>startBarcodeScanner(),200);
 
 }
-
 
 function closeScanner(){
 
@@ -3897,41 +3339,27 @@ pendingBarcode="";
 
 }
 
-
 async function startBarcodeScanner(){
 
-if(scannerRunning)
-return;
-
+if(scannerRunning)return;
 
 try{
 
 scannerStatus.textContent=
 "Requesting camera permission...";
 
-
 if(!navigator.mediaDevices){
-
-throw new Error(
-"Camera access is not supported by this browser."
-);
-
+throw new Error("Camera access is not supported by this browser.");
 }
-
 
 if(!scannerReader){
-
-scannerReader=
-new BrowserMultiFormatReader();
-
+scannerReader=new BrowserMultiFormatReader();
 }
-
 
 scannerRunning=true;
 
 scannerStatus.textContent=
 "Camera active. Point it at a barcode.";
-
 
 scannerControls=
 await scannerReader.decodeFromVideoDevice(
@@ -3939,14 +3367,11 @@ undefined,
 barcodeVideo,
 (result,error)=>{
 
-if(!scannerRunning)
-return;
-
+if(!scannerRunning)return;
 
 if(result){
 
-const code=
-result.getText();
+const code=result.getText();
 
 handleScannedBarcode(code);
 
@@ -3955,13 +3380,9 @@ handleScannedBarcode(code);
 }
 );
 
-
 }catch(error){
 
-console.error(
-"Barcode scanner error:",
-error
-);
+console.error("Barcode scanner error:",error);
 
 scannerRunning=false;
 
@@ -3972,41 +3393,32 @@ scannerStatus.textContent=
 
 }
 
-
 function stopBarcodeScanner(){
 
 scannerRunning=false;
-
 
 try{
 
 if(scannerControls){
 
 scannerControls.stop();
-
 scannerControls=null;
 
 }
 
 }catch(error){
 
-console.error(
-"Scanner stop error:",
-error
-);
+console.error("Scanner stop error:",error);
 
 }
 
-
 try{
 
-const stream=
-barcodeVideo.srcObject;
+const stream=barcodeVideo.srcObject;
 
 if(stream){
 
-stream.getTracks()
-.forEach(track=>{
+stream.getTracks().forEach(track=>{
 try{
 track.stop();
 }catch(e){}
@@ -4018,72 +3430,48 @@ barcodeVideo.srcObject=null;
 
 }catch(error){
 
-console.error(
-"Camera cleanup error:",
-error
-);
+console.error("Camera cleanup error:",error);
 
 }
 
 }
-
 
 function handleScannedBarcode(code){
 
-const normalized=
-normalizeBarcode(code);
+const normalized=normalizeBarcode(code);
 
-if(!normalized)
-return;
-
+if(!normalized)return;
 
 const now=Date.now();
 
-
 if(
-normalized===lastScannedCode &&
+normalized===lastScannedCode&&
 now-lastScanTime<2000
 ){
-
 return;
-
 }
-
 
 lastScannedCode=normalized;
 lastScanTime=now;
 
-
 scannerStatus.textContent=
 `Barcode detected: ${code}`;
-
 
 processBarcode(normalized);
 
 }
 
-
 function processBarcode(code){
 
-const normalized=
-normalizeBarcode(code);
+const normalized=normalizeBarcode(code);
 
-if(!normalized)
-return;
+if(!normalized)return;
 
-
-const product=
-findProductByBarcode(normalized);
-
+const product=findProductByBarcode(normalized);
 
 if(product){
 
-const added=
-addProductToSale(
-product,
-false
-);
-
+const added=addProductToSale(product,false);
 
 if(added){
 
@@ -4095,28 +3483,23 @@ scannerSuccess.classList.add("show");
 scannerStatus.textContent=
 "Product found successfully.";
 
-
 stopBarcodeScanner();
 
-
-setTimeout(
-()=>{
+setTimeout(()=>{
 closeScanner();
 
 showMessage(
 `${getProductName(product)} added to the sale.`,
 "success"
 );
-},
-350
-);
+
+},350);
 
 }
 
 return;
 
 }
-
 
 pendingBarcode=normalized;
 
@@ -4134,17 +3517,14 @@ stopBarcodeScanner();
 
 }
 
-
 function populateRegisterProductSelect(){
 
 registerProductSelect.innerHTML=
 `<option value="">Select product</option>`;
 
-
 products.forEach(product=>{
 
-const option=
-document.createElement("option");
+const option=document.createElement("option");
 
 option.value=product.id;
 
@@ -4156,7 +3536,6 @@ registerProductSelect.appendChild(option);
 });
 
 }
-
 
 async function saveBarcodeToProduct(){
 
@@ -4171,10 +3550,7 @@ return;
 
 }
 
-
-const productId=
-registerProductSelect.value;
-
+const productId=registerProductSelect.value;
 
 if(!productId){
 
@@ -4187,12 +3563,9 @@ return;
 
 }
 
-
-const product=
-products.find(
+const product=products.find(
 p=>p.id===productId
 );
-
 
 if(!product){
 
@@ -4205,15 +3578,10 @@ return;
 
 }
 
-
-const duplicate=
-findProductByBarcode(
-pendingBarcode
-);
-
+const duplicate=findProductByBarcode(pendingBarcode);
 
 if(
-duplicate &&
+duplicate&&
 duplicate.id!==productId
 ){
 
@@ -4226,36 +3594,24 @@ return;
 
 }
 
-
 saveBarcodeBtn.disabled=true;
 saveBarcodeBtn.textContent="Saving...";
-
 
 try{
 
 await updateDoc(
-doc(
-db,
-"products",
-productId
-),
+doc(db,"products",productId),
 {
-
 barcode:pendingBarcode,
-
 updatedAt:serverTimestamp(),
-
 updatedBy:currentUser?.uid||""
-
 }
 );
-
 
 const savedProduct={
 ...product,
 barcode:pendingBarcode
 };
-
 
 registerBarcodeBox.classList.remove("show");
 
@@ -4266,31 +3622,18 @@ scannerSuccess.classList.add("show");
 
 pendingBarcode="";
 
-
-addProductToSale(
-savedProduct,
-false
-);
-
+addProductToSale(savedProduct,false);
 
 showMessage(
 `Barcode saved to ${getProductName(product)} and the product was added to the sale.`,
 "success"
 );
 
-
-setTimeout(
-()=>closeScanner(),
-500
-);
-
+setTimeout(()=>closeScanner(),500);
 
 }catch(error){
 
-console.error(
-"Save barcode error:",
-error
-);
+console.error("Save barcode error:",error);
 
 showMessage(
 "Unable to save barcode. Please try again.",
@@ -4306,13 +3649,9 @@ saveBarcodeBtn.textContent="Save Barcode";
 
 }
 
-
 function processManualBarcode(){
 
-const code=
-normalizeBarcode(
-scannerManualInput.value
-);
+const code=normalizeBarcode(scannerManualInput.value);
 
 if(!code){
 
@@ -4323,7 +3662,6 @@ return;
 
 }
 
-
 lastScannedCode=code;
 lastScanTime=Date.now();
 
@@ -4333,16 +3671,11 @@ scannerManualInput.value="";
 
 }
 
-
 function processBarcodeInput(){
 
-const code=
-normalizeBarcode(
-barcodeInput.value
-);
+const code=normalizeBarcode(barcodeInput.value);
 
-if(!code)
-return;
+if(!code)return;
 
 processBarcode(code);
 
@@ -4350,178 +3683,122 @@ barcodeInput.value="";
 
 }
 
+scanBarcodeBtn.addEventListener("click",openScanner);
 
-/* EVENTS */
-
-scanBarcodeBtn.addEventListener(
-"click",
-openScanner
-);
-
-
-scannerCloseBtn.addEventListener(
-"click",
-closeScanner
-);
-
+scannerCloseBtn.addEventListener("click",closeScanner);
 
 startScannerBtn.addEventListener(
 "click",
 startBarcodeScanner
 );
 
-
 stopScannerBtn.addEventListener(
 "click",
 ()=>{
-
 stopBarcodeScanner();
-
-scannerStatus.textContent=
-"Camera stopped.";
-
+scannerStatus.textContent="Camera stopped.";
 }
 );
-
 
 scannerManualBtn.addEventListener(
 "click",
 processManualBarcode
 );
 
-
 scannerManualInput.addEventListener(
 "keydown",
 event=>{
-
 if(event.key==="Enter"){
-
 event.preventDefault();
-
 processManualBarcode();
-
 }
-
 }
 );
-
 
 barcodeAddBtn.addEventListener(
 "click",
 processBarcodeInput
 );
 
-
 barcodeInput.addEventListener(
 "keydown",
 event=>{
-
 if(event.key==="Enter"){
-
 event.preventDefault();
-
 processBarcodeInput();
-
 }
-
 }
 );
-
 
 saveBarcodeBtn.addEventListener(
 "click",
 saveBarcodeToProduct
 );
 
-
 cancelRegisterBarcodeBtn.addEventListener(
 "click",
 ()=>{
-
 pendingBarcode="";
-
 registerBarcodeBox.classList.remove("show");
-
 scannerStatus.textContent=
 "Point your camera at the product barcode.";
-
 startBarcodeScanner();
-
 }
 );
-
 
 scannerModal.addEventListener(
 "click",
 event=>{
-
 if(event.target===scannerModal){
-
 closeScanner();
-
 }
-
 }
 );
-
-
-/* EXISTING EVENTS */
 
 addItemBtn.addEventListener(
 "click",
 addSaleItem
 );
 
-
 clearSaleBtn.addEventListener(
 "click",
 clearSale
 );
-
 
 $("newSaleBtn").addEventListener(
 "click",
 startNewSale
 );
 
-
 $("newSaleRightBtn").addEventListener(
 "click",
 startNewSale
 );
-
 
 $("recordSaleBtn").addEventListener(
 "click",
 recordSale
 );
 
-
 $("previewPrintBtn").addEventListener(
 "click",
 printReceipt
 );
 
-
 customerInput.addEventListener(
 "change",
 ()=>{
-
 updateCustomerBalanceInfo();
 updateSaleSummary();
-
 }
 );
-
 
 paymentMethod.addEventListener(
 "change",
 ()=>{
 
 if(paymentMethod.value!=="Credit"){
-
 amountPaidInput.value="0";
-
 }
 
 updateSaleSummary();
@@ -4529,38 +3806,30 @@ updateSaleSummary();
 }
 );
 
-
 creditPaymentMethod.addEventListener(
 "change",
 updateSaleSummary
 );
-
 
 amountPaidInput.addEventListener(
 "input",
 updateSaleSummary
 );
 
-
 menuBtn.addEventListener(
 "click",
 openMenu
 );
-
 
 sidebarOverlay.addEventListener(
 "click",
 closeMenu
 );
 
-
 logoutBtn.addEventListener(
 "click",
 logout
 );
-
-
-/* AUTH */
 
 onAuthStateChanged(
 auth,
@@ -4574,36 +3843,21 @@ return;
 
 }
 
-
 currentUser=user;
-
 
 const displayName=
 user.displayName||
 user.email?.split("@")[0]||
 "User";
 
-
-userName.textContent=
-displayName;
-
-userEmail.textContent=
-user.email||"";
+userName.textContent=displayName;
+userEmail.textContent=user.email||"";
 
 userAvatar.textContent=
-displayName
-.charAt(0)
-.toUpperCase();
-
-
-/*
-Refresh Staff ID on the receipt as
-soon as the authenticated page loads.
-*/
+displayName.charAt(0).toUpperCase();
 
 receiptStaffId.textContent=
 getCurrentStaffId();
-
 
 loadProducts();
 loadSales();
@@ -4611,9 +3865,6 @@ loadCustomers();
 
 }
 );
-
-
-/* INITIAL */
 
 renderSaleItems();
 updateSaleSummary();
@@ -4623,4 +3874,4 @@ updateSaleSummary();
 <script type="module" src="./js/permission.js"></script>
 
 </body>
-  </html>
+</html>
