@@ -432,30 +432,145 @@
             resize: vertical;
         }
 
-        .product-select {
-            font-size: 13px;
+        .product-field {
+            min-width: 0;
         }
 
-        /* SEARCHABLE PRODUCT PICKER */
-        .product-picker { position: relative; width: 100%; z-index: 20; }
-        .product-picker-trigger { width: 100%; min-height: 42px; border: 1px solid #d1d5db; border-radius: 8px; padding: 11px 38px 11px 12px; background: #fff; color: var(--dark); text-align: left; position: relative; font-size: 13px; outline: none; }
-        .product-picker-trigger::after { content: "⌄"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; }
-        .product-picker-trigger.placeholder { color: var(--muted); }
-        .product-picker-trigger:focus, .product-picker-trigger.open { border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,163,74,.1); }
-        .product-picker-panel { display: none; position: absolute; left: 0; top: calc(100% + 5px); z-index: 3000; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 14px 35px rgba(15,23,42,.18); padding: 12px; width: min(520px, calc(100vw - 40px)); min-width: 0; }
-        .product-picker-panel.show { display: block; }
-        .product-picker-search { width: 100%; min-height: 46px; border: 1px solid #d1d5db; border-radius: 8px; padding: 12px 14px; background: #fff; color: var(--dark); outline: none; font-size: 15px; margin-bottom: 9px; }
-        .product-picker-search:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,163,74,.1); }
-        .product-picker-list { max-height: 270px; overflow-y: auto; }
-        .product-picker-option { width: 100%; border: none; background: #fff; color: var(--dark); text-align: left; padding: 12px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 3px; font-size: 14px; }
-        .product-picker-option:hover, .product-picker-option:focus { background: var(--green-light); outline: none; }
-        .product-picker-option.disabled { opacity: .5; cursor: not-allowed; }
-        .product-picker-option-main { min-width: 0; }
-        .product-picker-option-main strong { display: block; color: var(--dark); white-space: normal; overflow-wrap: anywhere; font-size: 14px; line-height: 1.35; }
-        .product-picker-option-main small { display: block; color: var(--muted); margin-top: 4px; font-size: 12px; }
-        .product-picker-option-price { font-weight: 700; color: var(--green-dark); white-space: nowrap; font-size: 14px; }
-        .product-picker-empty { padding: 15px 10px; text-align: center; color: var(--muted); font-size: 12px; }
-        .product-picker-count { color: var(--muted); font-size: 11px; margin: 2px 2px 7px; }
+        .product-picker {
+            position: relative;
+            width: 100%;
+        }
+
+        .product-picker-trigger {
+            width: 100%;
+            min-height: 46px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 11px 42px 11px 13px;
+            background: #ffffff;
+            color: var(--dark);
+            text-align: left;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .product-picker-trigger::after {
+            content: "\25BE";
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .product-picker-trigger:focus,
+        .product-picker.open .product-picker-trigger {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+            outline: none;
+        }
+
+        .product-picker-panel {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(100% + 7px);
+            width: 100%;
+            min-width: 320px;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            box-shadow: 0 16px 35px rgba(17, 24, 39, 0.16);
+            padding: 12px;
+            z-index: 3000;
+        }
+
+        .product-picker.open .product-picker-panel {
+            display: block;
+        }
+
+        .product-picker-search {
+            display: block;
+            width: 100%;
+            min-height: 50px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            padding: 12px 14px;
+            background: #ffffff;
+            color: var(--dark);
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        .product-picker-search:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+
+        .product-picker-count {
+            font-size: 11px;
+            color: var(--muted);
+            padding: 2px 3px 8px;
+        }
+
+        .product-picker-list {
+            max-height: 330px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .product-picker-option {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #f3f4f6;
+            background: #ffffff;
+            color: var(--dark);
+            padding: 12px 10px;
+            text-align: left;
+            display: block;
+            border-radius: 7px;
+        }
+
+        .product-picker-option:last-child {
+            border-bottom: none;
+        }
+
+        .product-picker-option:hover,
+        .product-picker-option:focus {
+            background: #f0fdf4;
+            outline: none;
+        }
+
+        .product-picker-option-name {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.35;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        .product-picker-option-meta {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.35;
+            white-space: normal;
+        }
+
+        .product-picker-empty {
+            padding: 20px 10px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
 
         .stock-info {
             font-size: 11px;
@@ -860,11 +975,6 @@
         }
 
         @media (max-width: 600px) {
-            .product-picker-panel {
-                width: calc(100vw - 30px);
-                max-width: 520px;
-            }
-
             .topbar {
                 padding: 0 15px;
             }
@@ -1920,7 +2030,9 @@
         ========================= */
 
         function renderSaleItems() {
+
             if (!products.length) {
+
                 saleItemsContainer.innerHTML = `
                     <div class="loading">
                         No products have been added to inventory yet.
@@ -1928,136 +2040,318 @@
                         Add products from the Inventory page first.
                     </div>
                 `;
+
                 recordSaleButton.disabled = true;
+
                 return;
             }
 
             saleItemsContainer.innerHTML = "";
 
             saleItems.forEach((item, index) => {
+
                 const wrapper = document.createElement("div");
                 wrapper.className = "sale-item";
-                const selectedProduct = products.find((product) => product.id === item.productId);
-                const selectedName = selectedProduct ? getProductName(selectedProduct) : "Select a product";
-                const selectedClass = selectedProduct ? "" : "placeholder";
+
+                const selectedProduct = products.find(
+                    (product) => product.id === item.productId
+                );
+
+                const selectedName = selectedProduct
+                    ? getProductName(selectedProduct)
+                    : "Select a product";
 
                 wrapper.innerHTML = `
                     <div class="item-grid">
+
                         <div class="field product-field">
-                            <label>Product ${index + 1}</label>
+
+                            <label>
+                                Product ${index + 1}
+                            </label>
+
                             <div class="product-picker" data-index="${index}">
-                                <button type="button" class="product-picker-trigger ${selectedClass}" data-index="${index}" aria-expanded="false">
+
+                                <button
+                                    type="button"
+                                    class="product-picker-trigger"
+                                    data-index="${index}"
+                                    aria-haspopup="listbox"
+                                    aria-expanded="false"
+                                >
                                     ${escapeHTML(selectedName)}
                                 </button>
-                                <div class="product-picker-panel" data-index="${index}">
-                                    <input type="search" class="product-picker-search" placeholder="Search product..." autocomplete="off" data-index="${index}">
-                                    <div class="product-picker-count" data-picker-count="${index}"></div>
-                                    <div class="product-picker-list" data-picker-list="${index}"></div>
+
+                                <div class="product-picker-panel">
+
+                                    <input
+                                        type="search"
+                                        class="product-picker-search"
+                                        data-index="${index}"
+                                        placeholder="Search product..."
+                                        autocomplete="off"
+                                        aria-label="Search products"
+                                    >
+
+                                    <div
+                                        class="product-picker-count"
+                                        data-count-index="${index}"
+                                    >
+                                        ${products.length} products
+                                    </div>
+
+                                    <div
+                                        class="product-picker-list"
+                                        data-list-index="${index}"
+                                        role="listbox"
+                                    ></div>
+
                                 </div>
+
                             </div>
-                            <div class="stock-info" id="stockInfo-${index}">Select a product</div>
+
+                            <div
+                                class="stock-info"
+                                id="stockInfo-${index}"
+                            >
+                                Select a product
+                            </div>
+
                         </div>
 
                         <div class="field">
-                            <label>Quantity</label>
-                            <input type="number" class="item-quantity" data-index="${index}" min="1" step="1" value="${Math.max(1, Number(item.quantity) || 1)}">
+
+                            <label>
+                                Quantity
+                            </label>
+
+                            <input
+                                type="number"
+                                class="item-quantity"
+                                data-index="${index}"
+                                min="1"
+                                step="1"
+                                value="${Math.max(
+                                    1,
+                                    Number(item.quantity) || 1
+                                )}"
+                            >
+
                         </div>
 
                         <div class="field total-field">
-                            <label>Total</label>
-                            <div class="line-total-box" id="lineTotal-${index}">₦0.00</div>
+
+                            <label>
+                                Total
+                            </label>
+
+                            <div
+                                class="line-total-box"
+                                id="lineTotal-${index}"
+                            >
+                                ₦0.00
+                            </div>
+
                         </div>
 
                         <div class="field remove-field">
-                            <label>&nbsp;</label>
-                            <button type="button" class="remove-item" data-index="${index}" ${saleItems.length === 1 ? "disabled" : ""} title="Remove product">×</button>
+
+                            <label>
+                                &nbsp;
+                            </label>
+
+                            <button
+                                type="button"
+                                class="remove-item"
+                                data-index="${index}"
+                                ${saleItems.length === 1 ? "disabled" : ""}
+                                title="Remove product"
+                            >
+                                ×
+                            </button>
+
                         </div>
+
                     </div>
                 `;
 
                 saleItemsContainer.appendChild(wrapper);
+
                 renderProductPickerList(index, "");
+
             });
 
             attachItemEvents();
             updateItemDisplays();
+
         }
 
-        /* =========================
-           SEARCHABLE PRODUCT PICKER
-        ========================= */
+
         function getProductSearchText(product) {
-            const values = [getProductName(product), product.sku || "", product.barcode || "", product.barcodeNumber || "", product.barcode1 || "", product.barcode2 || ""];
-            if (Array.isArray(product.barcodes)) values.push(...product.barcodes);
-            return values.join(" ").toLowerCase();
+
+            const barcodeValues = [];
+
+            [
+                product.barcode,
+                product.barcodeNumber,
+                product.barcode1,
+                product.barcode2
+            ].forEach((value) => {
+                if (value !== undefined && value !== null) {
+                    barcodeValues.push(String(value));
+                }
+            });
+
+            if (Array.isArray(product.barcodes)) {
+                product.barcodes.forEach((value) => {
+                    if (value !== undefined && value !== null) {
+                        barcodeValues.push(String(value));
+                    }
+                });
+            }
+
+            return [
+                getProductName(product),
+                product.sku,
+                product.code,
+                ...barcodeValues
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
         }
 
-        function filterProductsForPicker(searchTerm) {
-            const term = String(searchTerm || "").trim().toLowerCase();
-            return products.filter((product) => !term || getProductSearchText(product).includes(term));
-        }
 
-        function renderProductPickerList(index, searchTerm) {
-            const list = document.querySelector(`[data-picker-list="${index}"]`);
-            const count = document.querySelector(`[data-picker-count="${index}"]`);
-            if (!list) return;
-            const results = filterProductsForPicker(searchTerm);
+        function renderProductPickerList(index, searchTerm = "") {
 
-            if (count) count.textContent = `${results.length} product${results.length === 1 ? "" : "s"} found`;
+            const list = document.querySelector(
+                `.product-picker-list[data-list-index="${index}"]`
+            );
 
-            if (!results.length) {
-                list.innerHTML = `<div class="product-picker-empty">No matching product found.</div>`;
+            const count = document.querySelector(
+                `.product-picker-count[data-count-index="${index}"]`
+            );
+
+            if (!list) {
                 return;
             }
 
-            list.innerHTML = results.map((product) => {
+            const term = String(searchTerm || "")
+                .trim()
+                .toLowerCase();
+
+            const matchingProducts = products.filter((product) => {
+                return !term || getProductSearchText(product).includes(term);
+            });
+
+            if (count) {
+                count.textContent =
+                    `${matchingProducts.length} product${matchingProducts.length === 1 ? "" : "s"}`;
+            }
+
+            if (!matchingProducts.length) {
+                list.innerHTML = `
+                    <div class="product-picker-empty">
+                        No matching products found.
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = matchingProducts.map((product) => {
+
                 const stock = getProductStock(product);
                 const price = getProductPrice(product);
                 const disabled = stock <= 0;
-                const sku = product.sku ? ` • SKU: ${escapeHTML(product.sku)}` : "";
+                const selected = product.id === saleItems[index]?.productId;
+                const sku = product.sku ? ` • SKU: ${product.sku}` : "";
+                const status = stock <= 0
+                    ? "Out of stock"
+                    : `Stock: ${stock}`;
+
                 return `
-                    <button type="button" class="product-picker-option ${disabled ? "disabled" : ""}" data-product-id="${escapeHTML(product.id)}" data-picker-index="${index}" ${disabled ? "disabled" : ""}>
-                        <span class="product-picker-option-main">
-                            <strong>${escapeHTML(getProductName(product))}</strong>
-                            <small>${disabled ? "Out of stock" : `Stock: ${stock}`}${sku}</small>
+                    <button
+                        type="button"
+                        class="product-picker-option"
+                        data-product-id="${escapeHTML(product.id)}"
+                        data-index="${index}"
+                        ${disabled ? "disabled" : ""}
+                        role="option"
+                        aria-selected="${selected ? "true" : "false"}"
+                    >
+                        <span class="product-picker-option-name">
+                            ${escapeHTML(getProductName(product))}
                         </span>
-                        <span class="product-picker-option-price">${formatMoney(price)}</span>
+                        <span class="product-picker-option-meta">
+                            ${escapeHTML(status)}${escapeHTML(sku)} • ${escapeHTML(formatMoney(price))}
+                        </span>
                     </button>
                 `;
+
             }).join("");
+
+            list.querySelectorAll(".product-picker-option:not(:disabled)")
+                .forEach((button) => {
+                    button.addEventListener("click", () => {
+                        selectProductForSale(
+                            Number(button.dataset.index),
+                            button.dataset.productId
+                        );
+                    });
+                });
+
         }
 
-        function closeProductPickers() {
-            document.querySelectorAll(".product-picker-panel.show").forEach((panel) => panel.classList.remove("show"));
-            document.querySelectorAll(".product-picker-trigger.open").forEach((trigger) => {
-                trigger.classList.remove("open");
-                trigger.setAttribute("aria-expanded", "false");
-            });
-        }
 
         function selectProductForSale(index, productId) {
-            const product = products.find((item) => item.id === productId);
-            if (!product) return;
-            const stock = getProductStock(product);
 
-            if (stock <= 0) {
-                showMessage(`${getProductName(product)} is out of stock.`, "error");
-                return;
-            }
+            const duplicate = saleItems.some((item, itemIndex) => {
+                return itemIndex !== index && item.productId === productId;
+            });
 
-            const duplicateIndex = saleItems.findIndex((item, itemIndex) => itemIndex !== index && item.productId === productId);
-            if (duplicateIndex >= 0) {
-                showMessage("This product is already in the sale. Increase its quantity instead.", "error");
-                closeProductPickers();
+            if (duplicate) {
+                showMessage(
+                    "This product is already in the sale. Increase its quantity instead.",
+                    "error"
+                );
                 return;
             }
 
             saleItems[index].productId = productId;
-            saleItems[index].quantity = Math.min(Math.max(1, Number(saleItems[index].quantity) || 1), stock);
-            clearMessage();
-            closeProductPickers();
+
+            const product = products.find(
+                (item) => item.id === productId
+            );
+
+            if (product) {
+                const stock = getProductStock(product);
+                const currentQuantity = Number(saleItems[index].quantity) || 1;
+
+                if (stock > 0 && currentQuantity > stock) {
+                    saleItems[index].quantity = stock;
+                }
+            }
+
+            closeAllProductPickers();
             renderSaleItems();
             updateSaleSummary();
+
+        }
+
+
+        function closeAllProductPickers() {
+
+            document.querySelectorAll(".product-picker.open")
+                .forEach((picker) => {
+                    picker.classList.remove("open");
+
+                    const trigger = picker.querySelector(".product-picker-trigger");
+                    if (trigger) {
+                        trigger.setAttribute("aria-expanded", "false");
+                    }
+                });
+
         }
 
 
@@ -2066,64 +2360,117 @@
         ========================= */
 
         function attachItemEvents() {
-            document.querySelectorAll(".product-picker-trigger").forEach((trigger) => {
-                trigger.addEventListener("click", (event) => {
-                    event.stopPropagation();
-                    const index = Number(trigger.dataset.index);
-                    const picker = trigger.closest(".product-picker");
-                    if (!picker) return;
-                    const panel = picker.querySelector(".product-picker-panel");
-                    const searchInput = picker.querySelector(".product-picker-search");
-                    const isOpen = panel && panel.classList.contains("show");
-                    closeProductPickers();
-                    if (!isOpen && panel) {
-                        panel.classList.add("show");
-                        trigger.classList.add("open");
-                        trigger.setAttribute("aria-expanded", "true");
-                        if (searchInput) {
-                            searchInput.value = "";
-                            renderProductPickerList(index, "");
-                            setTimeout(() => searchInput.focus(), 0);
+
+            document
+                .querySelectorAll(".product-picker-trigger")
+                .forEach((trigger) => {
+
+                    trigger.addEventListener("click", (event) => {
+
+                        event.stopPropagation();
+
+                        const picker = trigger.closest(".product-picker");
+                        const wasOpen = picker.classList.contains("open");
+
+                        closeAllProductPickers();
+
+                        if (!wasOpen) {
+                            picker.classList.add("open");
+                            trigger.setAttribute("aria-expanded", "true");
+
+                            const search = picker.querySelector(".product-picker-search");
+                            if (search) {
+                                search.value = "";
+                                renderProductPickerList(
+                                    Number(trigger.dataset.index),
+                                    ""
+                                );
+                                setTimeout(() => search.focus(), 0);
+                            }
                         }
-                    }
-                });
-            });
 
-            document.querySelectorAll(".product-picker-search").forEach((input) => {
-                input.addEventListener("input", (event) => {
-                    event.stopPropagation();
-                    renderProductPickerList(Number(input.dataset.index), input.value);
-                });
-                input.addEventListener("click", (event) => event.stopPropagation());
-            });
+                    });
 
-            document.querySelectorAll(".product-picker-option").forEach((option) => {
-                option.addEventListener("click", (event) => {
-                    event.stopPropagation();
-                    selectProductForSale(Number(option.dataset.pickerIndex), option.dataset.productId);
                 });
-            });
 
-            document.querySelectorAll(".item-quantity").forEach((input) => {
-                input.addEventListener("input", () => {
-                    const index = Number(input.dataset.index);
-                    let quantity = Number(input.value);
-                    if (!Number.isFinite(quantity) || quantity < 1) quantity = 1;
-                    quantity = Math.floor(quantity);
-                    input.value = quantity;
-                    saleItems[index].quantity = quantity;
-                    updateItemDisplays();
-                });
-            });
 
-            document.querySelectorAll(".remove-item").forEach((button) => {
-                button.addEventListener("click", () => {
-                    const index = Number(button.dataset.index);
-                    if (saleItems.length <= 1) return;
-                    saleItems.splice(index, 1);
-                    renderSaleItems();
+            document
+                .querySelectorAll(".product-picker-search")
+                .forEach((search) => {
+
+                    search.addEventListener("click", (event) => {
+                        event.stopPropagation();
+                    });
+
+                    search.addEventListener("input", () => {
+                        renderProductPickerList(
+                            Number(search.dataset.index),
+                            search.value
+                        );
+                    });
+
                 });
-            });
+
+
+            document
+                .querySelectorAll(".product-picker-panel")
+                .forEach((panel) => {
+                    panel.addEventListener("click", (event) => {
+                        event.stopPropagation();
+                    });
+                });
+
+
+            document
+                .querySelectorAll(".item-quantity")
+                .forEach((input) => {
+
+                    input.addEventListener(
+                        "input",
+                        () => {
+
+                            const index = Number(input.dataset.index);
+
+                            let quantity = Number(input.value);
+
+                            if (!Number.isFinite(quantity) || quantity < 1) {
+                                quantity = 1;
+                            }
+
+                            quantity = Math.floor(quantity);
+                            input.value = quantity;
+                            saleItems[index].quantity = quantity;
+
+                            updateItemDisplays();
+
+                        }
+                    );
+
+                });
+
+
+            document
+                .querySelectorAll(".remove-item")
+                .forEach((button) => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const index = Number(button.dataset.index);
+
+                            if (saleItems.length <= 1) {
+                                return;
+                            }
+
+                            saleItems.splice(index, 1);
+                            renderSaleItems();
+
+                        }
+                    );
+
+                });
+
         }
 
 
@@ -2249,16 +2596,23 @@
 
                 renderSaleItems();
 
-                const triggers =
+                const pickers =
                     document.querySelectorAll(
-                        ".product-picker-trigger"
+                        ".product-picker"
                     );
 
-                const lastTrigger =
-                    triggers[triggers.length - 1];
+                const lastPicker =
+                    pickers[pickers.length - 1];
 
-                if (lastTrigger) {
-                    lastTrigger.click();
+                if (lastPicker) {
+                    const trigger =
+                        lastPicker.querySelector(
+                            ".product-picker-trigger"
+                        );
+
+                    if (trigger) {
+                        trigger.click();
+                    }
                 }
 
             }
@@ -3343,11 +3697,6 @@
             });
 
 
-        document.addEventListener("click", (event) => {
-            if (!event.target.closest(".product-picker")) closeProductPickers();
-        });
-
-
         /* =========================
            MESSAGES
         ========================= */
@@ -3375,6 +3724,11 @@
                 "message";
 
         }
+
+
+        document.addEventListener("click", () => {
+            closeAllProductPickers();
+        });
 
 
         /* =========================
