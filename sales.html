@@ -1,3888 +1,3482 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Sales | Nesi Medicals</title>
-<meta name="description" content="Nesi Medicals & Minimart Enterprises Sales Management">
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-
-:root{
---green:#087f5b;
---green-dark:#056044;
---green-light:#e9f8f2;
---orange:#ff8a00;
---dark:#172033;
---text:#263238;
---muted:#718096;
---border:#e2e8f0;
---bg:#f5f7fb;
---white:#fff;
---danger:#dc3545;
---success:#198754;
---warning:#f59e0b;
---shadow:0 8px 25px rgba(15,23,42,.08)
-}
-
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:var(--text);
-min-height:100vh
-}
-
-a{text-decoration:none;color:inherit}
-button,input,select,textarea{font-family:inherit}
-button{cursor:pointer}
-
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-bottom:0;
-width:250px;
-background:#111827;
-color:white;
-padding:20px 14px;
-z-index:1000;
-overflow-y:auto
-}
-
-.brand{
-display:flex;
-align-items:center;
-gap:12px;
-padding:8px 10px 24px;
-border-bottom:1px solid rgba(255,255,255,.08);
-margin-bottom:15px
-}
-
-.brand img{
-width:48px;
-height:48px;
-object-fit:contain;
-border-radius:10px;
-background:white;
-padding:3px
-}
-
-.brand-text h2{font-size:17px}
-.brand-text p{
-font-size:11px;
-color:#a7b0c0;
-margin-top:4px
-}
-
-.nav-section{margin-bottom:20px}
-.nav-title{
-color:#778197;
-font-size:10px;
-text-transform:uppercase;
-letter-spacing:1px;
-padding:0 12px 8px
-}
-
-.nav-link{
-display:flex;
-align-items:center;
-gap:12px;
-padding:11px 12px;
-border-radius:9px;
-margin-bottom:4px;
-color:#cbd5e1;
-font-size:14px
-}
-
-.nav-link:hover{
-background:rgba(255,255,255,.07);
-color:white
-}
-
-.nav-link.active{
-background:var(--green);
-color:white
-}
-
-.nav-icon{
-width:24px;
-text-align:center;
-font-size:17px
-}
-
-.main{
-margin-left:250px;
-min-height:100vh
-}
-
-.topbar{
-height:72px;
-background:white;
-border-bottom:1px solid var(--border);
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 28px;
-position:sticky;
-top:0;
-z-index:100
-}
-
-.topbar-left{
-display:flex;
-align-items:center;
-gap:14px
-}
-
-.menu-btn{
-display:none;
-border:none;
-background:#eef2f7;
-width:40px;
-height:40px;
-border-radius:8px;
-font-size:20px
-}
-
-.page-title h1{
-font-size:22px;
-color:var(--dark)
-}
-
-.page-title p{
-color:var(--muted);
-font-size:12px;
-margin-top:4px
-}
-
-.user-area{
-display:flex;
-align-items:center;
-gap:12px
-}
-
-.user-avatar{
-width:38px;
-height:38px;
-background:var(--green);
-color:white;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold
-}
-
-.user-info{text-align:right}
-.user-info strong{
-display:block;
-font-size:13px;
-color:var(--dark)
-}
-
-.user-info span{
-display:block;
-font-size:11px;
-color:var(--muted);
-margin-top:2px
-}
-
-.logout-btn{
-border:none;
-background:#fff0f1;
-color:var(--danger);
-padding:9px 12px;
-border-radius:7px;
-font-size:12px;
-font-weight:bold
-}
-
-.content{padding:25px}
-
-.content-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-gap:15px
-}
-
-.content-header h2{
-font-size:20px;
-color:var(--dark)
-}
-
-.content-header p{
-color:var(--muted);
-font-size:13px;
-margin-top:5px
-}
-
-.header-actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap
-}
-
-.btn{
-border:none;
-border-radius:8px;
-padding:11px 15px;
-font-size:13px;
-font-weight:bold
-}
-
-.btn-primary{
-background:var(--green);
-color:white
-}
-
-.btn-primary:hover{background:var(--green-dark)}
-
-.btn-secondary{
-background:#eef2f7;
-color:var(--dark)
-}
-
-.btn-orange{
-background:var(--orange);
-color:white
-}
-
-.btn-scan{
-background:#172033;
-color:white;
-display:flex;
-align-items:center;
-gap:7px
-}
-
-.sales-layout{
-display:grid;
-grid-template-columns:minmax(0,1fr) 380px;
-gap:20px;
-align-items:start
-}
-
-.card{
-background:white;
-border-radius:13px;
-box-shadow:var(--shadow);
-border:1px solid var(--border)
-}
-
-.card-header{
-padding:18px 20px;
-border-bottom:1px solid var(--border);
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px
-}
-
-.card-header h3{
-font-size:16px;
-color:var(--dark)
-}
-
-.card-body{padding:20px}
-
-.form-grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:16px
-}
-
-.form-group{margin-bottom:15px}
-.form-group.full{grid-column:1/-1}
-
-label{
-display:block;
-font-size:12px;
-font-weight:bold;
-color:#475569;
-margin-bottom:7px
-}
-
-input,select,textarea{
-width:100%;
-border:1px solid #d8dee8;
-border-radius:8px;
-padding:11px 12px;
-font-size:13px;
-outline:none;
-background:white;
-color:var(--text)
-}
-
-input:focus,select:focus,textarea:focus{
-border-color:var(--green);
-box-shadow:0 0 0 3px rgba(8,127,91,.08)
-}
-
-textarea{
-resize:vertical;
-min-height:80px
-}
-
-.helper-text{
-font-size:11px;
-color:var(--muted);
-margin-top:5px
-}
-
-.barcode-tools{
-display:flex;
-gap:8px;
-margin-bottom:8px;
-flex-wrap:wrap
-}
-
-.barcode-tools input{
-flex:1;
-min-width:180px
-}
-
-.barcode-hint{
-font-size:11px;
-color:var(--muted);
-line-height:1.5;
-margin-bottom:15px
-}
-
-.items-header,
-.sale-item{
-display:grid;
-grid-template-columns:minmax(220px,1fr) 100px 130px 48px;
-gap:10px
-}
-
-.items-header{
-padding:0 0 8px;
-color:var(--muted);
-font-size:11px;
-font-weight:bold
-}
-
-.sale-item{
-align-items:center;
-margin-bottom:10px
-}
-
-/* SEARCHABLE PRODUCT SELECT */
-
-.product-picker{
-position:relative;
-width:100%
-}
-
-.product-search{
-width:100%;
-padding-right:38px
-}
-
-.product-search::placeholder{
-color:#8a94a6
-}
-
-.product-results{
-display:none;
-position:absolute;
-left:0;
-right:0;
-top:calc(100% + 4px);
-background:white;
-border:1px solid var(--border);
-border-radius:9px;
-box-shadow:0 12px 30px rgba(15,23,42,.16);
-max-height:240px;
-overflow-y:auto;
-z-index:2000
-}
-
-.product-results.show{
-display:block
-}
-
-/* PRODUCT SEARCH RESULT - KEEP PRODUCT NAME ON ONE LINE */
-
-.product-result{
-display:block;
-width:100%;
-border:none;
-background:white;
-text-align:left;
-padding:12px 14px;
-border-bottom:1px solid #edf1f5;
-font-size:12px;
-color:var(--dark);
-white-space:nowrap;
-overflow:hidden
-}
-
-.product-result:last-child{
-border-bottom:none
-}
-
-.product-result:hover,
-.product-result:focus{
-background:var(--green-light);
-color:var(--green-dark);
-outline:none
-}
-
-.product-result-name{
-font-weight:bold;
-display:block;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-font-size:13px
-}
-
-.product-result-info{
-display:block;
-font-size:10px;
-color:var(--muted);
-margin-top:3px;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis
-}
-
-.product-no-results{
-padding:13px;
-font-size:12px;
-color:var(--muted);
-text-align:center
-}
-
-.item-quantity input{text-align:center}
-
-.item-total{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:8px;
-padding:11px 8px;
-text-align:right;
-font-size:13px;
-font-weight:bold;
-white-space:nowrap
-}
-
-.remove-item{
-width:40px;
-height:40px;
-border:none;
-background:#fff0f1;
-color:var(--danger);
-border-radius:8px;
-font-size:18px
-}
-
-.add-item-row{
-margin-top:15px;
-padding-top:15px;
-border-top:1px solid var(--border)
-}
-
-.add-item-btn{
-border:1px dashed var(--green);
-background:var(--green-light);
-color:var(--green-dark);
-padding:10px 14px;
-border-radius:8px;
-font-weight:bold;
-font-size:12px
-}
-
-.empty-items{
-border:1px dashed #cbd5e1;
-padding:25px;
-border-radius:10px;
-text-align:center;
-color:var(--muted);
-font-size:13px
-}
-
-.summary-box{
-background:#f8fafc;
-border-radius:10px;
-padding:15px;
-margin-top:20px;
-border:1px solid var(--border)
-}
-
-.summary-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:7px 0;
-font-size:13px
-}
-
-.summary-row span{color:var(--muted)}
-.summary-row strong{color:var(--dark)}
-
-.summary-row.profit-row{
-border-top:1px dashed #cbd5e1;
-margin-top:7px;
-padding-top:13px
-}
-
-.summary-row.profit-row span,
-.summary-row.profit-row strong{
-color:var(--success)
-}
-
-.summary-row.grand-total{
-border-top:1px solid var(--border);
-margin-top:8px;
-padding-top:13px
-}
-
-.summary-row.grand-total span,
-.summary-row.grand-total strong{
-color:var(--green-dark);
-font-size:17px
-}
-
-.profit-note{
-font-size:10px;
-color:var(--muted);
-margin-top:8px;
-line-height:1.5
-}
-
-.credit-box{
-display:none;
-background:#fff8e8;
-border:1px solid #f5d48a;
-border-radius:10px;
-padding:15px;
-margin-top:4px
-}
-
-.credit-box.show{display:block}
-
-.credit-title{
-font-size:13px;
-font-weight:bold;
-color:#8a5a00;
-margin-bottom:12px
-}
-
-.credit-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px
-}
-
-.balance-display{
-background:white;
-border:1px solid #f0d99a;
-border-radius:8px;
-padding:11px 12px;
-font-size:13px;
-font-weight:bold;
-color:#8a5a00
-}
-
-.credit-warning{
-display:none;
-margin-top:10px;
-padding:9px;
-border-radius:7px;
-background:#fff0f1;
-color:#9b1c2b;
-font-size:11px;
-border:1px solid #f4c5cb
-}
-
-.credit-warning.show{display:block}
-
-.customer-balance-info{
-display:none;
-margin-top:8px;
-font-size:11px;
-color:#8a5a00
-}
-
-.customer-balance-info.show{display:block}
-
-.form-actions{
-display:flex;
-gap:10px;
-justify-content:flex-end;
-margin-top:20px;
-flex-wrap:wrap
-}
-
-.quick-stat{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-bottom:18px
-}
-
-.mini-stat{
-background:#f8fafc;
-border:1px solid var(--border);
-border-radius:9px;
-padding:12px;
-text-align:center
-}
-
-.mini-stat span{
-display:block;
-color:var(--muted);
-font-size:10px;
-margin-bottom:5px
-}
-
-.mini-stat strong{
-font-size:15px;
-color:var(--dark)
-}
-
-.receipt-preview{
-background:white;
-border:1px solid var(--border);
-border-radius:10px;
-overflow:hidden
-}
-
-.receipt{
-padding:20px;
-font-family:Arial,Helvetica,sans-serif
-}
-
-.receipt-head{
-text-align:center;
-border-bottom:1px dashed #aaa;
-padding-bottom:13px;
-margin-bottom:13px
-}
-
-.receipt-logo{
-width:65px;
-height:65px;
-object-fit:contain;
-margin-bottom:7px
-}
-
-.receipt-head h2{
-font-size:16px;
-color:#111827
-}
-
-.receipt-head p{
-font-size:10px;
-color:#666;
-margin-top:3px
-}
-
-.receipt-meta{
-font-size:10px;
-margin-bottom:13px
-}
-
-.receipt-meta div{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:3px 0
-}
-
-.receipt-items{
-border-top:1px dashed #aaa;
-border-bottom:1px dashed #aaa;
-padding:8px 0
-}
-
-.receipt-item{
-display:grid;
-grid-template-columns:1fr auto;
-gap:8px;
-padding:5px 0;
-font-size:10px
-}
-
-.receipt-item-name strong{
-display:block;
-font-size:10px
-}
-
-.receipt-item-name small{color:#777}
-
-.receipt-total{padding-top:10px}
-
-.receipt-total-row{
-display:flex;
-justify-content:space-between;
-padding:4px 0;
-font-size:11px
-}
-
-.receipt-total-row.grand{
-border-top:1px solid #ddd;
-margin-top:5px;
-padding-top:8px;
-font-weight:bold;
-font-size:14px
-}
-
-.receipt-credit{
-display:none;
-background:#fff8e8;
-border:1px solid #e5c875;
-border-radius:5px;
-padding:8px;
-margin-top:8px;
-font-size:10px;
-color:#7a5100
-}
-
-.receipt-credit.show{display:block}
-
-.balance-due{
-color:#dc3545!important;
-font-weight:bold
-}
-
-.receipt-status{font-weight:bold}
-
-.receipt-footer{
-text-align:center;
-margin-top:15px;
-padding-top:12px;
-border-top:1px dashed #aaa;
-font-size:9px;
-color:#777;
-line-height:1.5
-}
-
-.receipt-actions{
-display:flex;
-gap:8px;
-margin-top:12px
-}
-
-.receipt-actions button{flex:1}
-
-.status-message{
-padding:12px 14px;
-border-radius:8px;
-margin-bottom:18px;
-font-size:13px;
-display:none
-}
-
-.status-message.success{
-display:block;
-background:#eaf8f0;
-color:#12633f;
-border:1px solid #bde8d1
-}
-
-.status-message.error{
-display:block;
-background:#fff0f1;
-color:#9b1c2b;
-border:1px solid #f4c5cb
-}
-
-.status-message.info{
-display:block;
-background:#eef5ff;
-color:#164c8c;
-border:1px solid #c9ddfa
-}
-
-/* SCANNER */
-
-.scanner-modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(15,23,42,.78);
-z-index:5000;
-align-items:center;
-justify-content:center;
-padding:15px
-}
-
-.scanner-modal.show{display:flex}
-
-.scanner-box{
-background:white;
-width:min(520px,100%);
-max-height:94vh;
-overflow-y:auto;
-border-radius:16px;
-box-shadow:0 20px 60px rgba(0,0,0,.3)
-}
-
-.scanner-header{
-padding:16px 18px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid var(--border)
-}
-
-.scanner-header h3{
-font-size:17px;
-color:var(--dark)
-}
-
-.scanner-close{
-width:38px;
-height:38px;
-border:none;
-border-radius:8px;
-background:#fff0f1;
-color:var(--danger);
-font-size:22px
-}
-
-.scanner-body{padding:18px}
-
-.scanner-video-wrap{
-position:relative;
-background:#050505;
-border-radius:12px;
-overflow:hidden;
-aspect-ratio:4/3
-}
-
-#barcodeVideo{
-width:100%;
-height:100%;
-display:block;
-object-fit:cover
-}
-
-.scan-frame{
-position:absolute;
-left:12%;
-right:12%;
-top:25%;
-height:50%;
-border:3px solid var(--orange);
-border-radius:12px;
-box-shadow:0 0 0 999px rgba(0,0,0,.22);
-pointer-events:none
-}
-
-.scan-line{
-position:absolute;
-left:0;
-right:0;
-top:50%;
-height:2px;
-background:var(--orange);
-box-shadow:0 0 8px var(--orange);
-animation:scanLine 1.8s infinite ease-in-out
-}
-
-@keyframes scanLine{
-0%,100%{transform:translateY(-70px)}
-50%{transform:translateY(70px)}
-}
-
-.scanner-status{
-margin-top:12px;
-padding:10px 12px;
-border-radius:8px;
-background:#f8fafc;
-border:1px solid var(--border);
-font-size:12px;
-color:var(--muted);
-text-align:center
-}
-
-.scanner-actions{
-display:flex;
-gap:8px;
-margin-top:12px
-}
-
-.scanner-actions button{flex:1}
-
-.scanner-manual{
-margin-top:15px;
-padding-top:15px;
-border-top:1px solid var(--border)
-}
-
-.scanner-manual-row{
-display:flex;
-gap:8px
-}
-
-.scanner-manual-row input{flex:1}
-
-.register-barcode{
-display:none;
-margin-top:15px;
-padding:15px;
-background:#fff8e8;
-border:1px solid #f5d48a;
-border-radius:10px
-}
-
-.register-barcode.show{display:block}
-
-.register-barcode h4{
-font-size:13px;
-color:#8a5a00;
-margin-bottom:7px
-}
-
-.register-barcode p{
-font-size:11px;
-color:#7a5100;
-margin-bottom:10px;
-line-height:1.5
-}
-
-.register-actions{
-display:flex;
-gap:8px;
-margin-top:10px
-}
-
-.register-actions button{flex:1}
-
-.scanner-success{
-display:none;
-margin-top:12px;
-padding:10px;
-border-radius:8px;
-background:#eaf8f0;
-border:1px solid #bde8d1;
-color:#12633f;
-font-size:12px;
-text-align:center
-}
-
-.scanner-success.show{display:block}
-
-.sidebar-overlay{display:none}
-
-@media print{
-body{background:white}
-.sidebar,.topbar,.content-header,.sales-form-card,.right-no-print,.status-message{
-display:none!important
-}
-.main{margin-left:0}
-.content{padding:0}
-.sales-layout{display:block}
-.receipt-preview{
-border:none;
-box-shadow:none
-}
-.receipt{
-width:80mm;
-margin:0 auto
-}
-}
-
-@media(max-width:1100px){
-.sales-layout{grid-template-columns:1fr}
-.right-card{max-width:500px}
-}
-
-@media(max-width:850px){
-.sidebar{
-transform:translateX(-100%);
-transition:transform .25s
-}
-.sidebar.open{transform:translateX(0)}
-.sidebar-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.4);
-z-index:900
-}
-.sidebar-overlay.show{display:block}
-.main{margin-left:0}
-.menu-btn{display:block}
-.topbar{padding:0 15px}
-.user-info{display:none}
-}
-
-@media(max-width:700px){
-.content{padding:15px}
-.content-header{
-align-items:flex-start;
-flex-direction:column
-}
-.form-grid{grid-template-columns:1fr}
-.form-group.full{grid-column:auto}
-.items-header{display:none}
-.sale-item{
-grid-template-columns:1fr 90px 110px 42px;
-gap:6px
-}
-.card-body{padding:15px}
-.page-title h1{font-size:18px}
-.credit-grid{grid-template-columns:1fr}
-.scanner-actions{flex-direction:column}
-}
-
-@media(max-width:520px){
-.sale-item{
-grid-template-columns:1fr 75px 90px 40px
-}
-.item-total{
-font-size:11px;
-padding:10px 5px
-}
-.remove-item{
-width:36px;
-height:36px
-}
-.form-actions{flex-direction:column}
-.form-actions .btn{width:100%}
-.header-actions{width:100%}
-.header-actions .btn{flex:1}
-.scanner-manual-row{flex-direction:column}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sales | Nesi Medicals</title>
+
+    <meta
+        name="description"
+        content="Nesi Medicals & Minimart Enterprises Sales Management"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #16a34a;
+            --green-dark: #15803d;
+            --green-light: #dcfce7;
+            --blue: #2563eb;
+            --red: #dc2626;
+            --orange: #ea580c;
+            --dark: #111827;
+            --text: #374151;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --background: #f5f7fa;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+           SIDEBAR — SAME SYSTEM STYLE AS DASHBOARD
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #073b2a, #062b21);
+            color: white;
+            padding: 22px 15px;
+            box-sizing: border-box;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 5px 20px;
+            border-bottom: 1px solid rgba(255,255,255,.10);
+        }
+
+        .brand-logo {
+            width: 43px;
+            height: 43px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .brand-text h2 {
+            font-size: 17px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: #b7d7ca;
+        }
+
+        .nav {
+            padding: 18px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #86a99b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 12px 10px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-bottom: 5px;
+            color: #dceee8;
+            text-decoration: none;
+            border-radius: 9px;
+            font-size: 13px;
+            transition: .2s ease;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: rgba(74,222,128,.14);
+            color: #ffffff;
+        }
+
+        .nav a.active {
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            padding: 15px 0 0;
+            border-top: 1px solid rgba(255,255,255,.10);
+        }
+
+        .logout-link {
+            color: #dc2626 !important;
+        }
+
+        .logout-link:hover {
+            background: #fef2f2 !important;
+            color: #b91c1c !important;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 75px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mobile-menu {
+            display: none;
+            border: none;
+            background: #f3f4f6;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            font-size: 20px;
+        }
+
+        .topbar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--green);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 13px;
+            color: var(--dark);
+        }
+
+        .user-info span {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 30px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .page-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 26px;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .summary-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: var(--green-light);
+        }
+
+        .summary-card:nth-child(2) .summary-icon {
+            background: #dbeafe;
+        }
+
+        .summary-card:nth-child(3) .summary-icon {
+            background: #ffedd5;
+        }
+
+        .summary-card small {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .summary-card strong {
+            display: block;
+            color: var(--dark);
+            font-size: 21px;
+        }
+
+        /* =========================
+           SALES LAYOUT
+        ========================= */
+
+        .sales-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(330px, 0.7fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+        .panel {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 19px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-header h2 {
+            font-size: 17px;
+            color: var(--dark);
+        }
+
+        .panel-header p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .panel-body {
+            padding: 22px;
+        }
+
+        /* =========================
+           ITEMS
+        ========================= */
+
+        .items-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .items-title strong {
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .sale-item {
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #fafafa;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: minmax(200px, 1fr) 110px 145px 42px;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 11px 12px;
+            background: #ffffff;
+            color: var(--dark);
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+
+        .field textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .product-select {
+            font-size: 13px;
+        }
+
+        .stock-info {
+            font-size: 11px;
+            margin-top: 6px;
+            color: var(--muted);
+        }
+
+        .stock-info.warning {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .stock-info.danger {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .line-total-box {
+            height: 42px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 11px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 13px;
+        }
+
+        .remove-item {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #dc2626;
+            font-size: 18px;
+        }
+
+        .remove-item:hover {
+            background: #fecaca;
+        }
+
+        .remove-item:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .add-item-button {
+            width: 100%;
+            border: 1px dashed var(--green);
+            color: var(--green-dark);
+            background: #f0fdf4;
+            border-radius: 9px;
+            padding: 11px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .add-item-button:hover {
+            background: var(--green-light);
+        }
+
+        /* =========================
+           CUSTOMER/PAYMENT
+        ========================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        /* =========================
+           TOTAL
+        ========================= */
+
+        .totals {
+            margin-top: 8px;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 9px;
+            font-size: 13px;
+        }
+
+        .total-row span:first-child {
+            color: var(--muted);
+        }
+
+        .total-row strong {
+            color: var(--dark);
+        }
+
+        .grand-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #d1d5db;
+            margin-top: 12px;
+            padding-top: 16px;
+        }
+
+        .grand-total span {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .grand-total strong {
+            font-size: 25px;
+            color: var(--green-dark);
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-print {
+            width: 100%;
+            background: #111827;
+            color: white;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .btn-print:hover {
+            background: #000000;
+        }
+
+        /* =========================
+           RECEIPT
+        ========================= */
+
+        .receipt-panel {
+            position: sticky;
+            top: 95px;
+        }
+
+        .receipt {
+            padding: 25px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 1px dashed #d1d5db;
+            padding-bottom: 18px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-logo {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .receipt-header h2 {
+            font-size: 18px;
+            color: var(--dark);
+        }
+
+        .receipt-header p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .receipt-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .receipt-meta div {
+            font-size: 11px;
+        }
+
+        .receipt-meta span {
+            display: block;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .receipt-meta strong {
+            color: var(--dark);
+            word-break: break-word;
+        }
+
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+        }
+
+        .receipt-table th {
+            text-align: left;
+            font-size: 10px;
+            color: var(--muted);
+            padding: 8px 3px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .receipt-table th:last-child,
+        .receipt-table td:last-child {
+            text-align: right;
+        }
+
+        .receipt-table td {
+            font-size: 11px;
+            padding: 9px 3px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
+
+        .receipt-product {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .receipt-qty {
+            color: var(--muted);
+        }
+
+        .receipt-total {
+            border-top: 1px dashed #d1d5db;
+            padding-top: 15px;
+        }
+
+        .receipt-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .receipt-grand {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--green-dark);
+            padding-top: 8px;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            border-top: 1px dashed #d1d5db;
+            margin-top: 20px;
+            padding-top: 15px;
+        }
+
+        .receipt-footer p {
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .empty-receipt {
+            text-align: center;
+            padding: 35px 15px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =========================
+           STATUS MESSAGE
+        ========================= */
+
+        .message {
+            display: none;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1100px) {
+            .sales-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .receipt-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .item-grid {
+                grid-template-columns: 1fr 100px;
+            }
+
+            .item-grid .product-field {
+                grid-column: 1 / -1;
+            }
+
+            .item-grid .total-field {
+                grid-column: 1 / 2;
+            }
+
+            .item-grid .remove-field {
+                grid-column: 2 / 3;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .topbar-title {
+                font-size: 17px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .page-heading h1 {
+                font-size: 22px;
+            }
+
+            .panel-body {
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .receipt {
+                padding: 18px;
+            }
+        }
+
+        /* =========================
+           PRINT
+        ========================= */
+
+        @media print {
+            body {
+                background: #ffffff;
+            }
+
+            .sidebar,
+            .topbar,
+            .page-heading,
+            .summary-grid,
+            .sales-form-panel,
+            .panel-header,
+            .btn-print {
+                display: none !important;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .content {
+                padding: 0;
+                max-width: none;
+            }
+
+            .sales-layout {
+                display: block;
+            }
+
+            .receipt-panel {
+                position: static;
+                border: none;
+                box-shadow: none;
+            }
+
+            .receipt {
+                width: 80mm;
+                max-width: 80mm;
+                margin: 0 auto;
+                padding: 5mm;
+            }
+
+            .receipt-panel .panel-header {
+                display: none !important;
+            }
+
+            .panel {
+                border: none;
+                box-shadow: none;
+            }
+
+            .receipt-footer {
+                margin-top: 15px;
+            }
+        }
+    
+        /* LARGE FULL-WIDTH PRODUCT SEARCH */
+        .product-field {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .product-search {
+            width: 100% !important;
+            min-height: 56px;
+            padding: 14px 16px !important;
+            font-size: 17px !important;
+            line-height: 1.35;
+            border: 2px solid #d9e2ef !important;
+            border-radius: 10px !important;
+            background: #ffffff;
+            color: #172033;
+            outline: none;
+        }
+
+        .product-search:focus {
+            border-color: #0a5fff !important;
+            box-shadow: 0 0 0 3px rgba(10,95,255,0.10);
+        }
+
+        .product-results {
+            width: 100% !important;
+            max-height: 340px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .product-result {
+            width: 100%;
+            min-height: 58px;
+            padding: 12px 14px;
+        }
+
+        .product-result-name {
+            white-space: normal !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.35;
+        }
+
+        @media (max-width: 700px) {
+            .product-search {
+                min-height: 54px;
+                font-size: 16px !important;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
 
-<aside class="sidebar" id="sidebar">
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <img
+                src="assets/logo.png"
+                alt="Nesi Medicals Logo"
+                class="brand-logo"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="brand-text">
+                <h2>Nesi Medicals</h2>
+                <span>Business Management</span>
+            </div>
+        </div>
+
+        <nav class="nav">
+
+            <div class="nav-title">Main Menu</div>
+
+            <a href="dashboard.html">
+                <span class="nav-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="sales.html" class="active">
+                <span class="nav-icon">🛒</span>
+                Sales
+            </a>
+
+            <a href="sales-history.html">
+                <span class="nav-icon">🧾</span>
+                Sales History
+            </a>
 
-<div class="brand">
-<img src="assets/logo.png" alt="Nesi Medicals Logo">
-<div class="brand-text">
-<h2>Nesi Medicals</h2>
-<p>& Minimart Enterprises</p>
-</div>
-</div>
+            <a href="inventory.html">
+                <span class="nav-icon">📦</span>
+                Inventory
+            </a>
 
-<div class="nav-section">
-<div class="nav-title">Main</div>
+            <a href="customers.html">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
 
-<a href="dashboard.html" class="nav-link">
-<span class="nav-icon">📊</span>Dashboard
-</a>
+            <a href="suppliers.html">
+                <span class="nav-icon">🚚</span>
+                Suppliers
+            </a>
 
-<a href="sales.html" class="nav-link active">
-<span class="nav-icon">🛒</span>Sales
-</a>
+            <a href="expenses.html">
+                <span class="nav-icon">💳</span>
+                Expenses
+            </a>
 
-<a href="sales-history.html" class="nav-link">
-<span class="nav-icon">🧾</span>Sales History
-</a>
+            <a href="reports.html">
+                <span class="nav-icon">📊</span>
+                Reports
+            </a>
 
-<a href="inventory.html" class="nav-link">
-<span class="nav-icon">📦</span>Inventory
-</a>
+            <div class="nav-title" style="margin-top:18px;">
+                Management
+            </div>
 
-<a href="customers.html" class="nav-link">
-<span class="nav-icon">👥</span>Customers
-</a>
+            <a href="staff.html">
+                <span class="nav-icon">👤</span>
+                Staff
+            </a>
 
-<a href="suppliers.html" class="nav-link">
-<span class="nav-icon">🚚</span>Suppliers
-</a>
-</div>
+            <a href="settings.html">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
 
-<div class="nav-section">
-<div class="nav-title">Finance</div>
+        </nav>
 
-<a href="expenses.html" class="nav-link">
-<span class="nav-icon">💸</span>Expenses
-</a>
+        <div class="sidebar-bottom">
+            <a
+                href="#"
+                class="nav logout-link"
+                id="logoutButton"
+            >
+                <span class="nav-icon">↪</span>
+                Logout
+            </a>
+        </div>
 
-<a href="reports.html" class="nav-link">
-<span class="nav-icon">📈</span>Reports
-</a>
-</div>
+    </aside>
 
-<div class="nav-section">
-<div class="nav-title">Management</div>
 
-<a href="staff.html" class="nav-link">
-<span class="nav-icon">👨‍💼</span>Staff
-</a>
+    <!-- =========================
+         MAIN
+    ========================= -->
 
-<a href="settings.html" class="nav-link">
-<span class="nav-icon">⚙️</span>Settings
-</a>
+    <main class="main">
 
-<a href="profile.html" class="nav-link">
-<span class="nav-icon">👤</span>Profile
-</a>
-</div>
+        <header class="topbar">
 
-</aside>
+            <div class="topbar-left">
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    type="button"
+                >
+                    ☰
+                </button>
 
-<main class="main">
+                <div class="topbar-title">
+                    Sales
+                </div>
 
-<header class="topbar">
+            </div>
 
-<div class="topbar-left">
+            <div class="topbar-right">
 
-<button class="menu-btn" id="menuBtn" type="button">☰</button>
+                <div class="user-info">
+                    <strong id="userName">Nesi Medicals Administrator</strong>
+                    <span id="userEmail">Loading...</span>
+                </div>
 
-<div class="page-title">
-<h1>Sales</h1>
-<p>Create and manage customer sales</p>
-</div>
+                <div class="user-avatar" id="userAvatar">
+                    N
+                </div>
 
-</div>
+            </div>
 
-<div class="user-area">
+        </header>
 
-<div class="user-info">
-<strong id="userName">User</strong>
-<span id="userEmail">Loading...</span>
-</div>
 
-<div class="user-avatar" id="userAvatar">U</div>
+        <section class="content">
 
-<button class="logout-btn" id="logoutBtn" type="button">
-Logout
-</button>
+            <div class="page-heading">
 
-</div>
+                <div>
+                    <h1>New Sale</h1>
+                    <p>
+                        Record sales, manage multiple products and automatically update inventory.
+                    </p>
+                </div>
 
-</header>
+            </div>
 
-<section class="content">
 
-<div class="content-header">
+            <!-- =========================
+                 SUMMARY
+            ========================= -->
 
-<div>
-<h2>New Sale</h2>
-<p>Add products manually or scan a barcode to add them instantly.</p>
-</div>
+            <div class="summary-grid">
 
-<div class="header-actions">
+                <div class="summary-card">
 
-<a href="sales-history.html" class="btn btn-secondary">
-🧾 Sales History
-</a>
+                    <div class="summary-icon">
+                        💰
+                    </div>
 
-<button class="btn btn-scan" id="scanBarcodeBtn" type="button">
-📷 Scan Barcode
-</button>
+                    <div>
+                        <small>Today's Sales</small>
+                        <strong id="todaySales">₦0.00</strong>
+                    </div>
 
-<button class="btn btn-orange" id="newSaleBtn" type="button">
-+ New Sale
-</button>
+                </div>
 
-</div>
 
-</div>
+                <div class="summary-card">
 
-<div class="status-message" id="statusMessage"></div>
+                    <div class="summary-icon">
+                        🧾
+                    </div>
 
-<div class="sales-layout">
+                    <div>
+                        <small>Total Transactions</small>
+                        <strong id="transactionCount">0</strong>
+                    </div>
 
-<div class="card sales-form-card">
+                </div>
 
-<div class="card-header">
-<h3>Sale Information</h3>
-</div>
 
-<div class="card-body">
+                <div class="summary-card">
 
-<div class="form-grid">
+                    <div class="summary-icon">
+                        🕐
+                    </div>
 
-<div class="form-group">
+                    <div>
+                        <small>Last Transaction</small>
+                        <strong id="lastTransaction">₦0.00</strong>
+                    </div>
 
-<label for="customer">Customer</label>
+                </div>
 
-<select id="customer">
-<option value="">Walk-in Customer</option>
-</select>
+            </div>
 
-<div class="customer-balance-info" id="customerBalanceInfo"></div>
 
-</div>
+            <!-- =========================
+                 SALES LAYOUT
+            ========================= -->
 
-<div class="form-group">
+            <div class="sales-layout">
 
-<label for="paymentMethod">Payment Method</label>
 
-<select id="paymentMethod">
-<option value="Cash">Cash</option>
-<option value="POS">POS</option>
-<option value="Bank Transfer">Bank Transfer</option>
-<option value="Credit">Credit</option>
-</select>
+                <!-- =========================
+                     SALES FORM
+                ========================= -->
 
-</div>
+                <div class="panel sales-form-panel">
 
-<div class="form-group full">
+                    <div class="panel-header">
 
-<div class="credit-box" id="creditBox">
+                        <h2>Sale Details</h2>
 
-<div class="credit-title">
-🧾 Credit / Partial Payment
-</div>
+                        <p>
+                            Select products from your inventory and enter the quantity sold.
+                        </p>
 
-<div class="credit-grid">
+                    </div>
 
-<div>
-<label for="amountPaid">Amount Paid Now</label>
+                    <div class="panel-body">
 
-<input
-type="number"
-id="amountPaid"
-min="0"
-step="0.01"
-value="0"
-placeholder="Enter amount paid">
+                        <div
+                            id="message"
+                            class="message"
+                        ></div>
 
-<div class="helper-text">
-Enter 0 if the customer takes the full sale on credit.
-</div>
-</div>
 
-<div>
-<label for="creditPaymentMethod">
-Payment Method for Amount Paid
-</label>
+                        <!-- PRODUCTS -->
 
-<select id="creditPaymentMethod">
-<option value="Cash">Cash</option>
-<option value="POS">POS</option>
-<option value="Bank Transfer">Bank Transfer</option>
-</select>
-</div>
+                        <div class="items-title">
+                            <strong>Products</strong>
+                        </div>
 
-</div>
+                        <div id="saleItems">
 
-<div style="margin-top:12px">
-<label>Outstanding After Sale</label>
+                            <div class="loading">
+                                Loading products...
+                            </div>
 
-<div class="balance-display" id="outstandingDisplay">
-₦0.00
-</div>
-</div>
+                        </div>
 
-<div class="credit-warning" id="creditWarning"></div>
 
-</div>
+                        <button
+                            type="button"
+                            class="add-item-button"
+                            id="addItemButton"
+                        >
+                            + Add Another Product
+                        </button>
 
-</div>
 
-<div class="form-group full">
+                        <!-- CUSTOMER -->
 
-<label for="notes">Notes</label>
+                        <div class="form-grid">
 
-<textarea
-id="notes"
-placeholder="Optional sale notes..."></textarea>
+                            <div class="field">
 
-</div>
+                                <label for="customer">
+                                    Customer
+                                </label>
 
-</div>
+                                <input
+                                    type="text"
+                                    id="customer"
+                                    placeholder="Walk-in Customer"
+                                >
 
-<div style="margin-top:8px">
+                            </div>
 
-<div class="card-header" style="padding:0 0 15px;border-bottom:0">
 
-<h3>Products</h3>
+                            <div class="field">
 
-<span
-id="itemCountLabel"
-style="font-size:11px;color:var(--muted)">
-0 items
-</span>
+                                <label for="paymentMethod">
+                                    Payment Method
+                                </label>
 
-</div>
+                                <select id="paymentMethod">
 
-<div class="barcode-tools">
+                                    <option value="Cash">
+                                        Cash
+                                    </option>
 
-<input
-type="text"
-id="barcodeInput"
-placeholder="Enter or scan barcode..."
-autocomplete="off">
+                                    <option value="POS">
+                                        POS
+                                    </option>
 
-<button
-type="button"
-class="btn btn-secondary"
-id="barcodeAddBtn">
-Add Barcode
-</button>
+                                    <option value="Bank Transfer">
+                                        Bank Transfer
+                                    </option>
 
-</div>
+                                </select>
 
-<div class="barcode-hint">
-Use a barcode scanner, type the barcode above, or tap
-<strong>📷 Scan Barcode</strong> to use your phone camera.
-</div>
+                            </div>
 
-<div class="items-header">
-<div>Product</div>
-<div>Quantity</div>
-<div>Total</div>
-<div></div>
-</div>
 
-<div id="saleItemsContainer">
+                            <div class="field full">
 
-<div class="empty-items">
-Add a product to start this sale.
-</div>
+                                <label for="notes">
+                                    Notes
+                                </label>
 
-</div>
+                                <textarea
+                                    id="notes"
+                                    placeholder="Optional sale notes..."
+                                ></textarea>
 
-<div class="add-item-row">
+                            </div>
 
-<button
-type="button"
-class="add-item-btn"
-id="addItemBtn">
-+ Add Product
-</button>
+                        </div>
 
-</div>
 
-</div>
+                        <!-- TOTALS -->
 
-<div class="summary-box">
+                        <div class="totals">
 
-<div class="summary-row">
-<span>Total Items</span>
-<strong id="totalItems">0</strong>
-</div>
+                            <div class="total-row">
 
-<div class="summary-row">
-<span>Subtotal</span>
-<strong id="subtotal">₦0.00</strong>
-</div>
+                                <span>
+                                    Items
+                                </span>
 
-<div class="summary-row profit-row">
-<span>Gross Profit</span>
-<strong id="grossProfit">₦0.00</strong>
-</div>
+                                <strong id="totalItems">
+                                    0
+                                </strong>
 
-<div class="summary-row grand-total">
-<span>Grand Total</span>
-<strong id="grandTotal">₦0.00</strong>
-</div>
+                            </div>
 
-<div class="summary-row" id="paidSummaryRow" style="display:none">
-<span>Amount Paid</span>
-<strong id="paidSummary">₦0.00</strong>
-</div>
+                            <div class="total-row">
 
-<div class="summary-row" id="outstandingSummaryRow" style="display:none">
-<span>Outstanding</span>
-<strong id="outstandingSummary" style="color:var(--danger)">
-₦0.00
-</strong>
-</div>
+                                <span>
+                                    Subtotal
+                                </span>
 
-<div class="summary-row" id="paymentStatusSummaryRow" style="display:none">
-<span>Payment Status</span>
-<strong id="paymentStatusSummary">Paid</strong>
-</div>
+                                <strong id="subtotal">
+                                    ₦0.00
+                                </strong>
 
-<div class="profit-note">
-Gross profit is calculated using the product's saved cost price and selling price.
-The cost price is saved with the sale so future inventory price changes will not change historical profit.
-</div>
+                            </div>
 
-</div>
 
-<div class="form-actions">
+                            <div class="grand-total">
 
-<button type="button" class="btn btn-secondary" id="clearSaleBtn">
-Clear
-</button>
+                                <span>
+                                    Grand Total
+                                </span>
 
-<button type="button" class="btn btn-primary" id="recordSaleBtn">
-Record Sale
-</button>
+                                <strong id="grandTotal">
+                                    ₦0.00
+                                </strong>
 
-</div>
+                            </div>
 
-</div>
-</div>
+                        </div>
 
-<div class="right-card">
 
-<div class="quick-stat right-no-print">
+                        <!-- ACTIONS -->
 
-<div class="mini-stat">
-<span>Today's Sales</span>
-<strong id="todaySales">₦0.00</strong>
-</div>
+                        <div class="action-buttons">
 
-<div class="mini-stat">
-<span>Transactions</span>
-<strong id="todayTransactions">0</strong>
-</div>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                id="clearButton"
+                            >
+                                Clear / New Sale
+                            </button>
 
-<div class="mini-stat">
-<span>Last Sale</span>
-<strong id="lastSaleNumber">—</strong>
-</div>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                id="recordSaleButton"
+                                disabled
+                            >
+                                Record Sale
+                            </button>
 
-</div>
+                        </div>
 
-<div class="card">
+                    </div>
 
-<div class="card-header">
-<h3>Receipt Preview</h3>
-</div>
+                </div>
 
-<div class="card-body">
 
-<div class="receipt-preview" id="receiptPreview">
+                <!-- =========================
+                     RECEIPT
+                ========================= -->
 
-<div class="receipt">
+                <div class="panel receipt-panel">
 
-<div class="receipt-head">
+                    <div class="panel-header">
 
-<img
-src="assets/logo.png"
-alt="Nesi Medicals"
-class="receipt-logo">
+                        <h2>Receipt Preview</h2>
 
-<h2>Nesi Medicals</h2>
+                        <p>
+                            Your printable receipt will appear here.
+                        </p>
 
-<p>& Minimart Enterprises</p>
+                    </div>
 
-<p>Quality Care. Essential Products. Trusted Service.</p>
+                    <div class="receipt" id="receipt">
 
-</div>
+                        <div class="receipt-header">
 
-<div class="receipt-meta">
+                            <img
+                                src="assets/logo.png"
+                                alt="Nesi Medicals"
+                                class="receipt-logo"
+                                onerror="this.style.display='none'"
+                            >
 
-<div>
-<span>Sale No:</span>
-<strong id="receiptSaleNumber">—</strong>
-</div>
+                            <h2>
+                                Nesi Medicals
+                            </h2>
 
-<div>
-<span>Date:</span>
-<strong id="receiptDate">—</strong>
-</div>
+                            <p>
+                                & Minimart Enterprises
+                            </p>
 
-<div>
-<span>Customer:</span>
-<strong id="receiptCustomer">Walk-in Customer</strong>
-</div>
+                            <p>
+                                Pharmacy • Healthcare • Minimart
+                            </p>
 
-<div>
-<span>Payment:</span>
-<strong id="receiptPayment">Cash</strong>
-</div>
+                        </div>
 
-<div id="receiptPaymentMethodRow" style="display:none">
-<span>Paid Via:</span>
-<strong id="receiptCreditPaymentMethod">Cash</strong>
-</div>
 
-<div>
-<span>Staff ID:</span>
-<strong id="receiptStaffId">—</strong>
-</div>
+                        <div class="empty-receipt" id="emptyReceipt">
 
-</div>
+                            Select products to generate the receipt preview.
 
-<div class="receipt-items" id="receiptItems">
+                        </div>
 
-<div style="text-align:center;color:#888;font-size:10px">
-No products added.
-</div>
 
-</div>
+                        <div
+                            id="receiptContent"
+                            style="display:none;"
+                        >
 
-<div class="receipt-total">
+                            <div class="receipt-meta">
 
-<div class="receipt-total-row">
-<span>Items</span>
-<strong id="receiptItemCount">0</strong>
-</div>
+                                <div>
+                                    <span>Sale No.</span>
+                                    <strong id="receiptSaleNumber">
+                                        Pending
+                                    </strong>
+                                </div>
 
-<div class="receipt-total-row">
-<span>Subtotal</span>
-<strong id="receiptSubtotal">₦0.00</strong>
-</div>
+                                <div>
+                                    <span>Date</span>
+                                    <strong id="receiptDate">
+                                        —
+                                    </strong>
+                                </div>
 
-<div class="receipt-total-row grand">
-<span>TOTAL</span>
-<strong id="receiptTotal">₦0.00</strong>
-</div>
+                                <div>
+                                    <span>Customer</span>
+                                    <strong id="receiptCustomer">
+                                        Walk-in Customer
+                                    </strong>
+                                </div>
 
-<div class="receipt-credit" id="receiptCredit">
+                                <div>
+                                    <span>Payment</span>
+                                    <strong id="receiptPayment">
+                                        Cash
+                                    </strong>
+                                </div>
 
-<div style="display:flex;justify-content:space-between">
-<span>Amount Paid</span>
-<strong id="receiptPaid">₦0.00</strong>
-</div>
+                            </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:5px">
-<span class="balance-due">BALANCE DUE</span>
-<strong id="receiptOutstanding" class="balance-due">₦0.00</strong>
-</div>
 
-<div style="display:flex;justify-content:space-between;margin-top:5px">
-<span>Payment Status</span>
-<strong id="receiptPaymentStatus" class="receipt-status">Credit</strong>
-</div>
+                            <table class="receipt-table">
 
-</div>
+                                <thead>
 
-</div>
+                                    <tr>
 
-<div class="receipt-footer">
+                                        <th>
+                                            Product
+                                        </th>
 
-<div>+2349067075444 • +2347087471639</div>
+                                        <th>
+                                            Qty
+                                        </th>
 
-<div style="margin-top:4px">
-Thank you for your patronage.
-</div>
+                                        <th>
+                                            Amount
+                                        </th>
 
-</div>
+                                    </tr>
 
-</div>
+                                </thead>
 
-</div>
+                                <tbody id="receiptItems">
+                                </tbody>
 
-<div class="receipt-actions right-no-print">
+                            </table>
 
-<button type="button" class="btn btn-secondary" id="previewPrintBtn">
-🖨️ Print
-</button>
 
-<button type="button" class="btn btn-primary" id="newSaleRightBtn">
-+ New Sale
-</button>
+                            <div class="receipt-total">
 
-</div>
+                                <div class="receipt-total-row">
 
-</div>
-</div>
+                                    <span>
+                                        Items
+                                    </span>
 
-</div>
-</div>
+                                    <strong id="receiptItemCount">
+                                        0
+                                    </strong>
 
-</section>
-</main>
+                                </div>
 
-<div class="scanner-modal" id="scannerModal">
 
-<div class="scanner-box">
+                                <div class="receipt-total-row receipt-grand">
 
-<div class="scanner-header">
+                                    <span>
+                                        TOTAL
+                                    </span>
 
-<h3>📷 Scan Product Barcode</h3>
+                                    <strong id="receiptGrandTotal">
+                                        ₦0.00
+                                    </strong>
 
-<button type="button" class="scanner-close" id="scannerCloseBtn">
-×
-</button>
+                                </div>
 
-</div>
+                            </div>
 
-<div class="scanner-body">
 
-<div class="scanner-video-wrap">
+                            <div class="receipt-footer">
 
-<video
-id="barcodeVideo"
-autoplay
-playsinline
-muted></video>
+                                <p>
+                                    Thank you for your patronage.
+                                </p>
 
-<div class="scan-frame">
-<div class="scan-line"></div>
-</div>
+                                <p>
+                                    +2349067075444 • +2347087471639
+                                </p>
 
-</div>
+                                <p>
+                                    Please keep this receipt for your records.
+                                </p>
 
-<div class="scanner-status" id="scannerStatus">
-Point your camera at the product barcode.
-</div>
+                            </div>
 
-<div class="scanner-success" id="scannerSuccess"></div>
+                        </div>
 
-<div class="scanner-actions">
 
-<button
-type="button"
-class="btn btn-primary"
-id="startScannerBtn">
-📷 Start Camera
-</button>
+                        <button
+                            type="button"
+                            class="btn btn-print"
+                            id="printButton"
+                        >
+                            🖨 Print Receipt
+                        </button>
 
-<button
-type="button"
-class="btn btn-secondary"
-id="stopScannerBtn">
-Stop Camera
-</button>
+                    </div>
 
-</div>
+                </div>
 
-<div class="scanner-manual">
+            </div>
 
-<label for="scannerManualInput">
-Manual Barcode
-</label>
+        </section>
 
-<div class="scanner-manual-row">
+    </main>
 
-<input
-type="text"
-id="scannerManualInput"
-placeholder="Enter barcode">
 
-<button
-type="button"
-class="btn btn-primary"
-id="scannerManualBtn">
-Find
-</button>
+    <!-- =========================
+         FIREBASE + SALES LOGIC
+    ========================= -->
 
-</div>
+    <script type="module">
 
-</div>
+        import {
+            auth,
+            db
+        } from "./js/firebase.js";
 
-<div class="register-barcode" id="registerBarcodeBox">
+        import {
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-<h4>Barcode not registered</h4>
+        import {
+            collection,
+            onSnapshot,
+            addDoc,
+            doc,
+            runTransaction,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<p id="unknownBarcodeText"></p>
 
-<label for="registerProductSelect">
-Choose the product this barcode belongs to
-</label>
+        /* =========================
+           GLOBAL VARIABLES
+        ========================= */
 
-<select id="registerProductSelect">
-<option value="">Select product</option>
-</select>
+        let currentUser = null;
 
-<div class="register-actions">
+        let products = [];
 
-<button
-type="button"
-class="btn btn-secondary"
-id="cancelRegisterBarcodeBtn">
-Cancel
-</button>
+        let saleItems = [];
 
-<button
-type="button"
-class="btn btn-primary"
-id="saveBarcodeBtn">
-Save Barcode
-</button>
+        let lastSale = null;
 
-</div>
+        let productsUnsubscribe = null;
 
-</div>
+        let salesUnsubscribe = null;
 
-</div>
-</div>
-</div>
+        let savingSale = false;
 
-<script type="module">
 
-import { auth, db } from "./js/firebase.js";
+        /* =========================
+           ELEMENTS
+        ========================= */
 
-import {
-onAuthStateChanged,
-signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        const saleItemsContainer =
+            document.getElementById("saleItems");
 
-import {
-collection,
-onSnapshot,
-doc,
-runTransaction,
-serverTimestamp,
-updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        const addItemButton =
+            document.getElementById("addItemButton");
 
-import {
-BrowserMultiFormatReader
-} from "https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm";
+        const recordSaleButton =
+            document.getElementById("recordSaleButton");
 
-let currentUser=null;
-let products=[];
-let customers=[];
-let saleItems=[];
-let lastSale=null;
+        const clearButton =
+            document.getElementById("clearButton");
 
-let productsUnsubscribe=null;
-let salesUnsubscribe=null;
-let customersUnsubscribe=null;
+        const customerInput =
+            document.getElementById("customer");
 
-let savingSale=false;
+        const paymentMethod =
+            document.getElementById("paymentMethod");
 
-let scannerReader=null;
-let scannerControls=null;
-let scannerRunning=false;
+        const notesInput =
+            document.getElementById("notes");
 
-let lastScannedCode="";
-let lastScanTime=0;
-let pendingBarcode="";
+        const messageBox =
+            document.getElementById("message");
 
-const $=id=>document.getElementById(id);
+        const todaySales =
+            document.getElementById("todaySales");
 
-const sidebar=$("sidebar");
-const sidebarOverlay=$("sidebarOverlay");
-const menuBtn=$("menuBtn");
-const logoutBtn=$("logoutBtn");
+        const transactionCount =
+            document.getElementById("transactionCount");
 
-const userName=$("userName");
-const userEmail=$("userEmail");
-const userAvatar=$("userAvatar");
+        const lastTransaction =
+            document.getElementById("lastTransaction");
 
-const statusMessage=$("statusMessage");
+        const userEmail =
+            document.getElementById("userEmail");
 
-const customerInput=$("customer");
-const paymentMethod=$("paymentMethod");
-const amountPaidInput=$("amountPaid");
-const creditPaymentMethod=$("creditPaymentMethod");
-const notesInput=$("notes");
+        const userName =
+            document.getElementById("userName");
 
-const customerBalanceInfo=$("customerBalanceInfo");
-const creditBox=$("creditBox");
-const creditWarning=$("creditWarning");
-const outstandingDisplay=$("outstandingDisplay");
+        const userAvatar =
+            document.getElementById("userAvatar");
 
-const saleItemsContainer=$("saleItemsContainer");
-const addItemBtn=$("addItemBtn");
-const clearSaleBtn=$("clearSaleBtn");
-const recordSaleBtn=$("recordSaleBtn");
+        const totalItems =
+            document.getElementById("totalItems");
 
-const totalItems=$("totalItems");
-const subtotal=$("subtotal");
-const grossProfit=$("grossProfit");
-const grandTotal=$("grandTotal");
+        const subtotal =
+            document.getElementById("subtotal");
 
-const paidSummaryRow=$("paidSummaryRow");
-const outstandingSummaryRow=$("outstandingSummaryRow");
-const paymentStatusSummaryRow=$("paymentStatusSummaryRow");
+        const grandTotal =
+            document.getElementById("grandTotal");
 
-const paidSummary=$("paidSummary");
-const outstandingSummary=$("outstandingSummary");
-const paymentStatusSummary=$("paymentStatusSummary");
+        const emptyReceipt =
+            document.getElementById("emptyReceipt");
 
-const itemCountLabel=$("itemCountLabel");
+        const receiptContent =
+            document.getElementById("receiptContent");
 
-const todaySales=$("todaySales");
-const todayTransactions=$("todayTransactions");
-const lastSaleNumber=$("lastSaleNumber");
+        const receiptItems =
+            document.getElementById("receiptItems");
 
-const receiptSaleNumber=$("receiptSaleNumber");
-const receiptDate=$("receiptDate");
-const receiptCustomer=$("receiptCustomer");
-const receiptPayment=$("receiptPayment");
-const receiptPaymentMethodRow=$("receiptPaymentMethodRow");
-const receiptCreditPaymentMethod=$("receiptCreditPaymentMethod");
-const receiptStaffId=$("receiptStaffId");
+        const receiptSaleNumber =
+            document.getElementById("receiptSaleNumber");
 
-const receiptItems=$("receiptItems");
-const receiptItemCount=$("receiptItemCount");
-const receiptSubtotal=$("receiptSubtotal");
-const receiptTotal=$("receiptTotal");
+        const receiptDate =
+            document.getElementById("receiptDate");
 
-const receiptCredit=$("receiptCredit");
-const receiptPaid=$("receiptPaid");
-const receiptOutstanding=$("receiptOutstanding");
-const receiptPaymentStatus=$("receiptPaymentStatus");
+        const receiptCustomer =
+            document.getElementById("receiptCustomer");
 
-const scanBarcodeBtn=$("scanBarcodeBtn");
-const barcodeInput=$("barcodeInput");
-const barcodeAddBtn=$("barcodeAddBtn");
+        const receiptPayment =
+            document.getElementById("receiptPayment");
 
-const scannerModal=$("scannerModal");
-const scannerCloseBtn=$("scannerCloseBtn");
-const barcodeVideo=$("barcodeVideo");
-const scannerStatus=$("scannerStatus");
-const scannerSuccess=$("scannerSuccess");
+        const receiptItemCount =
+            document.getElementById("receiptItemCount");
 
-const startScannerBtn=$("startScannerBtn");
-const stopScannerBtn=$("stopScannerBtn");
+        const receiptGrandTotal =
+            document.getElementById("receiptGrandTotal");
 
-const scannerManualInput=$("scannerManualInput");
-const scannerManualBtn=$("scannerManualBtn");
+        const printButton =
+            document.getElementById("printButton");
 
-const registerBarcodeBox=$("registerBarcodeBox");
-const unknownBarcodeText=$("unknownBarcodeText");
-const registerProductSelect=$("registerProductSelect");
+        const logoutButton =
+            document.getElementById("logoutButton");
 
-const cancelRegisterBarcodeBtn=$("cancelRegisterBarcodeBtn");
-const saveBarcodeBtn=$("saveBarcodeBtn");
+        const mobileMenu =
+            document.getElementById("mobileMenu");
 
-function formatMoney(value){
-return new Intl.NumberFormat("en-NG",{
-style:"currency",
-currency:"NGN"
-}).format(Number(value)||0);
-}
+        const sidebar =
+            document.getElementById("sidebar");
 
-function showMessage(message,type="info"){
-statusMessage.textContent=message;
-statusMessage.className=`status-message ${type}`;
-window.scrollTo({top:0,behavior:"smooth"});
-}
 
-function clearMessage(){
-statusMessage.textContent="";
-statusMessage.className="status-message";
-}
+        /* =========================
+           AUTHENTICATION
+        ========================= */
 
-function getCurrentStaffId(){
+        onAuthStateChanged(auth, (user) => {
 
-try{
-const savedStaff=localStorage.getItem("nesiStaff");
+            if (!user) {
 
-if(savedStaff){
-const staff=JSON.parse(savedStaff);
+                window.location.href = "login.html";
 
-if(staff&&staff.staffId&&String(staff.staffId).trim()){
-return String(staff.staffId).trim();
-}
-}
-}catch(error){
-console.error("Unable to read staff ID:",error);
-}
+                return;
+            }
 
-if(window.nesiStaff&&window.nesiStaff.staffId){
-return String(window.nesiStaff.staffId).trim();
-}
+            currentUser = user;
 
-return "ADMIN";
-}
+            userEmail.textContent =
+                user.email || "";
 
-function getSelectedCustomer(){
+            const name =
+                user.displayName ||
+                "Nesi Medicals Administrator";
 
-const option=customerInput.options[customerInput.selectedIndex];
+            userName.textContent = name;
 
-if(!option||!customerInput.value){
-return{
-id:"",
-name:"Walk-in Customer",
-phone:"",
-email:"",
-outstanding:0,
-creditLimit:0
-};
-}
+            userAvatar.textContent =
+                name.charAt(0).toUpperCase();
 
-const customer=customers.find(c=>c.id===customerInput.value);
+            loadProducts();
 
-return{
-id:customerInput.value,
-name:option.dataset.customerName||customer?.name||"Walk-in Customer",
-phone:option.dataset.customerPhone||customer?.phone||"",
-email:option.dataset.customerEmail||customer?.email||"",
-outstanding:Number(customer?.outstandingBalance)||0,
-creditLimit:Number(customer?.creditLimit)||0
-};
-}
+            loadSales();
 
-function loadCustomers(){
+        });
 
-if(customersUnsubscribe)customersUnsubscribe();
 
-customersUnsubscribe=onSnapshot(
-collection(db,"customers"),
-snapshot=>{
+        /* =========================
+           LOAD PRODUCTS
+        ========================= */
 
-const currentValue=customerInput.value;
+        function loadProducts() {
 
-customers=snapshot.docs.map(d=>({
-id:d.id,
-...d.data()
-}));
+            if (productsUnsubscribe) {
+                productsUnsubscribe();
+            }
 
-customerInput.innerHTML=`<option value="">Walk-in Customer</option>`;
+            productsUnsubscribe = onSnapshot(
+                collection(db, "products"),
+                (snapshot) => {
 
-customers.forEach(customer=>{
+                    products = snapshot.docs.map((document) => {
 
-const option=document.createElement("option");
+                        const data = document.data();
 
-option.value=customer.id;
+                        return {
+                            id: document.id,
+                            ...data
+                        };
 
-option.textContent=
-`${customer.name||"Unnamed Customer"}${customer.phone?" — "+customer.phone:""}`;
+                    });
 
-option.dataset.customerName=customer.name||"";
-option.dataset.customerPhone=customer.phone||"";
-option.dataset.customerEmail=customer.email||"";
+                    products.sort((a, b) => {
 
-customerInput.appendChild(option);
+                        const nameA =
+                            String(
+                                a.productName ||
+                                a.name ||
+                                ""
+                            ).toLowerCase();
 
-});
+                        const nameB =
+                            String(
+                                b.productName ||
+                                b.name ||
+                                ""
+                            ).toLowerCase();
 
-if(currentValue&&[...customerInput.options].some(o=>o.value===currentValue)){
-customerInput.value=currentValue;
-}
+                        return nameA.localeCompare(nameB);
 
-updateCustomerBalanceInfo();
-updateSaleSummary();
+                    });
 
-},
-error=>{
-console.error(error);
-showMessage("Unable to load customers.","error");
-}
-);
 
-}
+                    if (saleItems.length === 0) {
 
-function getProductName(product){
-return product.productName||product.name||"Unnamed Product";
-}
+                        saleItems = [
+                            {
+                                productId: "",
+                                quantity: 1
+                            }
+                        ];
 
-function getProductStock(product){
+                    }
 
-const quantity=Number(product.quantity);
+                    renderSaleItems();
 
-if(Number.isFinite(quantity)&&product.quantity!==undefined){
-return quantity;
-}
+                    updateSaleSummary();
 
-const stock=Number(product.stock);
+                },
+                (error) => {
 
-if(Number.isFinite(stock)&&product.stock!==undefined){
-return stock;
-}
+                    console.error(
+                        "Product loading error:",
+                        error
+                    );
 
-return 0;
-}
+                    showMessage(
+                        "Unable to load products from inventory. Please check your Firebase connection.",
+                        "error"
+                    );
 
-function getProductPrice(product){
+                    saleItemsContainer.innerHTML = `
+                        <div class="loading">
+                            Unable to load products.
+                        </div>
+                    `;
 
-const sellingPrice=Number(product.sellingPrice);
+                }
+            );
 
-if(Number.isFinite(sellingPrice)&&product.sellingPrice!==undefined){
-return sellingPrice;
-}
+        }
 
-const price=Number(product.price);
 
-if(Number.isFinite(price)&&product.price!==undefined){
-return price;
-}
+        /* =========================
+           PRODUCT HELPERS
+        ========================= */
 
-return 0;
-}
+        function getProductName(product) {
 
-function getProductCostPrice(product){
+            return (
+                product.productName ||
+                product.name ||
+                "Unnamed Product"
+            );
 
-const rawCost=product.costPrice??product.cost;
+        }
 
-if(rawCost===undefined||rawCost===null||rawCost===""){
-return null;
-}
 
-const cost=Number(rawCost);
+        function getProductStock(product) {
 
-if(!Number.isFinite(cost)||cost<0){
-return null;
-}
+            const quantity =
+                Number(product.quantity);
 
-return cost;
-}
+            const stock =
+                Number(product.stock);
 
-function getLowStockLevel(product){
+            if (
+                Number.isFinite(quantity) &&
+                product.quantity !== undefined
+            ) {
+                return quantity;
+            }
 
-const level=Number(product.lowStockLevel);
+            if (
+                Number.isFinite(stock) &&
+                product.stock !== undefined
+            ) {
+                return stock;
+            }
 
-return Number.isFinite(level)&&level>=0?level:5;
-}
+            return 0;
 
-function getProductStatus(stock,product){
+        }
 
-const level=getLowStockLevel(product);
 
-if(stock<=0)return"Out of Stock";
-if(stock<=level)return"Low Stock";
+        function getProductPrice(product) {
 
-return"In Stock";
-}
+            const price =
+                Number(product.sellingPrice);
 
-function normalizeBarcode(value){
+            if (
+                Number.isFinite(price) &&
+                product.sellingPrice !== undefined
+            ) {
+                return price;
+            }
 
-return String(value||"")
-.trim()
-.toUpperCase()
-.replace(/[\s-]/g,"");
-}
+            const oldPrice =
+                Number(product.price);
 
-function getProductBarcodes(product){
+            if (
+                Number.isFinite(oldPrice) &&
+                product.price !== undefined
+            ) {
+                return oldPrice;
+            }
 
-return[
-product.barcode,
-product.barCode,
-product.barcodeNumber,
-product.ean,
-product.ean13,
-product.ean8,
-product.upc,
-product.upcCode,
-product.gtin,
-product.sku
-]
-.filter(value=>value!==undefined&&value!==null&&String(value).trim()!=="")
-.map(normalizeBarcode);
-}
+            return 0;
 
-function findProductByBarcode(code){
+        }
 
-const normalized=normalizeBarcode(code);
 
-if(!normalized)return null;
+        function getLowStockLevel(product) {
 
-return products.find(product=>
-getProductBarcodes(product).includes(normalized)
-)||null;
-}
+            const level =
+                Number(product.lowStockLevel);
 
-function loadProducts(){
+            if (
+                Number.isFinite(level)
+            ) {
+                return level;
+            }
 
-if(productsUnsubscribe)productsUnsubscribe();
+            return 5;
 
-productsUnsubscribe=onSnapshot(
-collection(db,"products"),
-snapshot=>{
+        }
 
-products=snapshot.docs.map(d=>({
-id:d.id,
-...d.data()
-}));
 
-populateRegisterProductSelect();
-renderSaleItems();
-updateSaleSummary();
+        function formatMoney(value) {
 
-},
-error=>{
-console.error(error);
-showMessage(
-"Unable to load products. Please refresh the page.",
-"error"
-);
-}
-);
+            const amount =
+                Number(value) || 0;
 
-}
+            return "₦" +
+                amount.toLocaleString(
+                    "en-NG",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                );
 
-function addSaleItem(){
+        }
 
-saleItems.push({
-productId:"",
-quantity:1
-});
 
-renderSaleItems();
-updateSaleSummary();
-}
+        function escapeHTML(value) {
 
-function addProductToSale(product,showSuccess=true){
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
 
-if(!product)return;
+        }
 
-const stock=getProductStock(product);
 
-if(stock<=0){
-showMessage(`${getProductName(product)} is out of stock.`,"error");
-return false;
-}
+        /* =========================
+           RENDER SALE ITEMS
+        ========================= */
 
-const existingIndex=saleItems.findIndex(
-item=>item.productId===product.id
-);
+        function renderSaleItems() {
 
-if(existingIndex>=0){
+            if (!products.length) {
 
-const currentQuantity=
-Number(saleItems[existingIndex].quantity)||1;
+                saleItemsContainer.innerHTML = `
+                    <div class="loading">
+                        No products have been added to inventory yet.
+                        <br><br>
+                        Add products from the Inventory page first.
+                    </div>
+                `;
 
-if(currentQuantity>=stock){
-showMessage(
-`${getProductName(product)} has only ${stock} item(s) in stock.`,
-"error"
-);
-return false;
-}
+                recordSaleButton.disabled = true;
 
-saleItems[existingIndex].quantity=currentQuantity+1;
+                return;
+            }
 
-}else{
 
-saleItems.push({
-productId:product.id,
-quantity:1
-});
+            saleItemsContainer.innerHTML = "";
 
-}
 
-renderSaleItems();
-updateSaleSummary();
+            saleItems.forEach((item, index) => {
 
-if(showSuccess){
-showMessage(
-`${getProductName(product)} added to the sale.`,
-"success"
-);
-}
+                const wrapper =
+                    document.createElement("div");
 
-return true;
-}
+                wrapper.className =
+                    "sale-item";
 
-/* SEARCHABLE PRODUCT PICKER */
+                const productOptions =
+                    products.map((product) => {
 
-function closeAllProductResults(except=null){
+                        const id =
+                            escapeHTML(product.id);
 
-saleItemsContainer
-.querySelectorAll(".product-results.show")
-.forEach(list=>{
-if(list!==except)list.classList.remove("show");
-});
+                        const name =
+                            escapeHTML(
+                                getProductName(product)
+                            );
 
-}
+                        const stock =
+                            getProductStock(product);
 
-function selectProductForItem(index,product){
+                        const price =
+                            getProductPrice(product);
 
-if(!product)return;
+                        const selected =
+                            item.productId === product.id
+                                ? "selected"
+                                : "";
 
-const stock=getProductStock(product);
+                        return `
+                            <option
+                                value="${id}"
+                                ${selected}
+                            >
+                                ${name} — Stock: ${stock} — ${formatMoney(price)}
+                            </option>
+                        `;
 
-if(stock<=0){
-showMessage(
-`${getProductName(product)} is out of stock.`,
-"error"
-);
-return;
-}
+                    }).join("");
 
-const duplicateIndex=saleItems.findIndex(
-(item,i)=>i!==index&&item.productId===product.id
-);
 
-if(duplicateIndex>=0){
+                wrapper.innerHTML = `
 
-showMessage(
-"The same product cannot be added twice. Increase its quantity instead.",
-"error"
-);
+                    <div class="item-grid">
 
-return;
-}
+                        <div class="field product-field">
 
-saleItems[index].productId=product.id;
+                            <label>
+                                Product ${index + 1}
+                            </label>
 
-if(
-Number(saleItems[index].quantity)<1||
-!Number.isFinite(Number(saleItems[index].quantity))
-){
-saleItems[index].quantity=1;
-}
+                            <select
+                                class="product-select"
+                                data-index="${index}"
+                            >
 
-if(Number(saleItems[index].quantity)>stock){
-saleItems[index].quantity=stock;
-}
+                                <option value="">
+                                    Select a product
+                                </option>
 
-renderSaleItems();
-updateSaleSummary();
-}
+                                ${productOptions}
 
-function renderProductResults(index,query){
+                            </select>
 
-const picker=saleItemsContainer.querySelector(
-`.product-picker[data-index="${index}"]`
-);
+                            <div
+                                class="stock-info"
+                                id="stockInfo-${index}"
+                            >
+                                Select a product
+                            </div>
 
-if(!picker)return;
+                        </div>
 
-const results=picker.querySelector(".product-results");
 
-const search=String(query||"").trim().toLowerCase();
+                        <div class="field">
 
-results.innerHTML="";
+                            <label>
+                                Quantity
+                            </label>
 
-const availableProducts=products.filter(product=>{
+                            <input
+                                type="number"
+                                class="item-quantity"
+                                data-index="${index}"
+                                min="1"
+                                step="1"
+                                value="${Math.max(
+                                    1,
+                                    Number(item.quantity) || 1
+                                )}"
+                            >
 
-const name=getProductName(product).toLowerCase();
+                        </div>
 
-const sku=String(product.sku||"").toLowerCase();
 
-const barcode=String(product.barcode||"").toLowerCase();
+                        <div class="field total-field">
 
-return !search||
-name.includes(search)||
-sku.includes(search)||
-barcode.includes(search);
+                            <label>
+                                Total
+                            </label>
 
-});
+                            <div
+                                class="line-total-box"
+                                id="lineTotal-${index}"
+                            >
+                                ₦0.00
+                            </div>
 
-if(availableProducts.length===0){
+                        </div>
 
-results.innerHTML=
-`<div class="product-no-results">No matching product found.</div>`;
 
-}else{
+                        <div class="field remove-field">
 
-availableProducts.forEach(product=>{
+                            <label>
+                                &nbsp;
+                            </label>
 
-const button=document.createElement("button");
+                            <button
+                                type="button"
+                                class="remove-item"
+                                data-index="${index}"
+                                ${
+                                    saleItems.length === 1
+                                        ? "disabled"
+                                        : ""
+                                }
+                                title="Remove product"
+                            >
+                                ×
+                            </button>
 
-button.type="button";
-button.className="product-result";
+                        </div>
 
-button.innerHTML=`
-<span class="product-result-name">
-${escapeHtml(getProductName(product))}
-</span>
-<span class="product-result-info">
-${formatMoney(getProductPrice(product))} • Stock: ${getProductStock(product)}
-${product.sku?" • SKU: "+escapeHtml(product.sku):""}
-</span>
-`;
+                    </div>
 
-button.addEventListener("click",()=>{
+                `;
 
-selectProductForItem(index,product);
 
-});
+                saleItemsContainer.appendChild(
+                    wrapper
+                );
 
-results.appendChild(button);
+            });
 
-});
 
-}
+            attachItemEvents();
 
-closeAllProductResults(results);
-results.classList.add("show");
-}
+            updateItemDisplays();
 
-function renderSaleItems(){
+        }
 
-if(saleItems.length===0){
 
-saleItemsContainer.innerHTML=
-`<div class="empty-items">
-Add a product to start this sale.
-</div>`;
+        /* =========================
+           ITEM EVENTS
+        ========================= */
 
-itemCountLabel.textContent="0 items";
+        function attachItemEvents() {
 
-return;
-}
+            document
+                .querySelectorAll(".product-select")
+                .forEach((select) => {
 
-saleItemsContainer.innerHTML="";
+                    select.addEventListener(
+                        "change",
+                        () => {
 
-saleItems.forEach((item,index)=>{
+                            const index =
+                                Number(
+                                    select.dataset.index
+                                );
 
-const row=document.createElement("div");
-row.className="sale-item";
+                            saleItems[index].productId =
+                                select.value;
 
-const productDiv=document.createElement("div");
+                            updateItemDisplays();
 
-const picker=document.createElement("div");
-picker.className="product-picker";
-picker.dataset.index=index;
+                        }
+                    );
 
-const searchInput=document.createElement("input");
-searchInput.type="text";
-searchInput.className="product-search";
+                });
 
-const selectedProduct=products.find(
-p=>p.id===item.productId
-);
 
-searchInput.placeholder="🔎 Search product...";
+            document
+                .querySelectorAll(".item-quantity")
+                .forEach((input) => {
 
-searchInput.autocomplete="off";
+                    input.addEventListener(
+                        "input",
+                        () => {
 
-if(selectedProduct){
+                            const index =
+                                Number(
+                                    input.dataset.index
+                                );
 
-searchInput.value=
-`${getProductName(selectedProduct)} — ${formatMoney(getProductPrice(selectedProduct))}`;
+                            let quantity =
+                                Number(input.value);
 
-}else{
+                            if (
+                                !Number.isFinite(quantity) ||
+                                quantity < 1
+                            ) {
+                                quantity = 1;
+                            }
 
-searchInput.value="";
-}
+                            quantity =
+                                Math.floor(quantity);
 
-const results=document.createElement("div");
-results.className="product-results";
+                            input.value =
+                                quantity;
 
-picker.append(searchInput,results);
-productDiv.appendChild(picker);
+                            saleItems[index].quantity =
+                                quantity;
 
-searchInput.addEventListener("focus",()=>{
+                            updateItemDisplays();
 
-renderProductResults(
-index,
-searchInput.value
-);
+                        }
+                    );
 
-});
+                });
 
-searchInput.addEventListener("input",()=>{
 
-renderProductResults(
-index,
-searchInput.value
-);
+            document
+                .querySelectorAll(".remove-item")
+                .forEach((button) => {
 
-});
+                    button.addEventListener(
+                        "click",
+                        () => {
 
-searchInput.addEventListener("keydown",event=>{
+                            const index =
+                                Number(
+                                    button.dataset.index
+                                );
 
-if(event.key==="Escape"){
-results.classList.remove("show");
-}
+                            if (
+                                saleItems.length <= 1
+                            ) {
+                                return;
+                            }
 
-});
+                            saleItems.splice(
+                                index,
+                                1
+                            );
 
-const quantityDiv=document.createElement("div");
-quantityDiv.className="item-quantity";
+                            renderSaleItems();
 
-const quantityInput=document.createElement("input");
+                        }
+                    );
 
-quantityInput.type="number";
-quantityInput.min="1";
-quantityInput.step="1";
-quantityInput.value=item.quantity||1;
-quantityInput.dataset.index=index;
-quantityInput.className="quantity-input";
+                });
 
-quantityDiv.appendChild(quantityInput);
+        }
 
-const totalDiv=document.createElement("div");
-totalDiv.className="item-total";
 
-const product=products.find(
-p=>p.id===item.productId
-);
+        /* =========================
+           UPDATE ITEM DISPLAY
+        ========================= */
 
-const unitPrice=product?getProductPrice(product):0;
+        function updateItemDisplays() {
 
-const lineTotal=
-unitPrice*(Number(item.quantity)||0);
+            saleItems.forEach((item, index) => {
 
-totalDiv.textContent=formatMoney(lineTotal);
+                const product =
+                    products.find(
+                        (p) =>
+                            p.id === item.productId
+                    );
 
-const removeBtn=document.createElement("button");
+                const info =
+                    document.getElementById(
+                        `stockInfo-${index}`
+                    );
 
-removeBtn.type="button";
-removeBtn.className="remove-item";
-removeBtn.textContent="×";
-removeBtn.title="Remove product";
-removeBtn.dataset.index=index;
+                const lineTotal =
+                    document.getElementById(
+                        `lineTotal-${index}`
+                    );
 
-row.append(
-productDiv,
-quantityDiv,
-totalDiv,
-removeBtn
-);
+                if (!info || !lineTotal) {
+                    return;
+                }
 
-saleItemsContainer.appendChild(row);
 
-});
+                if (!product) {
 
-itemCountLabel.textContent=
-`${saleItems.length} ${saleItems.length===1?"item":"items"}`;
+                    info.textContent =
+                        "Select a product";
 
-saleItemsContainer
-.querySelectorAll(".quantity-input")
-.forEach(input=>{
+                    info.className =
+                        "stock-info";
 
-input.addEventListener("input",event=>{
+                    lineTotal.textContent =
+                        "₦0.00";
 
-const index=Number(event.target.dataset.index);
+                    return;
+                }
 
-let quantity=Number(event.target.value);
 
-const product=products.find(
-p=>p.id===saleItems[index].productId
-);
+                const stock =
+                    getProductStock(product);
 
-if(!Number.isFinite(quantity)||quantity<1){
-quantity=1;
-}
+                const price =
+                    getProductPrice(product);
 
-if(product){
+                const quantity =
+                    Number(item.quantity) || 1;
 
-const stock=getProductStock(product);
+                const total =
+                    price * quantity;
 
-if(quantity>stock){
-quantity=stock;
-event.target.value=stock;
-}
 
-}
+                lineTotal.textContent =
+                    formatMoney(total);
 
-saleItems[index].quantity=Math.floor(quantity);
 
-updateSaleSummary();
+                if (stock <= 0) {
 
-});
+                    info.textContent =
+                        "Out of stock";
 
-});
+                    info.className =
+                        "stock-info danger";
 
-saleItemsContainer
-.querySelectorAll(".remove-item")
-.forEach(button=>{
+                } else if (
+                    quantity > stock
+                ) {
 
-button.addEventListener("click",event=>{
+                    info.textContent =
+                        `Only ${stock} available`;
 
-const index=Number(event.target.dataset.index);
+                    info.className =
+                        "stock-info danger";
 
-saleItems.splice(index,1);
+                } else if (
+                    stock <= getLowStockLevel(product)
+                ) {
 
-renderSaleItems();
-updateSaleSummary();
+                    info.textContent =
+                        `Stock available: ${stock} (Low stock)`;
 
-});
+                    info.className =
+                        "stock-info warning";
 
-});
+                } else {
 
-}
+                    info.textContent =
+                        `Stock available: ${stock}`;
 
-document.addEventListener("click",event=>{
+                    info.className =
+                        "stock-info";
 
-if(!event.target.closest(".product-picker")){
-closeAllProductResults();
-}
+                }
 
-});
+            });
 
-function getCurrentSaleData(){
 
-const items=[];
+            updateSaleSummary();
 
-let subtotalValue=0;
-let costTotalValue=0;
-let grossProfitValue=0;
-let quantityTotal=0;
+        }
 
-saleItems.forEach(saleItem=>{
 
-if(!saleItem.productId)return;
+        /* =========================
+           ADD ITEM
+        ========================= */
 
-const product=products.find(
-p=>p.id===saleItem.productId
-);
+        addItemButton.addEventListener(
+            "click",
+            () => {
 
-if(!product)return;
+                saleItems.push({
+                    productId: "",
+                    quantity: 1
+                });
 
-const quantity=Math.max(
-1,
-Math.floor(Number(saleItem.quantity)||1)
-);
+                renderSaleItems();
 
-const unitPrice=getProductPrice(product);
-const costPrice=getProductCostPrice(product);
+                const selects =
+                    document.querySelectorAll(
+                        ".product-select"
+                    );
 
-const total=unitPrice*quantity;
+                const lastSelect =
+                    selects[selects.length - 1];
 
-const costTotal=
-costPrice===null?0:costPrice*quantity;
+                if (lastSelect) {
+                    lastSelect.focus();
+                }
 
-const profit=total-costTotal;
+            }
+        );
 
-items.push({
-productId:product.id,
-productName:getProductName(product),
-quantity,
-unitPrice,
-costPrice,
-total,
-costTotal,
-profit
-});
 
-subtotalValue+=total;
-costTotalValue+=costTotal;
-grossProfitValue+=profit;
-quantityTotal+=quantity;
+        /* =========================
+           SALE SUMMARY
+        ========================= */
 
-});
+        function getCurrentSaleData() {
 
-return{
-items,
-subtotal:subtotalValue,
-total:subtotalValue,
-costTotal:costTotalValue,
-grossProfit:grossProfitValue,
-quantityTotal
-};
+            const items = [];
 
-}
+            let subtotalValue = 0;
 
-function getPaymentValues(total){
+            let quantityTotal = 0;
 
-if(paymentMethod.value!=="Credit"){
 
-return{
-amountPaid:total,
-outstandingBalance:0,
-paymentStatus:"Paid"
-};
+            saleItems.forEach((item) => {
 
-}
+                const product =
+                    products.find(
+                        (p) =>
+                            p.id === item.productId
+                    );
 
-let amountPaid=Number(amountPaidInput.value);
+                if (!product) {
+                    return;
+                }
 
-if(!Number.isFinite(amountPaid)||amountPaid<0){
-amountPaid=0;
-}
+                const quantity =
+                    Number(item.quantity) || 0;
 
-if(amountPaid>total)amountPaid=total;
+                const unitPrice =
+                    getProductPrice(product);
 
-const outstanding=Math.max(0,total-amountPaid);
+                const total =
+                    quantity * unitPrice;
 
-let status="Credit";
 
-if(outstanding===0){
-status="Paid";
-}else if(amountPaid>0){
-status="Partially Paid";
-}
+                items.push({
+                    productId: product.id,
+                    productName:
+                        getProductName(product),
+                    quantity,
+                    unitPrice,
+                    total
+                });
 
-return{
-amountPaid,
-outstandingBalance:outstanding,
-paymentStatus:status
-};
 
-}
+                subtotalValue += total;
 
-function updateCustomerBalanceInfo(){
+                quantityTotal += quantity;
 
-const customer=getSelectedCustomer();
+            });
 
-if(!customer.id){
 
-customerBalanceInfo.classList.remove("show");
-customerBalanceInfo.textContent="";
+            return {
+                items,
+                subtotal: subtotalValue,
+                total: subtotalValue,
+                quantityTotal
+            };
 
-return;
-}
+        }
 
-customerBalanceInfo.classList.add("show");
 
-customerBalanceInfo.textContent=
-`Current outstanding balance: ${formatMoney(customer.outstanding)}`;
-}
+        function updateSaleSummary() {
 
-function updateCreditUI(){
+            const data =
+                getCurrentSaleData();
 
-const isCredit=paymentMethod.value==="Credit";
 
-creditBox.classList.toggle("show",isCredit);
+            totalItems.textContent =
+                data.quantityTotal;
 
-const data=getCurrentSaleData();
-const payment=getPaymentValues(data.total);
+            subtotal.textContent =
+                formatMoney(data.subtotal);
 
-outstandingDisplay.textContent=
-formatMoney(payment.outstandingBalance);
+            grandTotal.textContent =
+                formatMoney(data.total);
 
-paidSummary.textContent=
-formatMoney(payment.amountPaid);
 
-outstandingSummary.textContent=
-formatMoney(payment.outstandingBalance);
+            updateReceiptPreview();
 
-paymentStatusSummary.textContent=
-payment.paymentStatus;
 
-paidSummaryRow.style.display=isCredit?"flex":"none";
-outstandingSummaryRow.style.display=isCredit?"flex":"none";
-paymentStatusSummaryRow.style.display=isCredit?"flex":"none";
+            const valid =
+                validateSale(false);
 
-if(isCredit&&!customerInput.value){
+            recordSaleButton.disabled =
+                !valid ||
+                savingSale;
 
-creditWarning.textContent=
-"A registered customer is required for a credit sale.";
+        }
 
-creditWarning.classList.add("show");
 
-}else{
+        /* =========================
+           RECEIPT PREVIEW
+        ========================= */
 
-creditWarning.classList.remove("show");
+        function updateReceiptPreview() {
 
-}
+            const data =
+                getCurrentSaleData();
 
-}
 
-function updateSaleSummary(){
+            if (!data.items.length) {
 
-const data=getCurrentSaleData();
+                emptyReceipt.style.display =
+                    "block";
 
-totalItems.textContent=data.quantityTotal;
-subtotal.textContent=formatMoney(data.subtotal);
-grossProfit.textContent=formatMoney(data.grossProfit);
-grandTotal.textContent=formatMoney(data.total);
+                receiptContent.style.display =
+                    "none";
 
-updateCreditUI();
-updateReceiptPreview(data);
-}
+                printButton.style.display =
+                    "none";
 
-function updateReceiptPreview(saleData){
+                return;
+            }
 
-const customer=getSelectedCustomer();
-const payment=getPaymentValues(saleData.total);
-const isCredit=paymentMethod.value==="Credit";
 
-receiptStaffId.textContent=getCurrentStaffId();
+            emptyReceipt.style.display =
+                "none";
 
-receiptCustomer.textContent=customer.name;
-receiptPayment.textContent=paymentMethod.value||"Cash";
+            receiptContent.style.display =
+                "block";
 
-receiptItemCount.textContent=saleData.quantityTotal;
-receiptSubtotal.textContent=formatMoney(saleData.subtotal);
-receiptTotal.textContent=formatMoney(saleData.total);
 
-receiptPaid.textContent=formatMoney(payment.amountPaid);
-receiptOutstanding.textContent=
-formatMoney(payment.outstandingBalance);
+            const now =
+                new Date();
 
-receiptPaymentStatus.textContent=
-payment.paymentStatus;
 
-receiptCredit.classList.toggle("show",isCredit);
+            receiptDate.textContent =
+                now.toLocaleString(
+                    "en-NG",
+                    {
+                        dateStyle: "medium",
+                        timeStyle: "short"
+                    }
+                );
 
-if(isCredit){
 
-receiptPaymentMethodRow.style.display="flex";
-receiptCreditPaymentMethod.textContent=
-creditPaymentMethod.value;
+            receiptCustomer.textContent =
+                customerInput.value.trim() ||
+                "Walk-in Customer";
 
-}else{
 
-receiptPaymentMethodRow.style.display="none";
+            receiptPayment.textContent =
+                paymentMethod.value;
 
-}
 
-const now=new Date();
+            receiptSaleNumber.textContent =
+                lastSale?.saleNumber ||
+                "Pending";
 
-receiptDate.textContent=
-now.toLocaleString("en-NG",{
-dateStyle:"medium",
-timeStyle:"short"
-});
 
-receiptSaleNumber.textContent=
-lastSale?.saleNumber||"Pending";
+            receiptItems.innerHTML =
+                data.items.map((item) => {
 
-if(saleData.items.length===0){
+                    return `
+                        <tr>
 
-receiptItems.innerHTML=
-`<div style="text-align:center;color:#888;font-size:10px">
-No products added.
-</div>`;
+                            <td>
+                                <div class="receipt-product">
+                                    ${escapeHTML(
+                                        item.productName
+                                    )}
+                                </div>
 
-return;
-}
+                                <div class="receipt-qty">
+                                    ${formatMoney(
+                                        item.unitPrice
+                                    )} each
+                                </div>
+                            </td>
 
-receiptItems.innerHTML=
-saleData.items.map(item=>`
+                            <td>
+                                ${item.quantity}
+                            </td>
 
-<div class="receipt-item">
+                            <td>
+                                ${formatMoney(
+                                    item.total
+                                )}
+                            </td>
 
-<div class="receipt-item-name">
+                        </tr>
+                    `;
 
-<strong>${escapeHtml(item.productName)}</strong>
+                }).join("");
 
-<small>
-${item.quantity} × ${formatMoney(item.unitPrice)}
-</small>
 
-</div>
+            receiptItemCount.textContent =
+                data.quantityTotal;
 
-<strong>${formatMoney(item.total)}</strong>
+            receiptGrandTotal.textContent =
+                formatMoney(data.total);
 
-</div>
 
-`).join("");
+            if (lastSale) {
 
-}
+                printButton.style.display =
+                    "block";
 
-function escapeHtml(value){
+            } else {
 
-return String(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-}
+                printButton.style.display =
+                    "none";
 
-function generateSaleNumber(){
+            }
 
-const now=new Date();
+        }
 
-return `NM-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,"0")}${String(now.getDate()).padStart(2,"0")}-${String(now.getHours()).padStart(2,"0")}${String(now.getMinutes()).padStart(2,"0")}${String(now.getSeconds()).padStart(2,"0")}`;
 
-}
+        customerInput.addEventListener(
+            "input",
+            updateSaleSummary
+        );
 
-function validateSale(){
+        paymentMethod.addEventListener(
+            "change",
+            updateSaleSummary
+        );
 
-if(saleItems.length===0){
-return"Please add at least one product.";
-}
+        notesInput.addEventListener(
+            "input",
+            updateSaleSummary
+        );
 
-const selectedProductIds=new Set();
 
-for(let index=0;index<saleItems.length;index++){
+        /* =========================
+           VALIDATE SALE
+        ========================= */
 
-const item=saleItems[index];
+        function validateSale(showErrors = true) {
 
-if(!item.productId){
-return`Please select a product for item ${index+1}.`;
-}
+            if (!products.length) {
 
-if(selectedProductIds.has(item.productId)){
-return"The same product cannot be added twice. Increase its quantity instead.";
-}
+                if (showErrors) {
+                    showMessage(
+                        "There are no products in your inventory.",
+                        "error"
+                    );
+                }
 
-selectedProductIds.add(item.productId);
+                return false;
+            }
 
-const product=products.find(
-p=>p.id===item.productId
-);
 
-if(!product){
-return"One of the selected products could not be found.";
-}
+            if (!saleItems.length) {
 
-const quantity=Number(item.quantity);
+                if (showErrors) {
+                    showMessage(
+                        "Please add at least one product.",
+                        "error"
+                    );
+                }
 
-if(!Number.isInteger(quantity)||quantity<1){
-return`Quantity for ${getProductName(product)} must be at least 1.`;
-}
+                return false;
+            }
 
-if(quantity>getProductStock(product)){
-return`${getProductName(product)} has only ${getProductStock(product)} item(s) in stock.`;
-}
 
-if(getProductPrice(product)<0){
-return`${getProductName(product)} does not have a valid selling price.`;
-}
+            const selectedIds =
+                new Set();
 
-if(getProductCostPrice(product)===null){
-return`${getProductName(product)} does not have a valid cost price in Inventory. Please edit the product and enter its Cost Price before recording this sale.`;
-}
 
-}
+            for (
+                let index = 0;
+                index < saleItems.length;
+                index++
+            ) {
 
-const data=getCurrentSaleData();
+                const item =
+                    saleItems[index];
 
-if(paymentMethod.value==="Credit"){
 
-if(!customerInput.value){
-return"A registered customer must be selected for a credit sale. Walk-in customers cannot have an outstanding balance.";
-}
+                if (!item.productId) {
 
-const amountPaid=Number(amountPaidInput.value);
+                    if (showErrors) {
+                        showMessage(
+                            `Please select Product ${index + 1}.`,
+                            "error"
+                        );
+                    }
 
-if(!Number.isFinite(amountPaid)||amountPaid<0){
-return"Please enter a valid amount paid.";
-}
+                    return false;
+                }
 
-if(amountPaid>data.total){
-return"Amount paid cannot be greater than the sale total.";
-}
 
-}
+                if (
+                    selectedIds.has(
+                        item.productId
+                    )
+                ) {
 
-return"";
-}
+                    if (showErrors) {
+                        showMessage(
+                            "The same product cannot be added twice. Increase its quantity instead.",
+                            "error"
+                        );
+                    }
 
-async function recordSale(){
+                    return false;
+                }
 
-if(savingSale)return;
 
-clearMessage();
+                selectedIds.add(
+                    item.productId
+                );
 
-const validationError=validateSale();
 
-if(validationError){
-showMessage(validationError,"error");
-return;
-}
+                const product =
+                    products.find(
+                        (p) =>
+                            p.id ===
+                            item.productId
+                    );
 
-if(!currentUser){
-showMessage("You are not logged in.","error");
-return;
-}
 
-const currentStaffId=getCurrentStaffId();
-const saleData=getCurrentSaleData();
-const selectedCustomer=getSelectedCustomer();
+                if (!product) {
 
-const saleRef=doc(collection(db,"sales"));
+                    if (showErrors) {
+                        showMessage(
+                            "One of the selected products no longer exists.",
+                            "error"
+                        );
+                    }
 
-const customerRef=selectedCustomer.id
-?doc(db,"customers",selectedCustomer.id)
-:null;
+                    return false;
+                }
 
-savingSale=true;
 
-recordSaleBtn.disabled=true;
-recordSaleBtn.textContent="Recording Sale...";
+                const quantity =
+                    Number(item.quantity);
 
-let savedSaleData=null;
 
-try{
+                if (
+                    !Number.isInteger(quantity) ||
+                    quantity < 1
+                ) {
 
-await runTransaction(
-db,
-async transaction=>{
+                    if (showErrors) {
+                        showMessage(
+                            "Quantity must be a whole number greater than zero.",
+                            "error"
+                        );
+                    }
 
-let customerSnapshot=null;
+                    return false;
+                }
 
-if(customerRef){
 
-customerSnapshot=await transaction.get(customerRef);
+                const stock =
+                    getProductStock(product);
 
-if(!customerSnapshot.exists()){
-throw new Error("The selected customer no longer exists.");
-}
 
-}
+                if (stock <= 0) {
 
-const productSnapshots=[];
+                    if (showErrors) {
+                        showMessage(
+                            `${getProductName(product)} is out of stock.`,
+                            "error"
+                        );
+                    }
 
-for(const item of saleData.items){
+                    return false;
+                }
 
-const productRef=doc(db,"products",item.productId);
 
-const snapshot=await transaction.get(productRef);
+                if (quantity > stock) {
 
-productSnapshots.push({
-item,
-productRef,
-snapshot
-});
+                    if (showErrors) {
+                        showMessage(
+                            `Not enough stock for ${getProductName(product)}. Available: ${stock}.`,
+                            "error"
+                        );
+                    }
 
-}
+                    return false;
+                }
 
-let transactionSubtotal=0;
-let transactionCostTotal=0;
-let transactionQuantityTotal=0;
 
-const transactionItems=[];
+                const price =
+                    getProductPrice(product);
 
-for(const entry of productSnapshots){
 
-const{
-item,
-productRef,
-snapshot
-}=entry;
+                if (
+                    !Number.isFinite(price) ||
+                    price < 0
+                ) {
 
-if(!snapshot.exists()){
-throw new Error(`Product ${item.productName} no longer exists.`);
-}
+                    if (showErrors) {
+                        showMessage(
+                            `${getProductName(product)} has an invalid selling price.`,
+                            "error"
+                        );
+                    }
 
-const product=snapshot.data();
+                    return false;
+                }
 
-const productName=getProductName(product);
-const currentStock=getProductStock(product);
-const quantity=Number(item.quantity);
+            }
 
-if(quantity>currentStock){
-throw new Error(`${productName} now has only ${currentStock} item(s) in stock.`);
-}
 
-const currentUnitPrice=getProductPrice(product);
-const currentCostPrice=getProductCostPrice(product);
+            return true;
 
-if(currentCostPrice===null){
-throw new Error(`${productName} does not have a valid cost price.`);
-}
+        }
 
-const lineTotal=currentUnitPrice*quantity;
-const lineCostTotal=currentCostPrice*quantity;
-const lineProfit=lineTotal-lineCostTotal;
 
-transactionItems.push({
-productId:snapshot.id,
-productName,
-quantity,
-unitPrice:currentUnitPrice,
-costPrice:currentCostPrice,
-total:lineTotal,
-costTotal:lineCostTotal,
-profit:lineProfit
-});
+        /* =========================
+           RECORD SALE
+        ========================= */
 
-transactionSubtotal+=lineTotal;
-transactionCostTotal+=lineCostTotal;
-transactionQuantityTotal+=quantity;
+        recordSaleButton.addEventListener(
+            "click",
+            async () => {
 
-const newStock=currentStock-quantity;
+                if (savingSale) {
+                    return;
+                }
 
-transaction.update(
-productRef,
-{
-quantity:newStock,
-stock:newStock,
-status:getProductStatus(newStock,product),
-updatedAt:serverTimestamp(),
-updatedBy:currentUser.uid
-}
-);
 
-}
+                clearMessage();
 
-const finalTotal=transactionSubtotal;
-const transactionGrossProfit=
-finalTotal-transactionCostTotal;
 
-let finalAmountPaid=finalTotal;
-let finalOutstanding=0;
-let paymentStatus="Paid";
-let creditSale=false;
+                if (!validateSale(true)) {
+                    return;
+                }
 
-if(paymentMethod.value==="Credit"){
 
-creditSale=true;
+                if (!currentUser) {
 
-finalAmountPaid=
-Number(amountPaidInput.value)||0;
+                    showMessage(
+                        "Your login session has expired. Please log in again.",
+                        "error"
+                    );
 
-if(finalAmountPaid>finalTotal){
-throw new Error("Amount paid cannot be greater than the sale total.");
-}
+                    return;
+                }
 
-finalOutstanding=
-Math.max(0,finalTotal-finalAmountPaid);
 
-if(finalOutstanding===0){
-paymentStatus="Paid";
-}else if(finalAmountPaid>0){
-paymentStatus="Partially Paid";
-}else{
-paymentStatus="Credit";
-}
+                const saleData =
+                    getCurrentSaleData();
 
-}
 
-let previousOutstanding=0;
-let newCustomerOutstanding=0;
+                if (!saleData.items.length) {
 
-if(customerRef){
+                    showMessage(
+                        "Please select at least one product.",
+                        "error"
+                    );
 
-const customerData=customerSnapshot.data();
+                    return;
+                }
 
-previousOutstanding=
-Number(customerData.outstandingBalance)||0;
 
-newCustomerOutstanding=
-previousOutstanding+finalOutstanding;
+                savingSale = true;
 
-transaction.update(
-customerRef,
-{
-outstandingBalance:newCustomerOutstanding,
-updatedAt:serverTimestamp(),
-updatedBy:currentUser.uid
-}
-);
+                recordSaleButton.disabled =
+                    true;
 
-}
+                recordSaleButton.textContent =
+                    "Recording Sale...";
 
-const paymentRecord=finalAmountPaid>0
-?[{
-amount:finalAmountPaid,
-method:
-paymentMethod.value==="Credit"
-?creditPaymentMethod.value
-:paymentMethod.value,
-createdAt:new Date().toISOString(),
-createdBy:currentUser.uid,
-createdByEmail:currentUser.email||""
-}]
-:[];
 
-savedSaleData={
+                try {
 
-saleNumber:generateSaleNumber(),
+                    const saleRef =
+                        doc(
+                            collection(
+                                db,
+                                "sales"
+                            )
+                        );
 
-customer:selectedCustomer.name,
-customerId:selectedCustomer.id,
-customerPhone:selectedCustomer.phone,
-customerEmail:selectedCustomer.email,
 
-paymentMethod:paymentMethod.value,
+                    const saleNumber =
+                        generateSaleNumber();
 
-creditSale,
 
-creditPaymentMethod:
-paymentMethod.value==="Credit"
-?creditPaymentMethod.value
-:"",
+                    const saleToSave = {
 
-paymentStatus,
+                        saleNumber,
 
-amountPaid:finalAmountPaid,
+                        customer:
+                            customerInput.value.trim() ||
+                            "Walk-in Customer",
 
-outstandingAmount:finalOutstanding,
-outstandingBalance:finalOutstanding,
+                        paymentMethod:
+                            paymentMethod.value,
 
-previousCustomerOutstanding:previousOutstanding,
-newCustomerOutstanding,
+                        notes:
+                            notesInput.value.trim(),
 
-payments:paymentRecord,
+                        items:
+                            saleData.items,
 
-notes:notesInput.value.trim(),
+                        subtotal:
+                            saleData.subtotal,
 
-items:transactionItems,
+                        total:
+                            saleData.total,
 
-subtotal:transactionSubtotal,
-total:finalTotal,
-costTotal:transactionCostTotal,
-grossProfit:transactionGrossProfit,
-totalQuantity:transactionQuantityTotal,
+                        totalQuantity:
+                            saleData.quantityTotal,
 
-staffId:currentStaffId,
-staffName:getStoredStaffName(),
-staffUid:currentUser.uid,
+                        createdBy:
+                            currentUser.uid,
 
-createdBy:currentUser.uid,
-createdByEmail:currentUser.email||"",
+                        createdByEmail:
+                            currentUser.email ||
+                            "",
 
-createdAt:serverTimestamp()
+                        createdAt:
+                            serverTimestamp()
 
-};
+                    };
 
-transaction.set(saleRef,savedSaleData);
 
-}
-);
+                    await runTransaction(
+                        db,
+                        async (transaction) => {
 
-lastSale={
-id:saleRef.id,
-...savedSaleData
-};
+                            /*
+                             * IMPORTANT:
+                             * All product reads happen
+                             * before any writes.
+                             */
 
-receiptSaleNumber.textContent=lastSale.saleNumber;
-receiptStaffId.textContent=currentStaffId;
+                            const productRefs =
+                                saleData.items.map(
+                                    (item) =>
+                                        doc(
+                                            db,
+                                            "products",
+                                            item.productId
+                                        )
+                                );
 
-updateSaleSummary();
 
-if(lastSale.creditSale){
+                            const snapshots = [];
 
-showMessage(
-`Credit sale ${lastSale.saleNumber} recorded successfully. ${formatMoney(lastSale.outstandingAmount)} was added to ${lastSale.customer}'s outstanding balance and inventory was updated.`,
-"success"
-);
 
-}else{
+                            for (
+                                const productRef
+                                of productRefs
+                            ) {
 
-showMessage(
-`Sale ${lastSale.saleNumber} recorded successfully. Inventory has been updated and gross profit has been saved.`,
-"success"
-);
+                                const snapshot =
+                                    await transaction.get(
+                                        productRef
+                                    );
 
-}
+                                snapshots.push(
+                                    snapshot
+                                );
 
-}catch(error){
+                            }
 
-console.error("Record sale error:",error);
 
-showMessage(
-error.message||
-"Unable to record sale. Please try again.",
-"error"
-);
+                            const updates = [];
 
-}finally{
 
-savingSale=false;
-recordSaleBtn.disabled=false;
-recordSaleBtn.textContent="Record Sale";
+                            for (
+                                let i = 0;
+                                i < snapshots.length;
+                                i++
+                            ) {
 
-}
+                                const snapshot =
+                                    snapshots[i];
 
-}
+                                const saleItem =
+                                    saleData.items[i];
 
-function getStoredStaffName(){
 
-try{
+                                if (
+                                    !snapshot.exists()
+                                ) {
 
-const savedStaff=localStorage.getItem("nesiStaff");
+                                    throw new Error(
+                                        `${saleItem.productName} no longer exists in inventory.`
+                                    );
 
-if(savedStaff){
+                                }
 
-const staff=JSON.parse(savedStaff);
 
-if(staff?.name){
-return staff.name;
-}
+                                const product =
+                                    snapshot.data();
 
-}
 
-}catch(error){
-console.error("Unable to read staff name:",error);
-}
+                                const currentStock =
+                                    getProductStock(
+                                        product
+                                    );
 
-if(window.nesiStaff?.name){
-return window.nesiStaff.name;
-}
 
-return"Administrator";
-}
+                                if (
+                                    saleItem.quantity >
+                                    currentStock
+                                ) {
 
-function isToday(timestamp){
+                                    throw new Error(
+                                        `Not enough stock for ${saleItem.productName}. Available stock: ${currentStock}.`
+                                    );
 
-if(!timestamp)return false;
+                                }
 
-let date;
 
-if(typeof timestamp.toDate==="function"){
-date=timestamp.toDate();
-}else if(timestamp instanceof Date){
-date=timestamp;
-}else{
-return false;
-}
+                                const newStock =
+                                    currentStock -
+                                    saleItem.quantity;
 
-const now=new Date();
 
-return(
-date.getFullYear()===now.getFullYear()&&
-date.getMonth()===now.getMonth()&&
-date.getDate()===now.getDate()
-);
+                                const lowStockLevel =
+                                    getLowStockLevel(
+                                        product
+                                    );
 
-}
 
-function loadSales(){
+                                let status =
+                                    "In Stock";
 
-if(salesUnsubscribe)salesUnsubscribe();
 
-salesUnsubscribe=onSnapshot(
-collection(db,"sales"),
-snapshot=>{
+                                if (
+                                    newStock <= 0
+                                ) {
 
-let todayTotal=0;
-let transactionCount=0;
-let latestSale=null;
+                                    status =
+                                        "Out of Stock";
 
-snapshot.forEach(saleDoc=>{
+                                } else if (
+                                    newStock <=
+                                    lowStockLevel
+                                ) {
 
-const sale=saleDoc.data();
+                                    status =
+                                        "Low Stock";
 
-if(isToday(sale.createdAt)){
+                                }
 
-todayTotal+=Number(sale.total)||0;
-transactionCount++;
 
-}
+                                updates.push({
+                                    ref:
+                                        productRefs[i],
+                                    newStock,
+                                    status
+                                });
 
-let saleDate=null;
+                            }
 
-if(
-sale.createdAt&&
-typeof sale.createdAt.toDate==="function"
-){
 
-saleDate=sale.createdAt.toDate();
+                            /*
+                             * Save complete sale.
+                             */
 
-}
+                            transaction.set(
+                                saleRef,
+                                saleToSave
+                            );
 
-if(
-saleDate&&
-(!latestSale||saleDate>latestSale.date)
-){
 
-latestSale={
-date:saleDate,
-sale
-};
+                            /*
+                             * Reduce inventory.
+                             */
 
-}
+                            updates.forEach(
+                                (update) => {
 
-});
+                                    transaction.update(
+                                        update.ref,
+                                        {
 
-todaySales.textContent=formatMoney(todayTotal);
-todayTransactions.textContent=transactionCount;
+                                            quantity:
+                                                update.newStock,
 
-lastSaleNumber.textContent=
-latestSale
-?latestSale.sale.saleNumber||"—"
-:"—";
+                                            stock:
+                                                update.newStock,
 
-},
-error=>console.error("Sales loading error:",error)
-);
+                                            status:
+                                                update.status,
 
-}
+                                            updatedAt:
+                                                serverTimestamp(),
 
-function clearSale(){
+                                            updatedBy:
+                                                currentUser.uid
 
-saleItems=[];
-lastSale=null;
+                                        }
+                                    );
 
-customerInput.value="";
-paymentMethod.value="Cash";
-amountPaidInput.value="0";
-creditPaymentMethod.value="Cash";
-notesInput.value="";
+                                }
+                            );
 
-receiptSaleNumber.textContent="Pending";
-receiptStaffId.textContent=getCurrentStaffId();
+                        }
+                    );
 
-clearMessage();
 
-updateCustomerBalanceInfo();
-renderSaleItems();
-updateSaleSummary();
+                    /*
+                     * Successful sale.
+                     */
 
-}
+                    lastSale = {
 
-function startNewSale(){
+                        id:
+                            saleRef.id,
 
-clearSale();
+                        saleNumber,
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+                        ...saleToSave
 
-}
+                    };
 
-function printReceipt(){
 
-const data=getCurrentSaleData();
+                    showMessage(
+                        `Sale ${saleNumber} recorded successfully. Inventory has been updated.`,
+                        "success"
+                    );
 
-if(data.items.length===0){
 
-showMessage(
-"Please add at least one product before printing a receipt.",
-"error"
-);
+                    updateReceiptPreview();
 
-return;
 
-}
+                    printButton.style.display =
+                        "block";
 
-window.print();
 
-}
+                    /*
+                     * Refresh product data so
+                     * stock displayed on the
+                     * page is current.
+                     */
 
-function openMenu(){
+                    renderSaleItems();
 
-sidebar.classList.add("open");
-sidebarOverlay.classList.add("show");
+                    updateSaleSummary();
 
-}
 
-function closeMenu(){
+                } catch (error) {
 
-sidebar.classList.remove("open");
-sidebarOverlay.classList.remove("show");
+                    console.error(
+                        "Sale recording error:",
+                        error
+                    );
 
-}
 
-async function logout(){
+                    showMessage(
+                        error.message ||
+                        "Unable to record sale. Please try again.",
+                        "error"
+                    );
 
-try{
+                } finally {
 
-await signOut(auth);
+                    savingSale = false;
 
-window.location.href="login.html";
+                    recordSaleButton.textContent =
+                        "Record Sale";
 
-}catch(error){
 
-console.error(error);
+                    updateSaleSummary();
 
-showMessage(
-"Unable to log out.",
-"error"
-);
+                }
 
-}
+            }
+        );
 
-}
 
-function openScanner(){
+        /* =========================
+           SALE NUMBER
+        ========================= */
 
-scannerModal.classList.add("show");
+        function generateSaleNumber() {
 
-scannerSuccess.classList.remove("show");
-scannerSuccess.textContent="";
+            const now =
+                new Date();
 
-registerBarcodeBox.classList.remove("show");
+            const year =
+                now.getFullYear();
 
-pendingBarcode="";
+            const month =
+                String(
+                    now.getMonth() + 1
+                ).padStart(2, "0");
 
-scannerStatus.textContent=
-"Point your camera at the product barcode.";
+            const day =
+                String(
+                    now.getDate()
+                ).padStart(2, "0");
 
-setTimeout(()=>startBarcodeScanner(),200);
+            const time =
+                String(
+                    Date.now()
+                ).slice(-6);
 
-}
 
-function closeScanner(){
+            return `NM-${year}${month}${day}-${time}`;
 
-stopBarcodeScanner();
+        }
 
-scannerModal.classList.remove("show");
 
-registerBarcodeBox.classList.remove("show");
+        /* =========================
+           LOAD SALES SUMMARY
+        ========================= */
 
-scannerSuccess.classList.remove("show");
+        function loadSales() {
 
-pendingBarcode="";
+            if (salesUnsubscribe) {
+                salesUnsubscribe();
+            }
 
-}
 
-async function startBarcodeScanner(){
+            salesUnsubscribe =
+                onSnapshot(
+                    collection(db, "sales"),
+                    (snapshot) => {
 
-if(scannerRunning)return;
+                        const sales =
+                            snapshot.docs.map(
+                                (document) => {
 
-try{
+                                    return {
+                                        id:
+                                            document.id,
+                                        ...document.data()
+                                    };
 
-scannerStatus.textContent=
-"Requesting camera permission...";
+                                }
+                            );
 
-if(!navigator.mediaDevices){
-throw new Error("Camera access is not supported by this browser.");
-}
 
-if(!scannerReader){
-scannerReader=new BrowserMultiFormatReader();
-}
+                        transactionCount.textContent =
+                            sales.length;
 
-scannerRunning=true;
 
-scannerStatus.textContent=
-"Camera active. Point it at a barcode.";
+                        let todayTotal = 0;
 
-scannerControls=
-await scannerReader.decodeFromVideoDevice(
-undefined,
-barcodeVideo,
-(result,error)=>{
+                        let newestSale = null;
 
-if(!scannerRunning)return;
 
-if(result){
+                        const now =
+                            new Date();
 
-const code=result.getText();
+                        const startOfToday =
+                            new Date(
+                                now.getFullYear(),
+                                now.getMonth(),
+                                now.getDate()
+                            );
 
-handleScannedBarcode(code);
+                        const startOfTomorrow =
+                            new Date(
+                                now.getFullYear(),
+                                now.getMonth(),
+                                now.getDate() + 1
+                            );
 
-}
 
-}
-);
+                        sales.forEach((sale) => {
 
-}catch(error){
+                            const total =
+                                Number(
+                                    sale.total
+                                ) || 0;
 
-console.error("Barcode scanner error:",error);
 
-scannerRunning=false;
+                            let saleDate =
+                                null;
 
-scannerStatus.textContent=
-"Camera could not start. Allow camera permission or use Manual Barcode below.";
 
-}
+                            if (
+                                sale.createdAt &&
+                                typeof sale.createdAt.toDate ===
+                                    "function"
+                            ) {
 
-}
+                                saleDate =
+                                    sale.createdAt.toDate();
 
-function stopBarcodeScanner(){
+                            }
 
-scannerRunning=false;
 
-try{
+                            if (
+                                saleDate &&
+                                saleDate >=
+                                    startOfToday &&
+                                saleDate <
+                                    startOfTomorrow
+                            ) {
 
-if(scannerControls){
+                                todayTotal +=
+                                    total;
 
-scannerControls.stop();
-scannerControls=null;
+                            }
 
-}
 
-}catch(error){
+                            if (
+                                saleDate &&
+                                (
+                                    !newestSale ||
+                                    saleDate >
+                                        newestSale.date
+                                )
+                            ) {
 
-console.error("Scanner stop error:",error);
+                                newestSale = {
 
-}
+                                    date:
+                                        saleDate,
 
-try{
+                                    total
 
-const stream=barcodeVideo.srcObject;
+                                };
 
-if(stream){
+                            }
 
-stream.getTracks().forEach(track=>{
-try{
-track.stop();
-}catch(e){}
-});
+                        });
 
-}
 
-barcodeVideo.srcObject=null;
+                        todaySales.textContent =
+                            formatMoney(
+                                todayTotal
+                            );
 
-}catch(error){
 
-console.error("Camera cleanup error:",error);
+                        if (newestSale) {
 
-}
+                            lastTransaction.textContent =
+                                formatMoney(
+                                    newestSale.total
+                                );
 
-}
+                        } else {
 
-function handleScannedBarcode(code){
+                            lastTransaction.textContent =
+                                "₦0.00";
 
-const normalized=normalizeBarcode(code);
+                        }
 
-if(!normalized)return;
+                    },
+                    (error) => {
 
-const now=Date.now();
+                        console.error(
+                            "Sales loading error:",
+                            error
+                        );
 
-if(
-normalized===lastScannedCode&&
-now-lastScanTime<2000
-){
-return;
-}
+                    }
+                );
 
-lastScannedCode=normalized;
-lastScanTime=now;
+        }
 
-scannerStatus.textContent=
-`Barcode detected: ${code}`;
 
-processBarcode(normalized);
+        /* =========================
+           CLEAR / NEW SALE
+        ========================= */
 
-}
+        clearButton.addEventListener(
+            "click",
+            () => {
 
-function processBarcode(code){
+                saleItems = [
+                    {
+                        productId: "",
+                        quantity: 1
+                    }
+                ];
 
-const normalized=normalizeBarcode(code);
+                customerInput.value =
+                    "";
 
-if(!normalized)return;
+                paymentMethod.value =
+                    "Cash";
 
-const product=findProductByBarcode(normalized);
+                notesInput.value =
+                    "";
 
-if(product){
+                lastSale =
+                    null;
 
-const added=addProductToSale(product,false);
+                clearMessage();
 
-if(added){
+                renderSaleItems();
 
-scannerSuccess.textContent=
-`✓ ${getProductName(product)} added to the sale.`;
+                updateSaleSummary();
 
-scannerSuccess.classList.add("show");
+            }
+        );
 
-scannerStatus.textContent=
-"Product found successfully.";
 
-stopBarcodeScanner();
+        /* =========================
+           PRINT
+        ========================= */
 
-setTimeout(()=>{
-closeScanner();
+        printButton.addEventListener(
+            "click",
+            () => {
 
-showMessage(
-`${getProductName(product)} added to the sale.`,
-"success"
-);
+                if (!lastSale) {
 
-},350);
+                    showMessage(
+                        "Please record the sale before printing the receipt.",
+                        "error"
+                    );
 
-}
+                    return;
+                }
 
-return;
 
-}
+                window.print();
 
-pendingBarcode=normalized;
+            }
+        );
 
-unknownBarcodeText.textContent=
-`Barcode ${normalized} is not registered. Select the product it belongs to and save it.`;
 
-populateRegisterProductSelect();
+        /* =========================
+           LOGOUT
+        ========================= */
 
-registerBarcodeBox.classList.add("show");
+        logoutButton.addEventListener(
+            "click",
+            async (event) => {
 
-scannerStatus.textContent=
-"Barcode detected, but no matching product was found.";
+                event.preventDefault();
 
-stopBarcodeScanner();
 
-}
+                try {
 
-function populateRegisterProductSelect(){
+                    await signOut(auth);
 
-registerProductSelect.innerHTML=
-`<option value="">Select product</option>`;
+                    window.location.href =
+                        "login.html";
 
-products.forEach(product=>{
+                } catch (error) {
 
-const option=document.createElement("option");
+                    console.error(
+                        "Logout error:",
+                        error
+                    );
 
-option.value=product.id;
+                    window.location.href =
+                        "login.html";
 
-option.textContent=
-`${getProductName(product)} — Stock: ${getProductStock(product)}`;
+                }
 
-registerProductSelect.appendChild(option);
+            }
+        );
 
-});
 
-}
+        /* =========================
+           MOBILE MENU
+        ========================= */
 
-async function saveBarcodeToProduct(){
+        mobileMenu.addEventListener(
+            "click",
+            () => {
 
-if(!pendingBarcode){
+                sidebar.classList.toggle(
+                    "open"
+                );
 
-showMessage(
-"No barcode is waiting to be saved.",
-"error"
-);
+            }
+        );
 
-return;
 
-}
+        document
+            .querySelectorAll(".nav a")
+            .forEach((link) => {
 
-const productId=registerProductSelect.value;
+                link.addEventListener(
+                    "click",
+                    () => {
 
-if(!productId){
+                        sidebar.classList.remove(
+                            "open"
+                        );
 
-showMessage(
-"Please select a product first.",
-"error"
-);
+                    }
+                );
 
-return;
+            });
 
-}
 
-const product=products.find(
-p=>p.id===productId
-);
+        /* =========================
+           MESSAGES
+        ========================= */
 
-if(!product){
+        function showMessage(
+            message,
+            type
+        ) {
 
-showMessage(
-"Product could not be found.",
-"error"
-);
+            messageBox.textContent =
+                message;
 
-return;
+            messageBox.className =
+                `message ${type}`;
 
-}
+        }
 
-const duplicate=findProductByBarcode(pendingBarcode);
 
-if(
-duplicate&&
-duplicate.id!==productId
-){
+        function clearMessage() {
 
-showMessage(
-`This barcode is already registered to ${getProductName(duplicate)}.`,
-"error"
-);
+            messageBox.textContent =
+                "";
 
-return;
+            messageBox.className =
+                "message";
 
-}
+        }
 
-saveBarcodeBtn.disabled=true;
-saveBarcodeBtn.textContent="Saving...";
 
-try{
+        /* =========================
+           INITIAL RECEIPT
+        ========================= */
 
-await updateDoc(
-doc(db,"products",productId),
-{
-barcode:pendingBarcode,
-updatedAt:serverTimestamp(),
-updatedBy:currentUser?.uid||""
-}
-);
+        updateReceiptPreview();
 
-const savedProduct={
-...product,
-barcode:pendingBarcode
-};
-
-registerBarcodeBox.classList.remove("show");
-
-scannerSuccess.textContent=
-`✓ Barcode saved to ${getProductName(product)}.`;
-
-scannerSuccess.classList.add("show");
-
-pendingBarcode="";
-
-addProductToSale(savedProduct,false);
-
-showMessage(
-`Barcode saved to ${getProductName(product)} and the product was added to the sale.`,
-"success"
-);
-
-setTimeout(()=>closeScanner(),500);
-
-}catch(error){
-
-console.error("Save barcode error:",error);
-
-showMessage(
-"Unable to save barcode. Please try again.",
-"error"
-);
-
-}finally{
-
-saveBarcodeBtn.disabled=false;
-saveBarcodeBtn.textContent="Save Barcode";
-
-}
-
-}
-
-function processManualBarcode(){
-
-const code=normalizeBarcode(scannerManualInput.value);
-
-if(!code){
-
-scannerStatus.textContent=
-"Please enter a barcode.";
-
-return;
-
-}
-
-lastScannedCode=code;
-lastScanTime=Date.now();
-
-processBarcode(code);
-
-scannerManualInput.value="";
-
-}
-
-function processBarcodeInput(){
-
-const code=normalizeBarcode(barcodeInput.value);
-
-if(!code)return;
-
-processBarcode(code);
-
-barcodeInput.value="";
-
-}
-
-scanBarcodeBtn.addEventListener("click",openScanner);
-
-scannerCloseBtn.addEventListener("click",closeScanner);
-
-startScannerBtn.addEventListener(
-"click",
-startBarcodeScanner
-);
-
-stopScannerBtn.addEventListener(
-"click",
-()=>{
-stopBarcodeScanner();
-scannerStatus.textContent="Camera stopped.";
-}
-);
-
-scannerManualBtn.addEventListener(
-"click",
-processManualBarcode
-);
-
-scannerManualInput.addEventListener(
-"keydown",
-event=>{
-if(event.key==="Enter"){
-event.preventDefault();
-processManualBarcode();
-}
-}
-);
-
-barcodeAddBtn.addEventListener(
-"click",
-processBarcodeInput
-);
-
-barcodeInput.addEventListener(
-"keydown",
-event=>{
-if(event.key==="Enter"){
-event.preventDefault();
-processBarcodeInput();
-}
-}
-);
-
-saveBarcodeBtn.addEventListener(
-"click",
-saveBarcodeToProduct
-);
-
-cancelRegisterBarcodeBtn.addEventListener(
-"click",
-()=>{
-pendingBarcode="";
-registerBarcodeBox.classList.remove("show");
-scannerStatus.textContent=
-"Point your camera at the product barcode.";
-startBarcodeScanner();
-}
-);
-
-scannerModal.addEventListener(
-"click",
-event=>{
-if(event.target===scannerModal){
-closeScanner();
-}
-}
-);
-
-addItemBtn.addEventListener(
-"click",
-addSaleItem
-);
-
-clearSaleBtn.addEventListener(
-"click",
-clearSale
-);
-
-$("newSaleBtn").addEventListener(
-"click",
-startNewSale
-);
-
-$("newSaleRightBtn").addEventListener(
-"click",
-startNewSale
-);
-
-$("recordSaleBtn").addEventListener(
-"click",
-recordSale
-);
-
-$("previewPrintBtn").addEventListener(
-"click",
-printReceipt
-);
-
-customerInput.addEventListener(
-"change",
-()=>{
-updateCustomerBalanceInfo();
-updateSaleSummary();
-}
-);
-
-paymentMethod.addEventListener(
-"change",
-()=>{
-
-if(paymentMethod.value!=="Credit"){
-amountPaidInput.value="0";
-}
-
-updateSaleSummary();
-
-}
-);
-
-creditPaymentMethod.addEventListener(
-"change",
-updateSaleSummary
-);
-
-amountPaidInput.addEventListener(
-"input",
-updateSaleSummary
-);
-
-menuBtn.addEventListener(
-"click",
-openMenu
-);
-
-sidebarOverlay.addEventListener(
-"click",
-closeMenu
-);
-
-logoutBtn.addEventListener(
-"click",
-logout
-);
-
-onAuthStateChanged(
-auth,
-user=>{
-
-if(!user){
-
-window.location.href="login.html";
-
-return;
-
-}
-
-currentUser=user;
-
-const displayName=
-user.displayName||
-user.email?.split("@")[0]||
-"User";
-
-userName.textContent=displayName;
-userEmail.textContent=user.email||"";
-
-userAvatar.textContent=
-displayName.charAt(0).toUpperCase();
-
-receiptStaffId.textContent=
-getCurrentStaffId();
-
-loadProducts();
-loadSales();
-loadCustomers();
-
-}
-);
-
-renderSaleItems();
-updateSaleSummary();
-
-</script>
-
-<script type="module" src="./js/permission.js"></script>
+    </script>
 
 </body>
-  </html>
+</html>
