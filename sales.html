@@ -1,6 +1,3 @@
-Nesi Medicals Sales Page
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -373,20 +370,38 @@ align-items:center;
 margin-bottom:10px
 }
 
-/* SEARCHABLE PRODUCT SELECT */
+/* ================================
+   LARGE FULL-WIDTH PRODUCT SEARCH
+   ================================ */
 
 .product-picker{
 position:relative;
-width:100%
+width:100%;
+min-width:0
 }
 
-.product-search{
-width:100%;
-padding-right:38px
+.product-picker .product-search{
+display:block;
+width:100% !important;
+min-width:0;
+height:58px;
+padding:15px 42px 15px 16px !important;
+border:2px solid #d8dee8;
+border-radius:10px;
+font-size:16px !important;
+line-height:1.4;
+background:#fff;
+color:var(--text)
+}
+
+.product-picker .product-search:focus{
+border-color:var(--green);
+box-shadow:0 0 0 3px rgba(8,127,91,.10)
 }
 
 .product-search::placeholder{
-color:#8a94a6
+color:#8a94a6;
+font-size:15px
 }
 
 .product-results{
@@ -394,12 +409,13 @@ display:none;
 position:absolute;
 left:0;
 right:0;
-top:calc(100% + 4px);
+top:calc(100% + 5px);
+width:100%;
 background:white;
 border:1px solid var(--border);
-border-radius:9px;
+border-radius:10px;
 box-shadow:0 12px 30px rgba(15,23,42,.16);
-max-height:240px;
+max-height:340px;
 overflow-y:auto;
 z-index:2000
 }
@@ -411,12 +427,13 @@ display:block
 .product-result{
 display:block;
 width:100%;
+min-height:58px;
 border:none;
 background:white;
 text-align:left;
-padding:11px 12px;
+padding:13px 15px;
 border-bottom:1px solid #edf1f5;
-font-size:12px;
+font-size:13px;
 color:var(--dark)
 }
 
@@ -433,22 +450,32 @@ outline:none
 
 .product-result-name{
 font-weight:bold;
-display:block
+display:block;
+font-size:13px;
+line-height:1.35;
+white-space:normal;
+overflow-wrap:anywhere;
+word-break:break-word
 }
 
 .product-result-info{
 display:block;
-font-size:10px;
+font-size:11px;
 color:var(--muted);
-margin-top:3px
+margin-top:4px;
+line-height:1.35;
+white-space:normal;
+overflow-wrap:anywhere
 }
 
 .product-no-results{
-padding:13px;
+padding:15px;
 font-size:12px;
 color:var(--muted);
 text-align:center
 }
+
+/* END LARGE FULL-WIDTH PRODUCT SEARCH */
 
 .item-quantity input{text-align:center}
 
@@ -1023,6 +1050,19 @@ gap:6px
 .page-title h1{font-size:18px}
 .credit-grid{grid-template-columns:1fr}
 .scanner-actions{flex-direction:column}
+
+/* LARGE SEARCH ON MOBILE */
+.product-picker .product-search{
+width:100% !important;
+height:56px;
+font-size:16px !important;
+padding:14px 15px !important
+}
+
+.product-results{
+width:100% !important;
+max-height:300px
+}
 }
 
 @media(max-width:520px){
