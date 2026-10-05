@@ -404,6 +404,29 @@ color:#8a94a6;
 font-size:15px
 }
 
+.batch-info{
+font-size:10px;
+line-height:1.4;
+color:var(--muted);
+margin-top:5px;
+padding:6px 8px;
+background:#f8fafc;
+border:1px solid #e7ebf0;
+border-radius:7px;
+white-space:normal;
+overflow-wrap:anywhere
+}
+
+.batch-info strong{
+color:var(--dark)
+}
+
+.batch-info.expiring{
+color:#8a5a00;
+background:#fff8e8;
+border-color:#f1d59b
+}
+
 .product-results{
 display:none;
 position:absolute;
@@ -1752,28 +1775,24 @@ Find
 
 <p id="unknownBarcodeText"></p>
 
-<label for="registerProductSelect">
-Choose the product this barcode belongs to
-</label>
-
-<select id="registerProductSelect">
-<option value="">Select product</option>
-</select>
+<p style="font-size:11px;color:#7a5100;line-height:1.5;margin-top:8px">
+For a new delivery, register the barcode from <strong>Inventory → Stock → Add New Batch</strong>. This keeps the barcode linked to the correct batch number, expiry date, cost price and selling price.
+</p>
 
 <div class="register-actions">
+
+<a
+href="inventory.html"
+class="btn btn-primary"
+style="text-decoration:none;text-align:center">
+Open Inventory
+</a>
 
 <button
 type="button"
 class="btn btn-secondary"
 id="cancelRegisterBarcodeBtn">
-Cancel
-</button>
-
-<button
-type="button"
-class="btn btn-primary"
-id="saveBarcodeBtn">
-Save Barcode
+Close
 </button>
 
 </div>
@@ -1795,6 +1814,7 @@ signOut
 
 import {
 collection,
+collectionGroup,
 onSnapshot,
 doc,
 runTransaction,
@@ -1808,11 +1828,13 @@ BrowserMultiFormatReader
 
 let currentUser=null;
 let products=[];
+let batches=[];
 let customers=[];
 let saleItems=[];
 let lastSale=null;
 
 let productsUnsubscribe=null;
+let batchesUnsubscribe=null;
 let salesUnsubscribe=null;
 let customersUnsubscribe=null;
 
@@ -1910,10 +1932,7 @@ const scannerManualBtn=$("scannerManualBtn");
 
 const registerBarcodeBox=$("registerBarcodeBox");
 const unknownBarcodeText=$("unknownBarcodeText");
-const registerProductSelect=$("registerProductSelect");
-
 const cancelRegisterBarcodeBtn=$("cancelRegisterBarcodeBtn");
-const saveBarcodeBtn=$("saveBarcodeBtn");
 
 function formatMoney(value){
 return new Intl.NumberFormat("en-NG",{
@@ -2125,21 +2144,72 @@ product.ean8,
 product.upc,
 product.upcCode,
 product.gtin,
-product.sku
+product.sku,
+...(Array.isArray(product.barcodes)?product.barcodes:[])
 ]
 .filter(value=>value!==undefined&&value!==null&&String(value).trim()!=="")
 .map(normalizeBarcode);
 }
 
-function findProductByBarcode(code){
+function getBatchStock(batch){
+const quantity=Number(batch?.quantity);
+return Number.isFinite(quantity)&&quantity>=0?quantity:0;
+}
 
+function getBatchPrice(batch,product){
+const value=Number(batch?.sellingPrice);
+return Number.isFinite(value)&&value>=0?value:getProductPrice(product);
+}
+
+function getBatchCostPrice(batch,product){
+const value=Number(batch?.costPrice);
+if(Number.isFinite(value)&&value>=0)return value;
+return getProductCostPrice(product);
+}
+
+function getBatchesForProduct(productId){
+return batches
+.filter(batch=>batch.productId===productId)
+.sort((a,b)=>{
+const aDate=String(a.expiryDate||"");
+const bDate=String(b.expiryDate||"");
+if(aDate&&bDate)return aDate.localeCompare(bDate);
+if(aDate)return-1;
+if(bDate)return 1;
+return String(a.batchNumber||"").localeCompare(String(b.batchNumber||""));
+});
+}
+
+function getPreferredBatch(product){
+const available=getBatchesForProduct(product.id)
+.filter(batch=>getBatchStock(batch)>0);
+return available[0]||null;
+}
+
+function findBatchByBarcode(code){
 const normalized=normalizeBarcode(code);
+if(!normalized)return null;
+return batches.find(batch=>
+getBatchStock(batch)>0&&
+normalizeBarcode(batch.barcode)===normalized
+)||null;
+}
 
+function findProductByBarcode(code){
+const normalized=normalizeBarcode(code);
 if(!normalized)return null;
 
-return products.find(product=>
+const batch=findBatchByBarcode(normalized);
+if(batch){
+const product=products.find(p=>p.id===batch.productId);
+if(product)return{product,batch};
+}
+
+const product=products.find(product=>
 getProductBarcodes(product).includes(normalized)
 )||null;
+
+return product?{product,batch:null}:null;
 }
 
 function loadProducts(){
@@ -2155,7 +2225,6 @@ id:d.id,
 ...d.data()
 }));
 
-populateRegisterProductSelect();
 renderSaleItems();
 updateSaleSummary();
 
@@ -2171,40 +2240,104 @@ showMessage(
 
 }
 
+function loadBatches(){
+
+if(batchesUnsubscribe)batchesUnsubscribe();
+
+try{
+
+batchesUnsubscribe=onSnapshot(
+collectionGroup(db,"batches"),
+snapshot=>{
+
+ batches=snapshot.docs.map(d=>{
+ const data=d.data();
+ const productRef=d.ref.parent.parent;
+ return{
+ id:d.id,
+ productId:productRef?.id||data.productId||"",
+ ...data
+ };
+ });
+
+ renderSaleItems();
+ updateSaleSummary();
+
+},
+error=>{
+console.error("Batch loading error:",error);
+// Batch data is an enhancement; legacy product sales continue to work.
+}
+);
+
+}catch(error){
+console.error("Unable to start batch listener:",error);
+}
+
+}
+
 function addSaleItem(){
 
 saleItems.push({
 productId:"",
-quantity:1
+quantity:1,
+batchId:"",
+batchNumber:"",
+barcode:"",
+expiryDate:"",
+unitPrice:0,
+costPrice:null
 });
 
 renderSaleItems();
 updateSaleSummary();
 }
 
-function addProductToSale(product,showSuccess=true){
+function applyBatchToSaleItem(item,product,batch){
 
-if(!product)return;
+if(batch){
+item.batchId=batch.id;
+item.batchNumber=batch.batchNumber||"";
+item.barcode=normalizeBarcode(batch.barcode||"");
+item.expiryDate=batch.expiryDate||"";
+item.unitPrice=getBatchPrice(batch,product);
+item.costPrice=getBatchCostPrice(batch,product);
+}else{
+item.batchId="";
+item.batchNumber="";
+item.barcode="";
+item.expiryDate="";
+item.unitPrice=getProductPrice(product);
+item.costPrice=getProductCostPrice(product);
+}
 
-const stock=getProductStock(product);
+}
 
-if(stock<=0){
-showMessage(`${getProductName(product)} is out of stock.`,"error");
+function addProductToSale(product,showSuccess=true,batch=null){
+
+if(!product)return false;
+
+const selectedBatch=batch||getPreferredBatch(product);
+const availableStock=selectedBatch?getBatchStock(selectedBatch):getProductStock(product);
+
+if(availableStock<=0){
+showMessage(`${getProductName(product)} is out of stock.` ,"error");
 return false;
 }
 
-const existingIndex=saleItems.findIndex(
-item=>item.productId===product.id
+const batchKey=selectedBatch?.id||"";
+const existingIndex=saleItems.findIndex(item=>
+item.productId===product.id&&
+(item.batchId||"")===batchKey
 );
 
 if(existingIndex>=0){
 
-const currentQuantity=
-Number(saleItems[existingIndex].quantity)||1;
+const currentQuantity=Number(saleItems[existingIndex].quantity)||1;
 
-if(currentQuantity>=stock){
+if(currentQuantity>=availableStock){
 showMessage(
-`${getProductName(product)} has only ${stock} item(s) in stock.`,
+`${getProductName(product)} has only ${availableStock} item(s) available in this batch.`,
 "error"
 );
 return false;
@@ -2214,11 +2347,19 @@ saleItems[existingIndex].quantity=currentQuantity+1;
 
 }else{
 
-saleItems.push({
+const item={
 productId:product.id,
 quantity:1,
-unitPrice:getProductPrice(product)
-});
+batchId:"",
+batchNumber:"",
+barcode:"",
+expiryDate:"",
+unitPrice:getProductPrice(product),
+costPrice:getProductCostPrice(product)
+};
+
+applyBatchToSaleItem(item,product,selectedBatch);
+saleItems.push(item);
 
 }
 
@@ -2226,10 +2367,8 @@ renderSaleItems();
 updateSaleSummary();
 
 if(showSuccess){
-showMessage(
-`${getProductName(product)} added to the sale.`,
-"success"
-);
+const batchText=selectedBatch?.batchNumber?` (Batch ${selectedBatch.batchNumber})`:"";
+showMessage(`${getProductName(product)}${batchText} added to the sale.` ,"success");
 }
 
 return true;
@@ -2251,13 +2390,11 @@ function selectProductForItem(index,product){
 
 if(!product)return;
 
-const stock=getProductStock(product);
+const preferredBatch=getPreferredBatch(product);
+const stock=preferredBatch?getBatchStock(preferredBatch):getProductStock(product);
 
 if(stock<=0){
-showMessage(
-`${getProductName(product)} is out of stock.`,
-"error"
-);
+showMessage(`${getProductName(product)} is out of stock.` ,"error");
 return;
 }
 
@@ -2266,17 +2403,14 @@ const duplicateIndex=saleItems.findIndex(
 );
 
 if(duplicateIndex>=0){
-
 showMessage(
 "The same product cannot be added twice. Increase its quantity instead.",
 "error"
 );
-
 return;
 }
 
 saleItems[index].productId=product.id;
-saleItems[index].unitPrice=getProductPrice(product);
 
 if(
 Number(saleItems[index].quantity)<1||
@@ -2288,6 +2422,8 @@ saleItems[index].quantity=1;
 if(Number(saleItems[index].quantity)>stock){
 saleItems[index].quantity=stock;
 }
+
+applyBatchToSaleItem(saleItems[index],product,preferredBatch);
 
 renderSaleItems();
 updateSaleSummary();
@@ -2313,12 +2449,16 @@ const name=getProductName(product).toLowerCase();
 
 const sku=String(product.sku||"").toLowerCase();
 
-const barcode=String(product.barcode||"").toLowerCase();
+const barcodeText=getProductBarcodes(product).join(" ").toLowerCase();
+const batchText=getBatchesForProduct(product.id)
+.map(batch=>String(batch.barcode||"").toLowerCase())
+.join(" ");
 
 return !search||
 name.includes(search)||
 sku.includes(search)||
-barcode.includes(search);
+barcodeText.includes(search)||
+batchText.includes(search);
 
 });
 
@@ -2343,6 +2483,7 @@ ${escapeHtml(getProductName(product))}
 <span class="product-result-info">
 ${formatMoney(getProductPrice(product))} • Stock: ${getProductStock(product)}
 ${product.sku?" • SKU: "+escapeHtml(product.sku):""}
+${getBatchesForProduct(product.id).length?` • ${getBatchesForProduct(product.id).length} batch${getBatchesForProduct(product.id).length===1?"":"es"}`:""}
 </span>
 `;
 
@@ -2415,7 +2556,23 @@ const results=document.createElement("div");
 results.className="product-results";
 
 picker.append(searchInput,results);
+
+const batchInfo=document.createElement("div");
+batchInfo.className="batch-info";
+
+const selectedBatch=item.batchId
+?batches.find(batch=>batch.id===item.batchId)
+:null;
+
+if(selectedBatch){
+const expiry=selectedBatch.expiryDate?` • Expiry: ${escapeHtml(selectedBatch.expiryDate)}`:"";
+batchInfo.innerHTML=`<strong>Batch:</strong> ${escapeHtml(selectedBatch.batchNumber||"—")} • <strong>Barcode:</strong> ${escapeHtml(selectedBatch.barcode||"—")}${expiry}`;
+}else{
+batchInfo.textContent="No batch selected — inventory batch will be chosen automatically when needed.";
+}
+
 productDiv.appendChild(picker);
+productDiv.appendChild(batchInfo);
 
 searchInput.addEventListener("focus",()=>{
 
@@ -2461,7 +2618,13 @@ const product=products.find(
 p=>p.id===item.productId
 );
 
-const regularPrice=product?getProductPrice(product):0;
+const selectedBatchForPrice=item.batchId
+?batches.find(batch=>batch.id===item.batchId)
+:null;
+
+const regularPrice=product
+?(selectedBatchForPrice?getBatchPrice(selectedBatchForPrice,product):getProductPrice(product))
+:0;
 
 const salePrice=
 Number.isFinite(Number(item.unitPrice))
@@ -2469,6 +2632,10 @@ Number.isFinite(Number(item.unitPrice))
 :regularPrice;
 
 item.unitPrice=salePrice;
+
+if(product&&!Number.isFinite(Number(item.costPrice))){
+item.costPrice=selectedBatchForPrice?getBatchCostPrice(selectedBatchForPrice,product):getProductCostPrice(product);
+}
 
 const priceWrap=document.createElement("div");
 priceWrap.className="sale-price-wrap";
@@ -2721,14 +2888,23 @@ const quantity=Math.max(
 Math.floor(Number(saleItem.quantity)||1)
 );
 
-const regularPrice=getProductPrice(product);
+const selectedBatch=saleItem.batchId
+?batches.find(batch=>batch.id===saleItem.batchId)
+:null;
+
+const regularPrice=selectedBatch
+?getBatchPrice(selectedBatch,product)
+:getProductPrice(product);
 
 const unitPrice=
 Number.isFinite(Number(saleItem.unitPrice))
 ?Math.max(0,Number(saleItem.unitPrice))
 :regularPrice;
 
-const costPrice=getProductCostPrice(product);
+const costPrice=
+Number.isFinite(Number(saleItem.costPrice))
+?Math.max(0,Number(saleItem.costPrice))
+:(selectedBatch?getBatchCostPrice(selectedBatch,product):getProductCostPrice(product));
 
 const total=unitPrice*quantity;
 
@@ -2743,6 +2919,10 @@ productName:getProductName(product),
 quantity,
 unitPrice,
 costPrice,
+batchId:saleItem.batchId||"",
+batchNumber:saleItem.batchNumber||selectedBatch?.batchNumber||"",
+barcode:saleItem.barcode||selectedBatch?.barcode||"",
+expiryDate:saleItem.expiryDate||selectedBatch?.expiryDate||"",
 total,
 costTotal,
 profit
@@ -2943,6 +3123,7 @@ saleData.items.map(item=>`
 
 <small>
 ${item.quantity} × ${formatMoney(item.unitPrice)}
+${item.batchNumber?` • Batch ${escapeHtml(item.batchNumber)}`:""}
 </small>
 
 </div>
@@ -3009,8 +3190,16 @@ if(!Number.isInteger(quantity)||quantity<1){
 return`Quantity for ${getProductName(product)} must be at least 1.`;
 }
 
-if(quantity>getProductStock(product)){
-return`${getProductName(product)} has only ${getProductStock(product)} item(s) in stock.`;
+const selectedBatch=item.batchId
+?batches.find(batch=>batch.id===item.batchId)
+:null;
+
+const availableStock=selectedBatch?getBatchStock(selectedBatch):getProductStock(product);
+
+if(quantity>availableStock){
+return selectedBatch
+?`${getProductName(product)} — Batch ${selectedBatch.batchNumber||"—"} has only ${availableStock} item(s) available.`
+:`${getProductName(product)} has only ${availableStock} item(s) in stock.`;
 }
 
 if(getProductPrice(product)<0){
@@ -3053,7 +3242,6 @@ if(savingSale)return;
 clearMessage();
 
 const validationError=validateSale();
-
 if(validationError){
 showMessage(validationError,"error");
 return;
@@ -3067,15 +3255,10 @@ return;
 const currentStaffId=getCurrentStaffId();
 const saleData=getCurrentSaleData();
 const selectedCustomer=getSelectedCustomer();
-
 const saleRef=doc(collection(db,"sales"));
-
-const customerRef=selectedCustomer.id
-?doc(db,"customers",selectedCustomer.id)
-:null;
+const customerRef=selectedCustomer.id?doc(db,"customers",selectedCustomer.id):null;
 
 savingSale=true;
-
 recordSaleBtn.disabled=true;
 recordSaleBtn.textContent="Recording Sale...";
 
@@ -3083,83 +3266,120 @@ let savedSaleData=null;
 
 try{
 
-await runTransaction(
-db,
-async transaction=>{
+await runTransaction(db,async transaction=>{
 
 let customerSnapshot=null;
-
 if(customerRef){
-
 customerSnapshot=await transaction.get(customerRef);
-
-if(!customerSnapshot.exists()){
-throw new Error("The selected customer no longer exists.");
+if(!customerSnapshot.exists())throw new Error("The selected customer no longer exists.");
 }
 
-}
-
-const productSnapshots=[];
+/* READ ALL PRODUCT AND BATCH DOCUMENTS BEFORE ANY WRITE. */
+const entries=[];
 
 for(const item of saleData.items){
-
 const productRef=doc(db,"products",item.productId);
+const productSnapshot=await transaction.get(productRef);
 
-const snapshot=await transaction.get(productRef);
+let batchRef=null;
+let batchSnapshot=null;
 
-productSnapshots.push({
-item,
-productRef,
-snapshot
-});
+if(item.batchId){
+batchRef=doc(db,"products",item.productId,"batches",item.batchId);
+batchSnapshot=await transaction.get(batchRef);
+}
 
+entries.push({item,productRef,productSnapshot,batchRef,batchSnapshot});
 }
 
 let transactionSubtotal=0;
 let transactionCostTotal=0;
 let transactionQuantityTotal=0;
-
 const transactionItems=[];
+const productTotals=new Map();
 
-for(const entry of productSnapshots){
+/* Check the total quantity being removed from each product once. */
+for(const entry of entries){
+const productId=entry.productSnapshot.id;
+const existing=productTotals.get(productId);
+const quantity=Number(entry.item.quantity)||0;
 
-const{
-item,
-productRef,
-snapshot
-}=entry;
-
-if(!snapshot.exists()){
-throw new Error(`Product ${item.productName} no longer exists.`);
+if(existing){
+existing.quantity+=quantity;
+}else{
+productTotals.set(productId,{
+productRef:entry.productRef,
+product:entry.productSnapshot.data(),
+quantity
+});
+}
 }
 
-const product=snapshot.data();
+for(const [productId,state] of productTotals){
+const currentStock=getProductStock(state.product);
+if(state.quantity>currentStock){
+throw new Error(`${getProductName(state.product)} has only ${currentStock} item(s) in total stock, but this sale needs ${state.quantity}.`);
+}
+}
 
+for(const entry of entries){
+
+const{item,productSnapshot,batchRef,batchSnapshot}=entry;
+const product=productSnapshot.data();
 const productName=getProductName(product);
-const currentStock=getProductStock(product);
 const quantity=Number(item.quantity);
 
-if(quantity>currentStock){
-throw new Error(`${productName} now has only ${currentStock} item(s) in stock.`);
+let batch=null;
+let availableStock=getProductStock(product);
+let currentUnitPrice=Number(item.unitPrice);
+let currentCostPrice=Number(item.costPrice);
+
+if(item.batchId){
+if(!batchSnapshot?.exists()){
+throw new Error(`Batch ${item.batchNumber||item.batchId} for ${productName} no longer exists.`);
 }
 
-const currentUnitPrice=getProductPrice(product);
-const currentCostPrice=getProductCostPrice(product);
+batch={id:item.batchId,...batchSnapshot.data()};
 
-if(currentCostPrice===null){
+if(batch.productId&&batch.productId!==productSnapshot.id){
+throw new Error(`The selected batch does not belong to ${productName}.`);
+}
+
+availableStock=getBatchStock(batch);
+if(quantity>availableStock){
+throw new Error(`${productName} — Batch ${batch.batchNumber||"—"} now has only ${availableStock} item(s) available.`);
+}
+
+currentUnitPrice=getBatchPrice(batch,product);
+currentCostPrice=getBatchCostPrice(batch,product);
+}
+
+if(!Number.isFinite(currentUnitPrice)||currentUnitPrice<0){
+throw new Error(`${productName} does not have a valid selling price.`);
+}
+
+if(!Number.isFinite(currentCostPrice)||currentCostPrice<0){
 throw new Error(`${productName} does not have a valid cost price.`);
 }
 
-const lineTotal=currentUnitPrice*quantity;
+const actualSalePrice=Number.isFinite(Number(item.unitPrice))
+?Math.max(0,Number(item.unitPrice))
+:currentUnitPrice;
+
+const lineTotal=actualSalePrice*quantity;
 const lineCostTotal=currentCostPrice*quantity;
 const lineProfit=lineTotal-lineCostTotal;
 
 transactionItems.push({
-productId:snapshot.id,
+productId:productSnapshot.id,
 productName,
 quantity,
-unitPrice:currentUnitPrice,
+unitPrice:actualSalePrice,
 costPrice:currentCostPrice,
+batchId:item.batchId||"",
+batchNumber:item.batchNumber||batch?.batchNumber||"",
+barcode:item.barcode||batch?.barcode||"",
+expiryDate:item.expiryDate||batch?.expiryDate||"",
 total:lineTotal,
 costTotal:lineCostTotal,
 profit:lineProfit
@@ -3169,24 +3389,35 @@ transactionSubtotal+=lineTotal;
 transactionCostTotal+=lineCostTotal;
 transactionQuantityTotal+=quantity;
 
-const newStock=currentStock-quantity;
-
-transaction.update(
-productRef,
-{
-quantity:newStock,
-stock:newStock,
-status:getProductStatus(newStock,product),
+if(batchRef&&batch){
+const newBatchStock=availableStock-quantity;
+transaction.update(batchRef,{
+quantity:newBatchStock,
+status:newBatchStock<=0?"Out of Stock":newBatchStock<=getLowStockLevel(product)?"Low Stock":"In Stock",
 updatedAt:serverTimestamp(),
 updatedBy:currentUser.uid
+});
 }
-);
 
+}
+
+/* Update each product total stock only once, even when one sale contains
+   multiple batches of the same product. */
+for(const state of productTotals.values()){
+const currentStock=getProductStock(state.product);
+const newProductStock=currentStock-state.quantity;
+
+transaction.update(state.productRef,{
+quantity:newProductStock,
+stock:newProductStock,
+status:getProductStatus(newProductStock,state.product),
+updatedAt:serverTimestamp(),
+updatedBy:currentUser.uid
+});
 }
 
 const finalTotal=transactionSubtotal;
-const transactionGrossProfit=
-finalTotal-transactionCostTotal;
+const transactionGrossProfit=finalTotal-transactionCostTotal;
 
 let finalAmountPaid=finalTotal;
 let finalOutstanding=0;
@@ -3194,164 +3425,92 @@ let paymentStatus="Paid";
 let creditSale=false;
 
 if(paymentMethod.value==="Credit"){
-
 creditSale=true;
-
-finalAmountPaid=
-Number(amountPaidInput.value)||0;
-
-if(finalAmountPaid>finalTotal){
-throw new Error("Amount paid cannot be greater than the sale total.");
-}
-
-finalOutstanding=
-Math.max(0,finalTotal-finalAmountPaid);
-
-if(finalOutstanding===0){
-paymentStatus="Paid";
-}else if(finalAmountPaid>0){
-paymentStatus="Partially Paid";
-}else{
-paymentStatus="Credit";
-}
-
+finalAmountPaid=Number(amountPaidInput.value)||0;
+if(finalAmountPaid>finalTotal)throw new Error("Amount paid cannot be greater than the sale total.");
+finalOutstanding=Math.max(0,finalTotal-finalAmountPaid);
+if(finalOutstanding===0)paymentStatus="Paid";
+else if(finalAmountPaid>0)paymentStatus="Partially Paid";
+else paymentStatus="Credit";
 }
 
 let previousOutstanding=0;
 let newCustomerOutstanding=0;
 
 if(customerRef){
-
 const customerData=customerSnapshot.data();
-
-previousOutstanding=
-Number(customerData.outstandingBalance)||0;
-
-newCustomerOutstanding=
-previousOutstanding+finalOutstanding;
-
-transaction.update(
-customerRef,
-{
+previousOutstanding=Number(customerData.outstandingBalance)||0;
+newCustomerOutstanding=previousOutstanding+finalOutstanding;
+transaction.update(customerRef,{
 outstandingBalance:newCustomerOutstanding,
 updatedAt:serverTimestamp(),
 updatedBy:currentUser.uid
-}
-);
-
+});
 }
 
-const paymentRecord=finalAmountPaid>0
-?[{
+const paymentRecord=finalAmountPaid>0?[{
 amount:finalAmountPaid,
-method:
-paymentMethod.value==="Credit"
-?creditPaymentMethod.value
-:paymentMethod.value,
+method:paymentMethod.value==="Credit"?creditPaymentMethod.value:paymentMethod.value,
 createdAt:new Date().toISOString(),
 createdBy:currentUser.uid,
 createdByEmail:currentUser.email||""
-}]
-:[];
+}]:[];
 
 savedSaleData={
-
 saleNumber:generateSaleNumber(),
-
 customer:selectedCustomer.name,
 customerId:selectedCustomer.id,
 customerPhone:selectedCustomer.phone,
 customerEmail:selectedCustomer.email,
-
 paymentMethod:paymentMethod.value,
-
 creditSale,
-
-creditPaymentMethod:
-paymentMethod.value==="Credit"
-?creditPaymentMethod.value
-:"",
-
+creditPaymentMethod:paymentMethod.value==="Credit"?creditPaymentMethod.value:"",
 paymentStatus,
-
 amountPaid:finalAmountPaid,
-
 outstandingAmount:finalOutstanding,
 outstandingBalance:finalOutstanding,
-
 previousCustomerOutstanding:previousOutstanding,
 newCustomerOutstanding,
-
 payments:paymentRecord,
-
 notes:notesInput.value.trim(),
-
 items:transactionItems,
-
 subtotal:transactionSubtotal,
 total:finalTotal,
 costTotal:transactionCostTotal,
 grossProfit:transactionGrossProfit,
 totalQuantity:transactionQuantityTotal,
-
 staffId:currentStaffId,
 staffName:getStoredStaffName(),
 staffUid:currentUser.uid,
-
 createdBy:currentUser.uid,
 createdByEmail:currentUser.email||"",
-
 createdAt:serverTimestamp()
-
 };
 
 transaction.set(saleRef,savedSaleData);
 
-}
-);
+});
 
-lastSale={
-id:saleRef.id,
-...savedSaleData
-};
-
+lastSale={id:saleRef.id,...savedSaleData};
 receiptSaleNumber.textContent=lastSale.saleNumber;
 receiptStaffId.textContent=currentStaffId;
-
 updateSaleSummary();
 
 if(lastSale.creditSale){
-
-showMessage(
-`Credit sale ${lastSale.saleNumber} recorded successfully. ${formatMoney(lastSale.outstandingAmount)} was added to ${lastSale.customer}'s outstanding balance and inventory was updated.`,
-"success"
-);
-
+showMessage(`Credit sale ${lastSale.saleNumber} recorded successfully. ${formatMoney(lastSale.outstandingAmount)} was added to ${lastSale.customer}'s outstanding balance and inventory was updated.`,"success");
 }else{
-
-showMessage(
-`Sale ${lastSale.saleNumber} recorded successfully. Inventory has been updated and gross profit has been saved.`,
-"success"
-);
-
+showMessage(`Sale ${lastSale.saleNumber} recorded successfully. Inventory and the correct batch have been updated.`,"success");
 }
 
 }catch(error){
-
 console.error("Record sale error:",error);
+showMessage(error.message||"Unable to record sale. Please try again.","error");
+}
 
-showMessage(
-error.message||
-"Unable to record sale. Please try again.",
-"error"
-);
-
-}finally{
-
+finally{
 savingSale=false;
 recordSaleBtn.disabled=false;
 recordSaleBtn.textContent="Record Sale";
-
 }
 
 }
@@ -3713,188 +3872,48 @@ processBarcode(normalized);
 function processBarcode(code){
 
 const normalized=normalizeBarcode(code);
-
 if(!normalized)return;
 
-const product=findProductByBarcode(normalized);
+const match=findProductByBarcode(normalized);
 
-if(product){
-
-const added=addProductToSale(product,false);
+if(match){
+const{product,batch}=match;
+const added=addProductToSale(product,false,batch);
 
 if(added){
-
-scannerSuccess.textContent=
-`✓ ${getProductName(product)} added to the sale.`;
-
+const batchText=batch?.batchNumber?` — Batch ${batch.batchNumber}`:"";
+scannerSuccess.textContent=`✓ ${getProductName(product)}${batchText} added to the sale.`;
 scannerSuccess.classList.add("show");
-
-scannerStatus.textContent=
-"Product found successfully.";
-
+scannerStatus.textContent=batch?"Batch barcode matched successfully.":"Product barcode matched successfully.";
 stopBarcodeScanner();
 
 setTimeout(()=>{
 closeScanner();
-
-showMessage(
-`${getProductName(product)} added to the sale.`,
-"success"
-);
-
+showMessage(`${getProductName(product)}${batchText} added to the sale.` ,"success");
 },350);
-
 }
 
 return;
-
 }
 
 pendingBarcode=normalized;
-
 unknownBarcodeText.textContent=
-`Barcode ${normalized} is not registered. Select the product it belongs to and save it.`;
-
-populateRegisterProductSelect();
-
+`Barcode ${normalized} is not registered to a product or stock batch. Please add this delivery through Inventory → Stock → Add New Batch so the barcode, batch number and expiry date stay connected.`;
 registerBarcodeBox.classList.add("show");
-
-scannerStatus.textContent=
-"Barcode detected, but no matching product was found.";
-
+scannerStatus.textContent="Barcode not found. Register it in Inventory as a stock batch.";
 stopBarcodeScanner();
-
-}
-
-function populateRegisterProductSelect(){
-
-registerProductSelect.innerHTML=
-`<option value="">Select product</option>`;
-
-products.forEach(product=>{
-
-const option=document.createElement("option");
-
-option.value=product.id;
-
-option.textContent=
-`${getProductName(product)} — Stock: ${getProductStock(product)}`;
-
-registerProductSelect.appendChild(option);
-
-});
 
 }
 
 async function saveBarcodeToProduct(){
 
-if(!pendingBarcode){
-
 showMessage(
-"No barcode is waiting to be saved.",
-"error"
+"For batch-aware stock, register a new barcode from Inventory → Stock → Add New Batch. This keeps the barcode attached to its batch and expiry date instead of overwriting the product barcode.",
+"info"
 );
-
-return;
-
-}
-
-const productId=registerProductSelect.value;
-
-if(!productId){
-
-showMessage(
-"Please select a product first.",
-"error"
-);
-
-return;
-
-}
-
-const product=products.find(
-p=>p.id===productId
-);
-
-if(!product){
-
-showMessage(
-"Product could not be found.",
-"error"
-);
-
-return;
-
-}
-
-const duplicate=findProductByBarcode(pendingBarcode);
-
-if(
-duplicate&&
-duplicate.id!==productId
-){
-
-showMessage(
-`This barcode is already registered to ${getProductName(duplicate)}.`,
-"error"
-);
-
-return;
-
-}
-
-saveBarcodeBtn.disabled=true;
-saveBarcodeBtn.textContent="Saving...";
-
-try{
-
-await updateDoc(
-doc(db,"products",productId),
-{
-barcode:pendingBarcode,
-updatedAt:serverTimestamp(),
-updatedBy:currentUser?.uid||""
-}
-);
-
-const savedProduct={
-...product,
-barcode:pendingBarcode
-};
 
 registerBarcodeBox.classList.remove("show");
-
-scannerSuccess.textContent=
-`✓ Barcode saved to ${getProductName(product)}.`;
-
-scannerSuccess.classList.add("show");
-
 pendingBarcode="";
-
-addProductToSale(savedProduct,false);
-
-showMessage(
-`Barcode saved to ${getProductName(product)} and the product was added to the sale.`,
-"success"
-);
-
-setTimeout(()=>closeScanner(),500);
-
-}catch(error){
-
-console.error("Save barcode error:",error);
-
-showMessage(
-"Unable to save barcode. Please try again.",
-"error"
-);
-
-}finally{
-
-saveBarcodeBtn.disabled=false;
-saveBarcodeBtn.textContent="Save Barcode";
-
-}
 
 }
 
@@ -3977,11 +3996,6 @@ event.preventDefault();
 processBarcodeInput();
 }
 }
-);
-
-saveBarcodeBtn.addEventListener(
-"click",
-saveBarcodeToProduct
 );
 
 cancelRegisterBarcodeBtn.addEventListener(
@@ -4109,6 +4123,7 @@ receiptStaffId.textContent=
 getCurrentStaffId();
 
 loadProducts();
+loadBatches();
 loadSales();
 loadCustomers();
 
