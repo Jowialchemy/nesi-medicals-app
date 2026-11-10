@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,21 +10,115 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Arial,Helvetica,sans-serif;background:#f5f7f6;color:#17201c;min-height:100vh}
 .sidebar{position:fixed;left:0;top:0;width:250px;height:100vh;background:linear-gradient(180deg,#073b2a,#062b21);color:#fff;padding:22px 15px;z-index:1000;overflow-y:auto}
-.brand{display:flex;align-items:center;gap:10px;padding:0 8px 25px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:20px}.brand img{width:45px;height:45px;object-fit:contain;border-radius:8px}.brand-text strong{display:block;color:#4ade80;font-size:16px}.brand-text span{display:block;color:#c9e8df;font-size:10px;margin-top:3px}
-.nav-title{color:#7fb8a8;font-size:10px;font-weight:700;margin:20px 10px 8px;text-transform:uppercase;letter-spacing:.7px}.nav-link{display:flex;align-items:center;gap:12px;width:100%;padding:12px;margin-bottom:5px;border-radius:9px;color:#dceee8;text-decoration:none;font-size:13px}.nav-link:hover,.nav-link.active{background:rgba(74,222,128,.14);color:#fff}.nav-icon{width:24px;text-align:center;font-size:17px}
-.main{margin-left:250px;min-height:100vh}.topbar{height:72px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;padding:0 30px}.topbar-title h1{font-size:20px;margin-bottom:4px}.topbar-title p{color:#6b7280;font-size:11px}.user-area{display:flex;align-items:center;gap:12px}.user-avatar{width:40px;height:40px;border-radius:50%;background:#dcfce7;color:#15803d;display:flex;align-items:center;justify-content:center;font-weight:800}.user-info strong{display:block;font-size:12px}.user-info span{color:#6b7280;font-size:10px}
-.content{padding:30px}.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.page-header h2{font-size:25px;margin-bottom:7px}.page-header p{color:#6b7280;font-size:13px}.add-button,.save-button{border:none;background:#16a34a;color:#fff;padding:12px 18px;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px}.add-button:hover,.save-button:hover{background:#15803d}
-.search-box{background:#fff;padding:18px;border:1px solid #e5e7eb;border-radius:15px;margin-bottom:20px}.search-box input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;outline:none}.search-box input:focus,.form-group input:focus,.form-group select:focus{border-color:#16a34a}
-.table-panel{background:#fff;border:1px solid #e5e7eb;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.04)}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:1000px}th{background:#f8faf9;color:#4b5563;font-size:11px;text-align:left;padding:15px;text-transform:uppercase}td{padding:15px;border-top:1px solid #f0f0f0;font-size:12px;vertical-align:middle}.empty{text-align:center;padding:50px 20px;color:#6b7280}.empty-icon{font-size:40px;margin-bottom:10px}.stock{font-weight:700}.stock.low{color:#dc2626}.stock.good{color:#16a34a}.stock.out{color:#991b1b}
-.status-badge{display:inline-block;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:700}.status-good{background:#dcfce7;color:#166534}.status-low,.status-expiring{background:#fef3c7;color:#92400e}.status-out,.status-expired{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:6px;flex-wrap:wrap}.action-button{border:none;padding:7px 9px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}.edit-button{background:#dbeafe;color:#1d4ed8}.stock-button{background:#dcfce7;color:#15803d}.batch-button{background:#ede9fe;color:#6d28d9}.delete-button{background:#fee2e2;color:#dc2626}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.modal-content{background:#fff;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;border-radius:15px;padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.25)}.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.modal-header h3{font-size:20px}.close-button{border:none;background:#f3f4f6;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px}.form-group{margin-bottom:15px}.form-group label{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:6px}.form-group input,.form-group select{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:8px;outline:none;font-size:13px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-actions{display:flex;gap:10px;margin-top:20px}.save-button,.cancel-button{flex:1;padding:12px;border-radius:8px}.cancel-button{border:none;background:#e5e7eb;color:#374151;font-weight:700;cursor:pointer}
-.current-stock{background:#f0fdf4;border:1px solid #bbf7d0;padding:15px;border-radius:10px;margin-bottom:18px}.current-stock span{display:block;color:#6b7280;font-size:11px;margin-bottom:5px}.current-stock strong{font-size:25px;color:#15803d}.adjust-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}.adjust-option{border:1px solid #d1d5db;background:#fff;padding:12px;border-radius:8px;cursor:pointer;font-weight:700}.adjust-option.active{border-color:#16a34a;background:#f0fdf4;color:#15803d}.adjust-preview{background:#f9fafb;padding:12px;border-radius:8px;margin-top:12px;font-size:12px}.batch-note{font-size:11px;color:#6b7280;background:#f8faf9;border-radius:8px;padding:10px;margin-top:10px;line-height:1.5}.batch-list{display:grid;gap:10px}.batch-card{border:1px solid #e5e7eb;border-radius:10px;padding:12px;background:#fbfcfb}.batch-card strong{font-size:13px}.batch-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;font-size:11px;color:#4b5563}.batch-meta b{color:#17201c}.message{display:none;padding:11px 13px;border-radius:8px;margin-bottom:15px;font-size:12px}.message.show{display:block}.message.success{background:#dcfce7;color:#166534}.message.error{background:#fee2e2;color:#991b1b}
-@media(max-width:700px){.sidebar{position:fixed;transform:translateX(-100%)}.main{margin-left:0}.topbar{padding:0 18px}.user-info{display:none}.content{padding:20px 15px}.page-header{align-items:flex-start;gap:15px;flex-direction:column}.add-button{width:100%}.modal-content{padding:20px}.form-grid{grid-template-columns:1fr}.modal-actions{flex-direction:column}.adjust-buttons{grid-template-columns:1fr 1fr}}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px 25px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:20px}
+.brand img{width:45px;height:45px;object-fit:contain;border-radius:8px}
+.brand-text strong{display:block;color:#4ade80;font-size:16px}
+.brand-text span{display:block;color:#c9e8df;font-size:10px;margin-top:3px}
+.nav-title{color:#7fb8a8;font-size:10px;font-weight:700;margin:20px 10px 8px;text-transform:uppercase;letter-spacing:.7px}
+.nav-link{display:flex;align-items:center;gap:12px;width:100%;padding:12px;margin-bottom:5px;border-radius:9px;color:#dceee8;text-decoration:none;font-size:13px}
+.nav-link:hover,.nav-link.active{background:rgba(74,222,128,.14);color:#fff}
+.nav-icon{width:24px;text-align:center;font-size:17px}
+.main{margin-left:250px;min-height:100vh}
+.topbar{height:72px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+.topbar-title h1{font-size:20px;margin-bottom:4px}
+.topbar-title p{color:#6b7280;font-size:11px}
+.user-area{display:flex;align-items:center;gap:12px}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:#dcfce7;color:#15803d;display:flex;align-items:center;justify-content:center;font-weight:800}
+.user-info strong{display:block;font-size:12px}
+.user-info span{color:#6b7280;font-size:10px}
+.content{padding:30px}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.page-header h2{font-size:25px;margin-bottom:7px}
+.page-header p{color:#6b7280;font-size:13px}
+.add-button,.save-button{border:none;background:#16a34a;color:#fff;padding:12px 18px;border-radius:9px;font-weight:700;cursor:pointer;font-size:13px}
+.add-button:hover,.save-button:hover{background:#15803d}
+.search-box{background:#fff;padding:18px;border:1px solid #e5e7eb;border-radius:15px;margin-bottom:20px}
+.search-box input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;outline:none}
+.search-box input:focus,.form-group input:focus,.form-group select:focus{border-color:#16a34a}
+.table-panel{background:#fff;border:1px solid #e5e7eb;border-radius:15px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.04)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1000px}
+th{background:#f8faf9;color:#4b5563;font-size:11px;text-align:left;padding:15px;text-transform:uppercase}
+td{padding:15px;border-top:1px solid #f0f0f0;font-size:12px;vertical-align:middle}
+.empty{text-align:center;padding:50px 20px;color:#6b7280}
+.empty-icon{font-size:40px;margin-bottom:10px}
+.stock{font-weight:700}
+.stock.low{color:#dc2626}
+.stock.good{color:#16a34a}
+.stock.out{color:#991b1b}
+.status-badge{display:inline-block;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:700}
+.status-good{background:#dcfce7;color:#166534}
+.status-low,.status-expiring{background:#fef3c7;color:#92400e}
+.status-out,.status-expired{background:#fee2e2;color:#991b1b}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.action-button{border:none;padding:7px 9px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.edit-button{background:#dbeafe;color:#1d4ed8}
+.stock-button{background:#dcfce7;color:#15803d}
+.batch-button{background:#ede9fe;color:#6d28d9}
+.delete-button{background:#fee2e2;color:#dc2626}
+
+/* Back to Dashboard button at the top */
+.back-dashboard-wrap{margin-bottom:20px}
+.back-dashboard-button{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 18px;background:#087f5b;color:#fff;text-decoration:none;border-radius:9px;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(8,127,91,.15);transition:background .2s,transform .2s}
+.back-dashboard-button:hover{background:#056044;transform:translateY(-2px)}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-content{background:#fff;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;border-radius:15px;padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-header h3{font-size:20px}
+.close-button{border:none;background:#f3f4f6;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:6px}
+.form-group input,.form-group select{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:8px;outline:none;font-size:13px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.save-button,.cancel-button{flex:1;padding:12px;border-radius:8px}
+.cancel-button{border:none;background:#e5e7eb;color:#374151;font-weight:700;cursor:pointer}
+.current-stock{background:#f0fdf4;border:1px solid #bbf7d0;padding:15px;border-radius:10px;margin-bottom:18px}
+.current-stock span{display:block;color:#6b7280;font-size:11px;margin-bottom:5px}
+.current-stock strong{font-size:25px;color:#15803d}
+.adjust-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.adjust-option{border:1px solid #d1d5db;background:#fff;padding:12px;border-radius:8px;cursor:pointer;font-weight:700}
+.adjust-option.active{border-color:#16a34a;background:#f0fdf4;color:#15803d}
+.adjust-preview{background:#f9fafb;padding:12px;border-radius:8px;margin-top:12px;font-size:12px}
+.batch-note{font-size:11px;color:#6b7280;background:#f8faf9;border-radius:8px;padding:10px;margin-top:10px;line-height:1.5}
+.batch-list{display:grid;gap:10px}
+.batch-card{border:1px solid #e5e7eb;border-radius:10px;padding:12px;background:#fbfcfb}
+.batch-card strong{font-size:13px}
+.batch-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;font-size:11px;color:#4b5563}
+.batch-meta b{color:#17201c}
+.message{display:none;padding:11px 13px;border-radius:8px;margin-bottom:15px;font-size:12px}
+.message.show{display:block}
+.message.success{background:#dcfce7;color:#166534}
+.message.error{background:#fee2e2;color:#991b1b}
+
+@media(max-width:700px){
+.back-dashboard-button{width:100%;padding:15px;font-size:14px}
+.sidebar{position:fixed;transform:translateX(-100%)}
+.main{margin-left:0}
+.topbar{padding:0 18px}
+.user-info{display:none}
+.content{padding:20px 15px}
+.page-header{align-items:flex-start;gap:15px;flex-direction:column}
+.add-button{width:100%}
+.modal-content{padding:20px}
+.form-grid{grid-template-columns:1fr}
+.modal-actions{flex-direction:column}
+.adjust-buttons{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
+
 <body>
 <aside class="sidebar">
-<div class="brand"><img src="assets/logo.png" alt="Nesi Medicals"><div class="brand-text"><strong>Nesi Medicals</strong><span>&amp; Minimart Enterprises</span></div></div>
+<div class="brand">
+<img src="assets/logo.png" alt="Nesi Medicals">
+<div class="brand-text">
+<strong>Nesi Medicals</strong>
+<span>&amp; Minimart Enterprises</span>
+</div>
+</div>
 <div class="nav-title">Main</div>
 <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span>Dashboard</a>
 <a href="sales.html" class="nav-link"><span class="nav-icon">💰</span>Sales</a>
@@ -38,79 +133,644 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f5f7f6;color:#17201c;min
 <a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span>Settings</a>
 <a href="#" class="nav-link" id="logoutButton"><span class="nav-icon">🚪</span>Logout</a>
 </aside>
+
 <main class="main">
-<header class="topbar"><div class="topbar-title"><h1>Inventory</h1><p>Nesi Medicals Business Management System</p></div><div class="user-area"><div class="user-avatar" id="userAvatar">N</div><div class="user-info"><strong id="userName">Nesi Medicals</strong><span id="userRole">Administrator</span></div></div></header>
+<header class="topbar">
+<div class="topbar-title">
+<h1>Inventory</h1>
+<p>Nesi Medicals Business Management System</p>
+</div>
+<div class="user-area">
+<div class="user-avatar" id="userAvatar">N</div>
+<div class="user-info">
+<strong id="userName">Nesi Medicals</strong>
+<span id="userRole">Administrator</span>
+</div>
+</div>
+</header>
+
 <section class="content">
-<div class="page-header"><div><h2>Inventory</h2><p>Manage your medicines, products, batches, barcodes and stock.</p></div><button class="add-button" id="addProductButton">+ Add Product</button></div>
+
+<!-- BACK TO DASHBOARD BUTTON AT THE TOP -->
+<div class="back-dashboard-wrap">
+<a href="dashboard.html" class="back-dashboard-button">
+<span>←</span> Back to Dashboard
+</a>
+</div>
+
+<div class="page-header">
+<div>
+<h2>Inventory</h2>
+<p>Manage your medicines, products, batches, barcodes and stock.</p>
+</div>
+<button class="add-button" id="addProductButton">+ Add Product</button>
+</div>
+
 <div id="message" class="message"></div>
-<div class="search-box"><input type="search" id="searchInput" placeholder="Search products by name, category, SKU or barcode..."></div>
-<div class="table-panel"><div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Stock</th><th>Selling Price</th><th>Status</th><th>Expiry</th><th>Actions</th></tr></thead><tbody id="inventoryTable"><tr><td colspan="7" class="empty"><div class="empty-icon">📦</div><strong>Loading products...</strong></td></tr></tbody></table></div></div>
-</section></main>
 
-<div class="modal" id="editModal"><div class="modal-content"><div class="modal-header"><h3>Edit Product</h3><button type="button" class="close-button" id="closeEditModal">×</button></div><form id="editForm"><input type="hidden" id="editProductId"><div class="form-group"><label for="editProductName">Product Name</label><input type="text" id="editProductName" required></div><div class="form-group"><label for="editCategory">Category</label><input type="text" id="editCategory" required></div><div class="form-group"><label for="editBrand">Brand</label><input type="text" id="editBrand"></div><div class="form-group"><label for="editSKU">SKU / Product Code</label><input type="text" id="editSKU"></div><div class="form-grid"><div class="form-group"><label for="editSellingPrice">Selling Price (₦)</label><input type="number" id="editSellingPrice" min="0" step="0.01" required></div><div class="form-group"><label for="editLowStock">Low Stock Alert</label><input type="number" id="editLowStock" min="0" step="1" value="5"></div></div><div class="form-group"><label for="editBatchNumber">Current / Main Batch Number</label><input type="text" id="editBatchNumber"><div class="batch-note">For new deliveries with a different batch, use the Stock button. This keeps the new batch separate instead of replacing the old batch.</div></div><div class="form-group"><label for="editExpiryDate">Current / Main Expiry Date</label><input type="date" id="editExpiryDate"></div><div class="modal-actions"><button type="button" class="cancel-button" id="cancelEdit">Cancel</button><button type="submit" class="save-button">Save Changes</button></div></form></div></div>
+<div class="search-box">
+<input type="search" id="searchInput" placeholder="Search products by name, category, SKU or barcode...">
+</div>
 
-<div class="modal" id="stockModal"><div class="modal-content"><div class="modal-header"><h3>Adjust Stock</h3><button type="button" class="close-button" id="closeStockModal">×</button></div><div id="stockMessage" class="message"></div><div class="current-stock"><span>Current Total Stock</span><strong id="currentStockValue">0</strong></div><div class="adjust-buttons"><button type="button" class="adjust-option active" id="addStockOption">➕ Add New Batch</button><button type="button" class="adjust-option" id="removeStockOption">➖ Remove Stock</button></div>
-<div id="addBatchFields"><div class="form-group"><label for="adjustQuantity">Quantity Received</label><input type="number" id="adjustQuantity" min="1" step="1" value="1"></div><div class="form-group"><label for="adjustBarcode">New Barcode</label><input type="text" id="adjustBarcode" placeholder="Enter or scan the new barcode" autocomplete="off"></div><div class="form-grid"><div class="form-group"><label for="adjustBatchNumber">Batch Number</label><input type="text" id="adjustBatchNumber" placeholder="e.g. BATCH-002"></div><div class="form-group"><label for="adjustExpiryDate">Expiry Date</label><input type="date" id="adjustExpiryDate"></div></div><div class="form-grid"><div class="form-group"><label for="adjustCostPrice">Cost Price (₦)</label><input type="number" id="adjustCostPrice" min="0" step="0.01" placeholder="0.00"></div><div class="form-group"><label for="adjustSellingPrice">Selling Price (₦)</label><input type="number" id="adjustSellingPrice" min="0" step="0.01" placeholder="Keep current price if blank"></div></div><div class="form-group"><label for="adjustSupplier">Supplier</label><input type="text" id="adjustSupplier" placeholder="Supplier name"></div><div class="form-group"><label for="adjustReference">Purchase / Reference Note (Optional)</label><input type="text" id="adjustReference" placeholder="Invoice, delivery note or reference"></div><div class="batch-note"><strong>New batch rule:</strong> The product remains the same, but this delivery gets its own quantity, barcode, batch number and expiry date.</div></div>
-<div id="removeStockFields" style="display:none"><div class="form-group"><label for="removeQuantity">Quantity to Remove</label><input type="number" id="removeQuantity" min="1" step="1" value="1"></div><div class="form-group"><label for="removeReason">Reason</label><input type="text" id="removeReason" placeholder="Damaged, expired, adjustment, etc."></div></div>
-<div class="adjust-preview">New total stock: <strong id="newStockPreview">1</strong></div><div class="modal-actions"><button type="button" class="cancel-button" id="cancelStock">Cancel</button><button type="button" class="save-button" id="saveStockAdjustment">Update Stock</button></div></div></div>
+<div class="table-panel">
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Category</th>
+<th>Stock</th>
+<th>Selling Price</th>
+<th>Status</th>
+<th>Expiry</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="inventoryTable">
+<tr>
+<td colspan="7" class="empty">
+<div class="empty-icon">📦</div>
+<strong>Loading products...</strong>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</main>
 
-<div class="modal" id="batchesModal"><div class="modal-content"><div class="modal-header"><div><h3 id="batchesTitle">Product Batches</h3><div style="font-size:11px;color:#6b7280;margin-top:4px" id="batchesTotal"></div></div><button type="button" class="close-button" id="closeBatchesModal">×</button></div><div id="batchesMessage" class="message"></div><div id="batchList" class="batch-list"><div class="empty">Loading batches...</div></div></div></div>
+<div class="modal" id="editModal">
+<div class="modal-content">
+<div class="modal-header">
+<h3>Edit Product</h3>
+<button type="button" class="close-button" id="closeEditModal">×</button>
+</div>
+<form id="editForm">
+<input type="hidden" id="editProductId">
+<div class="form-group">
+<label for="editProductName">Product Name</label>
+<input type="text" id="editProductName" required>
+</div>
+<div class="form-group">
+<label for="editCategory">Category</label>
+<input type="text" id="editCategory" required>
+</div>
+<div class="form-group">
+<label for="editBrand">Brand</label>
+<input type="text" id="editBrand">
+</div>
+<div class="form-group">
+<label for="editSKU">SKU / Product Code</label>
+<input type="text" id="editSKU">
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label for="editSellingPrice">Selling Price (₦)</label>
+<input type="number" id="editSellingPrice" min="0" step="0.01" required>
+</div>
+<div class="form-group">
+<label for="editLowStock">Low Stock Alert</label>
+<input type="number" id="editLowStock" min="0" step="1" value="5">
+</div>
+</div>
+<div class="form-group">
+<label for="editBatchNumber">Current / Main Batch Number</label>
+<input type="text" id="editBatchNumber">
+<div class="batch-note">For new deliveries with a different batch, use the Stock button. This keeps the new batch separate instead of replacing the old batch.</div>
+</div>
+<div class="form-group">
+<label for="editExpiryDate">Current / Main Expiry Date</label>
+<input type="date" id="editExpiryDate">
+</div>
+<div class="modal-actions">
+<button type="button" class="cancel-button" id="cancelEdit">Cancel</button>
+<button type="submit" class="save-button">Save Changes</button>
+</div>
+</form>
+</div>
+</div>
+
+<div class="modal" id="stockModal">
+<div class="modal-content">
+<div class="modal-header">
+<h3>Adjust Stock</h3>
+<button type="button" class="close-button" id="closeStockModal">×</button>
+</div>
+<div id="stockMessage" class="message"></div>
+<div class="current-stock">
+<span>Current Total Stock</span>
+<strong id="currentStockValue">0</strong>
+</div>
+<div class="adjust-buttons">
+<button type="button" class="adjust-option active" id="addStockOption">➕ Add New Batch</button>
+<button type="button" class="adjust-option" id="removeStockOption">➖ Remove Stock</button>
+</div>
+
+<div id="addBatchFields">
+<div class="form-group">
+<label for="adjustQuantity">Quantity Received</label>
+<input type="number" id="adjustQuantity" min="1" step="1" value="1">
+</div>
+<div class="form-group">
+<label for="adjustBarcode">New Barcode</label>
+<input type="text" id="adjustBarcode" placeholder="Enter or scan the new barcode" autocomplete="off">
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label for="adjustBatchNumber">Batch Number</label>
+<input type="text" id="adjustBatchNumber" placeholder="e.g. BATCH-002">
+</div>
+<div class="form-group">
+<label for="adjustExpiryDate">Expiry Date</label>
+<input type="date" id="adjustExpiryDate">
+</div>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label for="adjustCostPrice">Cost Price (₦)</label>
+<input type="number" id="adjustCostPrice" min="0" step="0.01" placeholder="0.00">
+</div>
+<div class="form-group">
+<label for="adjustSellingPrice">Selling Price (₦)</label>
+<input type="number" id="adjustSellingPrice" min="0" step="0.01" placeholder="Keep current price if blank">
+</div>
+</div>
+<div class="form-group">
+<label for="adjustSupplier">Supplier</label>
+<input type="text" id="adjustSupplier" placeholder="Supplier name">
+</div>
+<div class="form-group">
+<label for="adjustReference">Purchase / Reference Note (Optional)</label>
+<input type="text" id="adjustReference" placeholder="Invoice, delivery note or reference">
+</div>
+<div class="batch-note">
+<strong>New batch rule:</strong> The product remains the same, but this delivery gets its own quantity, barcode, batch number and expiry date.
+</div>
+</div>
+
+<div id="removeStockFields" style="display:none">
+<div class="form-group">
+<label for="removeQuantity">Quantity to Remove</label>
+<input type="number" id="removeQuantity" min="1" step="1" value="1">
+</div>
+<div class="form-group">
+<label for="removeReason">Reason</label>
+<input type="text" id="removeReason" placeholder="Damaged, expired, adjustment, etc.">
+</div>
+</div>
+
+<div class="adjust-preview">New total stock: <strong id="newStockPreview">1</strong></div>
+<div class="modal-actions">
+<button type="button" class="cancel-button" id="cancelStock">Cancel</button>
+<button type="button" class="save-button" id="saveStockAdjustment">Update Stock</button>
+</div>
+</div>
+</div>
+
+<div class="modal" id="batchesModal">
+<div class="modal-content">
+<div class="modal-header">
+<div>
+<h3 id="batchesTitle">Product Batches</h3>
+<div style="font-size:11px;color:#6b7280;margin-top:4px" id="batchesTotal"></div>
+</div>
+<button type="button" class="close-button" id="closeBatchesModal">×</button>
+</div>
+<div id="batchesMessage" class="message"></div>
+<div id="batchList" class="batch-list">
+<div class="empty">Loading batches...</div>
+</div>
+</div>
+</div>
 
 <script type="module">
 import { auth, db } from "./js/firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { collection, collectionGroup, onSnapshot, getDocs, addDoc, doc, updateDoc, deleteDoc, serverTimestamp, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+collection,
+collectionGroup,
+onSnapshot,
+getDocs,
+addDoc,
+doc,
+updateDoc,
+deleteDoc,
+serverTimestamp,
+arrayUnion
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const $ = id => document.getElementById(id);
-const inventoryTable=$('inventoryTable'), searchInput=$('searchInput'), addProductButton=$('addProductButton'), logoutButton=$('logoutButton');
-const editModal=$('editModal'), editForm=$('editForm');
-const stockModal=$('stockModal'), batchesModal=$('batchesModal');
-const message=$('message'), stockMessage=$('stockMessage'), batchesMessage=$('batchesMessage');
-let allProducts=[], currentStockProduct=null, adjustmentMode='add', productsUnsubscribe=null, currentUser=null;
+const inventoryTable=$('inventoryTable');
+const searchInput=$('searchInput');
+const addProductButton=$('addProductButton');
+const logoutButton=$('logoutButton');
+const editModal=$('editModal');
+const editForm=$('editForm');
+const stockModal=$('stockModal');
+const batchesModal=$('batchesModal');
+const message=$('message');
+const stockMessage=$('stockMessage');
+const batchesMessage=$('batchesMessage');
 
-onAuthStateChanged(auth,user=>{if(!user){window.location.href='login.html';return}currentUser=user;$('userName').textContent=user.displayName||'Nesi Medicals';$('userAvatar').textContent=(user.displayName||'N').charAt(0).toUpperCase();loadProducts();});
+let allProducts=[];
+let currentStockProduct=null;
+let adjustmentMode='add';
+let productsUnsubscribe=null;
+let currentUser=null;
 
-function loadProducts(){if(productsUnsubscribe)productsUnsubscribe();productsUnsubscribe=onSnapshot(collection(db,'products'),snap=>{allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));allProducts.sort((a,b)=>getName(a).localeCompare(getName(b)));displayProducts(allProducts);},err=>{showMessage('Unable to load products: '+err.message,'error');});}
+onAuthStateChanged(auth,user=>{
+if(!user){
+window.location.href='login.html';
+return;
+}
+currentUser=user;
+$('userName').textContent=user.displayName||'Nesi Medicals';
+$('userAvatar').textContent=(user.displayName||'N').charAt(0).toUpperCase();
+loadProducts();
+});
+
+function loadProducts(){
+if(productsUnsubscribe)productsUnsubscribe();
+productsUnsubscribe=onSnapshot(collection(db,'products'),snap=>{
+allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
+allProducts.sort((a,b)=>getName(a).localeCompare(getName(b)));
+displayProducts(allProducts);
+},err=>{
+showMessage('Unable to load products: '+err.message,'error');
+});
+}
+
 function getName(p){return String(p.productName||p.name||'Unnamed Product')}
 function getStock(p){return Number(p.stock??p.quantity??0)||0}
 function getLow(p){return Number(p.lowStockLevel??p.lowStockAlert??p.lowStock??5)||0}
-function getBarcodes(p){const list=Array.isArray(p.barcodes)?p.barcodes:[];const single=p.barcode? [String(p.barcode)]:[];return [...new Set([...single,...list.map(String)])];}
-function displayProducts(products){if(!products.length){inventoryTable.innerHTML='<tr><td colspan="7" class="empty"><div class="empty-icon">📦</div><strong>No products found</strong><p style="margin-top:6px">Add a product to start managing inventory.</p></td></tr>';return}inventoryTable.innerHTML='';products.forEach(p=>{const stock=getStock(p),low=getLow(p);let stockStatus='In Stock',stockClass='good',badge='status-good';if(stock<=0){stockStatus='Out of Stock';stockClass='out';badge='status-out'}else if(stock<=low){stockStatus='Low Stock';stockClass='low';badge='status-low'}const expiry=getPrimaryExpiry(p);const row=document.createElement('tr');row.innerHTML=`<td><strong>${esc(getName(p))}</strong>${p.brand?`<div style="color:#6b7280;font-size:10px;margin-top:3px">${esc(p.brand)}</div>`:''}<div style="color:#6b7280;font-size:10px;margin-top:3px">${getBarcodes(p).length} barcode${getBarcodes(p).length===1?'':'s'}</div></td><td>${esc(p.category||'—')}</td><td><span class="stock ${stockClass}">${stock}</span></td><td>₦${money(p.sellingPrice??p.price??0)}</td><td><span class="status-badge ${badge}">${stockStatus}</span></td><td><span class="status-badge ${expiry.className}">${esc(expiry.text)}</span></td><td><div class="actions"><button class="action-button edit-button" data-action="edit" data-id="${p.id}">✏️ Edit</button><button class="action-button stock-button" data-action="stock" data-id="${p.id}">📦 Stock</button><button class="action-button batch-button" data-action="batches" data-id="${p.id}">🧾 Batches</button><button class="action-button delete-button" data-action="delete" data-id="${p.id}">🗑️ Delete</button></div></td>`;inventoryTable.appendChild(row);});}
-function getPrimaryExpiry(p){if(!p.expiryDate)return{text:'No Date',className:'status-good'};return getExpiryInfo(p.expiryDate)}
-function getExpiryInfo(s){if(!s)return{text:'No Date',className:'status-good'};const d=new Date(s+'T23:59:59');if(Number.isNaN(d.getTime()))return{text:'Invalid Date',className:'status-expired'};const today=new Date();today.setHours(0,0,0,0);const days=Math.ceil((d-today)/86400000);if(days<0)return{text:'Expired',className:'status-expired'};if(days<=30)return{text:'Expires in '+days+' days',className:'status-expiring'};return{text:formatDate(s),className:'status-good'};}
-function formatDate(s){if(!s)return'No Date';const d=new Date(s+'T00:00:00');return Number.isNaN(d.getTime())?'Invalid Date':d.toLocaleDateString('en-NG',{day:'2-digit',month:'short',year:'numeric'});}
-function money(v){return Number(v||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
-function showMessage(text,type='success',target=message){target.textContent=text;target.className='message show '+type;setTimeout(()=>{if(target)target.className='message'},4500)}
+function getBarcodes(p){
+const list=Array.isArray(p.barcodes)?p.barcodes:[];
+const single=p.barcode?[String(p.barcode)]:[];
+return [...new Set([...single,...list.map(String)])];
+}
 
-searchInput.addEventListener('input',()=>{const q=searchInput.value.trim().toLowerCase();if(!q){displayProducts(allProducts);return}displayProducts(allProducts.filter(p=>[getName(p),p.category,p.brand,p.sku,...getBarcodes(p)].some(v=>String(v||'').toLowerCase().includes(q))));});
+function displayProducts(products){
+if(!products.length){
+inventoryTable.innerHTML='<tr><td colspan="7" class="empty"><div class="empty-icon">📦</div><strong>No products found</strong><p style="margin-top:6px">Add a product to start managing inventory.</p></td></tr>';
+return;
+}
+inventoryTable.innerHTML='';
+products.forEach(p=>{
+const stock=getStock(p),low=getLow(p);
+let stockStatus='In Stock',stockClass='good',badge='status-good';
+if(stock<=0){
+stockStatus='Out of Stock';
+stockClass='out';
+badge='status-out';
+}else if(stock<=low){
+stockStatus='Low Stock';
+stockClass='low';
+badge='status-low';
+}
+const expiry=getPrimaryExpiry(p);
+const row=document.createElement('tr');
+row.innerHTML=`<td><strong>${esc(getName(p))}</strong>${p.brand?`<div style="color:#6b7280;font-size:10px;margin-top:3px">${esc(p.brand)}</div>`:''}<div style="color:#6b7280;font-size:10px;margin-top:3px">${getBarcodes(p).length} barcode${getBarcodes(p).length===1?'':'s'}</div></td><td>${esc(p.category||'—')}</td><td><span class="stock ${stockClass}">${stock}</span></td><td>₦${money(p.sellingPrice??p.price??0)}</td><td><span class="status-badge ${badge}">${stockStatus}</span></td><td><span class="status-badge ${expiry.className}">${esc(expiry.text)}</span></td><td><div class="actions"><button class="action-button edit-button" data-action="edit" data-id="${p.id}">✏️ Edit</button><button class="action-button stock-button" data-action="stock" data-id="${p.id}">📦 Stock</button><button class="action-button batch-button" data-action="batches" data-id="${p.id}">🧾 Batches</button><button class="action-button delete-button" data-action="delete" data-id="${p.id}">🗑️ Delete</button></div></td>`;
+inventoryTable.appendChild(row);
+});
+}
+
+function getPrimaryExpiry(p){
+if(!p.expiryDate)return{text:'No Date',className:'status-good'};
+return getExpiryInfo(p.expiryDate);
+}
+
+function getExpiryInfo(s){
+if(!s)return{text:'No Date',className:'status-good'};
+const d=new Date(s+'T23:59:59');
+if(Number.isNaN(d.getTime()))return{text:'Invalid Date',className:'status-expired'};
+const today=new Date();
+today.setHours(0,0,0,0);
+const days=Math.ceil((d-today)/86400000);
+if(days<0)return{text:'Expired',className:'status-expired'};
+if(days<=30)return{text:'Expires in '+days+' days',className:'status-expiring'};
+return{text:formatDate(s),className:'status-good'};
+}
+
+function formatDate(s){
+if(!s)return'No Date';
+const d=new Date(s+'T00:00:00');
+return Number.isNaN(d.getTime())?'Invalid Date':d.toLocaleDateString('en-NG',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function money(v){
+return Number(v||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function esc(v){
+return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function showMessage(text,type='success',target=message){
+target.textContent=text;
+target.className='message show '+type;
+setTimeout(()=>{
+if(target)target.className='message';
+},4500);
+}
+
+searchInput.addEventListener('input',()=>{
+const q=searchInput.value.trim().toLowerCase();
+if(!q){
+displayProducts(allProducts);
+return;
+}
+displayProducts(allProducts.filter(p=>[getName(p),p.category,p.brand,p.sku,...getBarcodes(p)].some(v=>String(v||'').toLowerCase().includes(q))));
+});
+
 addProductButton.addEventListener('click',()=>window.location.href='products.html');
 
-inventoryTable.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;const p=allProducts.find(x=>x.id===b.dataset.id);if(!p)return;const a=b.dataset.action;if(a==='edit')openEdit(p);if(a==='stock')openStock(p);if(a==='batches')openBatches(p);if(a==='delete')await deleteProduct(p);});
+inventoryTable.addEventListener('click',async e=>{
+const b=e.target.closest('button');
+if(!b)return;
+const p=allProducts.find(x=>x.id===b.dataset.id);
+if(!p)return;
+const a=b.dataset.action;
+if(a==='edit')openEdit(p);
+if(a==='stock')openStock(p);
+if(a==='batches')openBatches(p);
+if(a==='delete')await deleteProduct(p);
+});
 
-function openEdit(p){$('editProductId').value=p.id;$('editProductName').value=getName(p);$('editCategory').value=p.category||'';$('editBrand').value=p.brand||'';$('editSKU').value=p.sku||'';$('editSellingPrice').value=Number(p.sellingPrice??p.price??0);$('editLowStock').value=getLow(p);$('editBatchNumber').value=p.batchNumber||'';$('editExpiryDate').value=p.expiryDate||'';editModal.classList.add('show');}
+function openEdit(p){
+$('editProductId').value=p.id;
+$('editProductName').value=getName(p);
+$('editCategory').value=p.category||'';
+$('editBrand').value=p.brand||'';
+$('editSKU').value=p.sku||'';
+$('editSellingPrice').value=Number(p.sellingPrice??p.price??0);
+$('editLowStock').value=getLow(p);
+$('editBatchNumber').value=p.batchNumber||'';
+$('editExpiryDate').value=p.expiryDate||'';
+editModal.classList.add('show');
+}
+
 function closeEdit(){editModal.classList.remove('show')}
-$('closeEditModal').addEventListener('click',closeEdit);$('cancelEdit').addEventListener('click',closeEdit);
-editForm.addEventListener('submit',async e=>{e.preventDefault();const id=$('editProductId').value;const data={productName:$('editProductName').value.trim(),category:$('editCategory').value.trim(),brand:$('editBrand').value.trim(),sku:$('editSKU').value.trim(),sellingPrice:Number($('editSellingPrice').value),lowStockLevel:Number($('editLowStock').value),batchNumber:$('editBatchNumber').value.trim(),expiryDate:$('editExpiryDate').value,updatedAt:serverTimestamp(),updatedBy:currentUser?.uid||''};if(!data.productName||!data.category||data.sellingPrice<0||data.lowStockLevel<0){showMessage('Please enter valid product information.','error');return}try{await updateDoc(doc(db,'products',id),data);closeEdit();showMessage('Product updated successfully.','success')}catch(err){showMessage('Unable to update product: '+err.message,'error')}});
+$('closeEditModal').addEventListener('click',closeEdit);
+$('cancelEdit').addEventListener('click',closeEdit);
 
-function openStock(p){currentStockProduct=p;adjustmentMode='add';$('currentStockValue').textContent=getStock(p);$('adjustQuantity').value=1;$('adjustBarcode').value='';$('adjustBatchNumber').value='';$('adjustExpiryDate').value='';$('adjustCostPrice').value='';$('adjustSellingPrice').value='';$('adjustSupplier').value='';$('adjustReference').value='';$('removeQuantity').value=1;$('removeReason').value='';setStockMode('add');stockMessage.className='message';updatePreview();stockModal.classList.add('show');}
-function setStockMode(mode){adjustmentMode=mode;$('addStockOption').classList.toggle('active',mode==='add');$('removeStockOption').classList.toggle('active',mode==='remove');$('addBatchFields').style.display=mode==='add'?'block':'none';$('removeStockFields').style.display=mode==='remove'?'block':'none';updatePreview();}
-$('addStockOption').addEventListener('click',()=>setStockMode('add'));$('removeStockOption').addEventListener('click',()=>setStockMode('remove'));$('adjustQuantity').addEventListener('input',updatePreview);$('removeQuantity').addEventListener('input',updatePreview);
-function updatePreview(){if(!currentStockProduct)return;const current=getStock(currentStockProduct);let n=current;if(adjustmentMode==='add')n+=Math.max(0,Number($('adjustQuantity').value)||0);else n-=Math.max(0,Number($('removeQuantity').value)||0);$('newStockPreview').textContent=Math.max(0,n)}
-$('closeStockModal').addEventListener('click',closeStock);$('cancelStock').addEventListener('click',closeStock);function closeStock(){stockModal.classList.remove('show');currentStockProduct=null}
+editForm.addEventListener('submit',async e=>{
+e.preventDefault();
+const id=$('editProductId').value;
+const data={
+productName:$('editProductName').value.trim(),
+category:$('editCategory').value.trim(),
+brand:$('editBrand').value.trim(),
+sku:$('editSKU').value.trim(),
+sellingPrice:Number($('editSellingPrice').value),
+lowStockLevel:Number($('editLowStock').value),
+batchNumber:$('editBatchNumber').value.trim(),
+expiryDate:$('editExpiryDate').value,
+updatedAt:serverTimestamp(),
+updatedBy:currentUser?.uid||''
+};
+if(!data.productName||!data.category||data.sellingPrice<0||data.lowStockLevel<0){
+showMessage('Please enter valid product information.','error');
+return;
+}
+try{
+await updateDoc(doc(db,'products',id),data);
+closeEdit();
+showMessage('Product updated successfully.','success');
+}catch(err){
+showMessage('Unable to update product: '+err.message,'error');
+}
+});
 
-$('saveStockAdjustment').addEventListener('click',async()=>{if(!currentStockProduct)return;const p=currentStockProduct;const current=getStock(p);if(adjustmentMode==='remove'){const qty=Number($('removeQuantity').value);if(!Number.isInteger(qty)||qty<=0){showMessage('Enter a valid quantity to remove.','error',stockMessage);return}if(qty>current){showMessage('You cannot remove more stock than is currently available.','error',stockMessage);return}try{await updateDoc(doc(db,'products',p.id),{stock:current-qty,quantity:current-qty,updatedAt:serverTimestamp(),updatedBy:currentUser?.uid||'',lastStockAdjustment:{type:'remove',quantity:qty,reason:$('removeReason').value.trim(),at:new Date()}});closeStock();showMessage('Stock removed successfully.','success')}catch(err){showMessage('Unable to remove stock: '+err.message,'error',stockMessage)}return}
-const qty=Number($('adjustQuantity').value),barcode=$('adjustBarcode').value.trim(),batch=$('adjustBatchNumber').value.trim(),expiry=$('adjustExpiryDate').value,cost=Number($('adjustCostPrice').value||0),sellRaw=$('adjustSellingPrice').value.trim(),sell=sellRaw===''?Number(p.sellingPrice??p.price??0):Number(sellRaw),supplier=$('adjustSupplier').value.trim(),reference=$('adjustReference').value.trim();
-if(!Number.isInteger(qty)||qty<=0){showMessage('Enter a valid quantity received.','error',stockMessage);return}if(!batch){showMessage('Enter the new batch number.','error',stockMessage);return}if(!expiry){showMessage('Enter the expiry date for this batch.','error',stockMessage);return}if(cost<0||sell<0){showMessage('Enter valid prices.','error',stockMessage);return}if(!barcode){showMessage('Enter the barcode for this new batch.','error',stockMessage);return}
-try{const existing=await getDocs(collectionGroup(db,'batches'));const duplicate=existing.docs.find(d=>String(d.data().barcode||'').trim()===barcode);if(duplicate)throw new Error('This barcode is already registered to another stock batch.');const batchRef=await addDoc(collection(db,'products',p.id,'batches'),{productId:p.id,productName:getName(p),barcode,batchNumber:batch,quantity:qty,costPrice:cost,sellingPrice:sell,expiryDate:expiry,supplier,reference,createdAt:serverTimestamp(),createdBy:currentUser?.uid||''});const barcodes=getBarcodes(p);const update={stock:current+qty,quantity:current+qty,barcodes:arrayUnion(barcode),updatedAt:serverTimestamp(),updatedBy:currentUser?.uid||'',lastStockReceipt:{batchId:batchRef.id,batchNumber:batch,barcode,quantity:qty,expiryDate:expiry,costPrice:cost,sellingPrice:sell,supplier,reference,at:new Date()}};if(!p.barcode)update.barcode=barcode;if(sellRaw!=='')update.sellingPrice=sell;await updateDoc(doc(db,'products',p.id),update);closeStock();showMessage(`${qty} unit(s) added as a new batch. Total stock is now ${current+qty}.`,'success')}catch(err){showMessage('Unable to add new batch: '+err.message,'error',stockMessage)}});
+function openStock(p){
+currentStockProduct=p;
+adjustmentMode='add';
+$('currentStockValue').textContent=getStock(p);
+$('adjustQuantity').value=1;
+$('adjustBarcode').value='';
+$('adjustBatchNumber').value='';
+$('adjustExpiryDate').value='';
+$('adjustCostPrice').value='';
+$('adjustSellingPrice').value='';
+$('adjustSupplier').value='';
+$('adjustReference').value='';
+$('removeQuantity').value=1;
+$('removeReason').value='';
+setStockMode('add');
+stockMessage.className='message';
+updatePreview();
+stockModal.classList.add('show');
+}
 
-async function openBatches(p){$('batchesTitle').textContent=getName(p)+' — Batches';$('batchesTotal').textContent='Total stock: '+getStock(p);$('batchList').innerHTML='<div class="empty">Loading batches...</div>';batchesMessage.className='message';batchesModal.classList.add('show');try{const snap=await getDocs(collection(db,'products',p.id,'batches'));const rows=snap.docs.map(d=>({id:d.id,...d.data()}));rows.sort((a,b)=>String(a.expiryDate||'').localeCompare(String(b.expiryDate||'')));if(!rows.length){$('batchList').innerHTML='<div class="empty"><div class="empty-icon">🧾</div><strong>No separate batches recorded yet.</strong><p style="margin-top:6px">Use Stock → Add New Batch when receiving another delivery.</p></div>';return}$('batchList').innerHTML=rows.map(b=>`<div class="batch-card"><strong>Batch: ${esc(b.batchNumber||'—')}</strong><div class="batch-meta"><div>Barcode<br><b>${esc(b.barcode||'—')}</b></div><div>Quantity<br><b>${Number(b.quantity||0)}</b></div><div>Expiry<br><b>${esc(formatDate(b.expiryDate))}</b></div><div>Cost Price<br><b>₦${money(b.costPrice)}</b></div><div>Selling Price<br><b>₦${money(b.sellingPrice)}</b></div><div>Supplier<br><b>${esc(b.supplier||'—')}</b></div></div></div>`).join('')}catch(err){showMessage('Unable to load batches: '+err.message,'error',batchesMessage)}}
+function setStockMode(mode){
+adjustmentMode=mode;
+$('addStockOption').classList.toggle('active',mode==='add');
+$('removeStockOption').classList.toggle('active',mode==='remove');
+$('addBatchFields').style.display=mode==='add'?'block':'none';
+$('removeStockFields').style.display=mode==='remove'?'block':'none';
+updatePreview();
+}
+
+$('addStockOption').addEventListener('click',()=>setStockMode('add'));
+$('removeStockOption').addEventListener('click',()=>setStockMode('remove'));
+$('adjustQuantity').addEventListener('input',updatePreview);
+$('removeQuantity').addEventListener('input',updatePreview);
+
+function updatePreview(){
+if(!currentStockProduct)return;
+const current=getStock(currentStockProduct);
+let n=current;
+if(adjustmentMode==='add')n+=Math.max(0,Number($('adjustQuantity').value)||0);
+else n-=Math.max(0,Number($('removeQuantity').value)||0);
+$('newStockPreview').textContent=Math.max(0,n);
+}
+
+$('closeStockModal').addEventListener('click',closeStock);
+$('cancelStock').addEventListener('click',closeStock);
+
+function closeStock(){
+stockModal.classList.remove('show');
+currentStockProduct=null;
+}
+
+$('saveStockAdjustment').addEventListener('click',async()=>{
+if(!currentStockProduct)return;
+const p=currentStockProduct;
+const current=getStock(p);
+
+if(adjustmentMode==='remove'){
+const qty=Number($('removeQuantity').value);
+if(!Number.isInteger(qty)||qty<=0){
+showMessage('Enter a valid quantity to remove.','error',stockMessage);
+return;
+}
+if(qty>current){
+showMessage('You cannot remove more stock than is currently available.','error',stockMessage);
+return;
+}
+try{
+await updateDoc(doc(db,'products',p.id),{
+stock:current-qty,
+quantity:current-qty,
+updatedAt:serverTimestamp(),
+updatedBy:currentUser?.uid||'',
+lastStockAdjustment:{
+type:'remove',
+quantity:qty,
+reason:$('removeReason').value.trim(),
+at:new Date()
+}
+});
+closeStock();
+showMessage('Stock removed successfully.','success');
+}catch(err){
+showMessage('Unable to remove stock: '+err.message,'error',stockMessage);
+}
+return;
+}
+
+const qty=Number($('adjustQuantity').value);
+const barcode=$('adjustBarcode').value.trim();
+const batch=$('adjustBatchNumber').value.trim();
+const expiry=$('adjustExpiryDate').value;
+const cost=Number($('adjustCostPrice').value||0);
+const sellRaw=$('adjustSellingPrice').value.trim();
+const sell=sellRaw===''?Number(p.sellingPrice??p.price??0):Number(sellRaw);
+const supplier=$('adjustSupplier').value.trim();
+const reference=$('adjustReference').value.trim();
+
+if(!Number.isInteger(qty)||qty<=0){
+showMessage('Enter a valid quantity received.','error',stockMessage);
+return;
+}
+if(!batch){
+showMessage('Enter the new batch number.','error',stockMessage);
+return;
+}
+if(!expiry){
+showMessage('Enter the expiry date for this batch.','error',stockMessage);
+return;
+}
+if(cost<0||sell<0){
+showMessage('Enter valid prices.','error',stockMessage);
+return;
+}
+if(!barcode){
+showMessage('Enter the barcode for this new batch.','error',stockMessage);
+return;
+}
+
+try{
+const existing=await getDocs(collectionGroup(db,'batches'));
+const duplicate=existing.docs.find(d=>String(d.data().barcode||'').trim()===barcode);
+if(duplicate)throw new Error('This barcode is already registered to another stock batch.');
+
+const batchRef=await addDoc(collection(db,'products',p.id,'batches'),{
+productId:p.id,
+productName:getName(p),
+barcode,
+batchNumber:batch,
+quantity:qty,
+costPrice:cost,
+sellingPrice:sell,
+expiryDate:expiry,
+supplier,
+reference,
+createdAt:serverTimestamp(),
+createdBy:currentUser?.uid||''
+});
+
+const update={
+stock:current+qty,
+quantity:current+qty,
+barcodes:arrayUnion(barcode),
+updatedAt:serverTimestamp(),
+updatedBy:currentUser?.uid||'',
+lastStockReceipt:{
+batchId:batchRef.id,
+batchNumber:batch,
+barcode,
+quantity:qty,
+expiryDate:expiry,
+costPrice:cost,
+sellingPrice:sell,
+supplier,
+reference,
+at:new Date()
+}
+};
+
+if(!p.barcode)update.barcode=barcode;
+if(sellRaw!=='')update.sellingPrice=sell;
+
+await updateDoc(doc(db,'products',p.id),update);
+closeStock();
+showMessage(`${qty} unit(s) added as a new batch. Total stock is now ${current+qty}.`,'success');
+
+}catch(err){
+showMessage('Unable to add new batch: '+err.message,'error',stockMessage);
+}
+});
+
+async function openBatches(p){
+$('batchesTitle').textContent=getName(p)+' — Batches';
+$('batchesTotal').textContent='Total stock: '+getStock(p);
+$('batchList').innerHTML='<div class="empty">Loading batches...</div>';
+batchesMessage.className='message';
+batchesModal.classList.add('show');
+
+try{
+const snap=await getDocs(collection(db,'products',p.id,'batches'));
+const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+rows.sort((a,b)=>String(a.expiryDate||'').localeCompare(String(b.expiryDate||'')));
+
+if(!rows.length){
+$('batchList').innerHTML='<div class="empty"><div class="empty-icon">🧾</div><strong>No separate batches recorded yet.</strong><p style="margin-top:6px">Use Stock → Add New Batch when receiving another delivery.</p></div>';
+return;
+}
+
+$('batchList').innerHTML=rows.map(b=>`<div class="batch-card"><strong>Batch: ${esc(b.batchNumber||'—')}</strong><div class="batch-meta"><div>Barcode<br><b>${esc(b.barcode||'—')}</b></div><div>Quantity<br><b>${Number(b.quantity||0)}</b></div><div>Expiry<br><b>${esc(formatDate(b.expiryDate))}</b></div><div>Cost Price<br><b>₦${money(b.costPrice)}</b></div><div>Selling Price<br><b>₦${money(b.sellingPrice)}</b></div><div>Supplier<br><b>${esc(b.supplier||'—')}</b></div></div></div>`).join('');
+
+}catch(err){
+showMessage('Unable to load batches: '+err.message,'error',batchesMessage);
+}
+}
+
 $('closeBatchesModal').addEventListener('click',()=>batchesModal.classList.remove('show'));
 
-async function deleteProduct(p){if(!confirm(`Delete ${getName(p)}?\n\nThis deletes the product record. This action cannot be undone.`))return;try{await deleteDoc(doc(db,'products',p.id));showMessage('Product deleted successfully.','success')}catch(err){showMessage('Unable to delete product: '+err.message,'error')}}
-logoutButton.addEventListener('click',async e=>{e.preventDefault();try{await signOut(auth);window.location.href='login.html'}catch(err){alert('Unable to logout. Please try again.')}});
-[editModal,stockModal,batchesModal].forEach(m=>m.addEventListener('click',e=>{if(e.target!==m)return;if(m===editModal)closeEdit();if(m===stockModal)closeStock();if(m===batchesModal)batchesModal.classList.remove('show')}));
-document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;closeEdit();closeStock();batchesModal.classList.remove('show')});
+async function deleteProduct(p){
+if(!confirm(`Delete ${getName(p)}?\n\nThis deletes the product record. This action cannot be undone.`))return;
+try{
+await deleteDoc(doc(db,'products',p.id));
+showMessage('Product deleted successfully.','success');
+}catch(err){
+showMessage('Unable to delete product: '+err.message,'error');
+}
+}
+
+logoutButton.addEventListener('click',async e=>{
+e.preventDefault();
+try{
+await signOut(auth);
+window.location.href='login.html';
+}catch(err){
+alert('Unable to logout. Please try again.');
+}
+});
+
+[editModal,stockModal,batchesModal].forEach(m=>m.addEventListener('click',e=>{
+if(e.target!==m)return;
+if(m===editModal)closeEdit();
+if(m===stockModal)closeStock();
+if(m===batchesModal)batchesModal.classList.remove('show');
+}));
+
+document.addEventListener('keydown',e=>{
+if(e.key!=='Escape')return;
+closeEdit();
+closeStock();
+batchesModal.classList.remove('show');
+});
 </script>
 </body>
 </html>
